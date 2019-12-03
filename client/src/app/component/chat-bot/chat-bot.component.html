@@ -1,0 +1,22 @@
+<div style="position: fixed;right: 20px;bottom: 0;background: #aba7a7;padding: 10px">
+    <div #scrollMe style="width: 300px; height: 400px;    overflow: auto;">
+
+        <div *ngFor="let item of messages">
+      
+            <div class="container" [ngClass]="(item.user == 1) ? '' : 'darker'">
+                
+                <img src="https://png.pngtree.com/svg/20170814/59568b6e9c.svg" alt="Avatar" *ngIf="item.user == 1">
+                <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-367-456319.png" alt="Avatar" class="right"  *ngIf="item.user == 2">
+          
+                {{item.msg}}
+                <span class="time-right">{{item.date | date:'shortTime'}}</span>
+              </div>    
+              
+              
+          </div>
+          
+    </div>
+    
+    <input type="text" pInputText  [(ngModel)]="msg" name="msg">
+    <button pButton type="button" label="Send"  (click)="sendMessage(msg)"></button>
+</div>

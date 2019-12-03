@@ -1,0 +1,128 @@
+<!-- <pre>{{ auth.getUserData() | json }}</pre> -->
+
+        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+        <div style="margin-top: 15px;">
+<p-card>
+        <div class="profile-wrapper"> 
+    <form [formGroup]="userForm"> 
+    <div class="ui-g ui-fluid" >
+            <div class="ui-g-4">
+                  <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="year">Company Name</label>
+                </div>
+                <div class="ui-g-8">
+                    <input type="text" pInputText value="{{this.auth.getUserData().company_details_id.company_name}}" disabled/>
+                </div>
+            </div>
+                    <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Company Address</label>
+                </div>
+                <div class="ui-g-8">
+                        <input type="text" pInputText value="{{this.auth.getUserData().company_details_id.company_address}}" disabled/>
+                    </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Owner Name</label>
+                </div>
+                <div class="ui-g-8">
+                        <input type="text" pInputText value="{{this.auth.getUserData().company_details_id.owner_name}}" disabled/>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Company Phone</label>
+                    </div>
+                    <div class="ui-g-8">
+                            <input type="text" pInputText value="{{this.auth.getUserData().company_details_id.phone}}" disabled>
+
+                    </div>
+                </div>
+    </div>
+    <div class="ui-g-4">
+              <div class="ui-g-12">
+          <div class="ui-g-4">
+              <label for="vin">Full Name</label>
+          </div>
+          <div class="ui-g-8">
+              <input pInputText formControlName="user_name" autofocus />
+          </div>
+      </div>
+      <div class="ui-g-12">
+          <div class="ui-g-4">
+              <label for="vin">User Email</label>
+          </div>
+          <div class="ui-g-8">
+              <input pInputText formControlName="user_email" emailExist (focusout)="onCheckEmailExist()" disabled />
+          </div>
+      </div>
+      <!-- <div class="ui-g-12">
+          <div class="ui-g-4">
+              <label for="year">User Password</label>
+          </div>
+          <div class="ui-g-8">
+              <input type="password" pPassword formControlName="user_pwd" disabled/>
+          </div>
+      </div>
+      <div class="ui-g-12">
+          <div class="ui-g-4">
+              <label for="year">Confirm Password</label>
+          </div>
+          <div class="ui-g-8">
+              <input type="password" pPassword formControlName="cnfirm_user_pwd" disabled/>
+          </div>
+      </div> -->
+      <div class="ui-g-12">
+          <div class="ui-g-4">
+              <label for="year">Phone</label>
+          </div>
+          <div class="ui-g-8">
+                  <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+              </div>
+      </div>
+  <div class="ui-g-12">
+      <div class="ui-g-4">
+          <label for="year">Role</label>
+      </div>
+      <div class="ui-g-8">
+          <p-dropdown [options]="roleList" formControlName="role" placeholder="Select Role" filter="true"  disabled='true'>
+          </p-dropdown>
+      </div>
+  </div>
+  <!-- <div class="ui-g-12">
+      <div class="ui-g-4">
+          <label for="brand">Status</label>
+      </div>
+      <div class="ui-g-8">
+          <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
+
+      </div>
+  </div> -->
+</div>
+    
+    <div class="ui-g-4">
+            <div class="profile-wrap">
+                    <div class="prof-img">
+                        <img src="./assets/img/userface.jpg" class="car-add" *ngIf="!croppedImage">
+                        <img [src]="croppedImage" *ngIf="croppedImage" class="car-addafter" >
+                        <img src="{{IMG_URL}}/assets/lease_intake/img/loading-preview.gif" class="loadingimg car-addafter" *ngIf="logoLoading">
+                    </div>
+                    <button class="cmn-btn" type="button" style="border:none;float:initial;font-size: 12px !important;background: #ef6a97;margin-top: 15px;position: relative;">
+                        <input #upload_logofile type="file" accept=".png, .jpg, .jpeg" style="position:absolute;display:inline-block;opacity:0;width:100%;left: 0;"
+                        (change)="fileChangeEvent($event.target.files)"/>
+                        <i class="pi pi-cloud-upload" style="font-size:23px;"></i>Upload Profile</button>
+                </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+            <button type="button" pButton  icon="actionLoding ? 'pi pi-save' : 'pi pi-spin pi-spinner'" class="ui-button-success" (click)="onUpdate()" label="Update"></button>
+        </div>
+    </p-footer>
+    </form>
+        </div>
+</p-card>
+</div>

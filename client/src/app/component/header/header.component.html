@@ -1,0 +1,33 @@
+
+<div style="position: fixed; left: 0; right: 0;    top: 0;bottom: 0; z-index: 9;width: 15%; overflow: auto;   background: #363634;" *ngIf="auth.isLogedIn()">
+    <p-toast position="top-right"></p-toast>
+    
+    <div style=    "height: 50px;
+    width: 100px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+">
+            <img *ngIf="auth.getUserData().company_details_id.company_image" src="{{auth.getUserData().company_details_id.company_image}}" alt="" style=" height: 100%;  width: 100%;position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;" />
+              <img *ngIf="!auth.getUserData().company_details_id.company_image" src="./assets/img/logo.png" alt="" style=" height: 100%;  width: 100%;position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              margin: auto;" />
+    </div>
+
+<p-panelMenu  [multiple]="false" [model]="items"  color="ui-button-secondary">
+  
+</p-panelMenu>
+<div style="    position: absolute;
+bottom: 0;">
+
+    <em style="color: #fff;font-size: 12px;">Copy rights @{{copyRights}} ownwaysoft.com</em>
+</div>
+</div>

@@ -1,0 +1,113 @@
+<div class="ng-header">
+    <div class="ng-header-left left">
+        <div class="toggle-menu-button left">
+            <a class="icon" (click)="toggleMenu()"><i class="fa fa-bars"></i></a>
+        </div>
+        <div class="logo right">
+               
+            <img  *ngIf="auth.getUserData().company_details_id.company_image" src="{{auth.getUserData().company_details_id.company_image}}"class="logo-large">
+            <img *ngIf="!auth.getUserData().company_details_id.company_image" src="./assets/img/logo.png" class="logo-small">
+        </div>
+    </div>
+    <div class="ng-header-right right">
+        <div class="ng-header-right-item right">
+            <a class="icon" (click)="confirmLogout()"><i class="fa fa-sign-out"></i></a>
+        </div>
+        <div class="ng-header-right-item right" (click)="themeChooser.toggle($event)">
+            <a class="icon"><i class="fa fa-cog"></i></a>
+        </div>
+        <div class="ng-header-right-item right" (click)="showNotificationSidebar()">
+            <a class="icon"><i class="fa fa-bell"></i><span class="badge">5</span></a>
+        </div>
+        <div class="ng-header-right-item right" >
+                <a class="icon" routerLink="/schedule-calender"><i class="fa fa-calendar"></i></a>
+            </div>
+        <div class="ng-header-right-item right" (click)="userdetails.toggle($event)">
+            <!-- <a class="icon"><span [innerHtml]="user.emailId" class="user-name"></span><i class="fa fa-user"></i></a> -->
+            <!-- <a class="icon"><span  class="user-name"></span><i class="fa fa-user"></i></a> -->
+            <a  class="icon" style="display: flex">
+                   <img *ngIf="auth.getUserData().user_image" src="{{auth.getUserData().user_image}}" style="    height: 30px;  width: 30px;border-radius: 100%;" />
+                     <img *ngIf="!auth.getUserData().user_image" src="./assets/img/userface.jpg" style="    height: 30px;  width: 30px;border-radius: 100%;" />      
+                    <em style="    margin-top: -10px; padding-left: 5px;
+                "> {{this.auth.getUserData().user_name}}</em>
+                    
+             </a>
+        </div>
+    </div>
+</div>
+
+<!-- user detials overlay panel -->
+<p-overlayPanel #userdetails>
+    <!-- <div><b>User Name: </b><i [innerHtml]="user.userName"></i></div>
+    <div><b>Email Id: </b><i [innerHtml]="user.emailId"></i></div>
+    <div><b>Birthdate: </b><i [innerHtml]="user.birthDate | date:'dd/MM/yyyy'"></i></div> -->
+  <ul>
+      <li>
+          <a  routerLink="/profile" (click)="userdetails.hide($event)">Profile</a>
+      </li>
+      
+      <li>
+            <a  routerLink="/company-info" (click)="userdetails.hide($event)">Company Info.</a>
+        </li>
+        
+      <li>
+            <a  routerLink="/change-password" (click)="userdetails.hide($event)">Change Password</a>
+        </li>
+        
+      <li>
+            <a  routerLink="/product-buy" (click)="userdetails.hide($event)">Account Type</a>
+        </li>
+  </ul>
+</p-overlayPanel>
+
+<!-- notifications sidebar -->
+<p-sidebar [(visible)]="displayNotifications" position="right">
+    <div *ngFor="let notification of notifications; let i=index" class="notification-message">
+        <!-- <div><b>Message: </b><i [innerHtml]="notification.message"></i></div>
+        <div><i>Created On: </i><i [innerHtml]="notification.createdOn | date:'dd/MM/yyyy'"></i></div> -->
+       sdfdsfdsf
+    </div>
+</p-sidebar>
+
+<!-- theme chooser overlay panel -->
+<p-overlayPanel #themeChooser>
+    Select Theme:
+    <div class="ui-g">
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-light')"
+                style="background-color: #cccccc"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-dark')"
+                style="background-color: #3b3b48"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-Turquoise')"
+                style="background-color:#04838f;"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-green')"
+                style="background-color: #1e8455;"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-blue')"
+                style="background-color: #2d5394;"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-rose')"
+                style="background-color: #79425a;"></button>
+        </div>
+        <div class="ui-g-3">
+            <button pButton type="button" (click)="selectTheme('theme-teal')"
+                style="background-color: #427976;"></button>
+        </div>
+    </div>
+</p-overlayPanel>
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+        <p-footer>
+                <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+                <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
+            </p-footer>
+        </p-confirmDialog>

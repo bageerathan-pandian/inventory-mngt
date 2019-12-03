@@ -1,0 +1,157 @@
+
+        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+        <div style="margin-top: 15px;">
+                <div *ngIf="loding" style="text-align: center">
+                        <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+                </div>
+      <p-card *ngIf="!loding" >
+<p-table  #dt [value]="supplierList"  [columns]="cols" dataKey="_id"  [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','supplier_name','supplier_address','phone']"  [rows]="10" >
+ 
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" >
+
+            <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+            <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+        </div>
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+            <tr>
+                  <th style="width: 3em">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                  <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
+                          {{col.header}}
+                          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                      </th>
+            <th style="width: 10%;">
+                    <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Add" ></button>
+
+            </th>
+        </tr>
+        <!-- <tr>
+            <th ></th>
+            <th *ngFor="let col of columns" pResizableColumn>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
+            </th>            
+            <th ></th>
+        </tr> -->
+       
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData   let-ri="rowIndex">
+            <tr [pSelectableRow]="rowData">
+                    <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+              <td>
+                    {{rowData.supplier_code}}
+              </td>
+            <td>              
+                    {{rowData.supplier_name}}
+            </td>
+            <td>              
+                {{rowData.supplier_address}}
+        </td>
+        <td>              
+            {{rowData.phone}}
+    </td>
+        <td>
+            {{rowData.updatedAt | date:'medium'}}
+    </td>
+            <td style="text-align: center">
+                <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
+            </td>
+            <td style="text-align:center">
+                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
+                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="footer" >
+            <tr>
+               <td colspan="8" style="text-align: center">
+                       There are {{supplierList?.length}} records
+               </td>
+           </tr>
+           
+       </ng-template>
+
+
+</p-table>
+
+<p-dialog  [(visible)]="displayDialog" [maximizable]="true"  [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+        <p-header>
+                <span *ngIf="supplierForm.value._id">Update</span>
+                <span *ngIf="!supplierForm.value._id">Add</span> Supplier
+        </p-header>
+    <form [formGroup]="supplierForm">
+    <div class="ui-g ui-fluid" >
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Supplier Code</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText  formControlName="supplier_code" disabled />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Supplier Name</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText  formControlName="supplier_name" autofocus />
+                </div>
+            </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Supplier Address</label>
+            </div>
+            <div class="ui-g-8">
+                <!-- <input pInputText id="vin" [(ngModel)]="car.customer_name"  /> -->
+                <input pInputText  formControlName="supplier_address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Supplier Phone</label>
+            </div>
+            <div class="ui-g-8">
+                <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999" slotChar=" "></p-inputMask>
+
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="brand">Status</label>
+            </div>
+            <div class="ui-g-8">
+                <p-dropdown [options]="status"  placeholder="Select Status"  formControlName="status"></p-dropdown>
+
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+            <button type="button" pButton  icon="pi pi-save" class="ui-button-success"(click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</form>
+</p-dialog>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+        <p-footer>
+                <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+                <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
+            </p-footer>
+        </p-confirmDialog>
+
+</p-card>
+</div>

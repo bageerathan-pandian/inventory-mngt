@@ -1,0 +1,170 @@
+<div  class="ui-g-12 ui-md-6 ui-md-offset-3">
+    
+    <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
+<div  class="register-form ui-g-12">
+  
+<p-card>
+
+  <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+
+  <form [formGroup]="planForm" *ngIf="activeIndex == 0"> 
+    <div class="ui-g ui-fluid" >
+        <div class="ui-g-12">
+            <div class="ui-g-6">
+              *for 30 days
+                    <p-radioButton name="plan_type" value="0" label="Free Plan" formControlName="plan_type"></p-radioButton>
+            </div>
+            <div class="ui-g-6">
+                <p-radioButton name="plan_type" value="1" label="Premium Plan" formControlName="plan_type"></p-radioButton>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(1)" label="Next" style="float: right;"></button>
+        </div>
+    </p-footer>
+  </form>
+  <form [formGroup]="companyForm" *ngIf="activeIndex == 1"> 
+    <div class="ui-g ui-fluid" >
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Company Name</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText  formControlName="company_name" autofocus />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Owner Name</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText  formControlName="owner_name"  />
+            </div>
+        </div>
+         <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Company Address</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText  formControlName="company_address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+
+                <!-- <input pInputText  formControlName="company_address" /> -->
+
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Phone</label>
+            </div>
+            <div class="ui-g-8">
+                <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+
+            </div>
+        </div>
+        <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="year">GSTIN</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText  formControlName="gstin"  />
+                </div>
+            </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="pi pi-angle-left" (click)="back(0)" label="Back" style="float: left;"></button>
+            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(2)" label="Next" style="float: right;"></button>
+        </div>
+    </p-footer>
+  </form>
+    <form  [formGroup]="userForm"  *ngIf="activeIndex == 2"> 
+        <div class="ui-g ui-fluid" >
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Full Name</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input pInputText  formControlName="user_name"  autofocus />
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">User Email</label>
+                    </div>
+                    <div class="ui-g-8">
+                            <div class="ui-inputgroup">
+                                    <input pInputText  formControlName="user_email" pKeyFilter="email" placeholder="admin@example.com"  emailExist (focusout)="onCheckEmailExist()" />
+                                    <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
+                                    <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
+                                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>   
+              
+                                </div>
+                    </div>
+                    
+                </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="year">User Password</label>
+                </div>
+                <div class="ui-g-8">
+                    <input type="password" formControlName="user_pwd" pPassword nopasswordmatch (focusout)="passwordMatch()" />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="year">Confirm Password</label>
+                </div>
+                <div class="ui-g-8">
+                    <input type="password" formControlName="cnfirm_user_pwd" pPassword nopasswordmatch (focusout)="passwordMatch()"  />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Phone</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+        
+                    </div>
+                </div>
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="pi pi-angle-left" (click)="back(1)" label="Back" style="float: left;"></button>
+                <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(3)" label="Next" style="float: right;"></button>
+            </div>
+        </p-footer>
+      </form>
+            <div  *ngIf="activeIndex == 3"> 
+                <div class="ui-g ui-fluid" >
+                    <div class="ui-g-12">
+                        Plane type: 
+                        <div class="ui-g-12">
+                                <div class="ui-g-4">
+                                    <label for="vin">Plan Type</label>
+                                </div>
+                                <div class="ui-g-8">
+                                      
+                                        <span class="label label-warning" *ngIf="planForm.value.plan_type == '0'" >Free Account</span>
+                                        <span class="label label-success" *ngIf="planForm.value.plan_type == '1'" >Paid Account</span>
+                                </div>
+                            </div>
+                            <pre>{{ companyForm.value | json }}</pre>
+                            <pre>{{ userForm.value | json }}</pre>
+                    </div>
+                </div>
+                <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                        <button type="button" pButton icon="pi pi-angle-left" (click)="back(2)" label="Back" style="float: left;"></button>
+                        <button type="button" pButton  icon="actionLoding ? 'pi pi-save' : 'pi pi-spin pi-spinner'" class="ui-button-success" (click)="onRegister()"  label="Register" style="float: right;"></button>
+                    </div>
+                </p-footer>
+              </div>
+  
+    <a  rel="noopener noreferrer"  routerLink="/login" >Login?</a>
+
+</p-card>
+</div>
+</div>

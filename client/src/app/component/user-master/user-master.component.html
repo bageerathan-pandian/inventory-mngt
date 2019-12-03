@@ -1,0 +1,222 @@
+
+        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+        <div style="margin-top: 15px;">
+            <div *ngIf="loding" style="text-align: center">
+                    <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+            </div>
+  <p-card *ngIf="!loding" >
+       
+<p-table #dt  [value]="userList"  [columns]="cols" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['user_name','user_pwd','role']"  [rows]="10"  dataKey="_id">
+ 
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" >
+
+            <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+            <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+        </div>
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
+        </div>
+    </ng-template>
+    <ng-template  pTemplate="header" let-columns>
+            <tr>
+                  <th style="width: 3em">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                  <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
+                          {{col.header}}
+                          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                      </th>
+            <th >
+                    <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Add" ></button>
+
+            </th>
+        </tr>
+        <!-- <tr>
+            <th ></th>
+            <th *ngFor="let col of columns" pResizableColumn>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
+            </th>            
+            <th ></th>
+        </tr> -->
+       
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData  let-ri="rowIndex">
+            <tr [pEditableRow]="rowData">
+                    <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+              <td>
+                    {{rowData.user_code}}
+              </td>
+            <td>              
+                    {{rowData.user_name}}
+            </td>
+            <td>              
+                    {{rowData.user_email}}
+            </td>
+            <td>
+                    {{rowData.user_pwd}}
+            </td>
+            <td>
+                    {{rowData.phone}}
+            </td>
+            <td style="text-align: center">
+                                <span class="label label-default" *ngIf="rowData.role == 0">Overall Admin</span>
+                                <span class="label label-success"  *ngIf="rowData.role == 1">Company Admin</span>
+                                <span class="label label-info"  *ngIf="rowData.role == 2">Company Manager</span>
+                                <span class="label label-warning"  *ngIf="rowData.role == 3">Sales Person</span>
+        </td>
+            <td>
+                    {{rowData.updatedAt | date:'medium'}}
+            </td>
+            <td style="text-align: center">
+                <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
+            </td>
+            <td style="text-align:center">
+                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
+                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;" ></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="footer" >
+            <tr>
+               <td colspan="10" style="text-align: center">
+                       There are {{userList?.length}} records
+               </td>
+           </tr>
+           
+       </ng-template>
+   
+
+</p-table>
+
+<p-dialog  [(visible)]="displayDialog" [maximizable]="true" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '700px'}">
+        <p-header>
+                <span *ngIf="userForm.value._id">Update</span>
+                <span *ngIf="!userForm.value._id">Add</span> User
+        </p-header>
+        <div class="profile-wrapper">
+    <form [formGroup]="userForm"> 
+            <div class="ui-g ui-fluid" >
+                    <div class="ui-g-6">
+                    <div class="ui-g-12">
+                            <div class="ui-g-4">
+                                <label for="vin">Code</label>
+                            </div>
+                            <div class="ui-g-8">
+                                <input pInputText  formControlName="user_code" disabled />
+                            </div>
+                        </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Full Name</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input pInputText formControlName="user_name" autofocus />
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                            <div class="ui-g-4">
+                                <label for="vin">User Email</label>
+                            </div>
+                            <div class="ui-g-8">
+                                    <div class="ui-inputgroup">
+                                            <input pInputText formControlName="user_email" emailExist (focusout)="onCheckEmailExist()" />
+                                            <button pButton type="button" icon="pi pi-spin  pi-spinner" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
+                                            <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
+                                            <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>   
+                      
+                                        </div>
+                            </div>
+                        </div>
+                    <!-- <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">User Email</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input pInputText formControlName="user_email" emailExist (focusout)="onCheckEmailExist()" />
+                        </div>
+                    </div> -->
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">User Password</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input type="password" pPassword formControlName="user_pwd" />
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">Confirm Password</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input type="password" pPassword formControlName="cnfirm_user_pwd" />
+                        </div>
+                    </div>
+                    
+                    <div class="ui-g-12">
+                            <div class="ui-g-4">
+                                <label for="year">Phone</label>
+                            </div>
+                            <div class="ui-g-8">
+                                    <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+                                </div>
+                        </div>
+                    
+            </div>
+            <div class="ui-g-6">
+                    <div class="profile-wrap" style="text-align: center;">
+                            <div class="prof-img">
+                                <img src="./assets/img/userface.jpg" class="car-add" *ngIf="!croppedImage">
+                                <img [src]="croppedImage" *ngIf="croppedImage" class="car-addafter" >
+                                <img src="{{IMG_URL}}/assets/lease_intake/img/loading-preview.gif" class="loadingimg car-addafter" *ngIf="logoLoading">
+                            </div>
+                            <button class="cmn-btn" type="button" style="border:none;float:initial;font-size: 12px !important;background: #ef6a97;margin-top: 15px;position: relative;">
+                                <input #upload_logofile type="file" accept=".png, .jpg, .jpeg" style="position:absolute;display:inline-block;opacity:0;width:100%;left: 0;"
+                                (change)="fileChangeEvent($event.target.files)"/>
+                                <i class="pi pi-cloud-upload" style="font-size:23px;"></i>Upload Profile</button>
+                        </div>
+                        <div class="ui-g-12">
+                            <div class="ui-g-4">
+                                <label for="year">Role</label>
+                            </div>
+                            <div class="ui-g-8">
+                                <p-dropdown [options]="roleList" formControlName="role" placeholder="Select Role" filter="true" >
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="ui-g-12">
+                            <div class="ui-g-4">
+                                <label for="brand">Status</label>
+                            </div>
+                            <div class="ui-g-8">
+                                <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
+                
+                            </div>
+                        </div>
+                </div>
+    
+            </div>
+            </form>
+            </div>
+            <p-footer>
+                    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                        <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+                        <button type="button" pButton  icon="actionLoding ? 'pi pi-save' : 'pi pi-spin pi-spinner'" class="ui-button-success" (click)="save()" label="Save"></button>
+                    </div>
+                </p-footer>
+</p-dialog>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+<p-footer>
+        <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+        <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
+    </p-footer>
+</p-confirmDialog>
+
+</p-card>
+</div>

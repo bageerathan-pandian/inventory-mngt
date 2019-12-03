@@ -1,0 +1,178 @@
+
+        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+        <div style="margin-top: 15px;">
+  <p-card>
+<p-table  #dt  [value]="paymentList" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"   [resizableColumns]="true"  selectionMode="single" [(selection)]="selectedCars"  [rows]="10"  dataKey="id">
+ 
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" >
+
+            <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+            <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+        </div>
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" >
+        <tr>
+                <th  [pSortableColumn]="'id'" pResizableColumn>
+                        # Invoice ID
+                    <p-sortIcon [field]="id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+           
+            <th  [pSortableColumn]="'customer_name'" pResizableColumn>
+              Customer Name
+            <p-sortIcon [field]="customer_name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+           
+            <th  [pSortableColumn]="'sub_amount'" pResizableColumn>
+                Sub Amount
+             <p-sortIcon [field]="sub_amount" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+         </th>
+         <th  [pSortableColumn]="'discount'" pResizableColumn>
+            Discount
+         <p-sortIcon [field]="discount" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+     </th>
+     <th  [pSortableColumn]="'grand_total'" pResizableColumn>
+        Grand Total
+     <p-sortIcon [field]="grand_total" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+ </th>
+            <th [pSortableColumn]="'payment_type'" pResizableColumn>
+                Payment Type
+                 <p-sortIcon [field]="payment_type" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+             </th>
+             <th [pSortableColumn]="'created_at'" pResizableColumn>
+                Payment Date
+                 <p-sortIcon [field]="created_at" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+             </th>
+             <th [pSortableColumn]="'status'" pResizableColumn>
+                Status
+                 <p-sortIcon [field]="status" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+             </th>
+            <th>
+
+            </th>
+        </tr>
+       
+       
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+          <tr [pEditableRow]="rowData">
+              <td>
+                    {{rowData.id}}
+              </td>
+            <td>              
+                    {{rowData.customer_name}}
+            </td>
+            <td>              
+                {{rowData.sub_amount  | currency : 'INR':true}}
+            </td>
+            <td>
+                    {{rowData.discount  | currency : 'INR':true}}
+            </td>
+            <td>
+                {{rowData.grand_total  | currency : 'INR':true}}
+        </td>
+        <td>
+            <ng-container *ngIf="rowData.payment_type == 1; then thenTemplate; else elseTemplate"></ng-container>
+            <ng-template #thenTemplate>
+                Cash
+            </ng-template>
+            <ng-template #elseTemplate>
+                Card
+            </ng-template>
+            
+        </td>
+        <td>
+        {{rowData.created_at | date:'medium'}}
+        </td>
+            <td>
+                <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
+            </td>
+            <td style="text-align:center">
+                <button  pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
+                <button  pButton type="button" pCancelEditableRow icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+   
+
+</p-table>
+
+<p-dialog  header="Payment Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+
+    <div class="ui-g ui-fluid" *ngIf="car">
+            <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Invoice Id</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input type="text" pInputText [(ngModel)]="car.id" />
+                    </div>
+                </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Customer Name</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pInputText [(ngModel)]="car.customer_name" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Sub Amount</label>
+            </div>
+            <div class="ui-g-8">
+                    <input type="text" pInputText [(ngModel)]="car.sub_amount" />
+                            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Discount</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pKeyFilter="int" pInputText [(ngModel)]="car.discount" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Grand Total</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pKeyFilter="int" pInputText [(ngModel)]="car.grand_total" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Payment Type</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pKeyFilter="int" pInputText [(ngModel)]="car.payment_type" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="brand">Status</label>
+            </div>
+            <div class="ui-g-8">
+                <p-dropdown [options]="status" placeholder="Select Status" [(ngModel)]="car.status"></p-dropdown>
+
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+            <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save(car)" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+</p-card>
+</div>

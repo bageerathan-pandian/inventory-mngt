@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { UnitMasterComponent } from './unit-master.component';
+
+const routes: Routes = [
+  {path:'',component:UnitMasterComponent}
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class UnitMasterRoutingModule { }

@@ -1,0 +1,2 @@
+
+//MONGODG_RUL = mongodb+srv://bsoft:bsoft@9095@cluster0-pscz7.mongodb.net/inventory_management?retryWrites=true&w=majority

@@ -1,0 +1,57 @@
+<!-- <p-toast position="top-right"></p-toast> -->
+<div  class="ui-g-12 ui-md-4 ui-md-offset-4">
+    
+<p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
+    <p-card  class="login-form ui-g-12 ui-md-12" >
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
+        <p-header>
+            <img src="Card" src="./assets/img/logo.png" style="width: 150px;margin-bottom: 10px">
+        </p-header>
+        <div class="ui-g ui-fluid">
+        
+            <div class="ui-g-12 ui-md-12">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
+                    <input type="text" pInputText placeholder="User Email" formControlName="user_email" required >              
+               </div>
+                <p-message severity="error" [text]="loginForm.controls['user_email'].errors['required'] ? 'user_email is required' : loginForm.controls['user_email'].errors['minlength'] ? 'Must be longer than 6 characters' : ''" 
+                *ngIf="!loginForm.controls['user_email'].valid && (loginForm.controls['user_email'].dirty || loginForm.controls['user_email'].touched)"></p-message>
+            
+            </div>
+      
+            
+      
+            <div class="ui-g-12 ui-md-12">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
+                    <input type="text" pInputText placeholder="Password" formControlName="user_pwd" required>         
+                </div>
+                <p-message severity="error"  text="Password is required" 
+                *ngIf="!loginForm.controls['user_pwd'].valid && (loginForm.controls['user_pwd'].dirty || loginForm.controls['user_pwd'].touched)"></p-message>
+           
+            </div>
+            
+            <div class="ui-g-6 ui-md-6">
+            <p-checkbox name="groupname" label="Remember Me" formControlName="rememberMe"></p-checkbox>
+          </div>
+          </div>
+        <p-footer>
+            <button pButton type="submit" label="Login"  class="ui-button-raised " style="margin-right: .25em;    width: 100%;" ></button>
+        </p-footer>
+      </form>
+      <p>------------------ Or ------------------</p>
+      <p-footer>
+                    <p >Don't have an account? <a  rel="noopener noreferrer"  routerLink="/register" >Register</a></p>
+                
+                  
+                <a  rel="noopener noreferrer"  routerLink="/forgot-password" >Forgot Password?</a>
+           
+      </p-footer>
+    </p-card>
+    
+    <div style="text-align: center">
+        <div>2019@ Ownwaysoft.com Made with <span class="color-red">❤</span>.</div>
+        <div>Version : 1.0.0</div>
+      </div>
+</div>
+

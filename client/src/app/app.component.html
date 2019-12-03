@@ -1,0 +1,64 @@
+<div class="ui-fluid ng-main" [ngClass]="theme">
+  <p-toast position="bottom-right"></p-toast>
+  <div [class.hidden]="!showLoader" class="np-loader">
+      <p-progressSpinner strokeWidth="5"></p-progressSpinner>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+
+
+<!-- <div class="ui-g">
+    <p-toast></p-toast>
+  <app-header  *ngIf="auth.isLogedIn()"></app-header>
+
+  
+  <div class="ui-g-12 ui-md-12" [ngClass]="auth.isLogedIn() ? 'add-side-nav-wrapper' : 'remove-side-nav-wrapper'">
+    <p-toolbar *ngIf="auth.isLogedIn()">
+      <div class="ui-toolbar-group-left">              
+          <i class="pi pi-bars"></i>          
+      </div>
+      
+      <div class="ui-toolbar-group-right">
+          <a  href="javascript:void(0);"  style="padding: 6px; padding-bottom: 0px;float: left;"><i class="pi pi-bell" ></i>{{notificationCount}}</a>
+          <a  href="javascript:void(0);"  style="padding: 6px; padding-bottom: 0px;float: left;"><i class="pi pi-comments" ></i></a>
+          <a  href="javascript:void(0);"  style="padding: 6px; padding-bottom: 0px;float: left;"><i class="pi pi-envelope" ></i></a>
+          <a  href="javascript:void(0);"  style="padding: 6px; padding-bottom: 0px;float: left;"  routerLink="/schedule-calender"><i class="pi pi-calendar" ></i></a>
+     <a  (click)="menu.toggle($event)" href="javascript:void(0);" style="padding: 6px; padding-bottom: 0px;float: left;" >
+
+        <div  style="height: 20px;width:20px;text-align: center;    position: relative;    float: left;border-radius: 100%">
+            <img *ngIf="auth.getUserData().user_image" src="{{auth.getUserData().user_image}}" alt="" style=" background: #d8d8d8;float: left;height: 100%; border-radius: 100%; width: 100%;position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;" />
+              <img *ngIf="!auth.getUserData().user_image" src="./assets/img/userface.jpg" alt="" style="background: #d8d8d8;float: left; height: 100%; border-radius: 100%; width: 100%;position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              margin: auto;" />
+    </div>
+      
+               Hi, {{this.auth.getUserData().user_name}}
+               
+  </a>
+           
+    <p-menu #menu [popup]="true" [model]="items2"></p-menu>
+      </div>
+  </p-toolbar>
+      <router-outlet></router-outlet>
+     <div style="width: 50%;margin: auto;display: none;" >
+        <div id="disqus_thread"></div>
+    </div>
+   
+  </div>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd_log>
+  <p-footer>
+    <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd_log.accept()"></button>        
+    <button pButton type="button" label="No" class="ui-button-danger" (click)="cd_log.reject()"></button>
+</p-footer>
+</p-confirmDialog> -->
+

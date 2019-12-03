@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-footer',
@@ -9,11 +10,14 @@ import { environment } from 'src/environments/environment';
 export class FooterComponent implements OnInit {
 
   version: string;
+  copyRightYear:  any
 
   constructor() { }
 
   ngOnInit() {
     this.version = environment.version;
+    this.copyRightYear =  moment().format('YYYY')
+
   }
 
 }

@@ -1,8 +1,15 @@
 <div  class="ui-g-12 ui-md-6 ui-md-offset-3">
     
     <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
+    <img src="Card" src="./assets/img/logo.png" style="width: 150px;margin-bottom: 10px">
+    <div class="ui-g-12 ui-md-12">
+            <h2>Registration</h2>
+            <span>You can register free!</span>
+        </div>
+
 <div  class="register-form ui-g-12">
-  
+              
+
 <p-card>
 
   <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
@@ -11,19 +18,48 @@
     <div class="ui-g ui-fluid" >
         <div class="ui-g-12">
             <div class="ui-g-6">
-              *for 30 days
-                    <p-radioButton name="plan_type" value="0" label="Free Plan" formControlName="plan_type"></p-radioButton>
+                    
+                    <p-card header="Free* / 30 days" subheader="*30 days only trail"  styleClass="ui-card-shadow">
+                        <p-header>
+                                <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;float: right;margin: 10px;"  *ngIf="planForm.value.plan_type == '0'"></i>
+                        </p-header>
+                               <div>
+                                   <ul>
+                                        <ol> Product entry allow 50 only </ol>
+                                        <ol> Product allowd only 30 days </ol>
+                                    </ul>
+                               </div>
+                            <p-footer>
+                                <button pButton type="button" label="Free*"  class="ui-button-secondary" (click)="selectPlanType(0)"></button>
+                            </p-footer>
+                        </p-card>
+                    <!-- <p-radioButton name="plan_type" value="0" label="Free Plan" formControlName="plan_type" ></p-radioButton> -->
             </div>
             <div class="ui-g-6">
-                <p-radioButton name="plan_type" value="1" label="Premium Plan" formControlName="plan_type"></p-radioButton>
+                
+                    <p-card header="Paid" subheader="One time payment"  styleClass="ui-card-shadow">
+                            <p-header>
+                                    <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;float: right;   margin: 10px;"  *ngIf="planForm.value.plan_type == '1'"></i>
+                                </p-header>
+                            <div>
+                                    <ul>
+                                         <ol> Unlimited product entry</ol>
+                                         <ol> Long time support </ol>
+                                     </ul>
+                                </div>
+                                   <p-footer>
+                                <button pButton type="button" label="$15,000"  style="margin-right: .25em" (click)="selectPlanType(1)"></button>
+                            </p-footer>
+                        </p-card>
+                <!-- <p-radioButton name="plan_type" value="1" label="Premium Plan" formControlName="plan_type" ></p-radioButton> -->
             </div>
         </div>
     </div>
-    <p-footer>
+    <!-- <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
             <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(1)" label="Next" style="float: right;"></button>
         </div>
-    </p-footer>
+    </p-footer> -->
   </form>
   <form [formGroup]="companyForm" *ngIf="activeIndex == 1"> 
     <div class="ui-g ui-fluid" >
@@ -162,9 +198,12 @@
                     </div>
                 </p-footer>
               </div>
-  
-    <a  rel="noopener noreferrer"  routerLink="/login" >Login?</a>
-
-</p-card>
-</div>
+         <p-footer>
+               
+                  
+                <a  rel="noopener noreferrer"  routerLink="/login" >Login?</a>
+           
+      </p-footer>
+    </p-card>
+    
 </div>

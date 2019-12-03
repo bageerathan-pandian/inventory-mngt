@@ -128,6 +128,12 @@ export class RegisterComponent implements OnInit {
     })
    }
 
+   selectPlanType(val:Number){
+    this.planForm.controls['plan_type'].setValue(val);    
+    // this.activeIndex = 1;
+    this.onSaveData(1)
+   }
+
   onSaveData(val){   
     if(val == 1){
       if(this.planForm.invalid){

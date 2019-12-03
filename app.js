@@ -15,7 +15,7 @@ var passport  = require('passport');
 
 require('./config/database');
 require('./config/passport');
-require('./config/sms');
+// require('./config/sms');
 // require('./config/facebook');
 // require('./config/google');
 // cron job init

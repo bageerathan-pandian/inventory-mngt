@@ -11,7 +11,7 @@
 <div  class="register-form ui-g-12">
               
 
-<p-card>
+<p-card *ngIf="!successRegister" >
         <div class="">
                 <h2>Registration</h2>
                 <span>You can register free!</span>
@@ -210,4 +210,12 @@
       </p-footer>
     </p-card>
     
+    <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="successRegister" >
+            <div style="text-align: center">
+                <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+            <h3>Registered Successfully!</h3> 
+            <p>We will redirect to app. </p>
+              </div>
+          </p-card>
+
 </div>

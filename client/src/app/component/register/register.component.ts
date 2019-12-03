@@ -19,6 +19,8 @@ declare var io: any
 })
 export class RegisterComponent implements OnInit {
   private stripeCheckoutHandler: StripeCheckoutHandler;
+  
+  successRegister: boolean = false;
   items:any  
   activeIndex: number = 0;
   planForm:FormGroup
@@ -212,6 +214,7 @@ export class RegisterComponent implements OnInit {
   .subscribe((data:any)=>{  
     console.log('data',data);  
     if(data.token){ 
+      this.successRegister = true;
       this.socket.emit('loginTodo', data.user);
       localStorage.setItem('secret_token',data.token);
       localStorage.setItem('user_details',JSON.stringify(data.user));
@@ -221,11 +224,13 @@ export class RegisterComponent implements OnInit {
       this.router.navigate(["/dashboard"]);
     }else{
       this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
+      this.successRegister = false;
     }
   },
   error =>{   
     console.log('er',error);
     this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
+    this.successRegister = false;
   })
 }
 

@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   version: '1.0.0',
-  // api_url : 'http://localhost:8082' 
-  api_url : '' 
+  api_url : 'http://localhost:8082' 
+  // api_url : '' 
 };
 
 /*

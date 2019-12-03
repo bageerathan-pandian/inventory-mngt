@@ -47,11 +47,13 @@ export class ForgotPasswordComponent implements OnInit {
         // this.messageService.add({severity:'success', summary:'Success!', detail:'We have send reset link to your mail. Check it.'});
       }else{
         this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
+        this.successRegister = false;
       } 
     },
     error =>{   
       console.log('er',error);
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
+      this.successRegister = false;
     })
   }
 }

@@ -21,8 +21,10 @@
                     <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
                     <input type="text" pInputText placeholder="User Email" formControlName="user_email" required >              
                </div>
-                <p-message severity="error" [text]="loginForm.controls['user_email'].errors['required'] ? 'user_email is required' : loginForm.controls['user_email'].errors['minlength'] ? 'Must be longer than 6 characters' : ''" 
-                *ngIf="!loginForm.controls['user_email'].valid && (loginForm.controls['user_email'].dirty || loginForm.controls['user_email'].touched)"></p-message>
+                <p class="error-msg" *ngIf="!loginForm.controls['user_email'].valid && (loginForm.controls['user_email'].dirty || loginForm.controls['user_email'].touched)">
+                    <em *ngIf="loginForm.controls['user_email'].errors['required']"> User Email is required    </em>
+                    <em *ngIf="loginForm.controls['user_email'].errors['pattern']">  Invalid Email    </em>
+                 </p>
             
             </div>
       
@@ -33,9 +35,10 @@
                     <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
                     <input type="text" pInputText placeholder="Password" formControlName="user_pwd" required>         
                 </div>
-                <p-message severity="error"  text="Password is required" 
-                *ngIf="!loginForm.controls['user_pwd'].valid && (loginForm.controls['user_pwd'].dirty || loginForm.controls['user_pwd'].touched)"></p-message>
-           
+                <p class="error-msg" *ngIf="!loginForm.controls['user_pwd'].valid && (loginForm.controls['user_pwd'].dirty || loginForm.controls['user_pwd'].touched)">
+                        <em *ngIf="loginForm.controls['user_pwd'].errors['required']">Password is required  </em>
+                     </p>
+               
             </div>
             
             <div class="ui-g-6 ui-md-6">

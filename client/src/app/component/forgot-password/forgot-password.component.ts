@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ForgotPasswordComponent implements OnInit {
 
   forgotForm: FormGroup;
+  successRegister: boolean = false;
 
   constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router) {
     if(this.auth.isLogedIn()){
@@ -40,9 +41,10 @@ export class ForgotPasswordComponent implements OnInit {
     this.auth.sendResetPassword(this.forgotForm.value)
     .subscribe((data:any)=>{
       console.log(data);   
+      this.successRegister = true;
       this.messageService.clear();  
       if(data == 1){
-        this.messageService.add({severity:'success', summary:'Success!', detail:'We have send reset link to your mail. Check it.'});
+        // this.messageService.add({severity:'success', summary:'Success!', detail:'We have send reset link to your mail. Check it.'});
       }else{
         this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
       } 

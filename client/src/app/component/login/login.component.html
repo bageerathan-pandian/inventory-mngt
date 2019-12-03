@@ -2,11 +2,13 @@
 <div  class="ui-g-12 ui-md-4 ui-md-offset-4">
     
 <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
+<div class="ui-g-12"  style="text-align: center">
+        <a routerLink="/login">
+          <img src="Card" src="./assets/img/comp_logo.png" style="width: 100px;">
+        </a>
+    </div>
     <p-card  class="login-form ui-g-12 ui-md-12" >
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
-        <p-header>
-            <img src="Card" src="./assets/img/logo.png" style="width: 150px;margin-bottom: 10px">
-        </p-header>
         <div class="ui-g ui-fluid">
 
                 <div class="ui-g-12 ui-md-12">

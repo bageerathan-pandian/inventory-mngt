@@ -1,17 +1,21 @@
 <div  class="ui-g-12 ui-md-6 ui-md-offset-3">
     
     <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
-    <img src="Card" src="./assets/img/logo.png" style="width: 150px;margin-bottom: 10px">
-    <div class="ui-g-12 ui-md-12">
-            <h2>Registration</h2>
-            <span>You can register free!</span>
+    <div class="ui-g-12"  style="text-align: center">
+            <a routerLink="/login">
+              <img src="Card" src="./assets/img/comp_logo.png" style="width: 100px;">
+            </a>
         </div>
+  
 
 <div  class="register-form ui-g-12">
               
 
 <p-card>
-
+        <div class="">
+                <h2>Registration</h2>
+                <span>You can register free!</span>
+            </div>
   <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
 
   <form [formGroup]="planForm" *ngIf="activeIndex == 0"> 

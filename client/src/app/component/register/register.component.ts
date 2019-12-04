@@ -140,6 +140,7 @@ export class RegisterComponent implements OnInit {
    }
 
   onSaveData(val){   
+    
     if(val == 1){
       if(this.planForm.invalid){
         this.checkValidityPlan()
@@ -229,12 +230,14 @@ export class RegisterComponent implements OnInit {
     }else{
       this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
       this.successRegister = false;
+      this.spinner.hide()
     }
   },
   error =>{   
     console.log('er',error);
     this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
     this.successRegister = false;
+    this.spinner.hide()
   })
 }
 

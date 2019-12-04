@@ -194,8 +194,40 @@
                                         <span class="label label-success" *ngIf="planForm.value.plan_type == '1'" >Paid Account</span>
                                 </div>
                             </div>
-                            <pre>{{ companyForm.value | json }}</pre>
-                            <pre>{{ userForm.value | json }}</pre>
+                            <div class="ui-g-12">
+                                    <div class="ui-g-4">
+                                        <label for="vin">Company Name</label>
+                                    </div>
+                                    <div class="ui-g-8">
+                                      {{companyForm.value.company_name}}
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                        <div class="ui-g-4">
+                                            <label for="vin">Company Address</label>
+                                        </div>
+                                        <div class="ui-g-8">
+                                          {{companyForm.value.company_address}}
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12">
+                                            <div class="ui-g-4">
+                                                <label for="vin">User Name</label>
+                                            </div>
+                                            <div class="ui-g-8">
+                                              {{userForm.value.user_name}}
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-12">
+                                                <div class="ui-g-4">
+                                                    <label for="vin">User Email</label>
+                                                </div>
+                                                <div class="ui-g-8">
+                                                  {{userForm.value.user_email}}
+                                                </div>
+                                            </div>
+                            <!-- <pre>{{ companyForm.value | json }}</pre>
+                            <pre>{{ userForm.value | json }}</pre> -->
                     </div>
                 </div>
                 <p-footer>

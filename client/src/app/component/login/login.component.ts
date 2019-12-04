@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
         return false;
       }
       if(data.token){
-        setTimeout(() => {
+        // setTimeout(() => {
           this.spinner.hide();
           this.socket.emit('loginTodo', data.user);
           localStorage.setItem('secret_token',data.token);
@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
           this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
           localStorage.setItem("inventryLogedIn", "1");
           this.router.navigate(["/dashboard"]);
-         }, 2000);
+        //  }, 1000);
         
       }else{
         this.messageService.clear();

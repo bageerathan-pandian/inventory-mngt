@@ -654,6 +654,10 @@ body .ui-table .ui-table-tbody > tr:hover {
 .ui-card-body{
   // padding: 2px !important
 }
+.ui-fluid .ui-button,.ui-fluid .ui-dropdown,.ui-fluid .ui-inputtext,.ui-calendar .ui-datepicker {
+  width: auto !important;
+  min-width: auto !important;
+}
 
 @media screen and (max-width: 40em) {
   body .ui-table.ui-table-responsive .ui-paginator-top {

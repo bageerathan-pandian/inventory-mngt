@@ -10,6 +10,7 @@ import { ProductPayment } from 'src/app/model/product_payment.model';
 import * as moment from 'moment';
 import { CommonService } from 'src/app/shared/common.service';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var io: any
 
 @Component({
@@ -31,7 +32,9 @@ export class RegisterComponent implements OnInit {
   emailCheckStatus : any
   private socket;
   constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthService, private router:Router,
-    private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService) {
+    private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
+    private spinner: NgxSpinnerService
+    ) {
       this.socket = io(environment.api_url);
       this.planForm = this._fb.group({
         plan_type: ['',Validators.required]
@@ -213,7 +216,8 @@ export class RegisterComponent implements OnInit {
   this.auth.onRegisterUser(this.userForm.value)
   .subscribe((data:any)=>{  
     console.log('data',data);  
-    if(data.token){ 
+    if(data.token){       
+      this.spinner.hide()
       this.successRegister = true;
       this.socket.emit('loginTodo', data.user);
       localStorage.setItem('secret_token',data.token);
@@ -251,6 +255,7 @@ export class RegisterComponent implements OnInit {
   onRegister(){
     console.log(this.companyForm);
     console.log(this.userForm);
+    this.spinner.show()
     this.userForm.controls['phone'].setValue(this.companyForm.value.phone); 
     this.messageService.clear();
     if (this.planForm.invalid) {

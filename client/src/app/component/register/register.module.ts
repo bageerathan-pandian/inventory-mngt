@@ -15,6 +15,7 @@ import { PasswordModule } from 'primeng/password';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -32,7 +33,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     PasswordModule,    
     GooglePlaceModule,
     StripeCheckoutModule,
-    RadioButtonModule
+    RadioButtonModule,
+    NgxSpinnerModule
   ]
 })
 export class RegisterModule { }

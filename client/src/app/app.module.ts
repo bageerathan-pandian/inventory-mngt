@@ -34,6 +34,7 @@ import { OrderByPipe } from './pipe/order-by.pipe';
 import { LayoutComponent } from './shared/layout/layout.component';
 import { MenuComponent } from './shared/layout/menu/menu.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { SidebarModule } from 'primeng/sidebar';
     ConfirmDialogModule,
     ProgressSpinnerModule,
     ToastModule,
-    SidebarModule
+    SidebarModule,
+    NgxSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

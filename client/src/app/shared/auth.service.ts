@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 import { PushService } from './push.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Injectable({
@@ -15,7 +16,9 @@ export class AuthService {
     
   private socket;   
 
-  constructor(private router: Router,private httpClient:HttpClient,private messageService:MessageService, private pushService: PushService) {
+  constructor(private router: Router,private httpClient:HttpClient,private messageService:MessageService, private pushService: PushService,
+    private spinner: NgxSpinnerService
+    ) {
     this.socket = io(environment.api_url);
   }
 
@@ -89,11 +92,13 @@ export class AuthService {
   }
 
   logOut() {
+    this.spinner.show()
     var body = JSON.stringify(JSON.parse(localStorage.getItem("user_details")));
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
     this.httpClient.post(environment.api_url + '/api/auth/logout',body,{headers:headerOption})
     .subscribe((data:any)=>{      
-    setTimeout(() => {       
+    setTimeout(() => {  
+      this.spinner.hide()     
       this.socket.emit('logoutTodo', data);    
       localStorage.clear();
       this.router.navigate(["/login"]);

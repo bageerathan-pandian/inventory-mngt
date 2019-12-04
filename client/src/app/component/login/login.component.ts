@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from "ngx-spinner";
+
 declare var io: any
 
 @Component({
@@ -16,7 +18,7 @@ export class LoginComponent implements OnInit {
   showSpinner: boolean;
   
   private socket;
-  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router) {
+  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,private spinner: NgxSpinnerService) {
     if(this.auth.isLogedIn()){
       this.router.navigate(["/dashboard"]);
     }
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
     }
     console.log(this.loginForm.value);
     this.showSpinner = true;
+    this.spinner.show();
     this.auth.logIn(this.loginForm.value)
     .subscribe((data:any)=>{
       console.log('data',data);
@@ -62,6 +65,7 @@ export class LoginComponent implements OnInit {
       }
       if(data.token){
         setTimeout(() => {
+          this.spinner.hide();
           this.socket.emit('loginTodo', data.user);
           localStorage.setItem('secret_token',data.token);
           localStorage.setItem('user_details',JSON.stringify(data.user));

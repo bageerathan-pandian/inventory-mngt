@@ -360,7 +360,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<app-header></app-header>\r\n<div class=\"ng-content\" [ngClass]=\"{'hidden-menu-content': !isMenuVisible}\">\r\n  <app-menu></app-menu>\r\n  <router-outlet></router-outlet>\r\n</div>\r\n<!-- <app-footer></app-footer> -->");
+/* harmony default export */ __webpack_exports__["default"] = ("<ngx-spinner  bdOpacity = 0.1  bdColor = \"rgba(255,255,255,0.9)\"  size = \"default\"  color = \"#060606\"  type = \"ball-clip-rotate\"  [fullScreen] = \"false\"  >\r\n    <p style=\"color: #000\" > Logging out... </p>\r\n</ngx-spinner>\r\n\r\n<app-header></app-header>\r\n<div class=\"ng-content\" [ngClass]=\"{'hidden-menu-content': !isMenuVisible}\">\r\n  <app-menu></app-menu>\r\n  <router-outlet></router-outlet>\r\n</div>\r\n<!-- <app-footer></app-footer> -->");
 
 /***/ }),
 
@@ -955,6 +955,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_layout_menu_menu_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./shared/layout/menu/menu.component */ "./src/app/shared/layout/menu/menu.component.ts");
 /* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! primeng/sidebar */ "./node_modules/primeng/sidebar.js");
 /* harmony import */ var primeng_sidebar__WEBPACK_IMPORTED_MODULE_35___default = /*#__PURE__*/__webpack_require__.n(primeng_sidebar__WEBPACK_IMPORTED_MODULE_35__);
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+
 
 
 
@@ -1025,7 +1027,8 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             primeng_confirmdialog__WEBPACK_IMPORTED_MODULE_27__["ConfirmDialogModule"],
             primeng_progressspinner__WEBPACK_IMPORTED_MODULE_28__["ProgressSpinnerModule"],
             primeng_toast__WEBPACK_IMPORTED_MODULE_30__["ToastModule"],
-            primeng_sidebar__WEBPACK_IMPORTED_MODULE_35__["SidebarModule"]
+            primeng_sidebar__WEBPACK_IMPORTED_MODULE_35__["SidebarModule"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_36__["NgxSpinnerModule"]
         ],
         providers: [
             { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_20__["HTTP_INTERCEPTORS"], useClass: _guard_auth_interceptor__WEBPACK_IMPORTED_MODULE_21__["AuthInterceptor"], multi: true },
@@ -1457,6 +1460,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _push_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./push.service */ "./src/app/shared/push.service.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+
 
 
 
@@ -1467,11 +1472,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let AuthService = class AuthService {
-    constructor(router, httpClient, messageService, pushService) {
+    constructor(router, httpClient, messageService, pushService, spinner) {
         this.router = router;
         this.httpClient = httpClient;
         this.messageService = messageService;
         this.pushService = pushService;
+        this.spinner = spinner;
         this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_7__(src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].api_url);
     }
     isLogedIn() {
@@ -1528,11 +1534,13 @@ let AuthService = class AuthService {
         return this.httpClient.get(src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].api_url + '/api/auth/company-count');
     }
     logOut() {
+        this.spinner.show();
         var body = JSON.stringify(JSON.parse(localStorage.getItem("user_details")));
         var headerOption = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({ 'Content-Type': 'application/json' });
         this.httpClient.post(src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].api_url + '/api/auth/logout', body, { headers: headerOption })
             .subscribe((data) => {
             setTimeout(() => {
+                this.spinner.hide();
                 this.socket.emit('logoutTodo', data);
                 localStorage.clear();
                 this.router.navigate(["/login"]);
@@ -1570,13 +1578,15 @@ AuthService.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"] },
     { type: primeng_api__WEBPACK_IMPORTED_MODULE_4__["MessageService"] },
-    { type: _push_service__WEBPACK_IMPORTED_MODULE_8__["PushService"] }
+    { type: _push_service__WEBPACK_IMPORTED_MODULE_8__["PushService"] },
+    { type: ngx_spinner__WEBPACK_IMPORTED_MODULE_9__["NgxSpinnerService"] }
 ];
 AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: "root"
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], primeng_api__WEBPACK_IMPORTED_MODULE_4__["MessageService"], _push_service__WEBPACK_IMPORTED_MODULE_8__["PushService"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], primeng_api__WEBPACK_IMPORTED_MODULE_4__["MessageService"], _push_service__WEBPACK_IMPORTED_MODULE_8__["PushService"],
+        ngx_spinner__WEBPACK_IMPORTED_MODULE_9__["NgxSpinnerService"]])
 ], AuthService);
 
 

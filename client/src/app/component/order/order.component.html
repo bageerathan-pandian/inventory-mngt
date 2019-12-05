@@ -123,7 +123,7 @@ Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Custom
             <a href="/pdf/output1.pdf">Print order</a>
             <p-splitButton label="Print Order" icon="pi pi-print" (click)="save()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
 
-            <!-- <button pButton type="button" label="Print Order" icon="pi pi-print" class="ui-button-warning"></button> -->
+            <button pButton type="button" label="Print Pdf" icon="pi pi-print" class="ui-button-warning"  (click)="testPdf()"></button>
 
   </p-card>
         </div>

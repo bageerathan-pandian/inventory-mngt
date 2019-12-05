@@ -6,12 +6,12 @@ var __parentDir =require('path').resolve(__dirname, '..');
  
 // Read HTML Template
 // path.join(__dirname, "client/dist/client/index.html")
-console.log('__dirname',__parentDir)
+// console.log('__dirname',__parentDir)
 
 var html = fs.readFileSync(__parentDir +'/pdf-templates/template/test.html', 'utf8');
 
 var options = {
-    format: "A3",
+    format: "A4",
     orientation: "portrait",
     border: "10mm"
 };
@@ -40,10 +40,12 @@ exports.getAllUsers =  (req,res)=>{
         path: __parentDir +'/pdf-templates/output/output5.pdf'
     };
     pdf.create(document, options)
-    .then(res => {
-        console.log(res)
+    .then(result => {
+        console.log(result)
+        return res.json(result.filename)
     })
     .catch(error => {
         console.error(error)
+        return res.json(error)
     });
 }

@@ -19,6 +19,7 @@ import * as moment from 'moment';
 import { AuthService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
 
 @Component({
   selector: "app-order",
@@ -62,7 +63,8 @@ export class OrderComponent implements OnInit {
   constructor(private _fb:FormBuilder,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthService
+    private confirmationService: ConfirmationService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthService,
+    private pdfGenerator: PdfGeneratorService
   ) {
     // let invalidDate = new Date();
     // this.invalidDates = [invalidDate];
@@ -169,6 +171,13 @@ public checkValidityCus(): void {
   });
 }
 
+testPdf(){
+  this.pdfGenerator.testPdg()
+  .subscribe((data:any)=>{
+    console.log('testPdf',data);
+    window.open(data, "_blank");
+  })
+}
 
 initRowFirst() {
     return this._fb.group({

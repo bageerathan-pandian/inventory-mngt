@@ -164,7 +164,6 @@ export class DashboardComponent implements OnInit {
     this.getLatestStocks(this.auth.getUserCompanyId());
     this.getLatestSales(this.auth.getUserCompanyId());
     this.getLatestPurchase(this.auth.getUserCompanyId());
-    this.testPdf();
   }
 
   getLoggedInUsers(){
@@ -249,12 +248,7 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  testPdf(){
-    this.pdfGenerator.testPdg()
-    .subscribe((data:any)=>{
-      console.log('testPdf',data);
-    })
-  }
+ 
 
   onChangeCompany(val){
     console.log('onChangeCompany',val);

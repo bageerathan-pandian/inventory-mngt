@@ -360,7 +360,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ngx-spinner  bdOpacity = 0.1  bdColor = \"rgba(255,255,255,0.9)\"  size = \"default\"  color = \"#060606\"  type = \"ball-clip-rotate\"  [fullScreen] = \"false\"  >\r\n    <p style=\"color: #000\" > Logging out... </p>\r\n</ngx-spinner>\r\n\r\n<app-header></app-header>\r\n<div class=\"ng-content\" [ngClass]=\"{'hidden-menu-content': !isMenuVisible}\">\r\n  <app-menu></app-menu>\r\n  <router-outlet></router-outlet>\r\n</div>\r\n<!-- <app-footer></app-footer> -->");
+/* harmony default export */ __webpack_exports__["default"] = ("<ngx-spinner  bdOpacity = 0.1  bdColor = \"rgba(255,255,255,0.9)\"  size = \"default\"  color = \"#060606\"  type = \"ball-clip-rotate\"  [fullScreen] = \"false\"  >\r\n    <p style=\"color: #000\" > Logging out... </p>\r\n</ngx-spinner>\r\n<app-header></app-header>\r\n<div class=\"ng-content\" [ngClass]=\"{'hidden-menu-content': !isMenuVisible}\">\r\n  <app-menu></app-menu>\r\n  <router-outlet></router-outlet>\r\n</div>\r\n<!-- <app-footer></app-footer> -->");
 
 /***/ }),
 

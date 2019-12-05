@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<div  class=\"ui-g-12 ui-md-4 ui-md-offset-4\">\n    \n    <p-messages class=\"ui-g-12\" styleClass=\"loagin-wrapper\" ></p-messages>\n    <div class=\"ui-g-12\"  style=\"text-align: center;position: relative;height: 100px;\">\n    <a routerLink=\"/login\">\n      <img src=\"Card\" src=\"./assets/img/comp_logo.png\" style=\"    max-height: 100%;  max-width: 100%;   left: 0;   right: 0;    top: 0;     bottom: 0;   margin: auto;\">\n    </a>\n</div>\n    \n        <p-card  class=\"login-form ui-g-12 ui-md-12\" *ngIf=\"!successRegister\">\n          <form [formGroup]=\"forgotForm\" (ngSubmit)=\"onSendResetPassword()\" style=\"text-align: center\">\n         \n          <div class=\"ui-g ui-fluid\">\n              <div class=\"ui-g-12 ui-md-12\">\n                  <h2>Reset Your Password</h2>\n                  <span>Please enter your Email to reset your password</span>\n              </div>\n                <div class=\"ui-g-12 ui-md-12\">\n                    <div class=\"ui-inputgroup\">\n                        <span class=\"ui-inputgroup-addon\"><i class=\"pi pi-envelope\"></i></span>\n                        <input type=\"text\" pInputText placeholder=\"Email\" formControlName=\"email\" required style=\"    width: 100%;\">              \n                   </div>\n                   <p-message severity=\"error\" [text]=\"forgotForm.controls['email'].errors['required'] ? 'email is required' : forgotForm.controls['email'].errors['minlength'] ? 'Must be longer than 6 characters' : ''\" \n                  *ngIf=\"!forgotForm.controls['email'].valid && (forgotForm.controls['email'].dirty || forgotForm.controls['email'].touched)\"></p-message>\n                 \n                </div>\n           \n        \n              \n            <div class=\"ui-g-12 ui-md-12\">\n              <button pButton type=\"submit\" label=\"Send Reset Password Link\"  class=\"ui-button-raised \" style=\"margin-right: .25em;    width: 100%;\" ></button>\n\n              </div>\n            </div>\n                <div style=\"text-align: center\">\n              <a  rel=\"noopener noreferrer\"  routerLink=\"/login\"  >Login?</a>\n                </div>\n        </form>\n      </p-card>\n      <p-card  class=\"login-form ui-g-12 ui-md-12\"  *ngIf=\"successRegister\" >\n        <div style=\"text-align: center\">\n            <i class=\"pi pi-check\" style=\"    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px\"></i>\n        <h3>Password Reset Mail Sent</h3> \n        <p>An email has been sent to your rescue email address, {{this.forgotForm.value.email}}. Follow the direction in the email to reset your password. </p>\n          </div>\n      </p-card>\n  </div>\n  \n  ");
+/* harmony default export */ __webpack_exports__["default"] = ("<ngx-spinner  bdOpacity = 0.1  bdColor = \"rgba(255,255,255,0.9)\"  size = \"default\"  color = \"#060606\"  type = \"ball-clip-rotate\"  [fullScreen] = \"false\"  >\n    <p style=\"color: #000\" > Sending email... </p>\n</ngx-spinner>\n<div  class=\"ui-g-12 ui-md-4 ui-md-offset-4\">\n    \n    <p-messages class=\"ui-g-12\" styleClass=\"loagin-wrapper\" ></p-messages>\n    <div class=\"ui-g-12\"  style=\"text-align: center;position: relative;height: 100px;\">\n    <a routerLink=\"/login\">\n      <img src=\"Card\" src=\"./assets/img/comp_logo.png\" style=\"    max-height: 100%;  max-width: 100%;   left: 0;   right: 0;    top: 0;     bottom: 0;   margin: auto;\">\n    </a>\n</div>\n    \n        <p-card  class=\"login-form ui-g-12 ui-md-12\" *ngIf=\"!successRegister\">\n          <form [formGroup]=\"forgotForm\" (ngSubmit)=\"onSendResetPassword()\" style=\"text-align: center\">\n         \n          <div class=\"ui-g ui-fluid\">\n              <div class=\"ui-g-12 ui-md-12\">\n                  <h2>Reset Your Password</h2>\n                  <span>Please enter your Email to reset your password</span>\n              </div>\n                <div class=\"ui-g-12 ui-md-12\">\n                    <div class=\"ui-inputgroup\">\n                        <span class=\"ui-inputgroup-addon\"><i class=\"pi pi-envelope\"></i></span>\n                        <input type=\"text\" pInputText placeholder=\"Email\" formControlName=\"email\" required style=\"    width: 100%;\">              \n                   </div>\n                   <p  class=\"error-msg\" *ngIf=\"!forgotForm.controls['email'].valid && (forgotForm.controls['email'].dirty || forgotForm.controls['email'].touched)\">\n                      <em *ngIf=\"forgotForm.controls['email'].errors['required']\"> Recovery Email is required    </em>\n                      <em *ngIf=\"forgotForm.controls['email'].errors['pattern']\">  Invalid Email    </em>\n                   </p>\n               \n                </div>\n           \n        \n              \n            <div class=\"ui-g-12 ui-md-12\">\n              <button pButton type=\"submit\" label=\"Send Reset Password Link\"  class=\"ui-button-raised \" style=\"margin-right: .25em;    width: 100%;\" ></button>\n\n              </div>\n            </div>\n                <div style=\"text-align: center\">\n              <a  rel=\"noopener noreferrer\"  routerLink=\"/login\"  >Login?</a>\n                </div>\n        </form>\n      </p-card>\n      <p-card  class=\"login-form ui-g-12 ui-md-12\"  *ngIf=\"successRegister\" >\n        <div style=\"text-align: center\">\n            <i class=\"pi pi-check\" style=\"    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px\"></i>\n        <h3>Password Reset Mail Sent</h3> \n        <p>An email has been sent to your rescue email address, {{this.forgotForm.value.email}}. Follow the direction in the email to reset your password. </p>\n          </div>\n      </p-card>\n  </div>\n  \n  ");
 
 /***/ }),
 
@@ -77,6 +77,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primeng_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primeng/api */ "./node_modules/primeng/api.js");
 /* harmony import */ var primeng_api__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(primeng_api__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+
 
 
 
@@ -84,11 +86,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let ForgotPasswordComponent = class ForgotPasswordComponent {
-    constructor(auth, _fb, messageService, router) {
+    constructor(auth, _fb, messageService, router, spinner) {
         this.auth = auth;
         this._fb = _fb;
         this.messageService = messageService;
         this.router = router;
+        this.spinner = spinner;
         this.successRegister = false;
         if (this.auth.isLogedIn()) {
             this.router.navigate(["/dashboard"]);
@@ -110,9 +113,11 @@ let ForgotPasswordComponent = class ForgotPasswordComponent {
             return false;
         }
         console.log(this.forgotForm.value);
+        this.spinner.show();
         this.auth.sendResetPassword(this.forgotForm.value)
             .subscribe((data) => {
             console.log(data);
+            this.spinner.hide();
             this.successRegister = true;
             this.messageService.clear();
             if (data == 1) {
@@ -121,11 +126,13 @@ let ForgotPasswordComponent = class ForgotPasswordComponent {
             else {
                 this.messageService.add({ severity: 'warn', summary: 'Warning!', detail: 'Please try again!' });
                 this.successRegister = false;
+                this.spinner.hide();
             }
         }, error => {
             console.log('er', error);
             this.messageService.add({ severity: 'error', summary: 'Opps!', detail: 'Sothing went wrong!' });
             this.successRegister = false;
+            this.spinner.hide();
         });
     }
 };
@@ -133,7 +140,8 @@ ForgotPasswordComponent.ctorParameters = () => [
     { type: src_app_shared_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"] },
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
     { type: primeng_api__WEBPACK_IMPORTED_MODULE_4__["MessageService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] },
+    { type: ngx_spinner__WEBPACK_IMPORTED_MODULE_6__["NgxSpinnerService"] }
 ];
 ForgotPasswordComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -141,7 +149,8 @@ ForgotPasswordComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./forgot-password.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/component/forgot-password/forgot-password.component.html")).default,
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./forgot-password.component.scss */ "./src/app/component/forgot-password/forgot-password.component.scss")).default]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_shared_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], primeng_api__WEBPACK_IMPORTED_MODULE_4__["MessageService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_shared_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], primeng_api__WEBPACK_IMPORTED_MODULE_4__["MessageService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
+        ngx_spinner__WEBPACK_IMPORTED_MODULE_6__["NgxSpinnerService"]])
 ], ForgotPasswordComponent);
 
 
@@ -172,6 +181,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primeng_message__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(primeng_message__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var primeng_button__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! primeng/button */ "./node_modules/primeng/button.js");
 /* harmony import */ var primeng_button__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(primeng_button__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm2015/ngx-spinner.js");
+
 
 
 
@@ -194,7 +205,8 @@ ForgotPasswordModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             primeng_message__WEBPACK_IMPORTED_MODULE_8__["MessageModule"],
             primeng_messages__WEBPACK_IMPORTED_MODULE_7__["MessagesModule"],
             primeng_button__WEBPACK_IMPORTED_MODULE_9__["ButtonModule"],
-            _forgot_password_routing_module__WEBPACK_IMPORTED_MODULE_3__["ForgotPasswordRoutingModule"]
+            _forgot_password_routing_module__WEBPACK_IMPORTED_MODULE_3__["ForgotPasswordRoutingModule"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_10__["NgxSpinnerModule"]
         ]
     })
 ], ForgotPasswordModule);

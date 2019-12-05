@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,7 +15,9 @@ export class ForgotPasswordComponent implements OnInit {
   forgotForm: FormGroup;
   successRegister: boolean = false;
 
-  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router) {
+  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,
+    private spinner: NgxSpinnerService
+    ) {
     if(this.auth.isLogedIn()){
       this.router.navigate(["/dashboard"]);
     }
@@ -38,9 +41,11 @@ export class ForgotPasswordComponent implements OnInit {
       return false;
     }
     console.log(this.forgotForm.value);
+    this.spinner.show()
     this.auth.sendResetPassword(this.forgotForm.value)
     .subscribe((data:any)=>{
       console.log(data);   
+      this.spinner.hide()
       this.successRegister = true;
       this.messageService.clear();  
       if(data == 1){
@@ -48,12 +53,14 @@ export class ForgotPasswordComponent implements OnInit {
       }else{
         this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
         this.successRegister = false;
+        this.spinner.hide()
       } 
     },
     error =>{   
       console.log('er',error);
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
       this.successRegister = false;
+      this.spinner.hide()
     })
   }
 }

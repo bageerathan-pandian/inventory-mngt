@@ -337,12 +337,12 @@ public onClickCancel() {
 onCheckEmailExist(){
   this.messageService.clear();
   console.log('onCheckEmailExist',this.userForm.value.user_email);  
-  console.log('valid',this.userForm.controls['user_email'].invalid);
-    if(this.userForm.value.user_email != '' && this.userForm.controls['user_email'].invalid){      
+  console.log('valid',this.userForm.controls['user_email'].valid);
+    if(this.userForm.controls['user_email'].invalid == true){      
       this.emailCheckStatus = null;
       return false
     }
-    this.emailCheckStatus = null;
+  this.emailCheckStatus = null;
   this.auth.onCheckEmailExist(this.userForm.value.user_email)
   .subscribe((data:any)=>{  
     console.log('data',data);   

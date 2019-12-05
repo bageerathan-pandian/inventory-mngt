@@ -8,6 +8,7 @@ import { CardModule } from 'primeng/card';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [ForgotPasswordComponent],
@@ -18,7 +19,8 @@ import { ButtonModule } from 'primeng/button';
     MessageModule,
     MessagesModule,
     ButtonModule,
-    ForgotPasswordRoutingModule
+    ForgotPasswordRoutingModule,
+    NgxSpinnerModule
   ]
 })
 export class ForgotPasswordModule { }

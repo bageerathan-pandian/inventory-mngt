@@ -1,11 +1,8 @@
-<!-- <p-toast position="top-right"></p-toast> -->
+<ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
+        <p style="color: #000" > Authendicating... </p>
+</ngx-spinner>
 <div  class="ui-g-12 ui-md-4 ui-md-offset-4">
-  
-
-
-        <ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
-                <p style="color: #000" > Authendicating... </p>
-        </ngx-spinner>
+      
     <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
 <div class="ui-g-12"  style="text-align: center;position: relative;height: 100px;">
         <a routerLink="/login">
@@ -48,7 +45,7 @@
             </div>
             
             <div class="ui-g-6 ui-md-6">
-            <p-checkbox name="groupname" label="Remember Me" formControlName="rememberMe"></p-checkbox>
+            <p-checkbox name="groupname" label="Remember Me"  binary="true" formControlName="rememberMe"  ></p-checkbox>
           </div>
           </div>
         <p-footer>

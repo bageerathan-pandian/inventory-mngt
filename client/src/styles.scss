@@ -657,6 +657,13 @@ body .ui-table .ui-table-tbody > tr:hover {
 .ui-fluid .ui-button,.ui-fluid .ui-dropdown,.ui-fluid .ui-inputtext,.ui-calendar .ui-datepicker {
   width: auto !important;
   min-width: auto !important;
+  // flex: initial !important;
+}
+
+.error-msg{
+  font-size: 10px;
+    color: #f1061c;
+    text-align: left;
 }
 
 @media screen and (max-width: 40em) {

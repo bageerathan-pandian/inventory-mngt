@@ -28,12 +28,18 @@ export class LoginComponent implements OnInit {
       // userName: ["", Validators.compose([Validators.required, Validators.minLength(6)])],
       user_email: ["", [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
       user_pwd: ["", Validators.required],
-      rememberMe: [""]
+      rememberMe: [false]
     });
   }
 
   ngOnInit() {
- 
+    if(sessionStorage.getItem('rememberMe') == 'true'){
+      this.loginForm.controls['user_email'].setValue(sessionStorage.getItem('user_email'))
+      this.loginForm.controls['user_pwd'].setValue(sessionStorage.getItem('user_pwd'))
+      this.loginForm.controls['rememberMe'].setValue(sessionStorage.getItem('rememberMe') == 'true' ? true : false)
+    }else{
+      sessionStorage.clear()
+    }
   }
 
   public checkValidity(): void {
@@ -72,6 +78,14 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('client_company_id',data.user.company_details_id._id);
           this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
           localStorage.setItem("inventryLogedIn", "1");
+          if(this.loginForm.value.rememberMe == true){
+            sessionStorage.setItem('user_email', this.loginForm.value.user_email);
+            sessionStorage.setItem('user_pwd',  this.loginForm.value.user_pwd);
+            sessionStorage.setItem('rememberMe',  this.loginForm.value.rememberMe);
+            sessionStorage.setItem('secret_token', data.token);
+          }else{
+            sessionStorage.clear()
+          }
           this.router.navigate(["/dashboard"]);
         //  }, 1000);
         

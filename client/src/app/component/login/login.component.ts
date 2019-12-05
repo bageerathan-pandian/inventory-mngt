@@ -92,12 +92,14 @@ export class LoginComponent implements OnInit {
       }else{
         this.messageService.clear();
         this.messageService.add({severity:'warn', summary:'Warning!', detail:'Check your User Name/Password'});
+        this.spinner.hide();
       }
     
     },
     error =>{
       console.log('er',error);
       this.showSpinner = false;
+      this.spinner.hide();
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
       // localStorage.setItem("inventryLogedIn", "1");
       // this.router.navigate(["/dashboard"]);

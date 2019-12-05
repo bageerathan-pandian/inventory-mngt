@@ -34,10 +34,11 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
 // setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
 // use middlewares
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 app.use(cors());
 app.use(express.static(path.join(__dirname, "dist/client")));
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use('/static', express.static('public'))
 app.use(cookieParser());
 // use session
 app.use(session({secret: process.env.SECRET_KEY,saveUninitialized: false,resave: false}));

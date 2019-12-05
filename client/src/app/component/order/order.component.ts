@@ -16,6 +16,7 @@ import { CommonService } from 'src/app/shared/common.service';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import * as printJS from 'print-js'
 import { AuthService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -56,6 +57,8 @@ export class OrderComponent implements OnInit {
   
   displayDialog: boolean;
   status:any
+  pdfUrl:string;
+  showPdf:boolean = false;
   
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
@@ -92,6 +95,7 @@ export class OrderComponent implements OnInit {
       phone: ['',Validators.required],
       status: [1,Validators.required]
     })
+    
   }
 
   ngOnInit() {
@@ -125,11 +129,11 @@ export class OrderComponent implements OnInit {
       {label:'10%', value:2}
     ]
     this.printItems = [
-      {label: 'Priview', icon: 'pi pi-refresh', command: () => {
-          // this.update();
+      {label: 'Priview Pdf', icon: 'pi pi-refresh', command: () => {
+          this.priviewPdf();
       }},
-      {label: 'Print', icon: 'pi pi-times', command: () => {
-          // this.delete();
+      {label: 'Priview Print', icon: 'pi pi-times', command: () => {
+        this.printOrder();
       }}
   ];
 
@@ -171,12 +175,22 @@ public checkValidityCus(): void {
   });
 }
 
-testPdf(){
+priviewPdf(){
   this.pdfGenerator.testPdg()
   .subscribe((data:any)=>{
     console.log('testPdf',data);
-    window.open(data, "_blank");
+    this.showPdf = true
+    this.pdfUrl = data;
+    // window.open(data, "_blank");
   })
+}
+
+printOrder(){
+  console.log('printOrder',this.pdfUrl)
+  printJS('docs/'+this.pdfUrl)
+}
+
+printOrderWithoutView(){
 }
 
 initRowFirst() {
@@ -316,6 +330,11 @@ initRowFirst() {
   onReset() {
     // reset whole form back to initial state
     this.invoiceForm.reset();
+    // this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
+    this.invoiceForm.controls['invoice_date'].setValue(new Date());
+    this.invoiceForm.controls['sub_total'].setValue(0.00);
+    this.invoiceForm.controls['discount'].setValue(0.00);
+    this.invoiceForm.controls['grand_total'].setValue(0.00);
 }
 
 onClear() {
@@ -381,6 +400,7 @@ calculateTotal(){
   this.invoiceForm.controls['grand_total'].setValue(sub_total - this.invoiceForm.value.discount)
 
 }
+
 
 
 

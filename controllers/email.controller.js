@@ -30,7 +30,7 @@ exports.sendResetMail =  (req, res)=> {
     } else {
         var mainOptions = { 
           replyTo : 'noreply@gmail.com',
-          from: '"Ownwaysoft Pvt. Ltd." ownwaysoft@gmail.com',
+          from: '"Ownwaysoft Team" noreply@gmail.com',
           to: req.body.email,
           subject: 'Password Reset',
           html: data
@@ -62,25 +62,44 @@ exports.sendRegisterMail =  (req, res)=> {
       pass: 'ownwaysoft@9095'
     }
   });
+
+  // mail to company
+  var mainOptions = {         
+    replyTo : 'noreply@gmail.com',
+    from: '"Ownwaysoft Team" noreply@gmail.com',
+    to: 'ownwaysoft@gmail.com',
+    subject: 'New User Registered',
+    text: JSON.stringify(req.body)
+  };
+  // console.log("html data ======================>", mainOptions.html);
+  transporter.sendMail(mainOptions, function (err, info) {
+      if (err) {
+          console.log(err);
+          // res.json(0)
+      } else {
+          console.log('Message sent: ' + info.response);
+          // res.json(1)
+      }
+  });
   
   let emailData = {
     user:{
-      name: req.body.user_email
+      name: req.body.user_name
     }
   }
 
+  // mailt to client
   ejs.renderFile(__parentDir + '/public/templates/email-template/register-success.ejs', emailData, function (err, data) {
     if (err) {
         console.log(err);
     } else {
         var mainOptions = {         
           replyTo : 'noreply@gmail.com',
-          from: '"Ownwaysoft Pvt. Ltd." ownwaysoft@gmail.com',
+          from: '"Ownwaysoft Team" ownwaysoft@gmail.com',
           to: req.body.user_email,
-          subject: 'Register',
+          subject: 'Welcome to Ownwaysoft Billing Software',
           html: data
         };
-        // console.log("html data ======================>", mainOptions.html);
         transporter.sendMail(mainOptions, function (err, info) {
             if (err) {
                 console.log(err);

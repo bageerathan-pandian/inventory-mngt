@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 var passport  = require('passport');
-const nodeMailer = require("nodemailer");
-var session = require('express-session')
-// var sess;
 const CompanyModel = require('../models/company.model');
 const UserModel = require('../models/user.model');
 const ProductPaymentModel = require('../models/product_payment.model');
+const emailController = require('../controllers/email.controller')
 
 require('../config/passport');
+
 
 var jwt = require('jsonwebtoken');
 
@@ -126,6 +125,7 @@ router.post('/register-user', async (req, res, next) => {
           const token = jwt.sign({ user : body }, process.env.SECRET_KEY);
           //Send back the token to the user
           req.session.user = user; 
+          emailController.sendRegisterMail(req, res)
           return  res.json({
             message : 'You made it to the secure route',
             user : user,
@@ -152,36 +152,7 @@ router.get('/check-email-exist/:user_email', async (req, res, next) => {
   });
 });
 
-router.post('/reset-password', async (req, res, next) => {
- console.log('req',req.body.email)
-// node mailer
-var transporter = nodeMailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'ownwaysoft@gmail.com',
-    pass: 'ownwaysoft@9095'
-  }
-});
-
-var mailOptions = {
-  from: 'ownwaysoft@gmail.com',
-  to: req.body.email,
-  subject: 'Password Reset',
-  text: 'Hi,click below link to reset your password.',
-};
-
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-    return res.json(0)
-  } else {
-    console.log('Email sent: ' + info.response);
-    return res.json(1)
-  }
-});
-
-
-});
+router.post('/reset-password', emailController.sendResetMail);
 
 router.get('/company-count', async (req, res, next) => {
   CompanyModel.find({},(e,result) => {

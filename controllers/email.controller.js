@@ -28,8 +28,9 @@ exports.sendResetMail =  (req, res)=> {
     if (err) {
         console.log(err);
     } else {
-        var mainOptions = {
-          from: 'ownwaysoft@gmail.com',
+        var mainOptions = { 
+          replyTo : 'noreply@gmail.com',
+          from: '"Ownwaysoft Pvt. Ltd." ownwaysoft@gmail.com',
           to: req.body.email,
           subject: 'Password Reset',
           html: data
@@ -64,8 +65,7 @@ exports.sendRegisterMail =  (req, res)=> {
   
   let emailData = {
     user:{
-      name: req.body.user_email,
-      link: ''
+      name: req.body.user_email
     }
   }
 
@@ -73,8 +73,9 @@ exports.sendRegisterMail =  (req, res)=> {
     if (err) {
         console.log(err);
     } else {
-        var mainOptions = {
-          from: 'ownwaysoft@gmail.com',
+        var mainOptions = {         
+          replyTo : 'noreply@gmail.com',
+          from: '"Ownwaysoft Pvt. Ltd." ownwaysoft@gmail.com',
           to: req.body.user_email,
           subject: 'Register',
           html: data

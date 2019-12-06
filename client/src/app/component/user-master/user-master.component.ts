@@ -26,7 +26,7 @@ export class UserMasterComponent implements OnInit {
   loding: boolean = true;
   actionLoding: boolean = true;
   userForm: FormGroup;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   displayDialog: boolean;
   status:any = [];
   cols:any[];

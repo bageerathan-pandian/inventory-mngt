@@ -25,7 +25,7 @@ import * as moment from 'moment';
 export class CompanyMasterComponent implements OnInit {
 
   loding: boolean = true;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   displayDialog: boolean;
   companyForm:FormGroup
   userForm:FormGroup

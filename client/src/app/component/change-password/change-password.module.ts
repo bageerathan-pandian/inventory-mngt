@@ -14,6 +14,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ChartModule } from 'primeng/chart';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ToastModule,
     ChartModule,
     ReactiveFormsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    MessageModule,
+    MessagesModule,
   ]
 })
 export class ChangePasswordModule { }

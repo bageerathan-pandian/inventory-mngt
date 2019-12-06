@@ -29,7 +29,7 @@ import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
   providers: [ConfirmationService]
 })
 export class OrderComponent implements OnInit {
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   filteredBrands: any[];
   categoryList:Category[];
   stocks:Stock[];

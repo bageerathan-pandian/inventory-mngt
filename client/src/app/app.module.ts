@@ -5,7 +5,6 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { TestPipe } from "./pipe/test.pipe";
-import { HomeComponent } from "./component/home/home.component";
 import { HeaderComponent } from "./shared/layout/header/header.component";
 import { FooterComponent } from "./shared/layout/footer/footer.component";
 import { MenubarModule } from "primeng/menubar";
@@ -42,7 +41,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
     LayoutComponent,
     MenuComponent,
     TestPipe,
-    HomeComponent,
     HeaderComponent,
     FooterComponent,
     ChatBotComponent,

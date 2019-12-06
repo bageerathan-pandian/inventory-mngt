@@ -17,7 +17,7 @@ import { CommonService } from 'src/app/shared/common.service';
 export class CategoryMasterComponent implements OnInit {
   
   loding: boolean = true;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   categoryList: Category[];
   categoryListSheet: any[] = [];
   categoryForm: FormGroup

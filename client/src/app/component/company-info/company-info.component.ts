@@ -21,7 +21,7 @@ export class CompanyInfoComponent implements OnInit {
   status:any
   displayDialog: boolean
   
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   uploadedFiles: any[] = [];
 
   

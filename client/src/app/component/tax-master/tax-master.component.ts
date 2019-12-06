@@ -19,7 +19,7 @@ export class TaxMasterComponent implements OnInit {
 
  
   loding: boolean = true;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   taxList: Tax[];
   taxForm: FormGroup
   displayDialog: boolean;

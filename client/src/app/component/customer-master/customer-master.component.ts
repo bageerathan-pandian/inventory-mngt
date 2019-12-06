@@ -24,7 +24,7 @@ export class CustomerMasterComponent implements OnInit {
 
 
   loding: boolean = true;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   displayDialog: boolean;
   customerForm:FormGroup
   car: any = {};

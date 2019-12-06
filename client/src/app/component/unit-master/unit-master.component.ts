@@ -17,7 +17,7 @@ import { CommonService } from 'src/app/shared/common.service';
 export class UnitMasterComponent implements OnInit {
 
   loding: boolean = true;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   unitList: Unit[];
   unitForm: FormGroup
   displayDialog: boolean;

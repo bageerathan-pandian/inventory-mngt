@@ -14,7 +14,7 @@ export class ChangePasswordComponent implements OnInit {
 
   changePasswordForm: FormGroup
   displayDialog: boolean
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   constructor(private auth: AuthService, private _fb: FormBuilder, private messageService: MessageService,private router: Router, private confirmationService: ConfirmationService) {
     
    

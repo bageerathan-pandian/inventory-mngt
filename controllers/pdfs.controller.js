@@ -8,7 +8,7 @@ var __parentDir =require('path').resolve(__dirname, '..');
 // path.join(__dirname, "client/dist/client/index.html")
 // console.log('__dirname',__parentDir)
 
-var html = fs.readFileSync(__parentDir +'/public/pdf-templates/template/test.html', 'utf8');
+var html = fs.readFileSync(__parentDir +'/public/templates/invoice-template/invoice-design-1.html', 'utf8');
 
 var options = {
     format: "A4",
@@ -37,14 +37,14 @@ exports.getAllUsers =  (req,res)=>{
         data: {
             users: users
         },
-        path: __parentDir +'/public/pdf-templates/output/output5.pdf'
+        path: __parentDir +'/public/templates/output/invoice-design-1.pdf'
     };
     pdf.create(document, options)
     .then(result => {
         console.log(result)
         // return res.json(result.filename) 
         // var res1 = __parentDir.replace(/\\/g, "/");
-        var res2 = '/static/pdf-templates/output/output5.pdf'
+        var res2 = '/static/templates/output/invoice-design-1.pdf'
         return res.json(res2)
     })
     .catch(error => {

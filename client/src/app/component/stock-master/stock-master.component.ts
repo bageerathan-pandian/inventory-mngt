@@ -24,7 +24,7 @@ export class StockMasterComponent implements OnInit {
 
 
   loding: boolean = true;
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   displayDialog: boolean;
   displayDialog1: boolean;
   displayDialog2: boolean;

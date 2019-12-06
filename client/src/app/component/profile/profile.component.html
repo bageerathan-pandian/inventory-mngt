@@ -55,7 +55,7 @@
               <label for="vin">User Email</label>
           </div>
           <div class="ui-g-8">
-              <input pInputText formControlName="user_email" emailExist (focusout)="onCheckEmailExist()" disabled />
+              <input pInputText formControlName="user_email" emailExist  disabled />
           </div>
       </div>
       <!-- <div class="ui-g-12">
@@ -107,7 +107,6 @@
                     <div class="prof-img">
                         <img src="./assets/img/userface.jpg" class="car-add" *ngIf="!croppedImage">
                         <img [src]="croppedImage" *ngIf="croppedImage" class="car-addafter" >
-                        <img src="{{IMG_URL}}/assets/lease_intake/img/loading-preview.gif" class="loadingimg car-addafter" *ngIf="logoLoading">
                     </div>
                     <button class="cmn-btn" type="button" style="border:none;float:initial;font-size: 12px !important;background: #ef6a97;margin-top: 15px;position: relative;">
                         <input #upload_logofile type="file" accept=".png, .jpg, .jpeg" style="position:absolute;display:inline-block;opacity:0;width:100%;left: 0;"

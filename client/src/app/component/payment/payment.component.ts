@@ -17,7 +17,7 @@ import { Invoice } from 'src/app/model/invoice.model';
 })
 export class PaymentComponent implements OnInit {
  
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   displayDialog: boolean;
   car: any = {};
   cols: any[];

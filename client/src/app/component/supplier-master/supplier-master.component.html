@@ -113,7 +113,6 @@
                 <label for="vin">Supplier Address</label>
             </div>
             <div class="ui-g-8">
-                <!-- <input pInputText id="vin" [(ngModel)]="car.customer_name"  /> -->
                 <input pInputText  formControlName="supplier_address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
 
             </div>

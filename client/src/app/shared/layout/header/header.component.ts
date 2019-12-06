@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private auth:AuthService,
+    public auth:AuthService,
     private sessionService: SessionService,
     // private userIdle: UserIdleService,
     private themeService: ThemeService,

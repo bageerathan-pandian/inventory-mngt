@@ -17,12 +17,12 @@ export class ProfileComponent implements OnInit {
   userForm: FormGroup
   displayDialog: boolean
   
-  private bradCrum: MenuItem[];
+  public bradCrum: MenuItem[];
   roleList:any = []
   
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  constructor(private auth: AuthService, private _fb: FormBuilder, private router: Router,private imageUploadService: ImageUploadService, private userService: UserService, private messageService: MessageService) {
+  constructor(public auth: AuthService, private _fb: FormBuilder, private router: Router,private imageUploadService: ImageUploadService, private userService: UserService, private messageService: MessageService) {
     
    
     this.userForm = this._fb.group({

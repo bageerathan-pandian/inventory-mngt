@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
-import {PasswordModule} from 'primeng/password';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ToastModule} from 'primeng/toast';
@@ -32,7 +31,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ButtonModule,
     DialogModule,
     DropdownModule,
-    PasswordModule,
     BreadcrumbModule,
     ConfirmDialogModule,
     ToastModule,

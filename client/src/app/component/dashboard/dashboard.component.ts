@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   data2: any;
   options:any;
   options1:any;
-  private items: MenuItem[];
+  public items: MenuItem[];
   customerList:any =[];
   stocksList:any = [];
   companyList: any = [];
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   client_company_id: any;
   user_details:any
   loggedInUsersList:any =[]
-  constructor(private companyService: CompanyService, private auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private pdfGenerator:PdfGeneratorService,private salesService:SalesService) {
+  constructor(private companyService: CompanyService, public auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private pdfGenerator:PdfGeneratorService,private salesService:SalesService) {
    
    
     this.client_company_id = this.auth.getUserData().company_details_id;

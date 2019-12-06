@@ -100,18 +100,11 @@ Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Custom
                     <div class="ui-g-12 ui-md-6">
                             Sub Amount:  
                            <p>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</p> 
-                            <!-- <input pInputText type="text" pKeyFilter="int" required readonly [(ngModel)]="sub_total" name="sub_total" > -->
-                          <!--   VAT 17 % :<input pInputText type="text" readonly required>
-                            Total Amount:<input pInputText type="text" readonly required>
-                            Discount % : <p-dropdown [options]="discountPer"  ></p-dropdown> -->
                             Discount $ :<input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
                     </div>
                     <div class="ui-g-12 ui-md-6">
                             Grand Total: 
                            <p>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</p> 
-                            <!-- <input pInputText type="text" pKeyFilter="int" required readonly [(ngModel)]="sub_total-discount" name="grand_total" > -->
-                            <!-- Paid Amount:<input pInputText type="text" readonly required>
-                            Due Amount:<input pInputText type="text" readonly required>-->
                             Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
                             Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
                         </div>
@@ -122,7 +115,7 @@ Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Custom
             <button pButton type="button" (click)="saveOrder()" label="Save Order" icon="pi pi-save" class="ui-button-success"></button>
             <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
 
-            <button pButton type="button" label="PrintJs" icon="pi pi-print" class="ui-button-warning"  (click)="printJS('docs/{{pdfUrl | safe: 'resourceUrl'}}')"></button>
+            <button pButton type="button" label="PrintJs" icon="pi pi-print" class="ui-button-warning"  ></button>
 
   </p-card>
         </div>
@@ -157,8 +150,7 @@ Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Custom
                 <label for="vin">Customer Address</label>
             </div>
             <div class="ui-g-8">
-                <!-- <input pInputText id="vin" [(ngModel)]="car.customer_name"  /> -->
-                <input pInputText  formControlName="customer_address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+                <input pInputText  formControlName="customer_address" ngx-google-places-autocomplete  #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
 
             </div>
         </div>
@@ -191,5 +183,5 @@ Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Custom
 </p-dialog>
 
 <p-sidebar [(visible)]="showPdf" position="right" [style]="{width:'35em'}">
-    <iframe  [src]="pdfUrl | safe: 'resourceUrl'" width="100%" height="100%" #printPdfFrame type="application/pdf"></iframe>
+    <iframe  [src]="pdfUrl | safe: 'resourceUrl'" width="100%"  #printPdfFrame type="application/pdf"></iframe>
 </p-sidebar>

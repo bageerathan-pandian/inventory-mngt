@@ -10,7 +10,6 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { PasswordModule } from 'primeng/password';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
@@ -33,7 +32,6 @@ import { UnitMasterComponent } from './unit-master.component';
     ButtonModule,
     DialogModule,
     DropdownModule,
-    PasswordModule,
     BreadcrumbModule,
     ConfirmDialogModule,
     ToastModule,

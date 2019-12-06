@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
-import { User } from 'src/app/model/user.model';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 

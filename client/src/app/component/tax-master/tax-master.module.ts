@@ -33,7 +33,6 @@ import {MultiSelectModule} from 'primeng/multiselect';
     ButtonModule,
     DialogModule,
     DropdownModule,
-    PasswordModule,
     BreadcrumbModule,
     ConfirmDialogModule,
     ToastModule,

@@ -9,6 +9,8 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { HeaderModule } from '../header/header.module';
+import { FooterModule } from '../footer/footer.module';
 
 @NgModule({
   declarations: [ForgotPasswordComponent],
@@ -20,7 +22,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MessagesModule,
     ButtonModule,
     ForgotPasswordRoutingModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HeaderModule,
+    FooterModule
   ]
 })
 export class ForgotPasswordModule { }

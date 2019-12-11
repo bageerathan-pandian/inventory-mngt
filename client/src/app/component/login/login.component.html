@@ -1,3 +1,4 @@
+<app-header></app-header>
 <ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
         <p style="color: #000" > Authendicating... </p>
 </ngx-spinner>
@@ -5,11 +6,11 @@
     <!-- <img src="Card" src="http://localhost:8082/static/uploads/1ff378a1b901b5eae043ebba354869811574952066723.png" > -->
 
     <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
-<div class="ui-g-12"  style="text-align: center;position: relative;height: 100px;">
+<!-- <div class="ui-g-12"  style="text-align: center;position: relative;height: 100px;">
         <a routerLink="">
           <img src="Card" src="./assets/img/comp_logo.png" style="    max-height: 100%;  max-width: 100%;   left: 0;   right: 0;    top: 0;     bottom: 0;   margin: auto;">
         </a>
-    </div>
+    </div> -->
     <p-card  class="login-form ui-g-12 ui-md-12" >
            
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
@@ -55,10 +56,10 @@
       </form>
       <p>------------------ Or ------------------</p>
       <p-footer>
-                    <p >Don't have an account? <a  rel="noopener noreferrer"  routerLink="/inventory-mngt/register" >Register</a></p>
+                    <p >Don't have an account? <a  rel="noopener noreferrer"  routerLink="/register" >Register</a></p>
                 
                   
-                <a  rel="noopener noreferrer"  routerLink="/inventory-mngt/forgot-password" >Forgot Password?</a>
+                <a  rel="noopener noreferrer"  routerLink="/forgot-password" >Forgot Password?</a>
            
       </p-footer>
     </p-card>
@@ -68,4 +69,5 @@
         <div>Version : 1.0.0</div>
       </div>
 </div>
+<app-footer></app-footer>
 

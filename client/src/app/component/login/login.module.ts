@@ -12,6 +12,8 @@ import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {CheckboxModule} from 'primeng/checkbox';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { HeaderModule } from '../header/header.module';
+import { FooterModule } from '../footer/footer.module';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -27,7 +29,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MessageModule,
     ToastModule,
     CheckboxModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HeaderModule,
+    FooterModule
   ]
 })
 export class LoginModule { }

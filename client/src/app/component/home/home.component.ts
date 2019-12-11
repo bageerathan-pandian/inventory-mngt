@@ -8,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   
 
+  options: any;
+
+  overlays: any[];
+
   constructor() { }
 
   ngOnInit() {
+    this.options = {
+      center: {lat: 10.073132, lng: 78.780151},
+      zoom: 12
+  };
  
 }
 

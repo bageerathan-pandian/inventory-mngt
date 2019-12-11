@@ -6,16 +6,40 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="ownwaysoft,ownwaysoft.com, ownway soft,ownwaysoft billing software, billing software, best billing software in india, easy billing software,free billing software"/>
+  <meta name="description" content="ownwaysoft is a software company to provide websites, e-commerse site,billing softwares and mobile apps"/>
+  <!-- Favicons Icon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+  <link rel="canonical" href="http://www.ownwaysoft.com" />
+  <!--<link rel="publisher" href="http://plus.google.com/+WaysinfraB2B/"/>-->
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Ownwaysoft billing software" />
+  <meta property="og:description" content="ownwaysoft is a software company to provide websites, e-commerse site,billing softwares and mobile apps" />
+  <meta property="og:url" content="http://www.ownwaysoft.com" />
+  <meta property="og:image" content="favicon.png" />
+  <meta property="og:site_name" content="Ownwaysoft" />
+  <!--<meta property="fb:app_id" content="205513886291314" />-->
+  <meta property="article:publisher" content="http://www.facebook.com/waysinfrastructure/" />
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:description" content="ownwaysoft is a software company to provide websites, e-commerse site,billing softwares and mobile apps"/>
+  <meta name="twitter:title" content="Ownwaysoft billing software"/>
+  <meta name="twitter:site" content="@ownwaysoft"/>
+  <meta name="twitter:domain" content="Ownwaysoft"/>
+  <meta name="twitter:url" content="http://www.ownwaysoft.com"/>
+  <meta name="twitter:image" content="favicon.png"/>
+  <meta name="twitter:image:alt" content="Ownwaysoft billing software"/>
+ 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
   
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <style type="text/css">
     .se-pre-con {
@@ -38,8 +62,8 @@
       max-width: 200px;
     }
   </style>
-<link rel="stylesheet" href="styles.a3abb7244e16ec679d6b.css"></head>
-<body>
+<link rel="stylesheet" href="styles.0d4fceffece41442d763.css"></head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
   <app-root>      
     <div class="se-pre-con">
         <img src="https://cdn.dribbble.com/users/159302/screenshots/1900376/material-spinner2.gif" alt="preloader">
@@ -77,17 +101,12 @@
       <script>
         var socket = io();
       </script>
-   <script>
+  <script>
     $(document).ready(function(){
-      // Initialize Tooltip
-      $('[data-toggle="tooltip"]').tooltip(); 
-      
       // Add smooth scrolling to all links in navbar + footer link
       $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
-    
         // Make sure this.hash has a value before overriding default behavior
         if (this.hash !== "") {
-    
           // Prevent default anchor click behavior
           event.preventDefault();
     
@@ -105,7 +124,18 @@
           });
         } // End if
       });
+      
+      $(window).scroll(function() {
+        $(".slideanim").each(function(){
+          var pos = $(this).offset().top;
+    
+          var winTop = $(window).scrollTop();
+            if (pos < winTop + 600) {
+              $(this).addClass("slide");
+            }
+        });
+      });
     })
     </script>
-      <script src="polyfills-es5.34ae278953dfee00c094.js" nomodule defer></script><script src="polyfills-es2015.b430773d1345418f9125.js" type="module"></script><script src="scripts.2b8ae600b906738b79a9.js" defer></script><script src="runtime-es2015.5961bffd9d86f9dd731b.js" type="module"></script><script src="main-es2015.b32151896c68b3739d5c.js" type="module"></script><script src="runtime-es5.5961bffd9d86f9dd731b.js" nomodule defer></script><script src="main-es5.b32151896c68b3739d5c.js" nomodule defer></script></body>
+      <script src="polyfills-es5.34ae278953dfee00c094.js" nomodule defer></script><script src="polyfills-es2015.b430773d1345418f9125.js" type="module"></script><script src="scripts.2b8ae600b906738b79a9.js" defer></script><script src="runtime-es2015.e0e858812efa11154742.js" type="module"></script><script src="main-es2015.d51173eff6e1994d4600.js" type="module"></script><script src="runtime-es5.e0e858812efa11154742.js" nomodule defer></script><script src="main-es5.d51173eff6e1994d4600.js" nomodule defer></script></body>
 </html>

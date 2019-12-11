@@ -4,14 +4,17 @@ import { AuthGuard } from './guard/auth.guard';
 import { LayoutComponent } from './shared/layout/layout.component';
 
 const routes: Routes = [
-  {path:'',redirectTo:'login',pathMatch:'full'},
+  // {path:'',redirectTo:'home',pathMatch:'full'},
+  {path:'',loadChildren:() => import('./component/home/home.module').then(m => m.HomeModule)},
   {path:'login',loadChildren:() => import('./component/login/login.module').then(m => m.LoginModule)},
-  {path:'register',loadChildren:() => import('./component/register/register.module').then(m => m.RegisterModule)},
-  {path:'forgot-password',loadChildren:() => import('./component/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)},
+  {path:'home',loadChildren:() => import('./component/home/home.module').then(m => m.HomeModule)},
   {
-    path: '',
+    path: 'inventory-mngt',
     component: LayoutComponent,
     children: [
+      {path:'',redirectTo:'dashboard',pathMatch:'full'},
+      {path:'register',loadChildren:() => import('./component/register/register.module').then(m => m.RegisterModule)},
+      {path:'forgot-password',loadChildren:() => import('./component/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)},
       {path:'change-password',loadChildren:() => import('./component/change-password/change-password.module').then(m => m.ChangePasswordModule),canActivate:[AuthGuard]},
       {path:'dashboard',loadChildren:() => import('./component/dashboard/dashboard.module').then(m => m.DashboardModule),canActivate:[AuthGuard]},
       {path:'master/company',loadChildren:() => import('./component/company-master/company-master.module').then(m => m.CompanyMasterModule),canActivate:[AuthGuard]},
@@ -37,7 +40,7 @@ const routes: Routes = [
   },
  
   // {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
-  { path: '**', redirectTo: 'login', pathMatch: 'full' }
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 
 ];
 

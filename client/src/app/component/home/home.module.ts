@@ -7,6 +7,7 @@ import {MegaMenuModule} from 'primeng/megamenu';
 import {GMapModule} from 'primeng/gmap';
 import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -16,7 +17,8 @@ import { FooterModule } from '../footer/footer.module';
     MegaMenuModule,
     GMapModule,
     HeaderModule,
-    FooterModule
+    FooterModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { }

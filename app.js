@@ -49,7 +49,8 @@ app.use(passport.session());      // passport session middleware
 // app.set('trust proxy', true)
 
 // use router
-const auth = require("./routers/auth.route"); 
+const auth = require("./routers/auth.route");
+const common = require("./routers/common.route"); 
 const users = require("./routers/users.route");
 const company = require("./routers/company.route");
 const tax = require("./routers/tax.route");
@@ -64,6 +65,7 @@ const pdfs = require("./routers/pdfs.route");
 const imagUpload = require("./routers/imageUpload.route");
 
 app.use("/api/auth", auth); // auth api's goes here 
+app.use("/api/common", common); // auth api's goes here 
 app.use("/api/users", passport.authenticate('jwt', { session : false }), users);
 app.use("/api/company", passport.authenticate('jwt', { session : false }),  company);
 app.use("/api/tax", passport.authenticate('jwt', { session : false }),  tax);

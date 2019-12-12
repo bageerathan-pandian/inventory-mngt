@@ -10,7 +10,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) { }
 
     presentErrorAlert(code){
-      alert(code)
+      console.log(code)
       // this.confirmationService.confirm({
       //   message: code,
       //   accept: () => {

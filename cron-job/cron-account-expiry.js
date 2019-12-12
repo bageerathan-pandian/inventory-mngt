@@ -7,17 +7,17 @@ const UserModel = require('../models/user.model');
 const ProductPaymentModel = require('../models/product_payment.model');
 
 
-var task1 = nodeCron.schedule("* * * * *", () => {
-      console.log("running a task every min");
+// var task1 = nodeCron.schedule("* * * * *", () => {
+//       console.log("running a task every min");
     //   ProductPaymentModel.find({"expiry_date": {"$lt": new Date()}}, (err, result) => {
     //     if (err) return next(err);
     //     return result
     //   });
-  });
+  // });
 
-var task2 = nodeCron.schedule("0 * * * *", () => {
-        console.log("running a task every hour");
-    });
+// var task2 = nodeCron.schedule("0 * * * *", () => {
+//         console.log("running a task every hour");
+//     });
 
     // do expired account. it runs every day
 var task3 = nodeCron.schedule("0 0 * * *", () => {

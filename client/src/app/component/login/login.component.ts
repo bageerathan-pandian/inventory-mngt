@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   private socket;
   constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,private spinner: NgxSpinnerService) {
     if(this.auth.isLogedIn()){
-      this.router.navigate(["/dashboard"]);
+      this.router.navigate(["/inventory-mngt/dashboard"]);
     }
     this.socket = io(environment.api_url);
 
@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
           }else{
             sessionStorage.clear()
           }
-          this.router.navigate(["/dashboard"]);
+          this.router.navigate(["/inventory-mngt/dashboard"]);
         //  }, 1000);
         
       }else{

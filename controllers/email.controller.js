@@ -67,7 +67,7 @@ exports.sendRegisterMail =  (req, res)=> {
   var mainOptions = {         
     replyTo : 'noreply@gmail.com',
     from: '"Ownwaysoft Team" noreply@gmail.com',
-    to: 'ownwaysoft@gmail.com',
+    to: 'ownwaysoft@gmail.com,bagee.blore@gmail.com',
     subject: 'New User Registered',
     text: JSON.stringify(req.body)
   };
@@ -114,3 +114,42 @@ exports.sendRegisterMail =  (req, res)=> {
     });
 }
 
+
+/**
+ * send reset email
+ */
+exports.sendContactMail =  (req, res)=> {
+  console.log('sendContactMail', req.body);
+  
+  var transporter = nodeMailer.createTransport({
+    host: 'smtpout.secureserver.net',
+    port: 465,
+    secure: true, 
+    auth: {
+      user: 'enquiry@ownwaysoft.com',
+      pass: 'ownwaysoft@9095'
+    },
+	tls: { rejectUnauthorized: false  },
+  debug:true
+  });
+
+  // mail to company
+  var mainOptions = {         
+    replyTo : 'noreply@gmail.com',
+    from: '"Ownwaysoft Team" enquiry@ownwaysoft.com',
+    to: 'ownwaysoft@gmail.com',
+    subject: 'New User Contacted',
+    text: JSON.stringify(req.body)
+  };
+  // console.log("html data ======================>", mainOptions.html);
+  transporter.sendMail(mainOptions, function (err, info) {
+      if (err) {
+          console.log(err);
+          // res.json(0)
+      } else {
+          console.log('Message sent: ' + info.response);
+          // res.json(1)
+      }
+  });
+  
+}

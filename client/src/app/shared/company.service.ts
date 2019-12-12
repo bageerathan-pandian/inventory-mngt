@@ -11,33 +11,33 @@ export class CompanyService {
   constructor(private httpClient:HttpClient) { }
 
   getCompany(){
-    return this.httpClient.get(environment.api_url + '/api/company');
+    return this.httpClient.get('/api/company');
   }
 
   getCompanyAdminUsers(){
-    return this.httpClient.get(environment.api_url + '/api/company/admin-users');
+    return this.httpClient.get('/api/company/admin-users');
   }
 
   getCompanyByGroup(){
-    return this.httpClient.get(environment.api_url + '/api/company/groupByCompany');
+    return this.httpClient.get('/api/company/groupByCompany');
   }
 
   addCompany(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/company',body,{headers:headerOption});
+    return this.httpClient.post('/api/company',body,{headers:headerOption});
   }
 
   updateCompany(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.put(environment.api_url + '/api/company/'+ data._id ,body,{headers:headerOption});
+    return this.httpClient.put('/api/company/'+ data._id ,body,{headers:headerOption});
   }
 
   deleteCompany(id){
-    return this.httpClient.delete(environment.api_url + '/api/company/'+ id);
+    return this.httpClient.delete('/api/company/'+ id);
   }
 
   // updateUser(){

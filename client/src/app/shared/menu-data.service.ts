@@ -229,52 +229,52 @@ export class MenuDataService {
   getMenuList() {
       return [
           {
-              Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/dashboard', Childs: null, IsChildVisible: false
+              Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/inventory-mngt/dashboard', Childs: null, IsChildVisible: false
           },
           {
             Label: 'Master', Icon: 'fa-cart-plus', RouterLink: null, Childs: [
-              { Label: 'Company', RouterLink: '/master/company', Childs: null, IsChildVisible: false },
-              { Label: 'Category', RouterLink: '/master/category', Childs: null, IsChildVisible: false },
-              { Label: 'Unit', RouterLink: '/master/unit', Childs: null, IsChildVisible: false },
-              { Label: 'Tax', RouterLink: '/master/tax', Childs: null, IsChildVisible: false },
-              { Label: 'Customer', RouterLink: '/master/customer', Childs: null, IsChildVisible: false },
-              { Label: 'Supplier', RouterLink: '/master/supplier', Childs: null, IsChildVisible: false },
-              { Label: 'Stock', RouterLink: '/master/stock', Childs: null, IsChildVisible: false },
-              { Label: 'User', RouterLink: '/master/user', Childs: null, IsChildVisible: false }
+              { Label: 'Company', RouterLink: '/inventory-mngt/master/company', Childs: null, IsChildVisible: false },
+              { Label: 'Category', RouterLink: '/inventory-mngt/master/category', Childs: null, IsChildVisible: false },
+              { Label: 'Unit', RouterLink: '/inventory-mngt/master/unit', Childs: null, IsChildVisible: false },
+              { Label: 'Tax', RouterLink: '/inventory-mngt/master/tax', Childs: null, IsChildVisible: false },
+              { Label: 'Customer', RouterLink: '/inventory-mngt/master/customer', Childs: null, IsChildVisible: false },
+              { Label: 'Supplier', RouterLink: '/inventory-mngt/master/supplier', Childs: null, IsChildVisible: false },
+              { Label: 'Stock', RouterLink: '/inventory-mngt/master/stock', Childs: null, IsChildVisible: false },
+              { Label: 'User', RouterLink: '/inventory-mngt/master/user', Childs: null, IsChildVisible: false }
             ], IsChildVisible: false
           },
           {
             Label: 'Purchase', Icon: 'fa-dollar', RouterLink: null, Childs: [
-              { Label: 'Purchase', RouterLink: '/purchase', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Return', RouterLink: '/purchase/purchase-return', Childs: null, IsChildVisible: false }
+              { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase', Childs: null, IsChildVisible: false },
+              { Label: 'Purchase Return', RouterLink: '/inventory-mngt/purchase/purchase-return', Childs: null, IsChildVisible: false }
             ], IsChildVisible: false
           },
           {
             Label: 'Sales', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-              { Label: 'Sales', RouterLink: '/sales', Childs: null, IsChildVisible: false },
-              { Label: 'Sales Return', RouterLink: '/sales/sales-return', Childs: null, IsChildVisible: false }
+              { Label: 'Sales', RouterLink: '/inventory-mngt/sales', Childs: null, IsChildVisible: false },
+              { Label: 'Sales Return', RouterLink: '/inventory-mngt/sales/sales-return', Childs: null, IsChildVisible: false }
             ], IsChildVisible: false
           },
           {
-            Label: 'Payment', Icon: 'fa-money', RouterLink: '/payment', Childs: null, IsChildVisible: false
+            Label: 'Payment', Icon: 'fa-money', RouterLink: '/inventory-mngt/payment', Childs: null, IsChildVisible: false
           },
           {
             Label: 'Reports', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-                { Label: 'Sales Report', RouterLink: '/report/sales-report', Childs: null, IsChildVisible: false },
-                { Label: 'Sales Return Report', RouterLink: '/report/sales-return-report', Childs: null, IsChildVisible: false },
-                { Label: 'Purchase Report', RouterLink: '/report/purchase-report', Childs: null, IsChildVisible: false },
-                { Label: 'Purchase Return Report', RouterLink: '/report/purchase-return-report', Childs: null, IsChildVisible: false }
+                { Label: 'Sales Report', RouterLink: '/inventory-mngt/report/sales-report', Childs: null, IsChildVisible: false },
+                { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/report/sales-return-report', Childs: null, IsChildVisible: false },
+                { Label: 'Purchase Report', RouterLink: '/inventory-mngt/report/purchase-report', Childs: null, IsChildVisible: false },
+                { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/report/purchase-return-report', Childs: null, IsChildVisible: false }
             ], IsChildVisible: false
           },
           {
-            Label: 'Quotations', Icon: 'fa-file', RouterLink: '/quotations', Childs: null, IsChildVisible: false
+            Label: 'Quotations', Icon: 'fa-file', RouterLink: '/inventory-mngt/quotations', Childs: null, IsChildVisible: false
           },
           {
             Label: 'Settings', Icon: 'fa-cog', RouterLink: null, Childs: [
-                { Label: 'Invoice Setup', RouterLink: '/settings/invoice-setup', Childs: null, IsChildVisible: false },
-                { Label: 'Barcode Generate', RouterLink: '/settings/barcode-generate', Childs: null, IsChildVisible: false },
-                { Label: 'Logs', RouterLink: '/settings/logs', Childs: null, IsChildVisible: false },
-                { Label: 'Helps', RouterLink: '/settings/help', Childs: null, IsChildVisible: false }
+                { Label: 'Invoice Setup', RouterLink: '/inventory-mngt/settings/invoice-setup', Childs: null, IsChildVisible: false },
+                { Label: 'Barcode Generate', RouterLink: '/inventory-mngt/settings/barcode-generate', Childs: null, IsChildVisible: false },
+                { Label: 'Logs', RouterLink: '/inventory-mngt/settings/logs', Childs: null, IsChildVisible: false },
+                { Label: 'Helps', RouterLink: '/inventory-mngt/settings/help', Childs: null, IsChildVisible: false }
             ], IsChildVisible: false
           },
           // {

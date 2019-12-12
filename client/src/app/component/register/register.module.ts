@@ -16,6 +16,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { HeaderModule } from '../header/header.module';
+import { FooterModule } from '../footer/footer.module';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -34,7 +36,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     GooglePlaceModule,
     StripeCheckoutModule,
     RadioButtonModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HeaderModule,
+    FooterModule
   ]
 })
 export class RegisterModule { }

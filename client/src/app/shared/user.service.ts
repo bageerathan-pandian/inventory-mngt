@@ -16,33 +16,33 @@ export class UserService {
   }
 
   getUsers(){
-    return this.httpClient.get(environment.api_url + '/api/users');
+    return this.httpClient.get('/api/users');
   }
 
   getUser(id){
-    return this.httpClient.get(environment.api_url + '/api/users/'+id);
+    return this.httpClient.get('/api/users/'+id);
   }
   
   getUsersByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/users/get-by-company/'+id);
+    return this.httpClient.get('/api/users/get-by-company/'+id);
   }
 
   addUser(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/users',body,{headers:headerOption});
+    return this.httpClient.post('/api/users',body,{headers:headerOption});
   }
 
   updateUser(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.put(environment.api_url + '/api/users/'+ data._id ,body,{headers:headerOption});
+    return this.httpClient.put('/api/users/'+ data._id ,body,{headers:headerOption});
   }
 
   deleteUser(id){
-    return this.httpClient.delete(environment.api_url + '/api/users/'+ id);
+    return this.httpClient.delete('/api/users/'+ id);
   }
 
   // updateUser(){
@@ -50,7 +50,7 @@ export class UserService {
   // }
 
   onCheckEmailExist(data) {
-    return this.httpClient.get(environment.api_url + '/api/users/check-email-exist/'+data)
+    return this.httpClient.get('/api/users/check-email-exist/'+data)
   }
 
   public addUserSocktet() {

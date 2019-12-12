@@ -12,29 +12,29 @@ export class CustomerService {
   constructor(private httpClient:HttpClient) { }
 
   getCustomer(){
-    return this.httpClient.get(environment.api_url + '/api/customer');
+    return this.httpClient.get('/api/customer');
   }
 
   getCustomerByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/customer/get-by-company/'+id);
+    return this.httpClient.get('/api/customer/get-by-company/'+id);
   }
 
   addCustomer(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/customer',body,{headers:headerOption});
+    return this.httpClient.post('/api/customer',body,{headers:headerOption});
   }
 
   updateCustomer(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.put(environment.api_url + '/api/customer/'+ data._id ,body,{headers:headerOption});
+    return this.httpClient.put('/api/customer/'+ data._id ,body,{headers:headerOption});
   }
 
   deleteCustomer(id){
-    return this.httpClient.delete(environment.api_url + '/api/customer/'+ id);
+    return this.httpClient.delete('/api/customer/'+ id);
   }
 
   // updateUser(){

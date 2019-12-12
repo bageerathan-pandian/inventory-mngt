@@ -8,7 +8,7 @@
                   <span class="icon-bar"></span>                        
                 </button>
                 <div class="navbar-brand"  style="text-align: center;position: relative;height: 80px;">
-                  <a routerLink="/">
+                  <a  (click)="goTo('/')">
                     <img src="Card" src="./assets/img/comp_logo.png" style="    max-height: 100%;  max-width: 100%;   left: 0;   right: 0;    top: 0;     bottom: 0;   margin: auto;">
                   </a>
               </div>
@@ -16,18 +16,25 @@
               <div class="collapse navbar-collapse" id="myNavbar">
                   
                 <ul class="nav navbar-nav navbar-right">
-                  <li><a routerLink="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                  <li><a routerLink="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  <li><a (click)="goTo('/register')"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                  <li><a (click)="goTo('/login')"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
-                
+
                 <ul class="nav navbar-nav navbar-right">
-                  <li><a href="#about">ABOUT</a></li>
-                  <li><a href="#services">SERVICES</a></li>
-                  <li><a href="#portfolio">PORTFOLIO</a></li>
-                  <li><a href="#pricing">PRICING</a></li>
-                  <li><a href="#contact">CONTACT</a></li>
+                        <!-- <li><a href="#about" >ABOUT</a></li>
+                        <li><a href="#services">SERVICES</a></li>
+                        <li><a href="#portfolio">PORTFOLIO</a></li>
+                        <li><a href="#pricing">PRICING</a></li>
+                        <li><a href="#contact">CONTACT</a></li> -->
+                        <li><a (click)="goTo('/#about')">ABOUT</a></li>
+                        <li><a (click)="goTo('/#services')">SERVICES</a></li>
+                        <li><a (click)="goTo('/#portfolio')">PORTFOLIO</a></li>
+                        <li><a (click)="goTo('/#pricing')">PRICING</a></li>
+                        <li><a (click)="goTo('/#contact')">CONTACT</a></li>
                 </ul>
                 
               </div>
             </div>
-          </nav>
+          </nav> 
+  
+             

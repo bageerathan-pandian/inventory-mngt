@@ -12,18 +12,18 @@ export class DashboardService {
 
   
   getLoggedInUsers(){
-    return this.httpClient.get('/api/dashboard/logged-in-users');
+    return this.httpClient.get('./api/dashboard/logged-in-users');
   }
 
   getLatestStocks(id){
-    return this.httpClient.get('/api/dashboard/latest-stock/'+id);
+    return this.httpClient.get('./api/dashboard/latest-stock/'+id);
   }
 
   getLatestSales(id){
-    return this.httpClient.get('/api/dashboard/latest-sales/'+id);
+    return this.httpClient.get('./api/dashboard/latest-sales/'+id);
   }
 
   getLatestPurchase(id){
-    return this.httpClient.get('/api/dashboard/latest-purchase/'+id);
+    return this.httpClient.get('./api/dashboard/latest-purchase/'+id);
   }
 }

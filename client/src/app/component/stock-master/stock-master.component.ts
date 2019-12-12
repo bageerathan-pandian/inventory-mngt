@@ -6,7 +6,6 @@ import {MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
-import { Category } from 'src/app/model/category.model';
 import { StockService } from 'src/app/shared/stock.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import { CustomerService } from 'src/app/shared/customer.service';
 import { StockService } from 'src/app/shared/stock.service';
-import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
 import { DashboardService } from 'src/app/shared/dashboard.service';
 
 import * as _ from 'lodash';
@@ -38,7 +37,7 @@ export class DashboardComponent implements OnInit {
   client_company_id: any;
   user_details:any
   loggedInUsersList:any =[]
-  constructor(private companyService: CompanyService, public auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private pdfGenerator:PdfGeneratorService,private salesService:SalesService) {
+  constructor(private companyService: CompanyService, public auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService) {
    
    
     this.client_company_id = this.auth.getUserData().company_details_id;

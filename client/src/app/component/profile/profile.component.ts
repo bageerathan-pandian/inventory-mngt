@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { User } from 'src/app/model/user.model';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';

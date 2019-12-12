@@ -2,10 +2,7 @@ var multer = require('multer');
 global.crypto = require ("crypto")
 const mime = require ("mime")
 const moment = require("moment")
-var session = require('express-session')
 var path = require('path');
-var __parentDir =require('path').resolve(__dirname, '..');
-var sess;
 // console.log(session)
 // set the directory for the uploads to the uploaded to
 // var DIR = './client/dist/client/assets/uploads/';

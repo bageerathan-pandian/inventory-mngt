@@ -10,18 +10,18 @@ export class SalesService {
   constructor(private httpClient:HttpClient) { }
 
   getLastInvoice(){
-    return this.httpClient.get('/api/sales/last-invoice');
+    return this.httpClient.get('./api/sales/last-invoice');
   }
 
   getTotalSalesAmount(){
-    return this.httpClient.get('/api/sales/total-sales');
+    return this.httpClient.get('./api/sales/total-sales');
   }
 
   addSales(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('/api/sales',body,{headers:headerOption});
+    return this.httpClient.post('./api/sales',body,{headers:headerOption});
   }
 
 }

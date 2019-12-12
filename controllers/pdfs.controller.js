@@ -1,7 +1,6 @@
 //Required package
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
-var path = require('path');
 var __parentDir =require('path').resolve(__dirname, '..');
  
 // Read HTML Template

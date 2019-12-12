@@ -3,7 +3,6 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyService } from 'src/app/shared/company.service';
-import { Company } from 'src/app/model/company.model';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import * as _ from 'lodash';

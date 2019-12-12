@@ -15,7 +15,6 @@ import { CommonService } from 'src/app/shared/common.service';
 
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import * as printJS from 'print-js'
 import { AuthService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
@@ -65,8 +64,7 @@ export class OrderComponent implements OnInit {
 
   constructor(private _fb:FormBuilder,
     private router: Router,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthService,
+    private messageService: MessageService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthService,
     private pdfGenerator: PdfGeneratorService
   ) {
     // let invalidDate = new Date();

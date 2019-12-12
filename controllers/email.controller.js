@@ -1,6 +1,5 @@
 
 const nodeMailer = require("nodemailer");
-const fs = require("fs");
 const ejs = require("ejs");
 var __parentDir =require('path').resolve(__dirname, '..');
 

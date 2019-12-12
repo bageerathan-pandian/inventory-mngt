@@ -2,6 +2,7 @@ const express = require("express");
 var cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const session = require('express-session')
 const path = require("path");
 const fs = require("fs");
 const morgan = require("morgan");
@@ -36,7 +37,7 @@ app.use(express.static(path.join(__dirname, "dist/client")));
 app.use('/static', express.static('public'))
 app.use(cookieParser());
 // use session
-// app.use(session({secret: process.env.SECRET_KEY,saveUninitialized: false,resave: false}));
+app.use(session({secret: process.env.SECRET_KEY,saveUninitialized: false,resave: false}));
 // app.use(express.cookieSession()); // Express cookie session middleware 
 app.use(passport.initialize());   // passport initialize middleware
 app.use(passport.session());      // passport session middleware 

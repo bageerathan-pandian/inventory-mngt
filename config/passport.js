@@ -5,6 +5,7 @@ const JWTstrategy = require('passport-jwt').Strategy;
 //We use this to extract the JWT sent by the user
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
+
 UserModel = require('../models/user.model');
 
 

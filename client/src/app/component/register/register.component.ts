@@ -226,7 +226,7 @@ export class RegisterComponent implements OnInit {
       localStorage.setItem('client_company_id',data.user.company_details_id._id);
       this.messageService.add({severity:'success', summary:'Success!', detail:'Register Successfully!'});
       localStorage.setItem("inventryLogedIn", "1");
-      this.router.navigate(["/dashboard"]);
+      this.router.navigate(["/inventory-mngt/dashboard"]);
     }else{
       this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
       this.successRegister = false;

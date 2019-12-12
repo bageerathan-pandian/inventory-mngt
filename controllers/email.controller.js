@@ -8,12 +8,23 @@ var __parentDir =require('path').resolve(__dirname, '..');
  */
 exports.sendResetMail =  (req, res)=> {
   console.log('sendResetMail', req.body);
+  // var transporter = nodeMailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: 'ownwaysoft@gmail.com',
+  //     pass: 'ownwaysoft@9095'
+  //   }
+  // });
   var transporter = nodeMailer.createTransport({
-    service: 'gmail',
+    host: 'smtpout.secureserver.net',
+    port: 465,
+    secure: true, 
     auth: {
-      user: 'ownwaysoft@gmail.com',
+      user: 'enquiry@ownwaysoft.com',
       pass: 'ownwaysoft@9095'
-    }
+    },
+	tls: { rejectUnauthorized: false  },
+  debug:true
   });
 
   let emailData = {
@@ -28,8 +39,8 @@ exports.sendResetMail =  (req, res)=> {
         console.log(err);
     } else {
         var mainOptions = { 
-          replyTo : 'noreply@gmail.com',
-          from: '"Ownwaysoft Team" noreply@gmail.com',
+          replyTo : 'noreply@ownwaysoft.com',
+          from: '"Ownwaysoft" enquiry@ownwaysoft.com',
           to: req.body.email,
           subject: 'Password Reset',
           html: data
@@ -54,18 +65,30 @@ exports.sendResetMail =  (req, res)=> {
  */
 exports.sendRegisterMail =  (req, res)=> {
   console.log('sendRegisterMail', req.body);
+  // var transporter = nodeMailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: 'ownwaysoft@gmail.com',
+  //     pass: 'ownwaysoft@9095'
+  //   }
+  // });
+
   var transporter = nodeMailer.createTransport({
-    service: 'gmail',
+    host: 'smtpout.secureserver.net',
+    port: 465,
+    secure: true, 
     auth: {
-      user: 'ownwaysoft@gmail.com',
+      user: 'enquiry@ownwaysoft.com',
       pass: 'ownwaysoft@9095'
-    }
+    },
+	tls: { rejectUnauthorized: false  },
+  debug:true
   });
 
   // mail to company
   var mainOptions = {         
-    replyTo : 'noreply@gmail.com',
-    from: '"Ownwaysoft Team" noreply@gmail.com',
+    replyTo : 'noreply@ownwaysoft.com',
+    from: '"Ownwaysoft" enquiry@ownwaysoft.com',
     to: 'ownwaysoft@gmail.com,bagee.blore@gmail.com',
     subject: 'New User Registered',
     text: JSON.stringify(req.body)
@@ -134,9 +157,9 @@ exports.sendContactMail =  (req, res)=> {
 
   // mail to company
   var mainOptions = {         
-    replyTo : 'noreply@gmail.com',
-    from: '"Ownwaysoft Team" enquiry@ownwaysoft.com',
-    to: 'ownwaysoft@gmail.com',
+    replyTo : 'noreply@ownwaysoft.com',
+    from: '"Ownwaysoft" enquiry@ownwaysoft.com',
+    to: 'ownwaysoft@gmail.com,bagee.blore@gmail.com',
     subject: 'New User Contacted',
     text: JSON.stringify(req.body)
   };

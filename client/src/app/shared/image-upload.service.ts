@@ -15,7 +15,7 @@ export class ImageUploadService {
     formData.append("image", data, data.name);
     console.log('body',formData);
     // var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/image-upload',formData);
+    return this.httpClient.post(environment.api_url + '/api/image-upload',formData);
   }
 
   profileImageUpload(data: File){
@@ -23,7 +23,7 @@ export class ImageUploadService {
     formData.append("image", data, data.name);
     console.log('body',formData);
     // var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/image-upload/profile',formData);
+    return this.httpClient.post(environment.api_url + '/api/image-upload/profile',formData);
   }
 
   companyLogoUpload(data: File){
@@ -31,7 +31,7 @@ export class ImageUploadService {
     formData.append("image", data, data.name);
     console.log('body',formData);
     // var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/image-upload/logo',formData);
+    return this.httpClient.post(environment.api_url + '/api/image-upload/logo',formData);
   }
  
 }

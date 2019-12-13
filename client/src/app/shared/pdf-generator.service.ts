@@ -10,6 +10,6 @@ export class PdfGeneratorService {
   constructor(private httpClient:HttpClient) { }
 
   testPdg(){
-    return this.httpClient.get('./api/pdfs');
+    return this.httpClient.get(environment.api_url + '/api/pdfs');
   }
 }

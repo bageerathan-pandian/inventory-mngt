@@ -22,6 +22,9 @@ export class AuthService {
     this.socket = io(environment.api_url);
   }
 
+  apiURL(){
+    return environment.api_url ? environment.api_url : ''
+  }
 
   isLogedIn() {
     return localStorage.getItem("inventryLogedIn") ? localStorage.getItem("inventryLogedIn") : null;
@@ -38,64 +41,62 @@ export class AuthService {
   logIn(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/login',body,{headers:headerOption})
-    
-    
+    return this.httpClient.post(environment.api_url + '/api/auth/login',body,{headers:headerOption})   
   }
 
   changePassword(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/change-password',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/change-password',body,{headers:headerOption})
   }
 
   sendResetPassword(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/reset-password',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/reset-password',body,{headers:headerOption})
   }
 
   onRegisterCompany(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/register-company',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/register-company',body,{headers:headerOption})
   }
 
   onRegisterUser(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/register-user',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/register-user',body,{headers:headerOption})
   }
 
   onRegisterPlan(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/register-plan',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/register-plan',body,{headers:headerOption})
   }
 
   onRegisterPayment(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/auth/register-payment',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/register-payment',body,{headers:headerOption})
   }
 
   onCheckEmailExist(data) {
-    return this.httpClient.get('./api/auth/check-email-exist/'+data)
+    return this.httpClient.get(environment.api_url + '/api/auth/check-email-exist/'+data)
   }
 
   getPaymentDetails(id) {
-    return this.httpClient.get('./api/auth/get-payment-details/'+id)
+    return this.httpClient.get(environment.api_url + '/api/auth/get-payment-details/'+id)
   }
 
   getCompanyCount(){
-    return this.httpClient.get('./api/auth/company-count')
+    return this.httpClient.get(environment.api_url + '/api/auth/company-count')
   }
 
   logOut() {
     this.spinner.show()
     var body = JSON.stringify(JSON.parse(localStorage.getItem("user_details")));
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    this.httpClient.post('./api/auth/logout',body,{headers:headerOption})
+    this.httpClient.post(environment.api_url + '/api/auth/logout',body,{headers:headerOption})
     .subscribe((data:any)=>{      
     setTimeout(() => {  
       this.spinner.hide()     

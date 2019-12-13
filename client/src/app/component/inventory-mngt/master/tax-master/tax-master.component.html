@@ -1,0 +1,146 @@
+
+        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+        <div style="margin-top: 15px;">
+                <div *ngIf="loding" style="text-align: center">
+                        <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+                </div>
+      <p-card *ngIf="!loding" >
+      <p-table  #dt1   [value]="taxList" dataKey="id"  [paginator]="true" [rows]="10"   [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','tax_name','tax_value']">
+          <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix" >
+      
+                  <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                  <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+              </div>
+              <div style="text-align: right">        
+                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+                  <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt1.filterGlobal($event.target.value, 'contains')"   style="width:auto">
+              </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+              <tr>
+                  <th  [pSortableColumn]="'_id'" pResizableColumn >
+                        #
+                    <p-sortIcon [field]="_id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                  <th  [pSortableColumn]="'tax_name'" pResizableColumn>
+                      Tax Name
+                  <p-sortIcon [field]="tax_name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th  [pSortableColumn]="'tax_value'" pResizableColumn>
+                    Tax %
+                <p-sortIcon [field]="tax_value" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                  <th [pSortableColumn]="'updatedAt'" pResizableColumn>
+                        Updated Date
+                     <p-sortIcon [field]="updatedAt" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                 </th>
+                 <th [pSortableColumn]="'status'" pResizableColumn style="width: 10%;">
+                    Status
+                 <p-sortIcon [field]="Status" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+             </th>
+                 <th style="width: 10%;">
+                    <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Add" ></button>
+
+            </th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" >
+            
+              <tr [pEditableRow]="rowData">
+                  <td>
+                      #{{rowData._id}}
+                  </td>
+                  <td>
+                      <p-cellEditor>
+                          <ng-template pTemplate="input">
+                              <input pInputText type="text" [(ngModel)]="rowData.tax_name" required>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                              {{rowData.tax_name}}
+                          </ng-template>
+                      </p-cellEditor>
+                  </td>
+                  <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="rowData.tax_value" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{rowData.tax_value}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                  <td>
+                    {{rowData.updatedAt | date:'medium'}}
+            </td>
+                  <td style="text-align: center">
+                    <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event,rowData.id)"></p-inputSwitch> 
+                </td>
+                <td style="text-align:center">
+                    <button  pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                    <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
+                    <button  pButton type="button" pCancelEditableRow icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+                </td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+                <tr>
+                   <td colspan="6" style="text-align: center">
+                           There are {{taxList?.length}} records
+                   </td>
+               </tr>
+               
+           </ng-template>
+      </p-table>
+
+      <p-dialog   [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+            <p-header>
+                    <span *ngIf="taxForm.value._id">Update</span>
+                    <span *ngIf="!taxForm.value._id">Add</span> Tax
+            </p-header>
+        <form [formGroup]="taxForm">
+        <div class="ui-g ui-fluid" >
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Tax Name</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="vin" formControlName="tax_name" autofocus />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Tax %</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="vin" formControlName="tax_value" autofocus />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="brand">Status</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
+    
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+                <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Save"></button>
+            </div>
+        </p-footer>
+    </form>
+    </p-dialog>
+    
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+            <p-footer>
+                    <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+                    <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
+                </p-footer>
+            </p-confirmDialog>
+    </p-card>
+    </div>

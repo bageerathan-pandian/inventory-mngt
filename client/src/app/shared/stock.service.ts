@@ -12,35 +12,35 @@ export class StockService {
   constructor(private httpClient:HttpClient) { }
 
   getStock(){
-    return this.httpClient.get('./api/stock');
+    return this.httpClient.get(environment.api_url + '/api/stock');
   }
   
 
   getStockByCompany(id){
-    return this.httpClient.get('./api/stock/get-by-company/'+id);
+    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company/'+id);
   }
 
   
   getStockByCompanyActive(id){
-    return this.httpClient.get('./api/stock/get-by-company-active/'+id);
+    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company-active/'+id);
   }
 
   addStock(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/stock',body,{headers:headerOption});
+    return this.httpClient.post(environment.api_url + '/api/stock',body,{headers:headerOption});
   }
 
   updateStock(data){
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.put('./api/stock/'+ data._id ,body,{headers:headerOption});
+    return this.httpClient.put(environment.api_url + '/api/stock/'+ data._id ,body,{headers:headerOption});
   }
 
   deleteStock(id){
-    return this.httpClient.delete('./api/stock/'+ id);
+    return this.httpClient.delete(environment.api_url + '/api/stock/'+ id);
   }
 
   // updateUser(){

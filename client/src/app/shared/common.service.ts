@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,6 @@ export class CommonService {
     var body = JSON.stringify(data);
     console.log('body',body);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post('./api/common/contact',body,{headers:headerOption});
+    return this.httpClient.post(environment.api_url + '/api/common/contact',body,{headers:headerOption});
   }
 }

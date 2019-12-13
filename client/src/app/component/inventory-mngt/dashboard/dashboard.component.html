@@ -1,0 +1,341 @@
+
+<div class="ui-g ui-fluid">
+  <div class="ui-g-12"  *ngIf="auth.getUserData().role == '0'">
+      <div class="ui-g-3" style="float: right">     
+      <p-dropdown [options]="companyList" [(ngModel)]="client_company_id" placeholder="Select Company" filter="true" optionLabel="company_name" (onChange)="onChangeCompany($event.value)">
+      </p-dropdown>
+      </div>
+  </div>
+  <div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" *ngIf="auth.getUserData().role == '0'" >     
+    <a routerLink="/inventory-mngt/master/company"  >
+    <p-card styleClass="card1 ui-g-12" >
+          <p-header>
+                  Company
+              </p-header>
+        <div class="ui-g-6">
+          <h2 style=" font-size: 30px; margin-bottom: 0;  padding: 0; ">  {{companyList.length}}</h2>
+        </div>
+        <div class="ui-g-6"> 
+           <i class="pi pi-shopping-cart" style="    font-size: 80px;    opacity: 0.1;"></i>
+          </div>
+          <!-- <p-footer>
+              <a routerLink="/master/company"  pTooltip="View More" tooltipPosition="top">View More  <i class="pi pi-arrow-right" style="position: relative; top: 4px;"></i>
+              </a>
+          </p-footer> -->
+    </p-card>
+    </a>
+  </div>
+<div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
+<a routerLink="/inventory-mngt/master/stock" >
+  <p-card styleClass="card2 ui-g-12" >
+        <p-header>
+                Stocks
+            </p-header>
+      <div class="ui-g-6">
+        <h2 style=" font-size: 30px; margin-bottom: 0;  padding: 0; ">  {{stocksList.length}}</h2>
+      </div>
+      <div class="ui-g-6"> 
+         <i class="pi pi-shopping-cart" style="    font-size: 80px;    opacity: 0.1;"></i>
+        </div>
+        <!-- <p-footer>
+            <a routerLink="/master/stock"  pTooltip="View More" tooltipPosition="top">View More  <i class="pi pi-arrow-right" style="position: relative; top: 4px;"></i>
+            </a>
+        </p-footer> -->
+  </p-card>
+</a>
+</div>
+<div   [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
+    <a routerLink="/inventory-mngt/sales"  >
+  <p-card styleClass="card3 ui-g-12" >
+        <p-header>
+                Sales
+            </p-header>
+      <div class="ui-g-6">
+          <h2 style=" font-size: 30px; margin-bottom: 0;  padding: 0; ">  {{totalSalesAmount  | currency : 'INR':true}}</h2>
+      </div>
+      <div class="ui-g-6">
+          <i class="pi pi-dollar" style="    font-size: 80px;    opacity: 0.1;"></i>        
+        </div>
+        <!-- <p-footer>
+                <a routerLink="/sales" pTooltip="View More" tooltipPosition="top">View More  <i class="pi pi-arrow-right" ></i>
+                </a>
+            </p-footer> -->
+  </p-card>
+    </a>
+</div>
+<div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
+    <a routerLink="/inventory-mngt/purchase"  >
+
+  <p-card styleClass="card4 ui-g-12" >
+        <p-header>
+                Purchase
+            </p-header>
+      <div class="ui-g-6">
+          <h2 style=" font-size: 30px; margin-bottom: 0;  padding: 0; ">  {{totalPurchaceAmount  | currency : 'INR':true}}</h2>
+      </div>
+      <div class="ui-g-6">
+          <i class="pi pi-money-bill" style="    font-size: 80px;    opacity: 0.1;"></i>        
+        </div>
+        <!-- <p-footer>
+                <a routerLink="/purchase"  pTooltip="View More" tooltipPosition="top">View More  <i class="pi pi-arrow-right" ></i>
+                </a>
+            </p-footer> -->
+  </p-card>
+    </a>
+</div>
+<div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'"  >
+    <a routerLink="/inventory-mngt/master/customer" >
+
+  <p-card styleClass="card5 ui-g-12" >
+        <p-header>
+                Customers
+            </p-header>
+      <div class="ui-g-6">
+          <h2 style=" font-size: 30px; margin-bottom: 0;  padding: 0;  ">  {{customerList.length}}</h2>
+      </div>
+      <div class="ui-g-6">
+          <i class="pi pi-users" style="    font-size: 80px;    opacity: 0.1;"></i>        
+        </div>
+        <!-- <p-footer>
+                <a routerLink="/master/customer" pTooltip="View More" tooltipPosition="top">View More  <i class="pi pi-arrow-right" ></i>
+                </a>
+            </p-footer> -->
+  </p-card>
+    </a>
+</div>
+</div>
+<div class="ui-g ui-fluid">
+        <div class="ui-g-5">
+                <p-card styleClass="ui-g-12" >
+                      <!-- <div class="ui-g-3" style="float: right;position: relative;">
+                      <p-dropdown [options]="yearList" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
+                    </div> -->
+                  <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+                  </p-card>
+              </div>
+              <div class="ui-g-5">
+                    <p-card styleClass="ui-g-12" >
+                          <!-- <h3>Profit/Loss Report</h3> -->
+                          <!-- <div class="ui-g-3" style="float: right;position: relative;">
+                          <p-dropdown [options]="yearList" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
+                        </div> -->
+                      <p-chart type="bar" [data]="data1" [options]="options1"></p-chart>
+                      </p-card>
+                  </div>
+                  <div class="ui-g-2">
+                      
+
+                  <p-card  styleClass="ui-g-12" >
+                      
+     <p-scrollPanel [style]="{width: '100%', height: '280px'}">
+                        <div class="active-detail">
+                            <h3 style="margin: 20px 0;" class="full-width">Active Users</h3>
+                            <div class="gallery-cont full-width">
+                                <ul>
+                                    <li *ngFor="let item of loggedInUsersList">
+                                        <div class="active-left">
+                                            <img src="../assets/img/userface.jpg"
+                                                *ngIf="item.user_image==''|| item.user_image == null">
+                                            <img src="{{auth.apiURL()}}{{item.user_image}}" *ngIf="item.user_image!=''|| item.user_image != null">
+                                            <ng-container *ngIf="item.isLoggedIn; else elseTemplate">
+                                                   <i class="pi pi-check" style="    position: absolute;   left: 18px;    color: #fff;   background: #08bd65;     border-radius: 100%;font-size: 12px"></i>
+                                                </ng-container>
+                                                <ng-template #elseTemplate>
+                                                    <i class="pi pi-times"  style="    position: absolute;   left: 18px;    color: #fff;   background: #f06487;     border-radius: 100%;font-size: 12px"></i>
+                                                </ng-template>
+                                        </div>
+                                        <div class="active-rgt">
+                                            <h6>{{item.user_name | titlecase}}</h6>
+                                            <span [ngSwitch]="item.role">
+                                                <p *ngSwitchCase="'0'">
+                                                Admin -  <em  *ngIf="auth.getUserData().role == '0'">  {{item.company_details_id.company_name}}</em>
+                                                </p>
+                                                <p *ngSwitchCase="'1'">
+                                                   Admin -  <em  >  {{item.company_details_id.company_name}}</em>
+                                                </p>
+                                                <p *ngSwitchCase="'2'">
+                                                    Manager -  <em  >  {{item.company_details_id.company_name}}</em>
+                                                 </p>
+                                                <p *ngSwitchCase="'3'">
+                                                        Sales person -  <em  >  {{item.company_details_id.company_name}}</em>
+                                                </p>
+                                                <p *ngSwitchDefault>
+                                                        Others -  {{item.company_details_id.company_name}}
+                                                </p>
+                                                
+                                                </span>
+                                               
+                                            <!-- <ng-container *ngIf="item.isLoggedIn; else elseTemplate">
+                                                <a class="cmn-btn"><i class="pi pi-check"></i>Online</a>
+                                            </ng-container>
+                                            <ng-template #elseTemplate>
+                                                <a class="cmn-btn red-btn"><i class="pi pi-times"></i>Offline</a>
+                                            </ng-template> -->
+                                        </div>
+                                    </li>
+                                </ul>
+                               
+                            </div>
+                        </div>
+                    
+                    
+    </p-scrollPanel>
+                    </p-card>
+                    
+                </div>
+    </div>
+    <div class="ui-g ui-fluid">
+              
+              <div class="ui-g-4">
+                    <p-card styleClass="ui-g-12" >
+                  <h3>Recently {{stocksLatestList.length}} Added Stocks</h3>
+                  <p-table  #dt1 [value]="stocksLatestList" dataKey="_id"  >
+                       
+                      <ng-template pTemplate="header">
+                          <tr>
+                              <th >
+                                   Code
+                                </th>
+                                <th  >
+                                    Stock Name
+                                </th>
+                                <th  >
+                                    Qty
+                                </th>
+                                <th  >
+                                    Price
+                                </th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData  let-ri="rowIndex">
+                        
+                          <tr >
+                              <td>
+                                  {{rowData.stock_code}}
+                              </td>
+                              <td>
+                                {{rowData.stock_name}}
+                              </td>
+                              <td>
+                                {{rowData.stock_qty}}
+                              </td>
+                              <td>
+                                {{rowData.selling_price | currency : 'INR':true}}
+                              </td>
+                          </tr>
+                      </ng-template>
+                      
+    <ng-template pTemplate="footer">
+            <tr *ngIf="stocksLatestList?.length == 0">
+               <td colspan="4" style="text-align: center">
+                       There are {{stocksLatestList?.length}} records
+               </td>
+           </tr>
+           
+       </ng-template>
+                  </p-table>
+                  <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Stocks" routerLink="/inventory-mngt/master/stock" style=" width: auto; margin-top: 10px;"></button>
+                 
+                </p-card>
+              </div>
+              
+              <div class="ui-g-4">
+                    <p-card styleClass="ui-g-12" >
+                    <h3>Latest {{salesLatestList.length}} Sales</h3>
+                    <p-table  #dt1 [value]="salesLatestList" dataKey="id"  >
+                       
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th  >
+                                     #Invoice No
+                                  </th>
+                                  <th >
+                                      Stock Name
+                                  </th>
+                                  <!-- <th >
+                                      Price
+                                  </th> -->
+                                  <th >
+                                      Qty
+                                  </th>
+                                  <th >
+                                   Total 
+                                  </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData  let-ri="rowIndex">
+                          
+                            <tr >
+                                <td>
+                                    {{rowData.invoice_details_id.invoice_code}}
+                                </td>
+                                
+                                <td>
+                                        {{rowData.stock_details_id.stock_name}}
+                                    </td>
+                                <!-- <td>
+                                        {{rowData.stock_price | currency : 'INR':true}}
+                                </td> -->
+                                <td>
+                                        {{rowData.stock_qty}}
+                                   
+                                </td>
+                                <td>
+                                  {{rowData.stock_total_price | currency : 'INR':true}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                                <tr  *ngIf="salesLatestList?.length == 0">
+                                   <td colspan="4" style="text-align: center">
+                                           There are {{salesLatestList?.length}} records
+                                   </td>
+                               </tr>
+                               
+                           </ng-template>
+                    </p-table>
+                    <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Orders" routerLink="/inventory-mngt/report/sales-report"  style=" width: auto; margin-top: 10px;"></button>
+                </p-card>
+                </div>
+                
+              <div class="ui-g-4">
+                    <p-card styleClass="ui-g-12" >
+        <h3>Latest {{purchaseLatestList.length}} Purchase</h3>
+        <p-table  #dt1 [value]="purchaseLatestList" dataKey="id"  >
+             
+            <ng-template pTemplate="header">
+                <tr>
+                    <th >
+                         Code
+                      </th>
+                    <th  >
+                        Category
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData  let-ri="rowIndex">
+              
+                <tr >
+                    <td>
+                        #{{rowData.category_code}}
+                    </td>
+                    <td>
+                      {{rowData.category_name}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" >
+                    <tr *ngIf="purchaseLatestList?.length == 0">
+                       <td colspan="2" style="text-align: center">
+                               There are {{purchaseLatestList?.length}} records
+                       </td>
+                   </tr>
+                   
+               </ng-template>
+        </p-table>
+        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase" routerLink="/inventory-mngt/report/purchase-report"  style=" width: auto; margin-top: 10px;"></button>
+    </p-card>
+    </div>
+              </div>
+    
+<!-- <pre>{{ loggedInUsersList | json }}</pre> -->

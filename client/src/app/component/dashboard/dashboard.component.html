@@ -7,7 +7,7 @@
       </div>
   </div>
   <div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" *ngIf="auth.getUserData().role == '0'" >     
-    <a routerLink="/master/company"  >
+    <a routerLink="/inventory-mngt/master/company"  >
     <p-card styleClass="card1 ui-g-12" >
           <p-header>
                   Company
@@ -26,7 +26,7 @@
     </a>
   </div>
 <div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
-<a routerLink="/master/stock" >
+<a routerLink="/inventory-mngt/master/stock" >
   <p-card styleClass="card2 ui-g-12" >
         <p-header>
                 Stocks
@@ -45,7 +45,7 @@
 </a>
 </div>
 <div   [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
-    <a routerLink="/sales"  >
+    <a routerLink="/inventory-mngt/sales"  >
   <p-card styleClass="card3 ui-g-12" >
         <p-header>
                 Sales
@@ -64,7 +64,7 @@
     </a>
 </div>
 <div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
-    <a routerLink="/purchase"  >
+    <a routerLink="/inventory-mngt/purchase"  >
 
   <p-card styleClass="card4 ui-g-12" >
         <p-header>
@@ -84,7 +84,7 @@
     </a>
 </div>
 <div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'"  >
-    <a routerLink="/master/customer" >
+    <a routerLink="/inventory-mngt/master/customer" >
 
   <p-card styleClass="card5 ui-g-12" >
         <p-header>
@@ -234,7 +234,7 @@
            
        </ng-template>
                   </p-table>
-                  <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Stocks" routerLink="/master/stock" style=" width: auto; margin-top: 10px;"></button>
+                  <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Stocks" routerLink="/inventory-mngt/master/stock" style=" width: auto; margin-top: 10px;"></button>
                  
                 </p-card>
               </div>
@@ -294,7 +294,7 @@
                                
                            </ng-template>
                     </p-table>
-                    <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Orders" routerLink="/report/sales-report"  style=" width: auto; margin-top: 10px;"></button>
+                    <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Orders" routerLink="/inventory-mngt/report/sales-report"  style=" width: auto; margin-top: 10px;"></button>
                 </p-card>
                 </div>
                 
@@ -333,7 +333,7 @@
                    
                </ng-template>
         </p-table>
-        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase" routerLink="/report/purchase-report"  style=" width: auto; margin-top: 10px;"></button>
+        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase" routerLink="/inventory-mngt/report/purchase-report"  style=" width: auto; margin-top: 10px;"></button>
     </p-card>
     </div>
               </div>

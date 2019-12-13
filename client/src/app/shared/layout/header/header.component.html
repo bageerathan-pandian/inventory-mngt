@@ -43,19 +43,19 @@
     <div><b>Birthdate: </b><i [innerHtml]="user.birthDate | date:'dd/MM/yyyy'"></i></div> -->
   <ul>
       <li>
-          <a  routerLink="/profile" (click)="userdetails.hide($event)">Profile</a>
+          <a  routerLink="/inventory-mngt/profile" (click)="userdetails.hide($event)">Profile</a>
       </li>
       
       <li>
-            <a  routerLink="/company-info" (click)="userdetails.hide($event)">Company Info.</a>
+            <a  routerLink="/inventory-mngt/company-info" (click)="userdetails.hide($event)">Company Info.</a>
         </li>
         
       <li>
-            <a  routerLink="/change-password" (click)="userdetails.hide($event)">Change Password</a>
+            <a  routerLink="/inventory-mngt/change-password" (click)="userdetails.hide($event)">Change Password</a>
         </li>
         
       <li>
-            <a  routerLink="/product-buy" (click)="userdetails.hide($event)">Account Type</a>
+            <a  routerLink="/inventory-mngt/product-buy" (click)="userdetails.hide($event)">Account Type</a>
         </li>
   </ul>
 </p-overlayPanel>

@@ -135,4 +135,13 @@ export class AuthService {
     return observable;
   }
 
+  sendContact(data){
+    var body = JSON.stringify(data);
+    console.log('body',body);
+    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
+    return this.httpClient.post(environment.api_url + '/api/auth/contact',body,{headers:headerOption});
+  }
+
+
+
 }

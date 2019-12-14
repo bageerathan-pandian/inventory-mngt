@@ -42,10 +42,10 @@ export class UserMasterComponent implements OnInit {
     this.socket = io(environment.api_url);
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {label:'Master',command: (event) => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/inventory-mngt/dashboard']);
     }},
       {label:'Users'},
   ];

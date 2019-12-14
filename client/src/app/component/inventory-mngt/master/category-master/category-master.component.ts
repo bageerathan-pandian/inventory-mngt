@@ -34,18 +34,18 @@ export class CategoryMasterComponent implements OnInit {
     
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {
         label: "Master",
         command: event => {
-          this.router.navigate(["/dashboard"]);
+          this.router.navigate(["/inventory-mngt/dashboard"]);
         }
       },
       {
         label: "Category",
         command: event => {
-          this.router.navigate(["/master/category"]);
+          this.router.navigate(["/inventory-mngt/master/category"]);
         }
       }
     ];

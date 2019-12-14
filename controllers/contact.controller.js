@@ -1,10 +1,10 @@
 
 const ContactModel = require('../models/contact.model');
-const emailController = require('../controllers/email.controller')
+const emailController = require('./email.controller')
 
-exports.sentContact =  (req, res)=> {
+exports.sentMail =  (req, res)=> {
     console.log('add cont', req.body);    
-    emailController.sendContactMail(req, res)  // send email to ownwaysoft
+    emailController.sendAdminMail(req, res)  // send email to ownwaysoft
 
     ContactModel.create(req.body, (err, result) => {
     if (err) return next(err);
@@ -12,5 +12,12 @@ exports.sentContact =  (req, res)=> {
   });
 }
 
+exports.getContact =  (req, res)=> {  
+
+  ContactModel.find({}, (err, result) => {
+  if (err) return next(err);
+  return res.json(result);
+  }).sort( { updatedAt: -1 } )
+}
 
 

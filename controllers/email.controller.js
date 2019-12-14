@@ -15,13 +15,14 @@ exports.sendResetMail =  (req, res)=> {
   //     pass: 'ownwaysoft@9095'
   //   }
   // });
+
   var transporter = nodeMailer.createTransport({
-    host: 'smtpout.secureserver.net',
-    port: 465,
+    host: process.env.MAILHOST,
+    port:  process.env.MAILPORT,
     secure: true, 
     auth: {
-      user: 'enquiry@ownwaysoft.com',
-      pass: 'ownwaysoft@9095'
+      user:  process.env.MAILAUTHUSERNAME,
+      pass:  process.env.MAILAUTHPASSWORD
     },
 	tls: { rejectUnauthorized: false  },
   debug:true
@@ -39,8 +40,7 @@ exports.sendResetMail =  (req, res)=> {
         console.log(err);
     } else {
         var mainOptions = { 
-          replyTo : 'noreply@ownwaysoft.com',
-          from: '"Ownwaysoft" enquiry@ownwaysoft.com',
+          from: process.env.CONTACTMAILFROM,
           to: req.body.email,
           subject: 'Password Reset',
           html: data
@@ -65,21 +65,13 @@ exports.sendResetMail =  (req, res)=> {
  */
 exports.sendRegisterMail =  (req, res)=> {
   console.log('sendRegisterMail', req.body);
-  // var transporter = nodeMailer.createTransport({
-  //   service: 'gmail',
-  //   auth: {
-  //     user: 'ownwaysoft@gmail.com',
-  //     pass: 'ownwaysoft@9095'
-  //   }
-  // });
-
   var transporter = nodeMailer.createTransport({
-    host: 'smtpout.secureserver.net',
-    port: 465,
+    host: process.env.MAILHOST,
+    port:  process.env.MAILPORT,
     secure: true, 
     auth: {
-      user: 'enquiry@ownwaysoft.com',
-      pass: 'ownwaysoft@9095'
+      user:  process.env.MAILAUTHUSERNAME,
+      pass:  process.env.MAILAUTHPASSWORD
     },
 	tls: { rejectUnauthorized: false  },
   debug:true
@@ -87,9 +79,8 @@ exports.sendRegisterMail =  (req, res)=> {
 
   // mail to company
   var mainOptions = {         
-    replyTo : 'noreply@ownwaysoft.com',
-    from: '"Ownwaysoft" enquiry@ownwaysoft.com',
-    to: 'ownwaysoft@gmail.com,bagee.blore@gmail.com',
+    from: process.env.CONTACTMAILFROM,
+    to: process.env.CONTACTMAILTO,
     subject: 'New User Registered',
     text: JSON.stringify(req.body)
   };
@@ -116,8 +107,7 @@ exports.sendRegisterMail =  (req, res)=> {
         console.log(err);
     } else {
         var mainOptions = {         
-          replyTo : 'noreply@gmail.com',
-          from: '"Ownwaysoft Team" ownwaysoft@gmail.com',
+          from: '"Ownwaysoft Team" support@ownwaysoft.com',
           to: req.body.user_email,
           subject: 'Welcome to Ownwaysoft Billing Software',
           html: data
@@ -138,18 +128,18 @@ exports.sendRegisterMail =  (req, res)=> {
 
 
 /**
- * send reset email
+ * send contact email
  */
 exports.sendContactMail =  (req, res)=> {
   console.log('sendContactMail', req.body);
   
   var transporter = nodeMailer.createTransport({
-    host: 'smtpout.secureserver.net',
-    port: 465,
+    host: process.env.MAILHOST,
+    port:  process.env.MAILPORT,
     secure: true, 
     auth: {
-      user: 'enquiry@ownwaysoft.com',
-      pass: 'ownwaysoft@9095'
+      user:  process.env.MAILAUTHUSERNAME,
+      pass:  process.env.MAILAUTHPASSWORD
     },
 	tls: { rejectUnauthorized: false  },
   debug:true
@@ -157,10 +147,9 @@ exports.sendContactMail =  (req, res)=> {
 
   // mail to company
   var mainOptions = {         
-    replyTo : 'noreply@ownwaysoft.com',
-    from: '"Ownwaysoft" enquiry@ownwaysoft.com',
-    to: 'ownwaysoft@gmail.com,bagee.blore@gmail.com',
-    subject: 'New User Contacted',
+    from: process.env.CONTACTMAILFROM,
+    to: process.env.CONTACTMAILTO,
+    subject: req.body.subject,
     text: JSON.stringify(req.body)
   };
   // console.log("html data ======================>", mainOptions.html);
@@ -175,3 +164,43 @@ exports.sendContactMail =  (req, res)=> {
   });
   
 }
+
+
+/**
+ * send admin contact email
+ */
+exports.sendAdminMail =  (req, res)=> {
+  console.log('sendAdminMail', req.body);
+  
+  var transporter = nodeMailer.createTransport({
+    host: process.env.MAILHOST,
+    port:  process.env.MAILPORT,
+    secure: true, 
+    auth: {
+      user:  process.env.MAILAUTHUSERNAME,
+      pass:  process.env.MAILAUTHPASSWORD
+    },
+	tls: { rejectUnauthorized: false  },
+  debug:true
+  });
+
+  // mail to company
+  var mainOptions = {         
+    from: process.env.CONTACTMAILFROM,
+    to: req.body.email,
+    subject: req.body.subject,
+    text: req.body.comments,
+  };
+  // console.log("html data ======================>", mainOptions.html);
+  transporter.sendMail(mainOptions, function (err, info) {
+      if (err) {
+          console.log(err);
+          // res.json(0)
+      } else {
+          console.log('Message sent: ' + info.response);
+          // res.json(1)
+      }
+  });
+  
+}
+

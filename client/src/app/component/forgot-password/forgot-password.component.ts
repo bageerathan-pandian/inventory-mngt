@@ -35,11 +35,39 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  onSendResetPassword() {
-    if (this.forgotForm.invalid) {
-      this.checkValidity()
-      return false;
+  
+onCheckEmailExist(){
+  
+  if (this.forgotForm.invalid) {
+    this.checkValidity()
+    return false;
+  }
+  this.messageService.clear();
+  console.log('onCheckEmailExist',this.forgotForm.value.email);  
+  console.log('valid',this.forgotForm.value.email.valid);
+    if(this.forgotForm.controls['email'].invalid == true){   
+      return false
     }
+  this.auth.onCheckEmailExist(this.forgotForm.value.email)
+  .subscribe((data:any)=>{  
+    console.log('data',data);   
+    if(data.length != 0){      
+      this.forgotForm.controls['email'].setErrors({ 'emailExist': null })
+      this.forgotForm.controls['email'].updateValueAndValidity();
+      this. onSendResetPassword()
+    }else{      
+      this.messageService.add({severity:'warn', summary:this.forgotForm.value.email, detail:' not exist!'});
+      this.forgotForm.controls['email'].setErrors({ 'emailExist': true })
+      this.forgotForm.controls['email'].markAsDirty();
+    } 
+  },
+  error =>{   
+    console.log('er',error);
+    this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
+  })
+ }
+
+  onSendResetPassword() {
     console.log(this.forgotForm.value);
     this.spinner.show()
     this.auth.sendResetPassword(this.forgotForm.value)

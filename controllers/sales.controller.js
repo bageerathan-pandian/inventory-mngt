@@ -82,6 +82,8 @@ exports.addUser =  (req, res)=> {
     discount:req.body.discount,
     grand_total:req.body.grand_total,
     payment_type:req.body.payment_type,
+    paid_amount:req.body.paid_amount,
+    balance_amount:req.body.balance_amount,
     payment_status:req.body.payment_status
    }
    InvoiceModel.create(invoiceData, (err, result) => {

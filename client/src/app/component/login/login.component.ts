@@ -66,18 +66,17 @@ export class LoginComponent implements OnInit {
         return false;
       }
       if(data.user.status == 2){
-        this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account has been expired. Contact App!'});
+        this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account has been expired. Contact Ownwaysoft.com!'});
         return false;
       }
       if(data.token){
         // setTimeout(() => {
           this.spinner.hide();
           this.socket.emit('loginTodo', data.user);
+          localStorage.setItem("inventryLogedIn", "1");
           localStorage.setItem('secret_token',data.token);
           localStorage.setItem('user_details',JSON.stringify(data.user));
           localStorage.setItem('client_company_id',data.user.company_details_id._id);
-          this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
-          localStorage.setItem("inventryLogedIn", "1");
           if(this.loginForm.value.rememberMe == true){
             sessionStorage.setItem('user_email', this.loginForm.value.user_email);
             sessionStorage.setItem('user_pwd',  this.loginForm.value.user_pwd);
@@ -87,6 +86,7 @@ export class LoginComponent implements OnInit {
             sessionStorage.clear()
           }
           this.router.navigate(["/inventory-mngt/dashboard"]);
+          this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
         //  }, 1000);
         
       }else{

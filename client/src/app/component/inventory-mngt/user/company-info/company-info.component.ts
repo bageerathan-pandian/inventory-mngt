@@ -44,18 +44,18 @@ export class CompanyInfoComponent implements OnInit {
       status: [1,Validators.required]
     })
     
-    this.croppedImage = this.auth.getUserData().company_details_id.company_image;
+    this.croppedImage = this.auth.apiURL() + this.auth.getUserData().company_details_id.company_image;
    }
 
   ngOnInit() {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {
         label: "Company Info",
         command: event => {
-          this.router.navigate(["/company-info"]);
+          this.router.navigate(["/inventory-mngt/company-info"]);
         }
       }
     ];

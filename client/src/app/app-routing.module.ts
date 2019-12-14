@@ -35,6 +35,7 @@ const routes: Routes = [
       {path:'settings/barcode-generate',loadChildren:() => import('./component/inventory-mngt/settings/barcode-generate/barcode-generate.module').then(m => m.BarcodeGenerateModule),canActivate:[AuthGuard]},
       {path:'message',loadChildren:() => import('./component/inventory-mngt/message/message.module').then(m => m.MessageModule),canActivate:[AuthGuard]},
       {path:'schedule-calender',loadChildren:() => import('./component/inventory-mngt/schedule-calender/schedule-calender.module').then(m => m.ScheduleCalenderModule),canActivate:[AuthGuard]},
+      {path:'contact',loadChildren:() => import('./component/inventory-mngt/contact/contact.module').then(m => m.ContactModule),canActivate:[AuthGuard]},
   ]
   },
  

@@ -1,0 +1,134 @@
+
+        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+        <div style="margin-top: 15px;">
+                <div *ngIf="loding" style="text-align: center">
+                        <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+                </div>
+      <p-card *ngIf="!loding" >
+      <p-table  #dt1 [columns]="cols"  [value]="contactList" dataKey="_id" [paginator]="true" [rows]="10"   [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['name','email','message']">
+          <ng-template pTemplate="caption">
+             
+           
+              <div style="text-align: right;width: 50%; float: right; margin-bottom: 10px;">        
+                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+                  <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt1.filterGlobal($event.target.value, 'contains')"   style="width:auto">
+              </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+              <tr>
+                    <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                        </th>
+                 <th style="width: 10%;">
+                    <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Sent Mail"  pTooltip="Add new Category" tooltipPosition="top" ></button>
+
+            </th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData  let-ri="rowIndex" >
+            
+              <tr [pSelectableRow]="rowData">
+                    <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+                  <td>
+                      {{rowData.name}}
+                  </td>
+                  <td>
+                              {{rowData.email}}
+                  </td>
+                  <td>
+                              {{rowData.subject}}
+                  </td>
+                  <td>
+                              {{rowData.comments}}
+                  </td>
+                  <td>
+                    {{rowData.updatedAt | date:'medium'}}
+            </td>
+                <td style="text-align:center">
+                    <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+                </td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+                <tr>
+                   <td colspan="6" style="text-align: center">
+                           There are {{contactList?.length}} records
+                   </td>
+               </tr>
+               
+           </ng-template>
+      </p-table>
+
+      <p-dialog    [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+            <p-header>
+                 Sent Mail
+            </p-header>
+        <form [formGroup]="contactForm">
+        <div class="ui-g ui-fluid" >
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label > Name</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText  formControlName="name" autofocus required />
+                    <p class="error-msg" *ngIf="!contactForm.controls['name'].valid && (contactForm.controls['name'].dirty || contactForm.controls['name'].touched)">
+                        <em *ngIf="contactForm.controls['name'].errors['required']">Name is required  </em>
+                     </p>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label > Email</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText  formControlName="email" required  />
+                    <p class="error-msg" *ngIf="!contactForm.controls['email'].valid && (contactForm.controls['email'].dirty || contactForm.controls['email'].touched)">
+                        <em *ngIf="contactForm.controls['email'].errors['required']"> Email is required    </em>
+                        <em *ngIf="contactForm.controls['email'].errors['pattern']">  Invalid Email    </em>
+                     </p>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="brand">Subject</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText  formControlName="subject" required />
+                    <p class="error-msg" *ngIf="!contactForm.controls['subject'].valid && (contactForm.controls['subject'].dirty || contactForm.controls['subject'].touched)">
+                        <em *ngIf="contactForm.controls['subject'].errors['required']">Subject is required  </em>
+                     </p>
+    
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="brand">Message</label>
+                </div>
+                <div class="ui-g-8">
+                    <!-- <input pInputText  formControlName="comments" required /> -->
+                    <textarea pInputTextarea [rows]="5" formControlName="comments" required></textarea>
+                    <p class="error-msg" *ngIf="!contactForm.controls['comments'].valid && (contactForm.controls['comments'].dirty || contactForm.controls['comments'].touched)">
+                        <em *ngIf="contactForm.controls['comments'].errors['required']">Comments is required  </em>
+                     </p>
+    
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+                <button type="button" pButton  icon="pi pi-envelope" class="ui-button-success" (click)="sendMail()" label="Sent Mail"></button>
+            </div>
+        </p-footer>
+    </form>
+    </p-dialog>
+    
+    </p-card>
+    </div>

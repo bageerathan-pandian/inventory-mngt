@@ -3,6 +3,7 @@ const router = express.Router();
 var passport  = require('passport');
 const CompanyModel = require('../models/company.model');
 const UserModel = require('../models/user.model');
+const ContactModel = require('../models/contact.model');
 const ProductPaymentModel = require('../models/product_payment.model');
 const emailController = require('../controllers/email.controller')
 
@@ -162,6 +163,16 @@ router.get('/company-count', async (req, res, next) => {
     } else {
         return res.json(result.length);
     }
+  });
+});
+
+router.post('/contact', async (req, res, next) => {
+  console.log('add cont', req.body);    
+  emailController.sendContactMail(req, res)  // send email to ownwaysoft
+
+  ContactModel.create(req.body, (err, result) => {
+  if (err) return next(err);
+  return res.json(result);
   });
 });
 

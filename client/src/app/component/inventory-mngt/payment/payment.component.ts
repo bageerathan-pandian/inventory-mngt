@@ -27,10 +27,10 @@ export class PaymentComponent implements OnInit {
   constructor(private router:Router,private confirmationService: ConfirmationService,private messageService: MessageService) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {label:'Master',command: (event) => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/inventory-mngt/dashboard']);
     }},
       {label:'Payment'},
   ];

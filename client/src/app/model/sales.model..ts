@@ -14,6 +14,8 @@ sub_total:number;
 discount:number;
 grand_total:number;
 payment_type:number;
+paid_amount:number;
+balance_amount:number;
 payment_status:number;
 status:number;
 }

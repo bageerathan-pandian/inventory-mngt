@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 //Set up default mongoose connection
 // var mongoDB = 'mongodb://localhost:27017/inventory_database';
-var mongoDB = process.env.MONGODG_RUL 
+var mongoDB = process.env.MONGODB_RUL 
 mongoose.connect(mongoDB, { 
   keepAlive: true,
   useCreateIndex: true,

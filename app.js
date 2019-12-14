@@ -11,6 +11,7 @@ var passport  = require('passport');
 
 require('./config/database');
 require('./config/passport');
+// require('./config/twilio'); //send message
 // require('./config/sms');
 // require('./config/facebook');
 // require('./config/google');
@@ -46,7 +47,7 @@ app.use(passport.session());      // passport session middleware
 
 // use router
 const auth = require("./routers/auth.route");
-const common = require("./routers/common.route"); 
+const common = require("./routers/contact.route"); 
 const users = require("./routers/users.route");
 const company = require("./routers/company.route");
 const tax = require("./routers/tax.route");
@@ -59,9 +60,9 @@ const sales = require("./routers/sales.route");
 const dashboard = require("./routers/dashboard.route");
 const pdfs = require("./routers/pdfs.route");
 const imagUpload = require("./routers/imageUpload.route");
+const contact = require("./routers/contact.route");
 
 app.use("/api/auth", auth); // auth api's goes here 
-app.use("/api/common", common); // auth api's goes here 
 app.use("/api/users", passport.authenticate('jwt', { session : false }), users);
 app.use("/api/company", passport.authenticate('jwt', { session : false }),  company);
 app.use("/api/tax", passport.authenticate('jwt', { session : false }),  tax);
@@ -74,6 +75,7 @@ app.use("/api/dashboard",passport.authenticate('jwt', { session : false }),  das
 app.use("/api/sales",passport.authenticate('jwt', { session : false }),  sales); 
 app.use("/api/pdfs",passport.authenticate('jwt', { session : false }),  pdfs); 
 app.use("/api/image-upload",passport.authenticate('jwt', { session : false }),  imagUpload); 
+app.use("/api/contact",passport.authenticate('jwt', { session : false }),  contact); 
 // app.use("/api/payment",passport.authenticate('jwt', { session : false }),  paymentController); 
 
 // console.log(ip.address());
@@ -150,10 +152,6 @@ socket.on('statusTodo', (Todo) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist/client/index.html"));
 });
-
-
-
-console.log('process.env.DB_PASS',process.env.DB_PASS);
 
 //app listening
 // server.listen(port, (req, res) => {

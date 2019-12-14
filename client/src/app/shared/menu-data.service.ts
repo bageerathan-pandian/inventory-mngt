@@ -276,6 +276,9 @@ export class MenuDataService {
                 { Label: 'Logs', RouterLink: '/inventory-mngt/settings/logs', Childs: null, IsChildVisible: false },
                 { Label: 'Helps', RouterLink: '/inventory-mngt/settings/help', Childs: null, IsChildVisible: false }
             ], IsChildVisible: false
+          },          
+          {
+            Label: 'Contacts', Icon: 'fa-phone', RouterLink: '/inventory-mngt/contact', Childs: null, IsChildVisible: false
           },
           // {
           //     Label: 'Menu Level 1', Icon: 'fa-cart-plus', RouterLink: null, Childs: [

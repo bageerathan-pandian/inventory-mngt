@@ -13,6 +13,8 @@ const SalesSchema = new mongoose.Schema({
   discount: { type: Number },
   grand_total: { type: Number },
   payment_type: { type: Number },
+  paid_amount: { type: Number },
+  balance_amount: { type: Number },
   payment_status: { type: Number },
   status: { type: Number },
 },{timestamps: true});

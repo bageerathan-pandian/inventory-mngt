@@ -114,8 +114,10 @@
                     <div class="ui-g-12 ui-md-6">
                             Grand Total: 
                            <p>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</p> 
-                            Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
-                            Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
+                           Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
+                           Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
+                           Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
+                           Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
                         </div>
                     </div>
             </div>

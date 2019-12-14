@@ -24,10 +24,7 @@ export class CommonService {
     return this.leftPad(type,cCode, 4) ;
   }
 
-  sendContact(data){
-    var body = JSON.stringify(data);
-    console.log('body',body);
-    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/common/contact',body,{headers:headerOption});
-  }
+  
+
+
 }

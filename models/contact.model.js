@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const ContactSchema = new mongoose.Schema({
   name: { type: String },
   email: { type: String },
+  subject: { type: String },
   comments: { type: String },
   },{timestamps: true});
 

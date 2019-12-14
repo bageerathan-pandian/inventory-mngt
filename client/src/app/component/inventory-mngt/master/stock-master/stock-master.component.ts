@@ -41,10 +41,10 @@ export class StockMasterComponent implements OnInit {
   constructor(private router:Router,private _fb: FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {label:'Master',command: (event) => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/inventory-mngt/dashboard']);
     }},
       {label:'Stock'},
   ];

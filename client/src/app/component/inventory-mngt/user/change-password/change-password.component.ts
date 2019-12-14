@@ -30,12 +30,12 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {
         label: "Change Password",
         command: event => {
-          this.router.navigate(["/change-password"]);
+          this.router.navigate(["/inventory-mngt/change-password"]);
         }
       }
     ];

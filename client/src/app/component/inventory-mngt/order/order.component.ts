@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MenuItem, MessageService, ConfirmationService } from "primeng/api";
 import { Router } from "@angular/router";
-import { Order } from 'src/app/model/order.model';
 import { Category } from 'src/app/model/category.model';
 import { Stock } from 'src/app/model/stock.model';
 import { Customer } from 'src/app/model/customer.model';
@@ -36,7 +35,6 @@ export class OrderComponent implements OnInit {
   stocksList:any = [];
   customerList:any = [];
   cities1: any = [];
-  orderList: Order[] = [];
   salesList: Sales[] = [];
   invoiceDate: any = new Date();
   rowData: any = {};
@@ -81,8 +79,10 @@ export class OrderComponent implements OnInit {
       sub_total:[0.00],
       discount:[0.00],
       grand_total:[0.00,Validators.required],
-      payment_type:['',Validators.required],
-      payment_status:['',Validators.required]
+      payment_type:[1,Validators.required],
+      paid_amount:[0.00,Validators.required],
+      balance_amount:[0.00,Validators.required],
+      payment_status:[1,Validators.required]
     })
     this.customerForm = this._fb.group({
       _id: [''],
@@ -99,12 +99,12 @@ export class OrderComponent implements OnInit {
   ngOnInit() {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {
         label: "Sales",
         command: event => {
-          this.router.navigate(["/sales"]);
+          this.router.navigate(["/inventory-mngt/sales"]);
         }
       }
     ];
@@ -135,7 +135,6 @@ export class OrderComponent implements OnInit {
       }}
   ];
 
-    this.orderList = [];
     this.getLastInvoice();
     this.getCustomer();
     this.getCategory();
@@ -266,6 +265,8 @@ initRowFirst() {
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
         this.invoiceForm.controls['sub_total'].setValue(0.00);
         this.invoiceForm.controls['discount'].setValue(0.00);
+        this.invoiceForm.controls['paid_amount'].setValue(0.00);
+        this.invoiceForm.controls['balance_amount'].setValue(0.00);
         this.invoiceForm.controls['grand_total'].setValue(0.00);
     })
   }
@@ -336,8 +337,7 @@ initRowFirst() {
 }
 
 onClear() {
-    // clear errors and reset ticket fields    
-    this.orderList = [];
+    // clear errors and reset ticket fields  
 }
 
 onSelectProduct(event,i){
@@ -397,6 +397,10 @@ calculateTotal(){
   this.invoiceForm.controls['sub_total'].setValue(sub_total)
   this.invoiceForm.controls['grand_total'].setValue(sub_total - this.invoiceForm.value.discount)
 
+}
+
+onChangePaindAmount(){
+  this.invoiceForm.controls['balance_amount'].setValue(this.invoiceForm.value.grand_total - this.invoiceForm.value.paid_amount)
 }
 
 

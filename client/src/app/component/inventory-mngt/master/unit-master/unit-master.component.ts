@@ -31,18 +31,18 @@ export class UnitMasterComponent implements OnInit {
     
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/dashboard'])}
+        this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {
         label: "Master",
         command: event => {
-          this.router.navigate(["/dashboard"]);
+          this.router.navigate(["/inventory-mngt/dashboard"]);
         }
       },
       {
         label: "Unit",
         command: event => {
-          this.router.navigate(["/master/unit"]);
+          this.router.navigate(["/inventory-mngt/master/unit"]);
         }
       }
     ];

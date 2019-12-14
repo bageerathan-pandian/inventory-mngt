@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from 'src/app/shared/common.service';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,13 +17,14 @@ export class HomeComponent implements OnInit {
   contactForm: FormGroup
 
   constructor(
-    private commonService:CommonService,
+    private authService:AuthService,
     private messageService: MessageService,
     private _fb: FormBuilder
     ) { 
     this.contactForm = this._fb.group({
       name: ['',Validators.required],
       email: ["", [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+      subject: ['New User Contacted',Validators.required],
       comments: ['',Validators.required],
     })
   }
@@ -42,7 +43,7 @@ sendContact() {
   }
   console.log('data',this.contactForm.value);
   // this.cars.push(newcar); 
-  this.commonService.sendContact(this.contactForm.value)
+  this.authService.sendContact(this.contactForm.value)
   .subscribe((data:any)=>{
     console.log('sendContact',data);
     this.messageService.add({severity:'success', summary:'Send Successfully', detail:'We will contact ASAP.'});

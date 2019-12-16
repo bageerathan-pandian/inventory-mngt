@@ -36,48 +36,23 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   
-onCheckEmailExist(){
-  
-  if (this.forgotForm.invalid) {
-    this.checkValidity()
-    return false;
-  }
-  this.messageService.clear();
-  console.log('onCheckEmailExist',this.forgotForm.value.email);  
-  console.log('valid',this.forgotForm.value.email.valid);
-    if(this.forgotForm.controls['email'].invalid == true){   
-      return false
-    }
-  this.auth.onCheckEmailExist(this.forgotForm.value.email)
-  .subscribe((data:any)=>{  
-    console.log('data',data);   
-    if(data.length != 0){      
-      this.forgotForm.controls['email'].setErrors({ 'emailExist': null })
-      this.forgotForm.controls['email'].updateValueAndValidity();
-      this. onSendResetPassword()
-    }else{      
-      this.messageService.add({severity:'warn', summary:this.forgotForm.value.email, detail:' not exist!'});
-      this.forgotForm.controls['email'].setErrors({ 'emailExist': true })
-      this.forgotForm.controls['email'].markAsDirty();
-    } 
-  },
-  error =>{   
-    console.log('er',error);
-    this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
-  })
- }
-
-  onSendResetPassword() {
+ forgotPassword() {
     console.log(this.forgotForm.value);
     this.spinner.show()
-    this.auth.sendResetPassword(this.forgotForm.value)
+    this.auth.forgotPassword(this.forgotForm.value)
     .subscribe((data:any)=>{
       console.log(data);   
       this.spinner.hide()
-      this.successRegister = true;
       this.messageService.clear();  
-      if(data == 1){
-        // this.messageService.add({severity:'success', summary:'Success!', detail:'We have send reset link to your mail. Check it.'});
+      if(data == 2){ 
+        this.messageService.add({severity:'warn', summary:this.forgotForm.value.email, detail:' No user found with that email address.!'});
+        this.forgotForm.controls['email'].setErrors({ 'emailExist': true })
+        this.forgotForm.controls['email'].markAsDirty();     
+        // this. resetPassword()
+      }else if(data == 1){
+        this.successRegister = true;
+        this.forgotForm.controls['email'].setErrors({ 'emailExist': null })
+        this.forgotForm.controls['email'].updateValueAndValidity();
       }else{
         this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
         this.successRegister = false;

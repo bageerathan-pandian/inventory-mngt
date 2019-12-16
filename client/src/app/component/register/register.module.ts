@@ -18,6 +18,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
+import {InplaceModule} from 'primeng/inplace';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -38,7 +39,8 @@ import { FooterModule } from '../footer/footer.module';
     RadioButtonModule,
     NgxSpinnerModule,
     HeaderModule,
-    FooterModule
+    FooterModule,
+    InplaceModule
   ]
 })
 export class RegisterModule { }

@@ -50,10 +50,30 @@ export class AuthService {
     return this.httpClient.post(environment.api_url + '/api/auth/change-password',body,{headers:headerOption})
   }
 
-  sendResetPassword(data) {
+  forgotPassword(data) {
+    var body = JSON.stringify(data);
+    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
+    return this.httpClient.post(environment.api_url + '/api/auth/forgot-password',body,{headers:headerOption})
+  }
+
+  resetPassword(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
     return this.httpClient.post(environment.api_url + '/api/auth/reset-password',body,{headers:headerOption})
+  }
+
+  
+  sendVerifyEmail(data) {
+    var body = JSON.stringify(data);
+    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
+    return this.httpClient.post(environment.api_url + '/api/auth/send-verify-email',body,{headers:headerOption})
+  }
+
+  
+  verifiedEmail(data) {
+    var body = JSON.stringify(data);
+    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
+    return this.httpClient.post(environment.api_url + '/api/auth/verified-email',body,{headers:headerOption})
   }
 
   onRegisterCompany(data) {

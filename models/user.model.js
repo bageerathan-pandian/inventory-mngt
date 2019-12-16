@@ -9,9 +9,12 @@ const UserSchema = new mongoose.Schema({
     user_email: { type: String },
     user_pwd: { type: String },
     cnfirm_user_pwd: { type: String },
+    reset_pwd_token: { type: String },
+    reset_pwd_expire: { type: String },
     phone: { type: String },
     role: { type: Number },
     isLoggedIn: { type: Boolean },
+    isVerified: { type: Boolean },
     status: { type: Number },
   },{timestamps: true});
 

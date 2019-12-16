@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
   companyForm:FormGroup
   userForm:FormGroup
   paymentForm:FormGroup 
+  verifyForm: FormGroup
   futureMonthEnd = moment().add(1, 'M');
   emailCheckStatus : any
   private socket;
@@ -62,6 +63,11 @@ export class RegisterComponent implements OnInit {
       company_details_id: [''],
       role: [1], // 0-admin, 1- others
       status: [1]
+    })
+
+    this.verifyForm = this._fb.group({
+      _id: [''],
+      user_email:  [this.userForm.value.user_email,[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
     })
     
    }
@@ -224,9 +230,8 @@ export class RegisterComponent implements OnInit {
       localStorage.setItem('secret_token',data.token);
       localStorage.setItem('user_details',JSON.stringify(data.user));
       localStorage.setItem('client_company_id',data.user.company_details_id._id);
-      this.messageService.add({severity:'success', summary:'Success!', detail:'Register Successfully!'});
-      localStorage.setItem("inventryLogedIn", "1");
-      this.router.navigate(["/inventory-mngt/dashboard"]);
+      this.verifyForm.controls['id'].setValue(data.user._id)
+      // this.messageService.add({severity:'success', summary:'Success!', detail:'Register Successfully!'});
     }else{
       this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
       this.successRegister = false;
@@ -279,6 +284,23 @@ export class RegisterComponent implements OnInit {
 
     this.onRegisterCompany();
     
+  }
+
+  sendVerifyEmail(){
+    this.auth.sendVerifyEmail(this.verifyForm.value)
+    .subscribe((data:any)=>{  
+      console.log('data',data);    
+      this.onRegisterUser();
+    },
+    error =>{   
+      console.log('er',error);
+      this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
+    })
+  }
+
+  skipToDashboard(){    
+    localStorage.setItem("inventryLogedIn", "1");
+    this.router.navigate(["/inventory-mngt/dashboard"]);
   }
 
   public ngAfterViewInit() {

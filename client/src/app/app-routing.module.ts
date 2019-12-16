@@ -9,6 +9,8 @@ const routes: Routes = [
   {path:'login',loadChildren:() => import('./component/login/login.module').then(m => m.LoginModule)},
   {path:'register',loadChildren:() => import('./component/register/register.module').then(m => m.RegisterModule)},
   {path:'forgot-password',loadChildren:() => import('./component/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)},
+  {path:'reset-password/:id/:token',loadChildren:() => import('./component/reset-password/reset-password.module').then(m => m.ResetPasswordModule)},
+  {path:'email-verify/:id',loadChildren:() => import('./component/reset-password/reset-password.module').then(m => m.ResetPasswordModule)},
   {path:'home',loadChildren:() => import('./component/home/home.module').then(m => m.HomeModule)},
   {
     path: 'inventory-mngt',

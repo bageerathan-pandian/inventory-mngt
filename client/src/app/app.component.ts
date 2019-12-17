@@ -1,7 +1,7 @@
 import { Component, ViewChild, HostListener } from '@angular/core';
 import { AuthService } from './shared/auth.service';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { PushService } from './shared/push.service';
 import { ConnectionService } from 'ng-connection-service';
 import { ThemeService } from './shared/theme.service';
@@ -24,6 +24,7 @@ export class AppComponent {
   notificationCount: Number = 0
   status:any;
   isConnected = true;
+  showValue: boolean = true
   constructor(public auth:AuthService,
     private themeService: ThemeService,
     private loaderService: LoaderService,
@@ -103,6 +104,12 @@ export class AppComponent {
   }
 
   ngOnInit() {
+
+     // TODO: assign proper type to event
+     this.router.events.subscribe((event: any): void => {
+      this.navigationInterceptor(event);
+    });
+
     this.loaderService.status.subscribe((val: boolean) => {
       this.showLoader = val;
     });
@@ -136,6 +143,21 @@ export class AppComponent {
           this.auth.logOut();
         }
     });
+}
+
+navigationInterceptor(event): void {
+  if (event instanceof NavigationStart) {
+    this.showValue = true
+  }
+  if (event instanceof NavigationEnd) {    
+    this.showValue = false   
+  }
+  if (event instanceof NavigationCancel) {  
+    this.showValue = false 
+  }
+  if (event instanceof NavigationError) {  
+    this.showValue = false 
+  }
 }
 
 

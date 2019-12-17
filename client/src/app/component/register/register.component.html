@@ -1,6 +1,6 @@
 <app-header></app-header>
 <ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
-        <p style="color: #000" > Registering... </p>
+        <p style="color: #000" > Sending verification email... </p>
 </ngx-spinner>
 
 <div  class="ui-g-12 ui-md-6 ui-md-offset-3" style="margin-top: 10%;">
@@ -15,7 +15,7 @@
 <div  class="register-form ui-g-12">
               
 
-<p-card *ngIf="successRegister" >
+<p-card *ngIf="!successRegister" >
         <div class="">
                 <h2>Registration</h2>
                 <span>You can register free!</span>
@@ -246,7 +246,7 @@
       </p-footer>
     </p-card>
     
-    <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="!successRegister" >
+    <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="successRegister" >
             <div style="text-align: center">
                 <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
                 <!-- <i class="pi pi-exclamation-triangle" style="    color: #fff;   background:#FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i> -->
@@ -258,7 +258,7 @@
 
                  <p>We have sent a verification mail to </p>
                   
-                     <form [formGroup]="verifyForm" > 
+                     <form [formGroup]="resendVerifyForm" > 
                         <div class="ui-g ui-fluid" >
                             <div class="ui-g-12">
                                 <div class="ui-g-8">
@@ -268,7 +268,7 @@
                                                             <b *ngIf="userForm.value.user_email">{{userForm.value.user_email}}</b> <b *ngIf="!userForm.value.user_email">test@gmail.com</b>. <i class="pi pi-pencil" ></i>
                                                     </span>
                                                     <span pInplaceContent>
-                                                            <input pInputText  formControlName="user_email" pKeyFilter="email" placeholder="admin@example.com" />
+                                                            <input pInputText  formControlName="user_email" pKeyFilter="email" placeholder="{{userForm.value.user_email}}" emailExist (focusout)="onCheckEmailExist()"/>
                                                             <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
                                                             <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
                                                             <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>                     
@@ -287,8 +287,8 @@
                  
                     <p-footer>
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                                <button type="button" pButton (click)="sendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button>
-                            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
+                                <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button>
+                            <!-- <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button> -->
                         </div>
                     </p-footer>
               </div>

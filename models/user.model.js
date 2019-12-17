@@ -14,6 +14,8 @@ const UserSchema = new mongoose.Schema({
     phone: { type: String },
     role: { type: Number },
     isLoggedIn: { type: Boolean },
+    reset_email_token: { type: String },
+    reset_email_expire: { type: String },
     isVerified: { type: Boolean },
     status: { type: Number },
   },{timestamps: true});

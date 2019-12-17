@@ -63,10 +63,10 @@ export class AuthService {
   }
 
   
-  sendVerifyEmail(data) {
+  resendVerifyEmail(data) {
     var body = JSON.stringify(data);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/auth/send-verify-email',body,{headers:headerOption})
+    return this.httpClient.post(environment.api_url + '/api/auth/resend-verify-email',body,{headers:headerOption})
   }
 
   

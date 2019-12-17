@@ -34,6 +34,7 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import { MenuComponent } from './shared/layout/menu/menu.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { NgxSpinnerModule } from "ngx-spinner";
+import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     ProgressSpinnerModule,
     ToastModule,
     SidebarModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ProgressBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

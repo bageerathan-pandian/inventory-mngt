@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   companyForm:FormGroup
   userForm:FormGroup
   paymentForm:FormGroup 
-  verifyForm: FormGroup
+  resendVerifyForm: FormGroup
   futureMonthEnd = moment().add(1, 'M');
   emailCheckStatus : any
   private socket;
@@ -65,8 +65,7 @@ export class RegisterComponent implements OnInit {
       status: [1]
     })
 
-    this.verifyForm = this._fb.group({
-      _id: [''],
+    this.resendVerifyForm = this._fb.group({
       user_email:  [this.userForm.value.user_email,[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
     })
     
@@ -222,20 +221,20 @@ export class RegisterComponent implements OnInit {
   this.messageService.clear();
   this.auth.onRegisterUser(this.userForm.value)
   .subscribe((data:any)=>{  
-    console.log('data',data);  
-    if(data.token){       
-      this.spinner.hide()
-      this.successRegister = true;
-      this.socket.emit('loginTodo', data.user);
-      localStorage.setItem('secret_token',data.token);
-      localStorage.setItem('user_details',JSON.stringify(data.user));
-      localStorage.setItem('client_company_id',data.user.company_details_id._id);
-      this.verifyForm.controls['id'].setValue(data.user._id)
+    console.log('data',data); 
+    this.spinner.hide() 
+    if(data){      
+      this.successRegister = true; 
+      // this.socket.emit('loginTodo', data.user);
+      // localStorage.setItem('secret_token',data.token);
+      // localStorage.setItem('user_details',JSON.stringify(data.user));
+      // localStorage.setItem('client_company_id',data.user.company_details_id._id);
+      // localStorage.setItem("inventryLogedIn", "1");
+      // this.router.navigate(["/inventory-mngt/dashboard"]);
       // this.messageService.add({severity:'success', summary:'Success!', detail:'Register Successfully!'});
     }else{
       this.messageService.add({severity:'warn', summary:'Warning!', detail:'Please try again!'});
       this.successRegister = false;
-      this.spinner.hide()
     }
   },
   error =>{   
@@ -286,19 +285,27 @@ export class RegisterComponent implements OnInit {
     
   }
 
-  sendVerifyEmail(){
-    this.auth.sendVerifyEmail(this.verifyForm.value)
+  resendVerifyEmail(){  
+    console.log('sendVerifyEmail',this.resendVerifyForm) 
+    if(this.resendVerifyForm.invalid){
+      return;
+    } 
+    this.spinner.show()
+    this.auth.resendVerifyEmail(this.resendVerifyForm.value)
     .subscribe((data:any)=>{  
-      console.log('data',data);    
-      this.onRegisterUser();
+      console.log('data',data); 
+      this.spinner.hide()
+      this.messageService.add({severity:'success', summary:'Success!', detail:'Send Email!'});
     },
     error =>{   
       console.log('er',error);
+      this.spinner.hide()
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
     })
   }
 
   skipToDashboard(){    
+    this.socket.emit('loginTodo', this.auth.getUserData());
     localStorage.setItem("inventryLogedIn", "1");
     this.router.navigate(["/inventory-mngt/dashboard"]);
   }

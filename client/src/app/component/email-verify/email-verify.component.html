@@ -1,0 +1,45 @@
+<app-header></app-header>
+<div  class="ui-g-12 ui-md-6 ui-md-offset-3" style="margin-top: 10%;text-align: center">
+    
+    <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
+    
+    <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="!isVerifying">
+            <i class="pi pi-envelope" style="    color: #fff;   background: #FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+
+         
+          <div class="ui-g ui-fluid">
+              <div class="ui-g-12 ui-md-12">
+                  <h2>We are verifying your email address</h2>
+                  <span>Your identify is being verified. We will email your once your verificaton has completed.</span>
+          </div>
+        </div>  
+        <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+      </p-card>
+      <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="isVerifying" >
+            <div class="ui-g ui-fluid" *ngIf="status == 1">
+                <div class="ui-g-12 ui-md-12" style="text-align: center">
+                    <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+                <h3>Congratulations!</h3> 
+                 <p>Your email has been verified successfully. </p>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                <button pButton type="submit" label="Let's get started" icon="pi pi-arrow-right" iconPos="right" class="ui-button-raised " style="margin-right: .25em;    width: 100%;" (click)="onLogin()" ></button>
+
+                </div>
+             </div>
+             <div class="ui-g ui-fluid" *ngIf="status == 2">
+                 <div class="ui-g-12 ui-md-12" style="text-align: center">
+                     <i class="pi pi-times" style="    color: #fff;   background: #e35b5b;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+                 <h3>Oops!</h3> 
+                  <p>This link is expired or invalid </p>
+                 </div>
+                 <div class="ui-g-12 ui-md-12">
+                 <button pButton  label="Goto Home"  icon="pi pi-home" iconPos="left" class="ui-button-raised " style="margin-right: .25em;    width: 100%;" routerLink="/home"></button>
+ 
+                 </div>
+              </div>
+      </p-card>
+  </div>
+  
+  <app-footer></app-footer>

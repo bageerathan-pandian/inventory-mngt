@@ -264,20 +264,20 @@
             <div class="col-sm-6 form-group">
               <input class="form-control" id="name" formControlName="name" placeholder="Name" type="text" required>
               <p class="error-msg" *ngIf="!contactForm.controls['name'].valid && (contactForm.controls['name'].dirty || contactForm.controls['name'].touched)">
-                  <em *ngIf="contactForm.controls['name'].errors['required']"> User Email is required    </em>
+                  <em *ngIf="contactForm.controls['name'].errors['required']"> Name is required    </em>
                </p>
             </div>
             <div class="col-sm-6 form-group">
               <input class="form-control" id="email" formControlName="email" placeholder="Email" type="email" required>
               <p class="error-msg" *ngIf="!contactForm.controls['email'].valid && (contactForm.controls['email'].dirty || contactForm.controls['email'].touched)">
-                  <em *ngIf="contactForm.controls['email'].errors['required']"> User Email is required    </em>
+                  <em *ngIf="contactForm.controls['email'].errors['required']"> Email is required    </em>
                   <em *ngIf="contactForm.controls['email'].errors['pattern']">  Invalid Email    </em>
                </p>
             </div>
           </div>
           <textarea class="form-control" id="comments" formControlName="comments" placeholder="Comment" rows="5"></textarea><br>
           <p class="error-msg" *ngIf="!contactForm.controls['comments'].valid && (contactForm.controls['comments'].dirty || contactForm.controls['comments'].touched)">
-              <em *ngIf="contactForm.controls['comments'].errors['required']"> User Email is required    </em>
+              <em *ngIf="contactForm.controls['comments'].errors['required']"> Comment required    </em>
            </p>
           <div class="row">
             <div class="col-sm-12 form-group">

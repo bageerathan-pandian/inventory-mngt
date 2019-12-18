@@ -1,5 +1,5 @@
 
-  <p-progressBar mode="indeterminate"  [style]="{'height': '5px'}"></p-progressBar>
+  <p-progressBar mode="indeterminate"  [style]="{'height': '5px'}" *ngIf="showValue"></p-progressBar>
 <div class="ui-fluid ng-main" [ngClass]="theme">
 
   <p-toast position="bottom-right"></p-toast>

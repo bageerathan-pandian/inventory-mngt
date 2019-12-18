@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuItem} from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { CustomerService } from 'src/app/shared/customer.service';
 import { StockService } from 'src/app/shared/stock.service';
 import { DashboardService } from 'src/app/shared/dashboard.service';
@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { CompanyService } from 'src/app/shared/company.service';
 import { AuthService } from 'src/app/shared/auth.service';
 import { SalesService } from 'src/app/shared/sales.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,6 @@ import { SalesService } from 'src/app/shared/sales.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   data: any;
   data1: any;
   data2: any;
@@ -37,8 +37,19 @@ export class DashboardComponent implements OnInit {
   client_company_id: any;
   user_details:any
   loggedInUsersList:any =[]
-  constructor(private companyService: CompanyService, public auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService) {
-   
+  sendingVerificationMail:boolean
+  sendingVerificationMailStatus:Number
+  resendVerifyForm: FormGroup
+
+  constructor(private companyService: CompanyService,private _fb: FormBuilder, public auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
+    private messageService: MessageService
+    ) {
+
+      this.resendVerifyForm = this._fb.group({
+        _id:  [this.auth.getUserData()._id,Validators.required],
+        user_name:  [this.auth.getUserData().user_name,Validators.required],
+        user_email:  [this.auth.getUserData().user_email,[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+      })
    
     this.client_company_id = this.auth.getUserData().company_details_id;
     this.data = {
@@ -254,6 +265,38 @@ export class DashboardComponent implements OnInit {
     this.client_company_id = val;
     localStorage.setItem('client_company_id',val._id);
     this.ngOnInit()
+  }
+
+  
+  resendVerifyEmail(){  
+    console.log('resendVerifyEmail')  
+    this.sendingVerificationMail = true
+    // let emailData = {
+    //   _id : this.auth.getUserData()._id,
+    //   user_name : this.auth.getUserData().user_name,
+    //   user_email : this.auth.getUserData().user_email
+    // }
+    this.auth.resendVerifyEmail(this.resendVerifyForm.value)
+    .subscribe((data:any)=>{  
+      console.log('data',data); 
+      this.sendingVerificationMail = false
+      this.sendingVerificationMailStatus = data
+      if(data == 1){
+        this.auth.localStorageUserDataUpdate('user_email',this.resendVerifyForm.value.user_email) // update localstoreage values
+        this.messageService.add({severity:'success', summary:'Service Message', detail:'Send Successfully'});
+      }else if(data == 2){
+         this.messageService.add({severity:'warn', summary:'Not send', detail:''});
+        }else if(data == 3){
+           this.messageService.add({severity:'warn', summary:'Email alredy exist', detail:''});
+      }else{
+        this.messageService.add({severity:'warn', summary:'Service Message', detail:'Not send. Retry'});
+      }
+    },
+    error =>{   
+      console.log('er',error);
+      this.sendingVerificationMail = false
+      this.messageService.add({severity:'error', summary:'Oops!', detail:'Somthing went wrong'});
+    })
   }
 
 

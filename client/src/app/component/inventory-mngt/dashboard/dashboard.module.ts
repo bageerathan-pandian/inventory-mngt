@@ -9,12 +9,17 @@ import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import {TooltipModule} from 'primeng/tooltip';
 import {DropdownModule} from 'primeng/dropdown';
 import {TabViewModule} from 'primeng/tabview';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {InplaceModule} from 'primeng/inplace';
+
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -32,7 +37,12 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
     TooltipModule,
     DropdownModule,
     TabViewModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    MessagesModule,
+    MessageModule,
+    ProgressSpinnerModule,
+    InplaceModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

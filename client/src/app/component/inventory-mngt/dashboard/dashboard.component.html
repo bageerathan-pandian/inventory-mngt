@@ -1,5 +1,50 @@
 
 <div class="ui-g ui-fluid">
+        <div class="ui-g-12" >
+                <div class="alert alert-warning" *ngIf="!this.auth.getUserData().isVerified">
+                    <div *ngIf="sendingVerificationMailStatus != 1">
+                        Your email
+                        <form [formGroup]="resendVerifyForm" > 
+                        <p-inplace closable="closable">
+                                <span pInplaceDisplay>
+                                        <strong>{{this.auth.getUserData().user_email}} </strong><i class="pi pi-pencil" ></i>
+                                </span>
+                                <span pInplaceContent>
+                                        <input pInputText  pKeyFilter="email" formControlName="user_email"  placeholder="{{this.auth.getUserData().user_email}}" />
+                                        <!-- <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
+                                        <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
+                                        <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>                      -->
+                                   
+                                </span>
+                            </p-inplace>
+                            </form> not yet verified!
+                        Please click this link to verify your email <a (click)="resendVerifyEmail()">Send Verificaion Email </a>
+                        <p-progressSpinner [style]="{width: '20px', height: '20px'}" strokeWidth="2" *ngIf="sendingVerificationMail"></p-progressSpinner>
+                </div>                
+                <div *ngIf="sendingVerificationMailStatus == 1">
+                        We have sent a verification mail to
+                        <form [formGroup]="resendVerifyForm" > 
+                        <p-inplace closable="closable">
+                                <span pInplaceDisplay>
+                                        <strong>{{this.auth.getUserData().user_email}} </strong><i class="pi pi-pencil" ></i>
+                                </span>
+                                <span pInplaceContent>
+                                        <input pInputText  pKeyFilter="email" formControlName="user_email"  placeholder="{{this.auth.getUserData().user_email}}" />
+                                        <!-- <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
+                                        <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
+                                        <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>                      -->
+                                   
+                                </span>
+                            </p-inplace>
+                            </form>
+                            Please active your account with the link in this mail. If you cannot find the mail, please also check the Junk/Spam folder! 
+                            <!-- <p>If you have not received a verification email or if your have mistyped your email address, your can resend the verification mail.</p> -->
+                            Don't receive the email?<a (click)="resendVerifyEmail()">Resend Verificaion Email </a>
+                            <p-progressSpinner [style]="{width: '20px', height: '20px'}" strokeWidth="2" *ngIf="sendingVerificationMail"></p-progressSpinner>
+                   
+                </div>
+            </div>
+        </div>
   <div class="ui-g-12"  *ngIf="auth.getUserData().role == '0'">
       <div class="ui-g-3" style="float: right">     
       <p-dropdown [options]="companyList" [(ngModel)]="client_company_id" placeholder="Select Company" filter="true" optionLabel="company_name" (onChange)="onChangeCompany($event.value)">

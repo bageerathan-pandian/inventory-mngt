@@ -671,6 +671,12 @@ body .ui-table .ui-table-tbody > tr:hover {
     text-align: left;
 }
 
+body .ui-inplace {
+  min-height: 2.357em;
+  display: inline-block;
+}
+
+
 @media screen and (max-width: 40em) {
   body .ui-table.ui-table-responsive .ui-paginator-top {
     border-bottom: 1px solid #c8c8c8;

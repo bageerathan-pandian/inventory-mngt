@@ -6,6 +6,7 @@ const UserModel = require('../models/user.model');
 const ContactModel = require('../models/contact.model');
 const ProductPaymentModel = require('../models/product_payment.model');
 const emailController = require('../controllers/email.controller')
+const commonController = require('../controllers/common.controller')
 
 require('../config/passport');
 
@@ -126,38 +127,47 @@ router.post('/register-user', async (req, res, next) => {
 
 
 router.post('/resend-verify-email', async (req, res, next) => { 
-  UserModel.find({user_email : req.body.user_email,status : 1}, (err, result) => {
-    if (err) return next(err);
-    console.log('resend-verify-email',result) 
 
-     // if email exist add expire and send email to client 
-        // Encrypt
-        token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
+    let checkData = {
+      user_email: req.body.user_email,  
+     _id: req.body._id, 
+    }
+    console.log('checkData',checkData)
+    const resultEmailExist = await commonController.emailExistCheckExceptSameUser(checkData,res);
+    console.log('resultEmailExist',resultEmailExist)
+    if(resultEmailExist == 0){ //send token to user
+         token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
 
         console.log('token',token); 
-          let id = result._id; 
           let updatedData = {
-            user_email: req.body.user_email,  // update user email when reenter new email
+            _id: req.body._id,
+            user_email: req.body.user_email, 
             reset_email_token : token,  
             reset_email_expire : moment().add(1,'hour').format()
           }
-          UserModel.findByIdAndUpdate(id, updatedData, (err, result1) => {
-            if (err) return next(err);  
-            console.log('result1',result1); 
-            // req.body = result1
+       
+          const userUpdateStatus = await commonController.userUpdateById(updatedData, res)  // update user email when reenter new email
+          console.log('userUpdateStatus',userUpdateStatus)
+          if(userUpdateStatus == 1){
+            
             let resultData = {
-              _id: result._id,
-              user_name: result.user_name,
+              _id: req.body._id,
+              user_name: req.body.user_name,
               user_email: req.body.user_email, 
               reset_email_token : token,  
               reset_email_expire : moment().add(1,'hour').format()
             }
-            emailController.sendVerifyMail(resultData, res)  
-             return res.json(1)   
-          });
-
-  });
-});
+          const sendMailStatus = await emailController.sendVerifyMail(resultData, res) // send verify email to client
+            if(sendMailStatus){  // 0-not send, 1-sent
+              return res.json(sendMailStatus) // email send
+            }else{
+              return res.json(2) // email not send
+            }
+          }
+    }else{
+        return res.json(3) // user already exist
+    }
+   });
 
 
 router.post('/verified-email', async (req, res, next) => { 

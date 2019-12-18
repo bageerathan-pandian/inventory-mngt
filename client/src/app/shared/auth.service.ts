@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 import { PushService } from './push.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: "root"
@@ -36,6 +36,26 @@ export class AuthService {
   
   getUserData() {
      return  localStorage.getItem("user_details") ? JSON.parse(localStorage.getItem("user_details")) : null;
+   }
+
+   localStorageUserDataUpdate(updateKey,updatedValue){
+    console.log('updateKey',updateKey,'updatedValue',updatedValue)
+    let user_details =  JSON.parse(localStorage.getItem('user_details'));
+    console.log('user_details',user_details)
+    // user_details.key = updatedValue
+    // localStorage.setItem('user_details',JSON.stringify(user_details));
+    _.mapValues(user_details, (value, key) => {
+      console.log(key,value)
+      console.log(typeof(key),typeof(updateKey))
+      if(key == updateKey){
+       const upValue = _.replace(value, typeof(key), updatedValue)
+       console.log('upValue',upValue)
+        localStorage.setItem('user_details',JSON.stringify(upValue));
+        return false
+      }
+    })  
+    
+
    }
 
   logIn(data) {

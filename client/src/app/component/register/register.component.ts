@@ -32,11 +32,13 @@ export class RegisterComponent implements OnInit {
   futureMonthEnd = moment().add(1, 'M');
   emailCheckStatus : any
   private socket;
+  site_key:string
   constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthService, private router:Router,
     private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
     private spinner: NgxSpinnerService
     ) {
       this.socket = io(environment.api_url);
+      this.site_key = environment.site_key;
       this.planForm = this._fb.group({
         plan_type: ['',Validators.required]
       })
@@ -409,5 +411,6 @@ onCheckEmailExist(){
       this.userForm.controls[key].markAsDirty();
     });
   }
+ 
 
 }

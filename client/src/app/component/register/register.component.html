@@ -173,6 +173,14 @@
         
                     </div>
                 </div>
+                
+            <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        </div>
+                        <div class="ui-g-8">
+                                <p-captcha siteKey="{{site_key}}" (onResponse)="showResponse($event)"></p-captcha>
+                        </div>
+                        </div>
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">

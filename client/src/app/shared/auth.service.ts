@@ -58,10 +58,56 @@ export class AuthService {
   //   }) 
   //  }
 
-  logIn(data) {
-    var body = JSON.stringify(data);
+  logIn(ldata) {
+    this.spinner.show();
+    var body = JSON.stringify(ldata);
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/auth/login',body,{headers:headerOption})   
+    this.httpClient.post(environment.api_url + '/api/auth/login',body,{headers:headerOption})
+    .subscribe((data:any)=>{
+      console.log('data',data);
+      this.messageService.clear();
+      this.spinner.hide();
+      if(data.user.status == 0){
+        this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account is deactivated by Company admin!'});
+        return false;
+      }
+      if(data.user.status == 2){
+        this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account has been expired. Contact Ownwaysoft.com!'});
+        return false;
+      }
+      if(data.token){
+        // setTimeout(() => {
+          this.socket.emit('loginTodo', data.user);
+
+          this.sessionService.setItem("inventryLogedIn", "1");
+          this.sessionService.setItem('secret_token',data.token);
+          this.sessionService.setItem('rememberMe',  ldata.rememberMe);
+          this.sessionService.setUserCredentials(data.user)
+          // if(this.loginForm.value.rememberMe == true){
+          //   this.sessionService.setItem('user_email', this.loginForm.value.user_email);
+          //   this.sessionService.setItem('user_pwd',  this.loginForm.value.user_pwd);
+          //   this.sessionService.setItem('rememberMe',  this.loginForm.value.rememberMe);
+          //   this.sessionService.setItem('secret_token', data.token);
+          // }else{
+          //   this.sessionService.clear()
+          // }
+          this.router.navigate(["/inventory-mngt/dashboard"]);
+          this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
+        //  }, 1000);
+        
+      }else{
+        this.messageService.clear();
+        this.messageService.add({severity:'warn', summary:'Warning!', detail:'Check your User Name/Password'});
+      }
+    
+    },
+    error =>{
+      console.log('er',error);
+      this.spinner.hide();
+      this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
+      // this.sessionService.setItem("inventryLogedIn", "1");
+      // this.router.navigate(["/dashboard"]);
+    })   
   }
 
   changePassword(data) {

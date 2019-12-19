@@ -56,15 +56,29 @@ router.post('/login', async (req, res, next) => {
   });
   
 router.post('/register-company', async (req, res, next) => {
-  console.log('req',req.body) 
+  console.log('register-company',req.body) 
   if(!req.body._id) {
    delete req.body._id;
  }
+ let count = await commonController.getTotalCompanyCount(req, res);
+ if(count >= 0 ){
+  let cCode = count + 1
+    
+  var output = cCode + '';
+  while (output.length < 4) {
+      output = '0' + output;
+  }
+  let comCode = 'c-'+ output;
+
+  req.body.company_code = comCode;
+ console.log('cCode',cCode);
   CompanyModel.create(req.body, (err, result) => {
     if (err) return next(err);
     console.log('cresult',result) 
      return  res.json(result) 
   });
+ }
+ 
 });
 
 
@@ -95,34 +109,48 @@ router.post('/register-user', async (req, res, next) => {
     if(!req.body._id) {
      delete req.body._id;
    }
-   UserModel.create(req.body, (err, result) => {
-      if (err) return next(err);
-      console.log('uresult',result) 
+   // Encrypt
+   token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
 
-       // if email exist add expire and send email to client 
-        // Encrypt
-        token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
+   console.log('token',token); 
+   req.body.reset_email_token = token 
+   req.body.reset_email_expire = moment().add(1,'hour').format()
 
-        console.log('token',token); 
-          let id = result._id; 
-          let updatedData = {
-            reset_email_token : token,  
-            reset_email_expire : moment().add(1,'hour').format()
+   let createUser = await commonController.createUser(req.body, res);
+   
+   if(createUser._id){
+      
+      let resultData = {
+          _id: createUser._id,
+          user_name: createUser.user_name,
+          user_email: req.body.user_email,
+          user_pwd: req.body.user_pwd, 
+          reset_email_token : token,  
+          reset_email_expire : moment().add(1,'hour').format()
+        }
+        let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
+        if(sendEmailStatus == 1){
+          let resData= {
+            status: 1,
+            _id: createUser._id,
+            user_name: createUser.user_name,
+            user_email: req.body.user_email,
+            user_pwd: req.body.user_pwd, 
           }
-          UserModel.findByIdAndUpdate(id, updatedData, (err, result1) => {
-            if (err) return next(err);   
-            // req.body = result1
-            let resultData = {
-              _id: result._id,
-              user_name: result.user_name,
-              user_email: req.body.user_email, 
-              reset_email_token : token,  
-              reset_email_expire : moment().add(1,'hour').format()
-            }
-            emailController.sendVerifyMail(resultData, res) 
-             return res.json(result1)   
-          });
-    })
+          return res.json(resData)  //send
+        }else{
+          let resData= {
+            status: 0
+          }
+          return res.json(resData)  // not send
+        }
+   }else{ 
+     let resData= {
+        status: 2
+      }
+     return res.json(resData) // user not create
+   }
+
   });
 
 
@@ -174,13 +202,15 @@ router.post('/verified-email', async (req, res, next) => {
   UserModel.find({_id : req.body._id,status : 1}, (err, result) => {
     if (err) return next(err);
     console.log('reset result',result);
+    console.log('result.length',result.length);
     if(result.length == 0){
-      return res.json(2); // user not available or deactivated
+      let resData = {status:2}
+      return res.json(resData); // user not available or deactivated
     }
 
-    console.log(result[0].reset_email_token,req.body.reset_email_token);
+    console.log(result[0].reset_email_token,req.body.token);
     // if(result[0].reset_pwd_token == req.body.reset_pwd_token || result[0].reset_pwd_expire < moment().format()){
-    if(result[0].reset_email_token == req.body.reset_email_token){
+    if(result[0].reset_email_token == req.body.token){
         let updateData = {
           isVerified: req.body.isVerified,
           reset_email_token: null,
@@ -188,10 +218,17 @@ router.post('/verified-email', async (req, res, next) => {
         }
       UserModel.findByIdAndUpdate(req.body._id, updateData, (err, result1) => {
         if (err) return next(err);
-        return res.json(result)         
+        console.log('veriResult',result1)
+        let resData = {
+          status:1,
+          user_email: result1.user_email,
+          user_pwd: result1.user_pwd
+        }
+        return res.json(resData)         
       });
     }else{
-      return res.json(3)  // Invalid or expired reset token
+      let resData = {status:3}
+      return res.json(resData)  // Invalid or expired reset token
     }
 
   });
@@ -289,16 +326,6 @@ router.post('/reset-password', async (req, res, next) => {
 
 });
 
-router.get('/company-count', async (req, res, next) => {
-  CompanyModel.find({},(e,result) => {
-    if(e) {        
-      console.log(e.message);
-        return res.status(500).json(e);
-    } else {
-        return res.json(result.length);
-    }
-  });
-});
 
 router.post('/contact', async (req, res, next) => {
   console.log('add cont', req.body);    
@@ -320,10 +347,11 @@ router.post('/logout', async (req, res, next) => {
     if(err) {      
       return res.json(err);
     }
-    req.body.isLoggedIn = false
-    UserModel.findByIdAndUpdate(req.body._id, req.body, (err, result) => {
+    let data = {isLoggedIn:false}
+    UserModel.findByIdAndUpdate(req.body._id, data, (err, result) => {
     if (err) return next(err);
-    return res.json(req.body)
+    console.log('logoutUser',result)
+    return res.json(result)
    
   });
   

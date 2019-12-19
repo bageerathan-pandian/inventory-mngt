@@ -46,16 +46,19 @@ export class EmailVerifyComponent implements OnInit {
     }   
     this.auth.verifiedEmail(this.verifyForm.value)
     .subscribe((data:any)=>{  
-      console.log('data',data[0]); 
+      console.log('data',data); 
       this.isVerifying = true;  
-      if(data.length == 0){
-        this.status = 2; 
-      } else{
+      if(data.status == 1){
         this.status = 1; 
         this.userCredential = {
-          user_email: data[0].user_email,
-          user_pwd: data[0].user_pwd
-        } 
+          user_email: data.user_email,
+          user_pwd: data.user_pwd
+        }
+      }if(data.status == 2){
+        this.status = 2; 
+      }if(data.status == 3){
+        this.status = 2; 
+      } else{ 
       }
      
     },
@@ -71,41 +74,6 @@ export class EmailVerifyComponent implements OnInit {
     console.log(this.userCredential);
     // this.spinner.show();
     this.auth.logIn(this.userCredential)
-    .subscribe((data:any)=>{
-      console.log('data',data);
-      this.messageService.clear();
-      if(data.user.status == 0){
-        this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account is deactivated by Company admin!'});
-        return false;
-      }
-      if(data.user.status == 2){
-        this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account has been expired. Contact Ownwaysoft.com!'});
-        return false;
-      }
-      if(data.token){
-        // setTimeout(() => {
-          // this.spinner.hide();
-          this.socket.emit('loginTodo', data.user);
-          this.sessionService.setItem("inventryLogedIn", "1");
-          this.sessionService.setItem('secret_token',data.token);
-          this.sessionService.setUserCredentials(data.user_email)
-          // this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
-        //  }, 1000);
-        
-      }else{
-        this.messageService.clear();
-        // this.messageService.add({severity:'warn', summary:'Warning!', detail:'Check your User Name/Password'});
-        // this.spinner.hide();
-      }
-    
-    },
-    error =>{
-      console.log('er',error);
-      // this.spinner.hide();
-      this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
-      // this.sessionService.setItem("inventryLogedIn", "1");
-      // this.router.navigate(["/dashboard"]);
-    })
   }
 
 

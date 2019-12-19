@@ -179,9 +179,8 @@
                                 <ul>
                                     <li *ngFor="let item of loggedInUsersList">
                                         <div class="active-left">
-                                            <img src="../assets/img/userface.jpg"
-                                                *ngIf="item.user_image==''|| item.user_image == null">
-                                            <img src="{{auth.apiURL()}}{{item.user_image}}" *ngIf="item.user_image!=''|| item.user_image != null">
+                                            <img src="../assets/img/userface.jpg"   *ngIf="!item?.user_image">
+                                            <img src="{{auth.apiURL()}}{{item.user_image}}" *ngIf="item?.user_image">
                                             <ng-container *ngIf="item.isLoggedIn; else elseTemplate">
                                                    <i class="pi pi-check" style="    position: absolute;   left: 18px;    color: #fff;   background: #08bd65;     border-radius: 100%;font-size: 12px"></i>
                                                 </ng-container>
@@ -191,7 +190,7 @@
                                         </div>
                                         <div class="active-rgt">
                                             <h6>{{item.user_name | titlecase}}</h6>
-                                            <span [ngSwitch]="item.role">
+                                            <span [ngSwitch]="item.role" style="font-size: 7px;">
                                                 <p *ngSwitchCase="'0'">
                                                 Admin -  <em  *ngIf="sessionService.getItem('role') == '0'">  {{item.company_details_id.company_name}}</em>
                                                 </p>

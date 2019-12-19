@@ -174,13 +174,7 @@
                     </div>
                 </div>
                 
-            <div class="ui-g-12">
-                    <div class="ui-g-4">
-                        </div>
-                        <div class="ui-g-8">
-                                <p-captcha siteKey="{{site_key}}" (onResponse)="showResponse($event)"></p-captcha>
-                        </div>
-                        </div>
+         
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
@@ -235,6 +229,13 @@
                                                   {{userForm.value.user_email}}
                                                 </div>
                                             </div>
+                                            <div class="ui-g-12">
+                                                    <div class="ui-g-4">
+                                                        </div>
+                                                        <div class="ui-g-8">
+                                                                <p-captcha siteKey="{{site_key}}" (onResponse)="showResponse($event)"></p-captcha>
+                                                        </div>
+                                                        </div>
                             <!-- <pre>{{ companyForm.value | json }}</pre>
                             <pre>{{ userForm.value | json }}</pre> -->
                     </div>
@@ -291,9 +292,10 @@
                     <p>Don't receive the email?</p>
                  
                     <p-footer>
+                        <a (click)="resendVerifyEmail()" >Resend Verification Email</a>
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                                <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button>
-                            <!-- <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button> -->
+                                <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
+                            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
                         </div>
                     </p-footer>
               </div>

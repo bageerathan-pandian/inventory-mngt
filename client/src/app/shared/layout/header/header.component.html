@@ -4,8 +4,8 @@
             <a class="icon" (click)="toggleMenu()"><i class="fa fa-bars"></i></a>
         </div>
         <div class="logo right">
-            <img  *ngIf="auth.getUserData().company_details_id.company_image" src="{{auth.apiURL()}}{{auth.getUserData().company_details_id.company_image}}" class="logo-large">
-            <img *ngIf="!auth.getUserData().company_details_id.company_image" src="./assets/img/logo.png" class="logo-large">
+            <img  *ngIf="sessionService.getItem('company_image')" src="{{auth.apiURL()}}{{sessionService.getItem('company_image')}}" class="logo-large">
+            <img *ngIf="!sessionService.getItem('company_image')" src="./assets/img/logo.png" class="logo-large">
         </div>
     </div>
     <div class="ng-header-right right">
@@ -25,10 +25,10 @@
             <!-- <a class="icon"><span [innerHtml]="user.emailId" class="user-name"></span><i class="fa fa-user"></i></a> -->
             <!-- <a class="icon"><span  class="user-name"></span><i class="fa fa-user"></i></a> -->
             <a  class="icon" style="display: flex">
-                   <img *ngIf="auth.getUserData().user_image" src="{{auth.apiURL()}}{{auth.getUserData().user_image}}" style="    height: 30px;  width: 30px;border-radius: 100%;" />
-                     <img *ngIf="!auth.getUserData().user_image" src="./assets/img/userface.jpg" style="    height: 30px;  width: 30px;border-radius: 100%;" />      
+                   <img *ngIf="sessionService.getItem('user_image')" src="{{auth.apiURL()}}{{sessionService.getItem('user_image')}}" style="    height: 30px;  width: 30px;border-radius: 100%;" />
+                     <img *ngIf="!sessionService.getItem('user_image')" src="./assets/img/userface.jpg" style="    height: 30px;  width: 30px;border-radius: 100%;" />      
                     <em class="hidden-xs" style="    margin-top: -10px; padding-left: 5px;
-                "> {{this.auth.getUserData().user_name}}</em>
+                "> {{sessionService.getItem('user_name')}}</em>
                     
              </a>
         </div>

@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
     visible: boolean;
 
     constructor(
-        private sessionService: SessionService,
+        public sessionService: SessionService,
         // private toastService: ToastService,
         private menuDataService: MenuDataService,
         private applicationStateService: ApplicationStateService,

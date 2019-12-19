@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,9 +17,10 @@ export class ForgotPasswordComponent implements OnInit {
   successRegister: boolean = false;
 
   constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public sessionService: SessionService
     ) {
-    if(this.auth.isLogedIn()){
+    if(this.sessionService.getItem('inventryLogedIn')){
       this.router.navigate(["/dashboard"]);
     }
     this.forgotForm = this._fb.group({

@@ -10,6 +10,7 @@ import { CompanyService } from 'src/app/shared/company.service';
 import { AuthService } from 'src/app/shared/auth.service';
 import { SalesService } from 'src/app/shared/sales.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,24 +35,24 @@ export class DashboardComponent implements OnInit {
   totalPurchaceAmount:number = 0;
   yearList: any = [];
   selectedYear: number = Number(moment().format('YYYY'));
-  client_company_id: any;
+  company_id: any;
   user_details:any
   loggedInUsersList:any =[]
   sendingVerificationMail:boolean
   sendingVerificationMailStatus:Number
   resendVerifyForm: FormGroup
 
-  constructor(private companyService: CompanyService,private _fb: FormBuilder, public auth: AuthService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
+  constructor(private companyService: CompanyService,private _fb: FormBuilder, private auth: AuthService, public sessionService: SessionService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
     private messageService: MessageService
     ) {
 
       this.resendVerifyForm = this._fb.group({
-        _id:  [this.auth.getUserData()._id,Validators.required],
-        user_name:  [this.auth.getUserData().user_name,Validators.required],
-        user_email:  [this.auth.getUserData().user_email,[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+        _id:  [this.sessionService.getItem('_id'),Validators.required],
+        user_name:  [this.sessionService.getItem('user_name'),Validators.required],
+        user_email:  [this.sessionService.getItem('user_email'),[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
       })
    
-    this.client_company_id = this.auth.getUserData().company_details_id;
+    this.company_id = this.sessionService.getItem('_id').company_details_id;
     this.data = {
           labels: ['January', 'February', 'March', 'April', 'May', 'June'],
           datasets: [
@@ -169,22 +170,22 @@ export class DashboardComponent implements OnInit {
     this.getTotalSalesAmount();
     this.getLoggedInUsers();
     this.getCompany();
-    this.getCustomerByCompany(this.auth.getUserCompanyId());
-    this.getStocksByCompany(this.auth.getUserCompanyId());
-    this.getLatestStocks(this.auth.getUserCompanyId());
-    this.getLatestSales(this.auth.getUserCompanyId());
-    this.getLatestPurchase(this.auth.getUserCompanyId());
+    this.getCustomerByCompany(this.sessionService.getItem('company_id'));
+    this.getStocksByCompany(this.sessionService.getItem('company_id'));
+    this.getLatestStocks(this.sessionService.getItem('company_id'));
+    this.getLatestSales(this.sessionService.getItem('company_id'));
+    this.getLatestPurchase(this.sessionService.getItem('company_id'));
   }
 
   getLoggedInUsers(){
-    console.log('getUserCompanyId',this.auth.getUserCompanyId())
+    console.log('getUserCompanyId',this.sessionService.getItem('company_id'))
     this.dashboardService.getLoggedInUsers()
     .subscribe((data:any)=>{
       console.log('getLoggedInUsers',data);
       this.loggedInUsersList = [];
-      if(this.auth.getUserData().role != 0){
+      if(this.sessionService.getItem('_id').role != 0){
         for(let lData of data){
-          if(lData.company_details_id._id == this.auth.getUserCompanyId()){
+          if(lData.company_details_id._id == this.sessionService.getItem('company_id')){
             console.log('lData',lData);
           this.loggedInUsersList.push(lData);
           }
@@ -262,8 +263,8 @@ export class DashboardComponent implements OnInit {
 
   onChangeCompany(val){
     console.log('onChangeCompany',val);
-    this.client_company_id = val;
-    localStorage.setItem('client_company_id',val._id);
+    this.company_id = val;
+    this.sessionService.setItem('company_id',val._id);
     this.ngOnInit()
   }
 
@@ -272,9 +273,9 @@ export class DashboardComponent implements OnInit {
     console.log('resendVerifyEmail')  
     this.sendingVerificationMail = true
     // let emailData = {
-    //   _id : this.auth.getUserData()._id,
-    //   user_name : this.auth.getUserData().user_name,
-    //   user_email : this.auth.getUserData().user_email
+    //   _id : this.sessionService.getItem('_id')._id,
+    //   user_name : this.sessionService.getItem('_id').user_name,
+    //   user_email : this.sessionService.getItem('_id').user_email
     // }
     this.auth.resendVerifyEmail(this.resendVerifyForm.value)
     .subscribe((data:any)=>{  
@@ -282,7 +283,7 @@ export class DashboardComponent implements OnInit {
       this.sendingVerificationMail = false
       this.sendingVerificationMailStatus = data
       if(data == 1){
-        this.auth.localStorageUserDataUpdate('user_email',this.resendVerifyForm.value.user_email) // update localstoreage values
+        this.sessionService.setItem('user_email',this.resendVerifyForm.value.user_email) // update localstoreage values
         this.messageService.add({severity:'success', summary:'Service Message', detail:'Send Successfully'});
       }else if(data == 2){
          this.messageService.add({severity:'warn', summary:'Not send', detail:''});

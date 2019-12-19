@@ -13,6 +13,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-supplier-master',
@@ -32,7 +33,9 @@ export class SupplierMasterComponent implements OnInit {
   supplierList: Supplier[];
   clonedCars: { [s: string]: User } = {};
 
-  constructor(private router:Router,private _fb:FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService) {
+  constructor(private router:Router,private _fb:FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
+    public sessionService : SessionService
+    ) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}
@@ -70,7 +73,7 @@ export class SupplierMasterComponent implements OnInit {
 
   ngOnInit() {  
     // this.getSupplier();
-    this.getSupplierByCompany(this.auth.getUserCompanyId());
+    this.getSupplierByCompany(this.sessionService.getItem('company_id'));
   }
 
   @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
@@ -103,7 +106,7 @@ export class SupplierMasterComponent implements OnInit {
     this.supplierForm.reset();  
     this.supplierForm.controls['supplier_code'].setValue(this.commonService.incrCode('s',this.supplierList.length));
     this.supplierForm.controls['status'].setValue(1);
-    this.supplierForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.supplierForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 

@@ -8,6 +8,7 @@ import * as io from 'socket.io-client';
 import { PushService } from './push.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'lodash';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: "root"
@@ -17,7 +18,8 @@ export class AuthService {
   private socket;   
 
   constructor(private router: Router,private httpClient:HttpClient,private messageService:MessageService, private pushService: PushService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    public sessionService: SessionService
     ) {
     this.socket = io(environment.api_url);
   }
@@ -26,37 +28,35 @@ export class AuthService {
     return environment.api_url ? environment.api_url : ''
   }
 
-  isLogedIn() {
-    return localStorage.getItem("inventryLogedIn") ? localStorage.getItem("inventryLogedIn") : null;
-  }
+  // isLogedIn() {
+  //   return this.sessionService.getItem("inventryLogedIn") ? this.sessionService.getItem("inventryLogedIn") : null;
+  // }
 
-  getUserCompanyId() {
-    return  localStorage.getItem("client_company_id") ? localStorage.getItem("client_company_id") : null;
-  }
+  // getUserCompanyId() {
+  //   return  this.sessionService.getItem("company_id") ? this.sessionService.getItem("company_id") : null;
+  // }
   
-  getUserData() {
-     return  localStorage.getItem("user_details") ? JSON.parse(localStorage.getItem("user_details")) : null;
-   }
+  // getUserData() {
+  //    return  this.sessionService.getItem("user_details") ? JSON.parse(this.sessionService.getItem("user_details")) : null;
+  //  }
 
-   localStorageUserDataUpdate(updateKey,updatedValue){
-    console.log('updateKey',updateKey,'updatedValue',updatedValue)
-    let user_details =  JSON.parse(localStorage.getItem('user_details'));
-    console.log('user_details',user_details)
-    // user_details.key = updatedValue
-    // localStorage.setItem('user_details',JSON.stringify(user_details));
-    _.mapValues(user_details, (value, key) => {
-      console.log(key,value)
-      console.log(typeof(key),typeof(updateKey))
-      if(key == updateKey){
-       const upValue = _.replace(value, typeof(key), updatedValue)
-       console.log('upValue',upValue)
-        localStorage.setItem('user_details',JSON.stringify(upValue));
-        return false
-      }
-    })  
-    
-
-   }
+  //  localStorageUserDataUpdate(updateKey,updatedValue){
+  //   console.log('updateKey',updateKey,'updatedValue',updatedValue)
+  //   let user_details =  JSON.parse(this.sessionService.getItem('user_details'));
+  //   console.log('user_details',user_details)
+  //   // user_details.key = updatedValue
+  //   // this.sessionService.setItem('user_details',JSON.stringify(user_details));
+  //   _.mapValues(user_details, (value, key) => {
+  //     console.log(key,value)
+  //     console.log(typeof(key),typeof(updateKey))
+  //     if(key == updateKey){
+  //      const upValue = _.replace(value, typeof(key), updatedValue)
+  //      console.log('upValue',upValue)
+  //       this.sessionService.setItem('user_details',JSON.stringify(upValue));
+  //       return false
+  //     }
+  //   }) 
+  //  }
 
   logIn(data) {
     var body = JSON.stringify(data);
@@ -134,14 +134,15 @@ export class AuthService {
 
   logOut() {
     this.spinner.show()
-    var body = JSON.stringify(JSON.parse(localStorage.getItem("user_details")));
+    var body = { _id : this.sessionService.getItem("_id")  }
+    console.log('body',body)
     var headerOption = new HttpHeaders({'Content-Type':'application/json'});
     this.httpClient.post(environment.api_url + '/api/auth/logout',body,{headers:headerOption})
     .subscribe((data:any)=>{      
     setTimeout(() => {  
       this.spinner.hide()     
       this.socket.emit('logoutTodo', data);    
-      localStorage.clear();
+      this.sessionService.clear();
       this.router.navigate(["/login"]);
        }, 2000);
     })

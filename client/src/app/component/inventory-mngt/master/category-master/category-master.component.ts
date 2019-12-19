@@ -7,6 +7,7 @@ import { CategoryService } from 'src/app/shared/category.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: "app-category-master",
@@ -27,7 +28,9 @@ export class CategoryMasterComponent implements OnInit {
   status:any = [];
   cols: any[];
   columns: any[];
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService) {
+  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService,
+    public sessionService: SessionService
+    ) {
   }
 
   ngOnInit() {
@@ -65,7 +68,7 @@ export class CategoryMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getCategory();
     // }else{
-      this.getCategoryByCompany(this.auth.getUserCompanyId());
+      this.getCategoryByCompany(this.sessionService.getItem('company_id'));
     // }
     this.cols = [
       // { field: '_id', header: '#' },
@@ -100,7 +103,7 @@ export class CategoryMasterComponent implements OnInit {
     this.categoryForm.reset();
     this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',this.categoryList.length));
     this.categoryForm.controls['status'].setValue(1);
-    this.categoryForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 

@@ -14,6 +14,7 @@ import { CommonService } from 'src/app/shared/common.service';
 import { ImageUploadService } from 'src/app/shared/image-upload.service';
 import { environment } from 'src/environments/environment';
 import * as io from 'socket.io-client';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class UserMasterComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   private socket;
-  constructor(private router:Router,private auth:AuthService, private companyService: CompanyService, private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private userService:UserService,private commonService: CommonService,private imageUploadService: ImageUploadService) {
+  constructor(private router:Router,private auth:AuthService, private companyService: CompanyService, private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private userService:UserService,private commonService: CommonService,private imageUploadService: ImageUploadService,
+    public sessionService: SessionService
+    ) {
 
     this.socket = io(environment.api_url);
     this.bradCrum = [
@@ -50,18 +53,18 @@ export class UserMasterComponent implements OnInit {
       {label:'Users'},
   ];
 
-  if(this.auth.getUserData().role == '0'){
+  if(this.sessionService.getItem('role') == '0'){
     this.roleList = [
       {label:'Admin', value:1},
       {label:'Manager', value:2},
       {label:'Sales Person', value:3},
     ]
-  }else if(this.auth.getUserData().role == '1'){
+  }else if(this.sessionService.getItem('role') == '1'){
     this.roleList = [
       {label:'Manager', value:2},
       {label:'Sales Person', value:3},
     ]
-  }else if(this.auth.getUserData().role == '2'){
+  }else if(this.sessionService.getItem('role') == '2'){
     this.roleList = [
       {label:'Sales Person', value:3},
     ]
@@ -107,7 +110,7 @@ export class UserMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getUser();
     // }else{
-      this.getUserByCompany(this.auth.getUserCompanyId());
+      this.getUserByCompany(this.sessionService.getItem('company_id'));
     // }
     this.getCompany();
   }
@@ -144,7 +147,7 @@ export class UserMasterComponent implements OnInit {
     this.userForm.reset();
     this.userForm.controls['user_code'].setValue(this.commonService.incrCode('u',this.userList.length));
     this.userForm.controls['status'].setValue(1);
-    this.userForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.userForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 

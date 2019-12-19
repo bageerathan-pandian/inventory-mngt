@@ -12,6 +12,7 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { UnitService } from 'src/app/shared/unit.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-stock-master',
@@ -38,7 +39,9 @@ export class StockMasterComponent implements OnInit {
   categoryList:any = [];
   stockListSheet:any = []
   unitList:any = []
-  constructor(private router:Router,private _fb: FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService) {
+  constructor(private router:Router,private _fb: FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
+    public sessionService: SessionService
+    ) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}
@@ -54,9 +57,9 @@ export class StockMasterComponent implements OnInit {
   ]
 
 
-  this.getCategoryByCompany(this.auth.getUserCompanyId());
-  this.getUnitByCompany(this.auth.getUserCompanyId());
-  this.getStocksByCompany(this.auth.getUserCompanyId());
+  this.getCategoryByCompany(this.sessionService.getItem('company_id'));
+  this.getUnitByCompany(this.sessionService.getItem('company_id'));
+  this.getStocksByCompany(this.sessionService.getItem('company_id'));
   
     this.stockForm = this._fb.group({
       _id: [''],
@@ -164,7 +167,7 @@ export class StockMasterComponent implements OnInit {
     this.stockForm.reset();
     this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
     this.stockForm.controls['status'].setValue(1);
-    this.stockForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 
@@ -172,7 +175,7 @@ export class StockMasterComponent implements OnInit {
     this.categoryForm.reset();
     this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',this.categoryList.length));
     this.categoryForm.controls['status'].setValue(1);
-    this.categoryForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog1 = true;
   }
 
@@ -180,7 +183,7 @@ export class StockMasterComponent implements OnInit {
     this.unitForm.reset();
     this.unitForm.controls['unit_code'].setValue(this.commonService.incrCode('u',this.unitList.length));
     this.unitForm.controls['status'].setValue(1);
-    this.unitForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.unitForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog2 = true;
   }
 

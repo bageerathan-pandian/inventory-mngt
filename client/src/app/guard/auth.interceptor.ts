@@ -2,20 +2,21 @@ import { HttpInterceptor, HttpRequest, HttpHandler} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../shared/auth.service";
+import { SessionService } from '../shared/session.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private auth: AuthService, private router: Router) { }
+    constructor(private router: Router,public sessionService: SessionService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         if (req.headers.get('No-Auth') == "True")
             return next.handle(req.clone());
 
-        if (this.auth.isLogedIn()) {
+        if (this.sessionService.getItem('inventryLogedIn')) {
            
             const clonedreq = req.clone({
-                headers: req.headers.set("Authorization", "Bearer " + localStorage.getItem('secret_token'))
+                headers: req.headers.set("Authorization", "Bearer " + this.sessionService.getItem('secret_token'))
             });
             return next.handle(clonedreq)
             // .do(

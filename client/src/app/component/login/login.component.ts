@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SessionService } from 'src/app/shared/session.service';
 
 declare var io: any
 
@@ -18,8 +19,10 @@ export class LoginComponent implements OnInit {
   showSpinner: boolean;
   
   private socket;
-  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,private spinner: NgxSpinnerService) {
-    if(this.auth.isLogedIn()){
+  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,private spinner: NgxSpinnerService,
+    public sessionService: SessionService
+    ) {
+    if(this.sessionService.getItem('inventryLogedIn')){
       this.router.navigate(["/inventory-mngt/dashboard"]);
     }
     this.socket = io(environment.api_url);
@@ -73,18 +76,19 @@ export class LoginComponent implements OnInit {
         // setTimeout(() => {
           this.spinner.hide();
           this.socket.emit('loginTodo', data.user);
-          localStorage.setItem("inventryLogedIn", "1");
-          localStorage.setItem('secret_token',data.token);
-          localStorage.setItem('user_details',JSON.stringify(data.user));
-          localStorage.setItem('client_company_id',data.user.company_details_id._id);
-          if(this.loginForm.value.rememberMe == true){
-            sessionStorage.setItem('user_email', this.loginForm.value.user_email);
-            sessionStorage.setItem('user_pwd',  this.loginForm.value.user_pwd);
-            sessionStorage.setItem('rememberMe',  this.loginForm.value.rememberMe);
-            sessionStorage.setItem('secret_token', data.token);
-          }else{
-            sessionStorage.clear()
-          }
+
+          this.sessionService.setItem("inventryLogedIn", "1");
+          this.sessionService.setItem('secret_token',data.token);
+          this.sessionService.setItem('rememberMe',  this.loginForm.value.rememberMe);
+          this.sessionService.setUserCredentials(data.user)
+          // if(this.loginForm.value.rememberMe == true){
+          //   this.sessionService.setItem('user_email', this.loginForm.value.user_email);
+          //   this.sessionService.setItem('user_pwd',  this.loginForm.value.user_pwd);
+          //   this.sessionService.setItem('rememberMe',  this.loginForm.value.rememberMe);
+          //   this.sessionService.setItem('secret_token', data.token);
+          // }else{
+          //   this.sessionService.clear()
+          // }
           this.router.navigate(["/inventory-mngt/dashboard"]);
           this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
         //  }, 1000);
@@ -101,7 +105,7 @@ export class LoginComponent implements OnInit {
       this.showSpinner = false;
       this.spinner.hide();
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
-      // localStorage.setItem("inventryLogedIn", "1");
+      // this.sessionService.setItem("inventryLogedIn", "1");
       // this.router.navigate(["/dashboard"]);
     })
   }

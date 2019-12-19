@@ -1,16 +1,16 @@
 
 <div class="ui-g ui-fluid">
         <div class="ui-g-12" >
-                <div class="alert alert-warning" *ngIf="!this.auth.getUserData().isVerified">
+                <div class="alert alert-warning" *ngIf="!sessionService.getItem('isVerified')">
                     <div *ngIf="sendingVerificationMailStatus != 1">
                         Your email
                         <form [formGroup]="resendVerifyForm" > 
                         <p-inplace closable="closable">
                                 <span pInplaceDisplay>
-                                        <strong>{{this.auth.getUserData().user_email}} </strong><i class="pi pi-pencil" ></i>
+                                        <strong>{{sessionService.getItem('user_email')}} </strong><i class="pi pi-pencil" ></i>
                                 </span>
                                 <span pInplaceContent>
-                                        <input pInputText  pKeyFilter="email" formControlName="user_email"  placeholder="{{this.auth.getUserData().user_email}}" />
+                                        <input pInputText  pKeyFilter="email" formControlName="user_email"  placeholder="{{sessionService.getItem('user_email')}}" />
                                         <!-- <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
                                         <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
                                         <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>                      -->
@@ -26,10 +26,10 @@
                         <form [formGroup]="resendVerifyForm" > 
                         <p-inplace closable="closable">
                                 <span pInplaceDisplay>
-                                        <strong>{{this.auth.getUserData().user_email}} </strong><i class="pi pi-pencil" ></i>
+                                        <strong>{{sessionService.getItem('user_email')}} </strong><i class="pi pi-pencil" ></i>
                                 </span>
                                 <span pInplaceContent>
-                                        <input pInputText  pKeyFilter="email" formControlName="user_email"  placeholder="{{this.auth.getUserData().user_email}}" />
+                                        <input pInputText  pKeyFilter="email" formControlName="user_email"  placeholder="{{sessionService.getItem('user_email')}}" />
                                         <!-- <button pButton type="button" icon="pi pi-refresh" class="ui-button-warn" *ngIf="emailCheckStatus == 0"></button>    
                                         <button pButton type="button" icon="pi pi-check" class="ui-button-success" *ngIf="emailCheckStatus == 1"></button>    
                                         <button pButton type="button" icon="pi pi-times" class="ui-button-danger" *ngIf="emailCheckStatus == 2"></button>                      -->
@@ -45,13 +45,13 @@
                 </div>
             </div>
         </div>
-  <div class="ui-g-12"  *ngIf="auth.getUserData().role == '0'">
+  <div class="ui-g-12"  *ngIf="sessionService.getItem('role') == '0'">
       <div class="ui-g-3" style="float: right">     
-      <p-dropdown [options]="companyList" [(ngModel)]="client_company_id" placeholder="Select Company" filter="true" optionLabel="company_name" (onChange)="onChangeCompany($event.value)">
+      <p-dropdown [options]="companyList" [(ngModel)]="company_id" placeholder="Select Company" filter="true" optionLabel="company_name" (onChange)="onChangeCompany($event.value)">
       </p-dropdown>
       </div>
   </div>
-  <div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" *ngIf="auth.getUserData().role == '0'" >     
+  <div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" *ngIf="sessionService.getItem('role') == '0'" >     
     <a routerLink="/inventory-mngt/master/company"  >
     <p-card styleClass="card1 ui-g-12" >
           <p-header>
@@ -70,7 +70,7 @@
     </p-card>
     </a>
   </div>
-<div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
+<div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
 <a routerLink="/inventory-mngt/master/stock" >
   <p-card styleClass="card2 ui-g-12" >
         <p-header>
@@ -89,7 +89,7 @@
   </p-card>
 </a>
 </div>
-<div   [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
+<div   [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
     <a routerLink="/inventory-mngt/sales"  >
   <p-card styleClass="card3 ui-g-12" >
         <p-header>
@@ -108,7 +108,7 @@
   </p-card>
     </a>
 </div>
-<div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'" >
+<div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
     <a routerLink="/inventory-mngt/purchase"  >
 
   <p-card styleClass="card4 ui-g-12" >
@@ -128,7 +128,7 @@
   </p-card>
     </a>
 </div>
-<div  [ngClass]="auth.getUserData().role == '0' ? 'adminClass' : 'userClass'"  >
+<div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'"  >
     <a routerLink="/inventory-mngt/master/customer" >
 
   <p-card styleClass="card5 ui-g-12" >
@@ -193,7 +193,7 @@
                                             <h6>{{item.user_name | titlecase}}</h6>
                                             <span [ngSwitch]="item.role">
                                                 <p *ngSwitchCase="'0'">
-                                                Admin -  <em  *ngIf="auth.getUserData().role == '0'">  {{item.company_details_id.company_name}}</em>
+                                                Admin -  <em  *ngIf="sessionService.getItem('role') == '0'">  {{item.company_details_id.company_name}}</em>
                                                 </p>
                                                 <p *ngSwitchCase="'1'">
                                                    Admin -  <em  >  {{item.company_details_id.company_name}}</em>

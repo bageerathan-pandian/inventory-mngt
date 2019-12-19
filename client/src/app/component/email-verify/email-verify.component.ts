@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { SessionService } from 'src/app/shared/session.service';
 
 
 declare var io: any
@@ -22,7 +23,7 @@ export class EmailVerifyComponent implements OnInit {
   
   private socket;
 
-  constructor(private auth: AuthService, private _fb: FormBuilder, private messageService: MessageService, private activeRoute: ActivatedRoute, private router: Router) { 
+  constructor(private auth: AuthService, public sessionService: SessionService, private _fb: FormBuilder, private messageService: MessageService, private activeRoute: ActivatedRoute, private router: Router) { 
     
     
     this.socket = io(environment.api_url);
@@ -85,15 +86,9 @@ export class EmailVerifyComponent implements OnInit {
         // setTimeout(() => {
           // this.spinner.hide();
           this.socket.emit('loginTodo', data.user);
-          localStorage.setItem("inventryLogedIn", "1");
-          localStorage.setItem('secret_token',data.token);
-          localStorage.setItem('user_details',JSON.stringify(data.user));
-          localStorage.setItem('client_company_id',data.user.company_details_id._id);
-          sessionStorage.setItem('user_email', data.user.user_email);
-          sessionStorage.setItem('user_pwd',  data.user.user_pwd);
-          sessionStorage.setItem('rememberMe',  data.user.rememberMe);
-          sessionStorage.setItem('secret_token', data.token);
-          this.router.navigate(["/inventory-mngt/dashboard"]);
+          this.sessionService.setItem("inventryLogedIn", "1");
+          this.sessionService.setItem('secret_token',data.token);
+          this.sessionService.setUserCredentials(data.user_email)
           // this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
         //  }, 1000);
         
@@ -108,7 +103,7 @@ export class EmailVerifyComponent implements OnInit {
       console.log('er',error);
       // this.spinner.hide();
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
-      // localStorage.setItem("inventryLogedIn", "1");
+      // this.sessionService.setItem("inventryLogedIn", "1");
       // this.router.navigate(["/dashboard"]);
     })
   }

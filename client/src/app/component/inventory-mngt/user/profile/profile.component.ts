@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/shared/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ImageUploadService } from 'src/app/shared/image-upload.service';
 import { UserService } from 'src/app/shared/user.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -21,23 +22,23 @@ export class ProfileComponent implements OnInit {
   
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  constructor(public auth: AuthService, private _fb: FormBuilder, private router: Router,private imageUploadService: ImageUploadService, private userService: UserService, private messageService: MessageService) {
+  constructor(public sessionService: SessionService, private _fb: FormBuilder, private router: Router,private imageUploadService: ImageUploadService, private userService: UserService, private messageService: MessageService) {
     
    
     this.userForm = this._fb.group({
-      _id: [this.auth.getUserData()._id],
-      user_name: [this.auth.getUserData().user_name,Validators.required],
-      user_image: [this.auth.getUserData().user_image,Validators.required],
-      user_email: [this.auth.getUserData().user_email,Validators.required],
-      user_pwd: [this.auth.getUserData().user_pwd,Validators.required],
-      cnfirm_user_pwd: [this.auth.getUserData().cnfirm_user_pwd,Validators.required],
-      company_details_id:[this.auth.getUserData().company_details_id._id,Validators.required],
-      phone:[this.auth.getUserData().phone,Validators.required],
-      role: [this.auth.getUserData().role,Validators.required],
+      _id: [this.sessionService.getItem('_id')],
+      user_name: [this.sessionService.getItem('user_name'),Validators.required],
+      user_image: [this.sessionService.getItem('user_image'),Validators.required],
+      user_email: [this.sessionService.getItem('user_email'),Validators.required],
+      user_pwd: [this.sessionService.getItem('user_pwd'),Validators.required],
+      cnfirm_user_pwd: [this.sessionService.getItem('cnfirm_user_pwd'),Validators.required],
+      company_details_id:[this.sessionService.getItem('company_details_id'),Validators.required],
+      phone:[this.sessionService.getItem('phone'),Validators.required],
+      role: [this.sessionService.getItem('role'),Validators.required],
       status: [1,Validators.required]
     })
     
-    this.croppedImage = this.auth.apiURL() + this.auth.getUserData().user_image;
+    this.croppedImage = environment.api_url + this.sessionService.getItem('user_image');
   }
 
   ngOnInit() {
@@ -101,10 +102,10 @@ export class ProfileComponent implements OnInit {
       console.log('update',data);
       this.displayDialog = false;
       this.messageService.add({severity:'success', summary:'User Updated Successfully', detail:'User Updated Successfully'});
-      this.userService.getUser(this.auth.getUserData()._id)
+      this.userService.getUser(this.sessionService.getItem('_id'))
       .subscribe((data:any)=>{
         console.log('data',data[0]);
-        localStorage.setItem('user_details',JSON.stringify(data[0]));
+        this.sessionService.setItem('user_details',JSON.stringify(data[0]));
 
       })
     },

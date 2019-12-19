@@ -8,6 +8,7 @@ import { TaxService } from 'src/app/shared/tax.service';
 
 import * as _ from 'lodash';
 import { CommonService } from 'src/app/shared/common.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-tax-master',
@@ -25,7 +26,9 @@ export class TaxMasterComponent implements OnInit {
   displayDialog: boolean;
   car: any = {};  
   status:any = [];
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private taxService:TaxService,private commonService: CommonService) {
+  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private taxService:TaxService,private commonService: CommonService,
+    public sessionService: SessionService
+    ) {
   }
 
   ngOnInit() {
@@ -64,7 +67,7 @@ export class TaxMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getTax();
     // }else{
-      this.getTaxByCompany(this.auth.getUserCompanyId());
+      this.getTaxByCompany(this.sessionService.getItem('company_id'));
     // }
   }
 
@@ -91,7 +94,7 @@ export class TaxMasterComponent implements OnInit {
     this.taxForm.reset();
     this.taxForm.controls['tax_code'].setValue(this.commonService.incrCode('t',this.taxList.length));
     this.taxForm.controls['status'].setValue(1);
-    this.taxForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id)
+    this.taxForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 

@@ -5,6 +5,7 @@ import { StripeCheckoutLoader, StripeCheckoutHandler } from 'ng-stripe-checkout'
 
 import * as moment from 'moment';
 import { AuthService } from 'src/app/shared/auth.service';
+import { SessionService } from 'src/app/shared/session.service';
 declare var paypal:any;
 
 @Component({
@@ -40,10 +41,12 @@ export class ProductBuyComponent implements OnInit {
       })
     }
   }
-  constructor(private messageService: MessageService,private stripeCheckoutLoader: StripeCheckoutLoader, private auth: AuthService) { }
+  constructor(private messageService: MessageService,private stripeCheckoutLoader: StripeCheckoutLoader, private auth: AuthService,
+    public sessionService: SessionService
+    ) { }
 
   ngOnInit() {
-    this.getPaymentDetails(this.auth.getUserCompanyId())
+    this.getPaymentDetails(this.sessionService.getItem('company_id'))
   }
 
   getPaymentDetails(company_details_id){
@@ -104,7 +107,7 @@ public onBuyProduct() {
         plan_type : 1,
         payment_amount : 15000,
         currency: 'INR',
-        company_details_id: this.auth.getUserData().company_details_id,
+        company_details_id: this.sessionService.getItem('company_id'),
         payment_details: token,
         expiry_date: '',
         status: 1

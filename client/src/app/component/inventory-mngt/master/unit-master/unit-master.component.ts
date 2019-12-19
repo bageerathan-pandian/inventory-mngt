@@ -8,6 +8,7 @@ import { UnitService } from 'src/app/shared/unit.service';
 
 import * as _ from 'lodash';
 import { CommonService } from 'src/app/shared/common.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-unit-master',
@@ -24,7 +25,9 @@ export class UnitMasterComponent implements OnInit {
   car: any = {};  
   status:any = [];
   cols: any[];
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private unitService:UnitService, private commonService: CommonService) {
+  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private unitService:UnitService, private commonService: CommonService,
+    public sessionService: SessionService
+    ) {
   }
 
   ngOnInit() {
@@ -62,7 +65,7 @@ export class UnitMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getTax();
     // }else{
-      this.getUnitByCompany(this.auth.getUserCompanyId());
+      this.getUnitByCompany(this.sessionService.getItem('company_id'));
     // }
     this.cols = [
       // { field: '_id', header: '#' },
@@ -97,7 +100,7 @@ export class UnitMasterComponent implements OnInit {
     this.unitForm.reset();
     this.unitForm.controls['unit_code'].setValue(this.commonService.incrCode('u',this.unitList.length));
     this.unitForm.controls['status'].setValue(1);
-    this.unitForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id)
+    this.unitForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 

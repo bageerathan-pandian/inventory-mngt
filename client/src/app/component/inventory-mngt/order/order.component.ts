@@ -19,6 +19,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: "app-order",
@@ -63,7 +64,8 @@ export class OrderComponent implements OnInit {
   constructor(private _fb:FormBuilder,
     private router: Router,
     private messageService: MessageService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthService,
-    private pdfGenerator: PdfGeneratorService
+    private pdfGenerator: PdfGeneratorService,
+    public sessionService : SessionService
   ) {
     // let invalidDate = new Date();
     // this.invalidDates = [invalidDate];
@@ -140,7 +142,7 @@ export class OrderComponent implements OnInit {
     this.getCategory();
     this.getStock();
        
-    this.invoiceForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
   }
 
   @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
@@ -229,7 +231,7 @@ initRowFirst() {
   }
 
    getCategory(){
-    this.categoryService.getCategoryByCompany(this.auth.getUserCompanyId())
+    this.categoryService.getCategoryByCompany(this.sessionService.getItem('company_id'))
     .subscribe((data:any)=>{
       console.log('categoryList',data);
       this.categoryList = data;
@@ -237,7 +239,7 @@ initRowFirst() {
   }
 
   getStock(){
-    this.stockService.getStockByCompanyActive(this.auth.getUserCompanyId())
+    this.stockService.getStockByCompanyActive(this.sessionService.getItem('company_id'))
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocks = data;      
@@ -284,7 +286,7 @@ initRowFirst() {
     this.customerForm.reset();
     this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
     this.customerForm.controls['status'].setValue(1);
-    this.customerForm.controls['company_details_id'].setValue(this.auth.getUserData().company_details_id._id)
+    this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
   }
 

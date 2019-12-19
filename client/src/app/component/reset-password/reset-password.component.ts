@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MustMatch } from 'src/app/shared/validations/password-match';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,9 +21,10 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,
     private spinner: NgxSpinnerService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    public sessionService: SessionService
     ) {
-    if(this.auth.isLogedIn()){
+    if(this.sessionService.getItem('inventryLogedIn')){
       this.router.navigate(["/dashboard"]);
     }
     this.resetForm = this._fb.group({  

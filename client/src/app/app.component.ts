@@ -28,8 +28,8 @@ export class AppComponent {
   constructor(public auth:AuthService,
     private themeService: ThemeService,
     private loaderService: LoaderService,
-    private sessionService: SessionService,private messageService: MessageService,private router:Router,private confirmationService: ConfirmationService, public pushService: PushService,private connectionService: ConnectionService){
-    localStorage.setItem("access_token","0061f705d47142c5ada1a37e9bcf05ef");
+    public sessionService: SessionService,private messageService: MessageService,private router:Router,private confirmationService: ConfirmationService, public pushService: PushService,private connectionService: ConnectionService){
+    this.sessionService.setItem("access_token","0061f705d47142c5ada1a37e9bcf05ef");
     console.log('isConnected','cl')
     var theme = this.sessionService.getItem("selected-theme");
     if (theme != null && theme.length > 0) {

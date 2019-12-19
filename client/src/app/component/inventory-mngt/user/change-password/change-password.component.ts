@@ -5,6 +5,7 @@ import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { MustMatch } from 'src/app/shared/validations/password-match';
 import { oldMatch } from 'src/app/shared/validations/old-password-match';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-change-password',
@@ -17,17 +18,19 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup
   displayDialog: boolean
   public bradCrum: MenuItem[];
-  constructor(private auth: AuthService, private _fb: FormBuilder, private messageService: MessageService,private router: Router, private confirmationService: ConfirmationService) {
+  constructor(private auth: AuthService, private _fb: FormBuilder, private messageService: MessageService,private router: Router, private confirmationService: ConfirmationService,
+    public sessionService: SessionService
+    ) {
     
    
     this.changePasswordForm = this._fb.group({
-      _id: [this.auth.getUserData()._id],
+      _id: [this.sessionService.getItem('_id')],
       user_pwd: ['',Validators.required],
       new_user_pwd: ['',Validators.required],
       cnfirm_user_pwd: ['',Validators.required],
-      company_details_id:[this.auth.getUserData().company_details_id._id,Validators.required]   
+      company_details_id:[this.sessionService.getItem('company_id'),Validators.required]   
     }, {
-      validator: [oldMatch(this.auth.getUserData().user_pwd, 'user_pwd'),MustMatch('new_user_pwd', 'cnfirm_user_pwd')]
+      validator: [oldMatch(this.sessionService.getItem('user_pwd'), 'user_pwd'),MustMatch('new_user_pwd', 'cnfirm_user_pwd')]
     }); 
   }
 

@@ -228,10 +228,10 @@ export class RegisterComponent implements OnInit {
     if(data){      
       this.successRegister = true; 
       // this.socket.emit('loginTodo', data.user);
-      // localStorage.setItem('secret_token',data.token);
-      // localStorage.setItem('user_details',JSON.stringify(data.user));
-      // localStorage.setItem('client_company_id',data.user.company_details_id._id);
-      // localStorage.setItem("inventryLogedIn", "1");
+      // this.sessionService.setItem('secret_token',data.token);
+      // this.sessionService.setItem('user_details',JSON.stringify(data.user));
+      // this.sessionService.setItem('company_id',data.user.company_details_id._id);
+      // this.sessionService.setItem("inventryLogedIn", "1");
       // this.router.navigate(["/inventory-mngt/dashboard"]);
       // this.messageService.add({severity:'success', summary:'Success!', detail:'Register Successfully!'});
     }else{
@@ -307,9 +307,9 @@ export class RegisterComponent implements OnInit {
   }
 
   skipToDashboard(){    
-    this.socket.emit('loginTodo', this.auth.getUserData());
-    localStorage.setItem("inventryLogedIn", "1");
-    this.router.navigate(["/inventory-mngt/dashboard"]);
+    // this.socket.emit('loginTodo', this.auth.getUserData());
+    // this.sessionService.setItem("inventryLogedIn", "1");
+    // this.router.navigate(["/inventory-mngt/dashboard"]);
   }
 
   public ngAfterViewInit() {

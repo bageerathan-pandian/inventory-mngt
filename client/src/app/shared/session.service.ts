@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,12 @@ export class SessionService {
    */
   clear() {
       sessionStorage.clear();
+  }
+
+  setUserCredentials(data){
+    console.log('setUserCredentials',data)
+    _.mapValues(data, (value, key) => {  (key != 'company_details_id') ? this.setItem(key,value) :'';  }) // set user details
+    _.mapValues(data.company_details_id, (value, key) => { (key == '_id') ? this.setItem('company_id',value) : this.setItem(key,value);    }) // set company details
   }
 
 }

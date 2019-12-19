@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/shared/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -9,6 +8,8 @@ import { Router } from '@angular/router';
 import { CompanyService } from 'src/app/shared/company.service';
 import { ImageUploadService } from 'src/app/shared/image-upload.service';
 import { UserService } from 'src/app/shared/user.service';
+import { SessionService } from 'src/app/shared/session.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -27,24 +28,24 @@ export class CompanyInfoComponent implements OnInit {
   
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  constructor(private auth: AuthService,private userService: UserService, private _fb: FormBuilder, private imageUploadService: ImageUploadService, private router: Router, private companyService: CompanyService, private messageService: MessageService) {
+  constructor(public sessionService: SessionService,private userService: UserService, private _fb: FormBuilder, private imageUploadService: ImageUploadService, private router: Router, private companyService: CompanyService, private messageService: MessageService) {
     
     this.status = [
       {label:'Active', value:1},
       {label:'De-Active', value:0},
     ]
     this.companyForm = this._fb.group({
-      _id: [this.auth.getUserData().company_details_id._id],
-      company_name: [this.auth.getUserData().company_details_id.company_name,Validators.required],
-      company_address: [this.auth.getUserData().company_details_id.company_address,Validators.required],
-      company_image: [this.auth.getUserData().company_details_id.company_image],
-      owner_name: [this.auth.getUserData().company_details_id.owner_name,Validators.required],
-      phone: [this.auth.getUserData().company_details_id.phone,Validators.required],
-      gstin: [this.auth.getUserData().company_details_id.gstin,Validators.required],
+      _id: [this.sessionService.getItem('company_id')],
+      company_name: [this.sessionService.getItem('company_name'),Validators.required],
+      company_address: [this.sessionService.getItem('company_address'),Validators.required],
+      company_image: [this.sessionService.getItem('company_image')],
+      owner_name: [this.sessionService.getItem('owner_name'),Validators.required],
+      phone: [this.sessionService.getItem('phone'),Validators.required],
+      gstin: [this.sessionService.getItem('gstin'),Validators.required],
       status: [1,Validators.required]
     })
     
-    this.croppedImage = this.auth.apiURL() + this.auth.getUserData().company_details_id.company_image;
+    this.croppedImage = environment.api_url + this.sessionService.getItem('_id').company_details_id.company_image;
    }
 
   ngOnInit() {
@@ -108,10 +109,10 @@ export class CompanyInfoComponent implements OnInit {
       console.log('update',data);
       this.displayDialog = false;
       this.messageService.add({severity:'success', summary:'Company Updated Successfully', detail:'Company Updated Successfully'});
-      this.userService.getUser(this.auth.getUserData()._id)
+      this.userService.getUser(this.sessionService.getItem('_id')._id)
       .subscribe((data:any)=>{
         console.log('data',data[0]);
-        localStorage.setItem('user_details',JSON.stringify(data[0]));
+        this.sessionService.setItem('user_details',JSON.stringify(data[0]));
 
       })
     },

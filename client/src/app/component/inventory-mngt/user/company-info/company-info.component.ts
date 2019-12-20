@@ -45,7 +45,7 @@ export class CompanyInfoComponent implements OnInit {
       status: [1,Validators.required]
     })
     
-    this.croppedImage = environment.api_url + this.sessionService.getItem('_id').company_details_id.company_image;
+    this.croppedImage = environment.api_url + this.sessionService.getItem('company_image');
    }
 
   ngOnInit() {

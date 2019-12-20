@@ -32,7 +32,7 @@ exports.sendResetMail = (req, res)=> {
     user_name : req.body.user_name,
     _id : req.body._id,
     reset_pwd_token : req.body.reset_pwd_token,
-    host :  req.headers.host
+    host : process.env.PRODUCTION == 'DEV' ? process.env.CLIENT_HOST : req.headers.host
   }
   
   console.log(emailData)
@@ -88,7 +88,7 @@ exports.sendVerifyMail =  (req, res)=> {
     user_name : req.user_name,
     _id : req._id,
     reset_email_token : req.reset_email_token,
-    host :  req.headers.host
+    host : process.env.PRODUCTION == 'DEV' ? process.env.CLIENT_HOST : req.headers.host
   }
 
   // mailt to client

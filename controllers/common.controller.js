@@ -9,7 +9,7 @@ exports.emailExistCheck = (req,res)=>{
     if(e) {        
       console.log(e.message);
         // return res.status(500).json(e);
-        reject()
+        reject(2)
     } else {
         if(result.length == 0){
           resolve(0);  // user not available
@@ -49,7 +49,7 @@ exports.getUserDataById = (req,res)=>{
     if(e) {        
       console.log(e.message);
         // return res.status(500).json(e);
-        reject()
+        reject(2)
     } else {
         if(result.length == 0){
           resolve(0);  // user not available
@@ -68,7 +68,7 @@ exports.getUserDataByEmail = (req,res)=>{
     if(e) {        
       console.log(e.message);
         // return res.status(500).json(e);
-        reject()
+        reject(2)
     } else {
       console.log('result',result);
         if(result.length == 0){
@@ -93,7 +93,7 @@ exports.createUser = (req,res)=>{
     if(e) {        
       console.log(e.message);
         // return res.status(500).json(e);
-        reject()
+        reject(2)
     } else {
       console.log('result',result);
         if(result.length == 0){
@@ -132,7 +132,7 @@ exports.getTotalCompanyCount = (req,res)=>{
       if(e) {        
         console.log(e.message);
           // return res.status(500).json(e);
-          reject()
+          reject(2)
       } else {
         console.log('totalcount',result.length);
           // return res.json(result.length);

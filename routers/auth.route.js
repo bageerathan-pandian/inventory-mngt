@@ -115,41 +115,42 @@ router.post('/register-user', async (req, res, next) => {
    console.log('token',token); 
    req.body.reset_email_token = token 
    req.body.reset_email_expire = moment().add(1,'hour').format()
-
+   try {
+     
    let createUser = await commonController.createUser(req.body, res);
-   
-   if(createUser._id){
-      
-      let resultData = {
-          _id: createUser._id,
-          user_name: createUser.user_name,
-          user_email: req.body.user_email,
-          user_pwd: req.body.user_pwd, 
-          reset_email_token : token,  
-          reset_email_expire : moment().add(1,'hour').format()
-        }
-        let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
-        if(sendEmailStatus == 1){
-          let resData= {
-            status: 1,
-            _id: createUser._id,
-            user_name: createUser.user_name,
-            user_email: req.body.user_email,
-            user_pwd: req.body.user_pwd, 
-          }
-          return res.json(resData)  //send
-        }else{
-          let resData= {
-            status: 0
-          }
-          return res.json(resData)  // not send
-        }
-   }else{ 
-     let resData= {
-        status: 2
-      }
-     return res.json(resData) // user not create
+   let resultData = {
+    _id: createUser._id,
+    user_name: createUser.user_name,
+    user_email: req.body.user_email,
+    user_pwd: req.body.user_pwd, 
+    reset_email_token : token,  
+    reset_email_expire : moment().add(1,'hour').format()
+  }
+  try {
+    let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
+    let resData= {
+      status: 1,
+      _id: createUser._id,
+      user_name: createUser.user_name,
+      user_email: req.body.user_email,
+      user_pwd: req.body.user_pwd, 
+    }
+    return res.json(resData)  //send
+    
+  } catch (error) {
+    let resData= {
+      status: 0
+    }
+    return res.json(resData)  // not send
+    
+  }
+   } catch (error) {
+    let resData= {
+      status: 2
+    }
+   return res.json(resData) // user not create
    }
+
 
   });
 

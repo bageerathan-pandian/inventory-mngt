@@ -128,6 +128,7 @@ router.post('/register-user', async (req, res, next) => {
   }
   try {
     let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
+    console.log('sendEmailStatus',sendEmailStatus)
     let resData= {
       status: 1,
       _id: createUser._id,

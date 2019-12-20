@@ -40,9 +40,6 @@ router.post('/login', async (req, res, next) => {
           //Sign the JWT token and populate the payload with the user email and id
           const token = jwt.sign({ user : body }, process.env.SECRET_KEY);
           //Send back the token to the user
-          req.session.token = token
-          req.session.user = user; 
-          console.log('sess',req.session.user)
           return  res.json({
             message : 'You made it to the secure route',
             user : user,
@@ -113,45 +110,54 @@ router.post('/register-user', async (req, res, next) => {
    token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
 
    console.log('token',token); 
+   req.body.isEmailVerified = false
+   req.body.isPhoneVerified = false
+   req.body.otp = ''
    req.body.reset_email_token = token 
    req.body.reset_email_expire = moment().add(1,'hour').format()
-   try {
-     
-   let createUser = await commonController.createUser(req.body, res);
-   let resultData = {
-    _id: createUser._id,
-    user_name: createUser.user_name,
-    user_email: req.body.user_email,
-    user_pwd: req.body.user_pwd, 
-    reset_email_token : token,  
-    reset_email_expire : moment().add(1,'hour').format()
-  }
-  try {
-    let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
-    console.log('sendEmailStatus',sendEmailStatus)
-    let resData= {
-      status: 1,
-      _id: createUser._id,
-      user_name: createUser.user_name,
-      user_email: req.body.user_email,
-      user_pwd: req.body.user_pwd, 
-    }
-    return res.json(resData)  //send
-    
-  } catch (error) {
-    let resData= {
-      status: 0
-    }
-    return res.json(resData)  // not send
-    
-  }
-   } catch (error) {
-    let resData= {
-      status: 2
-    }
-   return res.json(resData) // user not create
-   }
 
+   let createUser = await commonController.createUser(req.body, res);
+   console.log('createUserVal',createUser)
+   if(createUser._id){
+      try {
+        let resultData = {
+          _id: createUser._id,
+          user_name: createUser.user_name,
+          user_email: req.body.user_email,
+          user_pwd: req.body.user_pwd, 
+          reset_email_token : token,  
+          reset_email_expire : moment().add(1,'hour').format()
+        }
+        let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
+        console.log('sendEmailStatus',sendEmailStatus)
+        if(sendEmailStatus == 1){
+          let resData= {
+            status: 1,
+            _id: createUser._id,
+            user_name: createUser.user_name,
+            user_email: req.body.user_email,
+            user_pwd: req.body.user_pwd, 
+          }
+          return res.json(resData)  //send
+        }else{
+          let resData= {
+            status: 0
+          }
+          return res.json(resData)  // not send
+        }
+      } catch (error) {        
+        let resData= {
+          status: 0
+        }
+        return res.json(resData)  // not send
+      }
+     
+   }else{ 
+     let resData= {
+        status: 2
+      }
+     return res.json(resData) // user not create
+   }
 
   });
 
@@ -214,7 +220,7 @@ router.post('/verified-email', async (req, res, next) => {
     // if(result[0].reset_pwd_token == req.body.reset_pwd_token || result[0].reset_pwd_expire < moment().format()){
     if(result[0].reset_email_token == req.body.token){
         let updateData = {
-          isVerified: req.body.isVerified,
+          isEmailVerified: true,
           reset_email_token: null,
           reset_email_expire: null,
         }

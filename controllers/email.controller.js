@@ -94,12 +94,12 @@ exports.sendVerifyMail =  (req, res)=> {
   }
 
   // mailt to client
-  console.log('emailData', emailData);
     ejs.renderFile(__parentDir + '/public/templates/email-template/verify-email.ejs', emailData, function (err, data) {
       if (err) {
           console.log(err);
           // reject(2)          
-          resolve(2)
+          resolve(0)
+                  // return res.json(0)
       } else {
           var mainOptions = {         
             from: process.env.CONTACTMAILFROM,
@@ -110,6 +110,7 @@ exports.sendVerifyMail =  (req, res)=> {
           transporter.sendMail(mainOptions, function (err, info) {
               if (err) {
                   console.log(err);
+                  // return res.json(0)
                   resolve(0)
               } else {
                   console.log('Message sent: ' + info.response);

@@ -11,8 +11,7 @@ var passport  = require('passport');
 
 require('./config/database');
 require('./config/passport');
-// require('./config/twilio'); //send message
-// require('./config/sms');
+require('./config/twilio'); //send message
 // require('./config/facebook');
 // require('./config/google');
 // cron job init

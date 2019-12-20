@@ -16,7 +16,9 @@ const UserSchema = new mongoose.Schema({
     isLoggedIn: { type: Boolean },
     reset_email_token: { type: String },
     reset_email_expire: { type: String },
-    isVerified: { type: Boolean },
+    isEmailVerified: { type: Boolean },
+    isPhoneVerified: { type: Boolean },
+    otp: { type: Number },
     status: { type: Number },
   },{timestamps: true});
 

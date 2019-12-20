@@ -32,7 +32,6 @@ passport.use('authLogin', new localStrategy({
       return done(null, false, { message : 'User not found'});
     }else{
       user.isLoggedIn = true;
-      user.isVerified = false;
       UserModel.findByIdAndUpdate(user._id, user, (err, result) => {
         if (err) return next(err);
         return done(null, user, { message : 'Logged in Successfully'});

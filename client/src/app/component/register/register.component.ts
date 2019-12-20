@@ -34,6 +34,7 @@ export class RegisterComponent implements OnInit {
   emailCheckStatus : any
   private socket;
   site_key:string
+  
   constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthService, private router:Router,
     private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
     private spinner: NgxSpinnerService,
@@ -145,6 +146,7 @@ export class RegisterComponent implements OnInit {
         this.checkValidityCompany()
         return false;
       }
+      console.log('cm',this.companyForm.value);
     } else if(val == 3){
       if(this.userForm.invalid){
         this.checkValidityUser()
@@ -400,6 +402,16 @@ onCheckEmailExist(){
  showResponse(event) {
    console.log('event',event.response)
   // this.messageService.add({severity:'info', summary:'Succees', detail: 'User Responded', sticky: true});
+}
+
+telInputObject(obj) {
+  console.log(obj);
+  console.log(obj.s.dialCode);
+  obj.setCountry('in');
+}
+
+getNumber(evnt){
+  console.log('evnt',evnt);
 }
 
 

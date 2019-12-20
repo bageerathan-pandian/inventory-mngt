@@ -1,7 +1,7 @@
 
 <div class="ui-g ui-fluid">
         <div class="ui-g-12" >
-                <div class="alert alert-warning" *ngIf="!sessionService.getItem('isVerified')">
+                <div class="alert alert-warning" *ngIf="!sessionService.getItem('isEmailVerified')">
                     <div *ngIf="sendingVerificationMailStatus != 1">
                         Your email
                         <form [formGroup]="resendVerifyForm" > 

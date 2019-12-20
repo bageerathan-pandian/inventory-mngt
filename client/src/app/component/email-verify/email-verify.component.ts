@@ -30,8 +30,7 @@ export class EmailVerifyComponent implements OnInit {
     
     this.verifyForm = this._fb.group({
       _id: [this.activeRoute.snapshot.params.id],
-      token: [this.activeRoute.snapshot.params.token,Validators.required],
-      isVerified: [true]
+      token: [this.activeRoute.snapshot.params.token,Validators.required]
     })
   }
 

@@ -19,6 +19,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
 import {InplaceModule} from 'primeng/inplace';
+import {Ng2TelInputModule} from 'ng2-tel-input';
+import {KeyFilterModule} from 'primeng/keyfilter';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -40,7 +42,9 @@ import {InplaceModule} from 'primeng/inplace';
     NgxSpinnerModule,
     HeaderModule,
     FooterModule,
-    InplaceModule
+    InplaceModule,    
+    Ng2TelInputModule,
+    KeyFilterModule
   ]
 })
 export class RegisterModule { }

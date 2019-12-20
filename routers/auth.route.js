@@ -92,14 +92,14 @@ router.post('/register-payment', async (req, res, next) => {
 });
 
 
-router.get('/get-payment-details/:id', async (req, res, next) => {
-  console.log('req',req.params.id) 
- ProductPaymentModel.find({company_details_id : req.params.id}, (err, result) => {
-    if (err) return next(err);
-    console.log('pymntresult',result) 
-     return  res.json(result) 
-  });
-});
+// router.get('/get-payment-details/:id', async (req, res, next) => {
+//   console.log('req',req.params.id) 
+//  ProductPaymentModel.find({company_details_id : req.params.id}, (err, result) => {
+//     if (err) return next(err);
+//     console.log('pymntresult',result) 
+//      return  res.json(result) 
+//   });
+// });
 
 router.post('/register-user', async (req, res, next) => {
     console.log('register-user',req.body) 

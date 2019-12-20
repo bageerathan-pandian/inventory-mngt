@@ -278,8 +278,9 @@ export class RegisterComponent implements OnInit {
   }
 
   resendVerifyEmail(){  
-    this.resendVerifyForm.controls['_id'].setValue(this.sessionService.getItem('_id'))
-    this.resendVerifyForm.controls['user_name'].setValue(this.sessionService.getItem('user_name'))
+    this.resendVerifyForm.controls['_id'].setValue(this.sessionService.getItem('_id') ? this.sessionService.getItem('_id') : this.userForm.value._id)
+    this.resendVerifyForm.controls['user_name'].setValue(this.sessionService.getItem('user_name') ? this.sessionService.getItem('user_name') : this.userForm.value.user_name)
+    this.resendVerifyForm.controls['user_email'].setValue(this.resendVerifyForm.value.user_email ? this.resendVerifyForm.value.user_email : this.userForm.value.user_email)
     console.log('sendVerifyEmail',this.resendVerifyForm) 
     if(this.resendVerifyForm.invalid){
       return;

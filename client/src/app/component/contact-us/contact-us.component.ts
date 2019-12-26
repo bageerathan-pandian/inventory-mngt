@@ -29,6 +29,10 @@ export class ContactUsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.options = {
+      center: {lat: 10.073132, lng: 78.780151},
+      zoom: 12
+  };
   }
 
   

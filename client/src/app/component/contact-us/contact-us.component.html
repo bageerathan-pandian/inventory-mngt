@@ -1,0 +1,67 @@
+
+<app-header></app-header>
+    
+    
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="/assets/img/bbg4.jpg" alt="New York" width="1200" height="700">
+        <!-- <div class="carousel-caption">
+          <h3>GST Ready Best POS Billing Software</h3>
+          <p>Ownwaysoft is a single solution to manage all your business requirements</p>
+        </div>       -->
+      </div>
+
+    </div>
+
+    
+    
+    <!-- Container (Contact Section) -->
+    <div id="contact" class="container-fluid bg-grey">
+      <h2 class="text-center">CONTACT</h2>
+      <div class="row">
+        <div class="col-sm-5">
+          <p>Contact us and we'll get back to you within 24 hours.</p>
+          <p><span class="glyphicon glyphicon-map-marker"></span> Karaikudi, India</p>
+          <p><span class="glyphicon glyphicon-phone"></span> <a href="tel:+91 9095108395">+91 9095108395</a></p>
+          <p><span class="glyphicon glyphicon-envelope"></span> <a href="mailto:support@ownwaysoft.com">support@ownwaysoft.com</a> </p>
+        </div>
+        <div class="col-sm-7 slideanim">
+          <form [formGroup]="contactForm">
+          <div class="row">
+            <div class="col-sm-6 form-group">
+              <input class="form-control" id="name" formControlName="name" placeholder="Name" type="text" required>
+              <p class="error-msg" *ngIf="!contactForm.controls['name'].valid && (contactForm.controls['name'].dirty || contactForm.controls['name'].touched)">
+                  <em *ngIf="contactForm.controls['name'].errors['required']"> Name is required    </em>
+               </p>
+            </div>
+            <div class="col-sm-6 form-group">
+              <input class="form-control" id="email" formControlName="email" placeholder="Email" type="email" required>
+              <p class="error-msg" *ngIf="!contactForm.controls['email'].valid && (contactForm.controls['email'].dirty || contactForm.controls['email'].touched)">
+                  <em *ngIf="contactForm.controls['email'].errors['required']"> Email is required    </em>
+                  <em *ngIf="contactForm.controls['email'].errors['pattern']">  Invalid Email    </em>
+               </p>
+            </div>
+          </div>
+          <textarea class="form-control" id="comments" formControlName="comments" placeholder="Comment" rows="5"></textarea><br>
+          <p class="error-msg" *ngIf="!contactForm.controls['comments'].valid && (contactForm.controls['comments'].dirty || contactForm.controls['comments'].touched)">
+              <em *ngIf="contactForm.controls['comments'].errors['required']"> Comment required    </em>
+           </p>
+          <div class="row">
+            <div class="col-sm-12 form-group">
+              <button class="btn btn-default pull-right" type="submit" (click)="sendContact()">Send</button>
+            </div>
+          </div>          
+
+        </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Image of location/map -->
+    <div>
+        <p-gmap [options]="options" [style]="{'width':'100%','height':'320px'}" ></p-gmap>
+    </div>
+    
+    <app-footer></app-footer>

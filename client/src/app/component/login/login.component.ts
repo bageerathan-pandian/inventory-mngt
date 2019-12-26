@@ -17,6 +17,7 @@ declare var io: any
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   showSpinner: boolean;
+  display: boolean = false;
   
   private socket;
   constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,private spinner: NgxSpinnerService,
@@ -59,6 +60,10 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
     this.auth.logIn(this.loginForm.value)
   }
+
+  showDialog() {
+    this.display = true;
+}
 
 
 }

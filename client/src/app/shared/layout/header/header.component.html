@@ -27,8 +27,8 @@
             <a  class="icon" style="display: flex">
                    <img *ngIf="sessionService.getItem('user_image')" src="{{auth.apiURL()}}{{sessionService.getItem('user_image')}}" style="    height: 30px;  width: 30px;border-radius: 100%;" />
                      <img *ngIf="!sessionService.getItem('user_image')" src="./assets/img/userface.jpg" style="    height: 30px;  width: 30px;border-radius: 100%;" />      
-                    <em class="hidden-xs" style="    margin-top: -10px; padding-left: 5px;
-                "> {{sessionService.getItem('user_name')}}</em>
+                    <em class="hidden-xs" style="    margin-top: -10px; padding-left: 5px; "> {{sessionService.getItem('user_name')}}  <i class="fa fa-angle-down" style="font-size: 15px; margin-left: 5px;"></i></em>
+               
                     
              </a>
         </div>

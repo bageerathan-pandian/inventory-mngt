@@ -14,6 +14,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
+import {DialogModule} from 'primeng/dialog';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -31,7 +32,8 @@ import { FooterModule } from '../footer/footer.module';
     CheckboxModule,
     NgxSpinnerModule,
     HeaderModule,
-    FooterModule
+    FooterModule,
+    DialogModule
   ]
 })
 export class LoginModule { }

@@ -23,6 +23,8 @@ export class RegisterComponent implements OnInit {
   private stripeCheckoutHandler: StripeCheckoutHandler;
   
   successRegister: boolean = false;
+  emailVerify: boolean = true;
+  phoneVerify: boolean = false;
   items:any  
   activeIndex: number = 0;
   planForm:FormGroup
@@ -30,6 +32,7 @@ export class RegisterComponent implements OnInit {
   userForm:FormGroup
   paymentForm:FormGroup 
   resendVerifyForm: FormGroup
+  otpForm: FormGroup
   futureMonthEnd = moment().add(1, 'M');
   emailCheckStatus : any
   private socket;
@@ -74,6 +77,12 @@ export class RegisterComponent implements OnInit {
       _id: [this.sessionService.getItem('_id')],
       user_name: [this.sessionService.getItem('user_name'),Validators.required],
       user_email:  [this.sessionService.getItem('user_email'),[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+    })
+    
+    this.otpForm = this._fb.group({
+      _id: [this.sessionService.getItem('_id')],
+      user_name: [this.sessionService.getItem('user_name'),Validators.required],
+      otp:  ['',Validators.required],
     })
     
    }

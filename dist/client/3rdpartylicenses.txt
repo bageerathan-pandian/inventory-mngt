@@ -644,6 +644,9 @@ MIT
 ngx-barcode
 MIT
 
+ngx-disqus
+MIT
+
 ngx-google-places-autocomplete
 MIT
 

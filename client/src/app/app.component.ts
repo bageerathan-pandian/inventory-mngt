@@ -18,8 +18,7 @@ import { LoaderService } from './shared/loader.service';
 export class AppComponent {
   title = 'Inventory Management';  
   showLoader: boolean;
-  theme: string;
-  pageId = '/about';  
+  theme: string; 
   items2: MenuItem[];
   notificationCount: Number = 0
   status:any;

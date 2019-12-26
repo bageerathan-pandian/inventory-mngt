@@ -266,7 +266,7 @@
       </p-footer>
     </p-card>
     
-    <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="successRegister" >
+    <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="successRegister && emailVerify" >
             <div style="text-align: center">
                 <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
                 <!-- <i class="pi pi-exclamation-triangle" style="    color: #fff;   background:#FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i> -->
@@ -304,6 +304,69 @@
                  
                     <p-footer>
                         <a (click)="resendVerifyEmail()" >Resend Verification Email</a>
+                        <p>(or)</p>                        
+                        <a (click)="phoneVerify = true;emailVerify = false" >Verify Phone Number</a>
+                        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                                <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
+                            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
+                        </div>
+                    </p-footer>
+              </div>
+          </p-card>
+
+          <p-card  class="login-form ui-g-12 ui-md-12"  *ngIf="successRegister && phoneVerify" >
+            <div style="text-align: center">
+                <i class="pi pi-check" style="    color: #fff;   background: #08bd65;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+                <!-- <i class="pi pi-exclamation-triangle" style="    color: #fff;   background:#FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i> -->
+                <!-- <h3>Welcome!</h3> 
+                <p>Thanks for signing up! We just need you to verify email address to complete setting your account. </p>  -->
+                 <h3>PLEASE VERIFY YOUR PHONE NUMBER!</h3> 
+
+              
+
+                 <p>We have sent a OTP to </p>
+                  
+                     <form [formGroup]="resendVerifyForm" > 
+                        <div class="ui-g ui-fluid" >
+                            <div class="ui-g-12">
+                                <div class="ui-g-8">
+                                    <div class="ui-inputgroup">
+                                            <p-inplace closable="closable">
+                                                    <span pInplaceDisplay>
+                                                            <b *ngIf="userForm.value.phone">{{userForm.value.phone}}</b> <b *ngIf="!userForm.value.phone">345345</b>. <i class="pi pi-pencil" ></i>
+                                                    </span>
+                                                    <span pInplaceContent>                 
+                                                            <input pInputText type="text" pKeyFilter="int" ng2TelInput  [ng2TelInputOptions]="{initialCountry: 'in'}"  formControlName="phone"  />
+ 
+                                                    </span>
+                                                </p-inplace>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                      </form>
+
+                      <form [formGroup]="otpForm" > 
+                            <div class="ui-g ui-fluid" >
+                                <div class="ui-g-12">
+                                    <div class="ui-g-8">                
+                                        <input pInputText type="text"  formControlName="otp"  />
+     
+                                    </div>
+                                </div>
+                               
+                            </div>
+                          </form>
+                    <!-- <p>Please active your account with the link in this mail. If you cannot find the mail, please also check the Junk/Spam folder!  </p> -->
+                    <!-- <p>If you have not received a verification email or if your have mistyped your email address, your can resend the verification mail.</p> -->
+                    <p>Don't receive OTP?</p>
+                 
+                    <p-footer>
+                            <a (click)="resendVerifyPhone()" >Resend OTP</a>
+                      
+                        <p>(or)</p>                        
+                        <a (click)="emailVerify = true;phoneVerify = false" >Verify Email</a>
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
                                 <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
                             <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>

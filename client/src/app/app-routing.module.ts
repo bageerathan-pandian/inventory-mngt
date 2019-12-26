@@ -12,6 +12,10 @@ const routes: Routes = [
   {path:'reset-password/:id/:token',loadChildren:() => import('./component/reset-password/reset-password.module').then(m => m.ResetPasswordModule)},
   {path:'email-verify/:id/:token',loadChildren:() => import('./component/email-verify/email-verify.module').then(m => m.EmailVerifyModule)},
   {path:'home',loadChildren:() => import('./component/home/home.module').then(m => m.HomeModule)},
+  {path:'about-us',loadChildren:() => import('./component/about-us/about-us.module').then(m => m.AboutUsModule)},
+  {path:'services',loadChildren:() => import('./component/services/services.module').then(m => m.ServicesModule)},
+  {path:'pricing',loadChildren:() => import('./component/pricing/pricing.module').then(m => m.PricingModule)},
+  {path:'contact-us',loadChildren:() => import('./component/contact-us/contact-us.module').then(m => m.ContactUsModule)},
   {
     path: 'inventory-mngt',
     component: LayoutComponent,
@@ -41,8 +45,8 @@ const routes: Routes = [
   ]
   },
  
-  // {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
+  // { path: '**', redirectTo: 'home', pathMatch: 'full' }
 
 ];
 

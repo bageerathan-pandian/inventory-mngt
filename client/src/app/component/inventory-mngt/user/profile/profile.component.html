@@ -12,7 +12,7 @@
                     <label for="year">Company Name</label>
                 </div>
                 <div class="ui-g-8">
-                    <input type="text" pInputText  disabled/>
+                    <input type="text" pInputText [value]="sessionService.getItem('company_name')" disabled/>
                 </div>
             </div>
                     <div class="ui-g-12">
@@ -20,7 +20,7 @@
                     <label for="vin">Company Address</label>
                 </div>
                 <div class="ui-g-8">
-                        <input type="text" pInputText  disabled/>
+                        <input type="text" pInputText [value]="sessionService.getItem('company_address')"  disabled/>
                     </div>
             </div>
             <div class="ui-g-12">
@@ -28,7 +28,7 @@
                     <label for="vin">Owner Name</label>
                 </div>
                 <div class="ui-g-8">
-                        <input type="text" pInputText  disabled/>
+                        <input type="text" pInputText [value]="sessionService.getItem('owner_name')" disabled/>
                 </div>
             </div>
             <div class="ui-g-12">
@@ -36,7 +36,7 @@
                         <label for="vin">Company Phone</label>
                     </div>
                     <div class="ui-g-8">
-                            <input type="text" pInputText  disabled>
+                            <input type="text" pInputText [value]="sessionService.getItem('phone')" disabled>
 
                     </div>
                 </div>

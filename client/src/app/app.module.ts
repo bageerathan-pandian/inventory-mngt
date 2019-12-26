@@ -35,6 +35,8 @@ import { MenuComponent } from './shared/layout/menu/menu.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { NgxSpinnerModule } from "ngx-spinner";
 import {ProgressBarModule} from 'primeng/progressbar';
+// import { NgxTawkModule } from 'ngx-tawk';
+import { DISQUS_SHORTNAME } from 'ngx-disqus';
 
 @NgModule({
   declarations: [
@@ -68,11 +70,13 @@ import {ProgressBarModule} from 'primeng/progressbar';
     ToastModule,
     SidebarModule,
     NgxSpinnerModule,
-    ProgressBarModule
+    ProgressBarModule,    
+    // NgxTawkModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: DISQUS_SHORTNAME, useValue: 'ownwaysoft' },
     AuthService, MessageService,ChatService,PushService],
   bootstrap: [AppComponent]
 })

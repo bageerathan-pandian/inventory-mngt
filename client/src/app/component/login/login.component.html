@@ -22,7 +22,7 @@
 
                 <div class="ui-g-12 ui-md-12">
                     <h2>Login</h2>
-                    <span>with your business Account</span>
+                    <span>With your Account</span>
                 </div>
         
             <div class="ui-g-12 ui-md-12">
@@ -64,12 +64,30 @@
                 
                   
                 <a  rel="noopener noreferrer"  routerLink="/forgot-password" >Forgot Password?</a>
-           
+                <!-- <button type="button" (click)="showDialog()" pButton icon="pi pi-info-circle" label="Show"></button> -->
+
       </p-footer>
     </p-card>
+  
    
 </div>
+
+
+
         <app-footer></app-footer>
  
+
+        <p-dialog [(visible)]="display" [showHeader]="false" [baseZIndex]="10000" [modal]="true" >
+                <div style="text-align: center">
+                        <i class="pi pi-exclamation-triangle" style="    color: #fff;   background:#FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+                       
+        
+                        <p>YOUR ACCOUNT HAS BEEN DEACTIVATED!</p>
+                        <p>Please contact your admin.</p>
+                         
+                        <!-- <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Yes"></button> -->
+                        <button type="button" pButton  (click)="display=false" label="No" class="ui-button-secondary"></button>
+                      </div>
+      </p-dialog>
 
 

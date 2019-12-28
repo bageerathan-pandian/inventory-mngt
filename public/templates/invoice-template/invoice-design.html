@@ -1,0 +1,251 @@
+<!-- <ul>
+    {{#each users}}
+    <li>Name: {{this.name}}</li>
+    <li>Age: {{this.age}}</li>
+    <br>
+{{/each}}
+</ul>
+
+<table style="width:100%">
+    <tr>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>Age</th>
+    </tr>
+    <tr>
+      <td>Jill</td>
+      <td>Smith</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>Eve</td>
+      <td>Jackson</td>
+      <td>94</td>
+    </tr>
+  </table> -->
+
+  <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
+        <style>
+        body {
+  background: #ccc;
+  /* padding: 30px; */
+  margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.container {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.invoice {
+  background: #fff;
+  width: 90%;
+    padding: 5%;
+}
+
+.logo {
+  width: 2.5cm;
+}
+
+.document-type {
+  text-align: right;
+  color: #444;
+}
+
+.conditions {
+  font-size: 0.7em;
+  color: #666;
+}
+
+.bottom-page {
+  font-size: 0.7em;
+}
+
+.row {
+    display:block;
+    width: 100%;
+    float: left;
+}
+.col-7 {
+  float: left;
+    width: 58.333333%;
+}
+.col-5 {
+  float: left;
+    width: 41.666667%;
+}
+.col-8 {
+  float: left;
+    width: 66.666667%;
+}
+.col-4 {
+  float: left;
+    width: 33.333333%;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+table {
+    border-collapse: collapse;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+.text-right {
+    text-align: right!important;
+}
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+        </style>
+      </head>
+      <body>
+          <div class="container">
+              <div class="invoice">
+                <div class="row">
+                  <div class="col-7">
+                    <img src="https://s3.eu-central-1.amazonaws.com/zl-clients-sharings/90Tech.png" class="logo">
+                  </div>
+                  <div class="col-5">
+                    <h1 class="document-type display-4">INVOICE</h1>
+                    <p class="text-right"><strong>#INV729490</strong></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-7">
+                    <p>
+                      <strong>90TECH SAS</strong><br>
+                      6B Rue Aux-Saussaies-Des-Dames<br>
+                      57950 MONTIGNY-LES-METZ
+                    </p>
+                  </div>
+                  <div class="col-5">
+                    <br><br><br>
+                    <p>
+                      <strong>Energies54</strong><br>
+                      Ref. Client <em>C00022</em><br>
+                      12 Rue de Verdun<br>
+                      54250 JARNY
+                    </p>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <h6>Audits and monthly reports (1st November 2016 - 30 November 2016)                  </h6>
+                <br>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Description</th>
+                      <th>Quantit</th>
+                      <th>Unit</th>
+                      <th>PU HT</th>
+                      <th>VAT</th>
+                      <th>Total HT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{#each users}}
+                      <tr>
+                          <td>{{this.name}}</td>
+                          <td>{{this.age}}</td>
+                          <td>Report</td>
+                          <td class="text-right">800,00€</td>
+                          <td>20%</td>
+                          <td class="text-right">3 200,00€</td>
+                        </tr>
+                  {{/each}}
+                   
+                    
+                  </tbody>
+                </table>
+                <div class="row">
+                  <div class="col-8">
+                  </div>
+                  <div class="col-4">
+                    <table class="table table-sm text-right">
+                      <tr>
+                        <td><strong>Total HT</strong></td>
+                        <td class="text-right">3 700,00€</td>
+                      </tr>
+                      <tr>
+                        <td>TVA 20%</td>
+                        <td class="text-right">740,00€</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Total TTC</strong></td>
+                        <td class="text-right">4 440,00€</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                
+                <p class="conditions">
+                    In your kind settlement
+                  <br>
+                  And with our thanks.
+                  <br><br>
+                  Payment terms: payment receipt of invoice, 15 days.
+                  <br>
+                  No discount for early settlement.
+                  <br>
+                  Payment by bank transfer.
+                  <br><br>
+                  In the event of late payment, lump sum compensation for recovery costs: 40 euros (art. L.4413 and L.4416 commercial code).
+
+                </p>
+                
+                <br>
+                <br>
+                <br>
+                <br>
+                
+                <p class="bottom-page text-right">
+                  90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
+                  6B, Rue aux Saussaies des Dames - 57950 MONTIGNY-LES-METZ 03 55 80 42 62 - www.90tech.fr<br>
+                  Code APE 6201Z - N° TVA Intracom. FR 77 808977532<br>
+                  IBAN FR76 1470 7034 0031 4211 7882 825 - SWIFT CCBPFRPPMTZ
+                </p>
+              </div>
+            </div>
+      </body>
+    </html>

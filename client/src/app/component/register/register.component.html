@@ -304,8 +304,8 @@
                  
                     <p-footer>
                         <a (click)="resendVerifyEmail()" >Resend Verification Email</a>
-                        <p>(or)</p>                        
-                        <a (click)="phoneVerify = true;emailVerify = false" >Verify Phone Number</a>
+                        <!-- <p>(or)</p>                        
+                        <a (click)="changePhoneVerify(0,1)" >Verify Phone Number</a> -->
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
                                 <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
                             <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
@@ -326,7 +326,7 @@
 
                  <p>We have sent a OTP to </p>
                   
-                     <form [formGroup]="resendVerifyForm" > 
+                     <form [formGroup]="sendOTPForm" > 
                         <div class="ui-g ui-fluid" >
                             <div class="ui-g-12">
                                 <div class="ui-g-8">
@@ -347,7 +347,7 @@
                         </div>
                       </form>
 
-                      <form [formGroup]="otpForm" > 
+                      <form [formGroup]="verifyOTPForm" > 
                             <div class="ui-g ui-fluid" >
                                 <div class="ui-g-12">
                                     <div class="ui-g-8">                
@@ -366,7 +366,7 @@
                             <a (click)="resendVerifyPhone()" >Resend OTP</a>
                       
                         <p>(or)</p>                        
-                        <a (click)="emailVerify = true;phoneVerify = false" >Verify Email</a>
+                        <a (click)="changePhoneVerify(1,0)" >Verify Email</a>
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
                                 <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
                             <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>

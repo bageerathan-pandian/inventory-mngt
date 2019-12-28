@@ -40,6 +40,10 @@ export class ForgotPasswordComponent implements OnInit {
   
  forgotPassword() {
     console.log(this.forgotForm.value);
+    if(this.forgotForm.invalid){
+      this.checkValidity()
+      return false
+    }
     this.spinner.show()
     this.auth.forgotPassword(this.forgotForm.value)
     .subscribe((data:any)=>{

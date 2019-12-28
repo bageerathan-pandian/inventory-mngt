@@ -37,6 +37,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import {ProgressBarModule} from 'primeng/progressbar';
 // import { NgxTawkModule } from 'ngx-tawk';
 import { DISQUS_SHORTNAME } from 'ngx-disqus';
+import { PhoneVerifyComponent } from './component/phone-verify/phone-verify.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { DISQUS_SHORTNAME } from 'ngx-disqus';
     HeaderComponent,
     FooterComponent,
     ChatBotComponent,
-    OrderByPipe
+    OrderByPipe,
+    PhoneVerifyComponent
   ],
   imports: [
     BrowserModule,

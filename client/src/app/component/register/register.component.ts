@@ -32,7 +32,8 @@ export class RegisterComponent implements OnInit {
   userForm:FormGroup
   paymentForm:FormGroup 
   resendVerifyForm: FormGroup
-  otpForm: FormGroup
+  sendOTPForm: FormGroup
+  verifyOTPForm: FormGroup
   futureMonthEnd = moment().add(1, 'M');
   emailCheckStatus : any
   private socket;
@@ -79,7 +80,13 @@ export class RegisterComponent implements OnInit {
       user_email:  [this.sessionService.getItem('user_email'),[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
     })
     
-    this.otpForm = this._fb.group({
+    this.sendOTPForm = this._fb.group({
+      _id: [this.sessionService.getItem('_id')],
+      user_name: [this.sessionService.getItem('user_name'),Validators.required],
+      phone:  ['',Validators.required],
+    })
+
+    this.verifyOTPForm = this._fb.group({
       _id: [this.sessionService.getItem('_id')],
       user_name: [this.sessionService.getItem('user_name'),Validators.required],
       otp:  ['',Validators.required],
@@ -441,6 +448,11 @@ getNumber(evnt){
     Object.keys(this.userForm.controls).forEach((key) => {
       this.userForm.controls[key].markAsDirty();
     });
+  }
+
+  changePhoneVerify(e,p){
+    this.emailVerify = (e == 1) ? true : false;
+    this.phoneVerify = (p == 1) ? true : false;
   }
  
 

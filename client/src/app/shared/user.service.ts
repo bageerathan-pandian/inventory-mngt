@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
+import { SessionService } from './session.service';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import * as io from 'socket.io-client';
 })
 export class UserService {
   private socket; 
-  constructor(private httpClient:HttpClient) { 
+  constructor(private httpClient:HttpClient, private sessionService: SessionService) { 
     this.socket = io(environment.api_url);
   }
 
@@ -19,12 +20,12 @@ export class UserService {
     return this.httpClient.get(environment.api_url + '/api/users');
   }
 
-  getUser(id){
-    return this.httpClient.get(environment.api_url + '/api/users/'+id);
+  getUser(){
+    return this.httpClient.get(environment.api_url + '/api/users/'+this.sessionService.getItem('_id'));
   }
   
-  getUsersByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/users/get-by-company/'+id);
+  getUsersByCompany(){
+    return this.httpClient.get(environment.api_url + '/api/users/get-by-company/'+this.sessionService.getItem('company_id'));
   }
 
   addUser(data){

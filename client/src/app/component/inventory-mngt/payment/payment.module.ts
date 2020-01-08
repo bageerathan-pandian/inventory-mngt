@@ -6,7 +6,7 @@ import { PaymentComponent } from './payment.component';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
@@ -17,12 +17,15 @@ import {ToastModule} from 'primeng/toast';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {SidebarModule} from 'primeng/sidebar';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [PaymentComponent],
   imports: [
     CommonModule,
     PaymentRoutingModule,
+    ReactiveFormsModule,
     CardModule,
     FormsModule,
     InputTextModule,
@@ -36,7 +39,9 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     ToastModule,
     InputTextareaModule,
     KeyFilterModule,
-    InputSwitchModule
+    InputSwitchModule,
+    SidebarModule,
+    TooltipModule
   ]
 })
 export class PaymentModule { }

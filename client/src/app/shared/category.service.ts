@@ -3,20 +3,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private sessionService: SessionService) { }
 
   getCategory(){
     return this.httpClient.get(environment.api_url + '/api/category');
   }
   
-  getCategoryByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/category/get-by-company/'+id);
+  getCategoryByCompany(){
+    return this.httpClient.get(environment.api_url + '/api/category/get-by-company/'+this.sessionService.getItem('company_id'));
   }
 
   addCategory(data){

@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnitService {
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private sessionService: SessionService) { }
 
   getUnit(){
     return this.httpClient.get(environment.api_url + '/api/unit');
   }
   
-  getUnitByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/unit/get-by-company/'+id);
+  getUnitByCompany(){
+    return this.httpClient.get(environment.api_url + '/api/unit/get-by-company/'+this.sessionService.getItem('company_id'));
   }
 
   addUnit(data){

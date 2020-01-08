@@ -7,6 +7,11 @@ import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
 import { Invoice } from 'src/app/model/invoice.model';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SessionService } from 'src/app/shared/session.service';
+import { AuthService } from 'src/app/shared/auth.service';
+import { CommonService } from 'src/app/shared/common.service';
+import { InvoiceService } from 'src/app/shared/invoice.service';
 
 
 @Component({
@@ -17,104 +22,132 @@ import { Invoice } from 'src/app/model/invoice.model';
 })
 export class PaymentComponent implements OnInit {
  
+
+  loding: boolean = true;
   public bradCrum: MenuItem[];
   displayDialog: boolean;
+  invoiceForm:FormGroup
   car: any = {};
   cols: any[];
   status:any = [];
-  clonedCars: { [s: string]: Payment } = {};
-  paymentList:Invoice[];
-  constructor(private router:Router,private confirmationService: ConfirmationService,private messageService: MessageService) {
+  invoiceList: Invoice[];
+  data:any;
+  paymentStatus:any
+  paymentTypes:any
+  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private invoiceService:InvoiceService,private commonService: CommonService,
+    public sessionService: SessionService
+    ) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}
       },
-      {label:'Master',command: (event) => {
-        this.router.navigate(['/inventory-mngt/dashboard']);
-    }},
       {label:'Payment'},
   ];
-    this.status = [
-      {label:'Paid', value:1},
-      {label:'Pending', value:2},
-    ]
-   
-    this.getInvoice();
+    this.invoiceForm = this._fb.group({
+      _id: [''],
+      invoice_code: ['',Validators.required],
+      sub_total: ['',Validators.required],
+      discount: ['',Validators.required],
+      grand_total: ['',Validators.required],
+      payment_type: ['',Validators.required],
+      payment_status: [1,Validators.required]
+    })
     
-  }
+    this.cols = [
+      // { field: '_id', header: '#' },
+      { field: 'invoice_code', header: 'Code' },
+      { field: 'invoice_date', header: 'Invoice Date' },
+      { field: 'sub_total', header: 'Sub Total' },
+      { field: 'discount', header: 'Discount' },
+      { field: 'grand_total', header: 'Grand Total' },
+      { field: 'payment_type', header: 'Payment Type' },
+      { field: 'updatedAt', header: 'Updated Date' },
+      { field: 'payment_status', header: 'Status' }
+  ];
 
-  ngOnInit() {}
-
-  getInvoice(){
-    // this.invoiceService.getInvoice()
-    // .subscribe((data:any)=>{
-    //   console.log('getInvoice',data);
-    //     this.paymentList = data;     
-    // },
-    // error =>{
-    //   console.log('getInvoice',error);
-    // })
-  }
-
-
-
-  showDialogToAdd() {
-    // this.newCar = true;
-    this.car = {};
-    this.displayDialog = true;
-  }
-
-  save(car) {
-    console.log(car);
-      this.onRowUpdate(car);
-    
-  }
-
-  delete(car,index){
-    console.log('delete',car,index);
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete this Payment?',
-      accept: () => {
-          //Actual logic to perform a confirmation
-          this.onRowDelete(car,index);
-      }
-  });
-  }
   
-  onRowEdit(car: Invoice) {
-    console.log(car);
-    this.displayDialog = true;
-     this.car = {
-       id:car.id,
-  //      customer_id: car.customer_id,
-  // customer_name:  car.customer_name,
-  // sub_amount:  car.sub_amount,
-  discount:  car.discount,
-  grand_total:  car.grand_total,
-  payment_type:  car.payment_type,
-  status: car.status,
-     }
+  this.paymentTypes = [
+    {label:'Cash', value:1},
+    {label:'Card', value:2},
+  ]
+
+  this.paymentStatus = [
+    {label:'Paid', value:1},
+    {label:'Pending', value:2},
+  ]
+   
   }
 
-  onRowDelete(car,index) {
-    console.log(car,index);
-    this.paymentList.splice(index, 1);
-    this.paymentList = [...this.paymentList];
-    this.messageService.add({severity:'success', summary:'Payment Deleted Successfully', detail:'Payment Deleted Successfully'});
+  ngOnInit() {
 
+    // this.getCustomer();
+    this.getInvoiceByCompany();
   }
 
-  onRowUpdate(user) {
-    console.log(user);
-    this.displayDialog = false;
-    var sliceIndex = _.findIndex(this.paymentList, function (o) { return o.id == user.id; });
-    console.log(sliceIndex);
-    if (sliceIndex > -1) {
-      // Replace item at index using native splice
-      this.paymentList.splice(sliceIndex, 1, user);
+
+    getInvoiceByCompany(){
+
+      this.invoiceService.getInvoiceByCompany()
+      .subscribe((data:any)=>{
+        console.log('invoiceList',data);
+        this.invoiceList = data;
+        this.loding = false;
+      })
     }
-    this.paymentList = [...this.paymentList];
-    this.messageService.add({severity:'success', summary:'Payment Updated Successfully', detail:'Payment Updated Successfully'});
+
+  
+  public checkValidity(): void {
+    Object.keys(this.invoiceForm.controls).forEach((key) => {
+        this.invoiceForm.controls[key].markAsDirty();
+    });
+  }
+
+  save() {
+    if(this.invoiceForm.invalid){
+      this.checkValidity()
+      return false;
+    }
+    console.log('data',this.invoiceForm.value);
+      this.onRowUpdate(this.invoiceForm.value);
+  }
+
+
+  
+  onRowEdit(invoice: Invoice) {
+    console.log(invoice);
+    this.displayDialog = true;
+    this.invoiceForm.controls['_id'].setValue(invoice._id);
+    this.invoiceForm.controls['invoice_code'].setValue(invoice.invoice_code);
+     this.invoiceForm.controls['sub_total'].setValue(invoice.sub_total);
+     this.invoiceForm.controls['discount'].setValue(invoice.discount);
+     this.invoiceForm.controls['grand_total'].setValue(invoice.grand_total);
+     this.invoiceForm.controls['payment_type'].setValue(invoice.payment_type);
+     this.invoiceForm.controls['payment_status'].setValue(invoice.payment_status);
+  }
+
+
+
+  onRowUpdate(invoice) {
+    console.log(invoice);
+    this.displayDialog = false;
+    this.invoiceService.updateInvoice(invoice)
+    .subscribe((data:any)=>{
+      console.log('update',data);
+      var sliceIndex = _.findIndex(this.invoiceList, function (o) { return o._id == invoice._id; });
+      console.log(sliceIndex);
+      if (sliceIndex > -1) {
+        // Replace item at index using native splice
+        this.invoiceList.splice(sliceIndex, 1, data);
+      }
+      this.invoiceList = [...this.invoiceList];
+      this.messageService.add({severity:'success', summary:'Invoice Updated Successfully', detail:'Invoice Updated Successfully'});
+  
+    },
+    error =>{
+      console.log(error);
+      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+
+    })
 
   }
 

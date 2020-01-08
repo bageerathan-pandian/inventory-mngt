@@ -205,8 +205,7 @@ initRowFirst() {
   getLastInvoice(){
     this.salesService.getLastInvoice()
     .subscribe((data:any)=>{
-      console.log('getLastInvoice',data);
-      
+      console.log('getLastInvoice',data);      
     this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
     },
     error =>{      
@@ -231,7 +230,7 @@ initRowFirst() {
   }
 
    getCategory(){
-    this.categoryService.getCategoryByCompany(this.sessionService.getItem('company_id'))
+    this.categoryService.getCategoryByCompany()
     .subscribe((data:any)=>{
       console.log('categoryList',data);
       this.categoryList = data;
@@ -239,7 +238,7 @@ initRowFirst() {
   }
 
   getStock(){
-    this.stockService.getStockByCompanyActive(this.sessionService.getItem('company_id'))
+    this.stockService.getStockByCompanyActive()
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocks = data;      
@@ -325,16 +324,20 @@ initRowFirst() {
   deleteListItem(i){
     const control = <FormArray>this.invoiceForm.controls['invoiceList'];
     control.removeAt(i);
-    console.log(control)
+    console.log(control)    
+    this.calculateTotal()
   }
 
   onReset() {
-    // reset whole form back to initial state
-    this.invoiceForm.reset();
-    // this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
+    // reset whole form back to initial state   
+    // this.invoiceForm.reset();
+    // this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',this.customerList.length)); 
+    this.invoiceForm.controls['invoiceList'].reset()
     this.invoiceForm.controls['invoice_date'].setValue(new Date());
     this.invoiceForm.controls['sub_total'].setValue(0.00);
     this.invoiceForm.controls['discount'].setValue(0.00);
+    this.invoiceForm.controls['paid_amount'].setValue(0.00);
+    this.invoiceForm.controls['balance_amount'].setValue(0.00);
     this.invoiceForm.controls['grand_total'].setValue(0.00);
 }
 
@@ -343,7 +346,15 @@ onClear() {
 }
 
 onSelectProduct(event,i){
-  console.log(event.value);
+  console.log(event.value); 
+  console.log(this.invoiceForm.value.invoiceList);  
+  let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
+  console.log('stockAddedData',stockAddedData); 
+  if(stockAddedData.price){
+    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Stock already added in invoice'});
+    this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+    return false
+  }
   var sliceIndex = _.findIndex(this.stocks, function (o) { return  o._id == event.value; });
   console.log(sliceIndex);
   if (sliceIndex > -1) {
@@ -364,16 +375,21 @@ onChangeQty(i){
      return
   }
   console.log(i); 
+  console.log(this.invoiceForm.value.invoiceList[i].stock_details_id); 
+  console.log(this.stocks); 
   console.log('qty',this.invoiceForm.get('invoiceList')['controls'][i].value.qty); 
-  console.log(this.stocks[i]);    
+  let stockData = _.find(this.stocks, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
+  // let stockDataAdded = _.find(this.invoiceForm.value.invoiceList, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
+  console.log(this.stocks[i]); 
+  console.log('stockData',stockData);    
   console.log(this.invoiceForm.get('invoiceList')['controls'][i].value);
   // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
   // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
-  if(this.stocks[i].stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty){
+  if(stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty){
     this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.stocks[i].selling_price) 
   }else{    
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue('') 
-    let qty_data = this.stocks[i].stock_name + ' has ' + this.stocks[i].stock_qty + ' only available!'
+    this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
+    let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
     this.messageService.add({severity:'error', summary:'Oopss!', detail: qty_data});
   }
   this.calculateTotal()

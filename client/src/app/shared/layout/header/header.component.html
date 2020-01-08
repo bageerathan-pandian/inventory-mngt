@@ -45,7 +45,7 @@
           <a  routerLink="/inventory-mngt/profile" (click)="userdetails.hide($event)">Profile</a>
       </li>
       
-      <li>
+      <li *ngIf="sessionService.getItem('role') != 3">
             <a  routerLink="/inventory-mngt/company-info" (click)="userdetails.hide($event)">Company Info.</a>
         </li>
         
@@ -53,7 +53,7 @@
             <a  routerLink="/inventory-mngt/change-password" (click)="userdetails.hide($event)">Change Password</a>
         </li>
         
-      <li>
+      <li *ngIf="sessionService.getItem('role') == 1">
             <a  routerLink="/inventory-mngt/product-buy" (click)="userdetails.hide($event)">Account Type</a>
         </li>
   </ul>

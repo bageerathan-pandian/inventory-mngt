@@ -76,7 +76,7 @@ export class CustomerMasterComponent implements OnInit {
   ngOnInit() {
 
     // this.getCustomer();
-    this.getCustomerByCompany(this.sessionService.getItem('company_id'));
+    this.getCustomerByCompany();
   }
 
   @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
@@ -97,9 +97,9 @@ export class CustomerMasterComponent implements OnInit {
       })
     }
 
-    getCustomerByCompany(id){
+    getCustomerByCompany(){
 
-      this.customerService.getCustomerByCompany(id)
+      this.customerService.getCustomerByCompany()
       .subscribe((data:any)=>{
         console.log('customerList',data);
         this.customerList = data;

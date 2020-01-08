@@ -686,6 +686,10 @@ body .ui-inplace {
   width: 100% !important
 }
 
+table td{
+  padding: 5px;
+}
+
 @media (min-width: 768px){
 .navbar-nav>li>a {
     padding-top: 30px;

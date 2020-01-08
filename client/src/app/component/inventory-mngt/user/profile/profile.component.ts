@@ -28,17 +28,17 @@ export class ProfileComponent implements OnInit {
     this.userForm = this._fb.group({
       _id: [this.sessionService.getItem('_id')],
       user_name: [this.sessionService.getItem('user_name'),Validators.required],
-      user_image: [this.sessionService.getItem('user_image'),Validators.required],
+      user_image: [this.sessionService.getItem('user_image')],
       user_email: [this.sessionService.getItem('user_email'),Validators.required],
       user_pwd: [this.sessionService.getItem('user_pwd'),Validators.required],
       cnfirm_user_pwd: [this.sessionService.getItem('cnfirm_user_pwd'),Validators.required],
-      company_details_id:[this.sessionService.getItem('company_details_id'),Validators.required],
+      company_details_id:[this.sessionService.getItem('company_id'),Validators.required],
       phone:[this.sessionService.getItem('phone'),Validators.required],
       role: [this.sessionService.getItem('role'),Validators.required],
       status: [1,Validators.required]
     })
     
-    this.croppedImage = environment.api_url + this.sessionService.getItem('user_image');
+    this.croppedImage = this.sessionService.getItem('user_image') ? environment.api_url + this.sessionService.getItem('user_image') : null;
   }
 
   ngOnInit() {
@@ -93,6 +93,7 @@ export class ProfileComponent implements OnInit {
   }
 
   userUpdate(){
+    console.log(this.userForm)
     if(this.userForm.invalid){
       this.checkValidity()
       return false;
@@ -102,11 +103,10 @@ export class ProfileComponent implements OnInit {
       console.log('update',data);
       this.displayDialog = false;
       this.messageService.add({severity:'success', summary:'User Updated Successfully', detail:'User Updated Successfully'});
-      this.userService.getUser(this.sessionService.getItem('_id'))
+      this.userService.getUser()
       .subscribe((data:any)=>{
         console.log('data',data[0]);
-        this.sessionService.setItem('user_details',JSON.stringify(data[0]));
-
+        this.sessionService.setUserCredentials(data[0]);
       })
     },
     error =>{

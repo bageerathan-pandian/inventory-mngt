@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SalesService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private sessionService : SessionService) { }
 
   getLastInvoice(){
     return this.httpClient.get(environment.api_url + '/api/sales/last-invoice');
   }
 
   getTotalSalesAmount(){
-    return this.httpClient.get(environment.api_url + '/api/sales/total-sales');
+    return this.httpClient.get(environment.api_url + '/api/sales/total-sales/'+this.sessionService.getItem('company_id'));
   }
 
   addSales(data){

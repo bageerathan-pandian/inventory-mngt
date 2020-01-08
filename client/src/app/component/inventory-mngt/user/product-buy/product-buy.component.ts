@@ -46,11 +46,11 @@ export class ProductBuyComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getPaymentDetails(this.sessionService.getItem('company_id'))
+    this.getPaymentDetails()
   }
 
-  getPaymentDetails(company_details_id){
-    this.auth.getPaymentDetails(company_details_id)
+  getPaymentDetails(){
+    this.auth.getPaymentDetails()
     .subscribe((data:any)=>{  
       console.log('data',data);  
       this.paymentDetails = data[0]

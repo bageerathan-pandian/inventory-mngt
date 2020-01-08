@@ -71,7 +71,7 @@
     </a>
   </div>
 <div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
-<a routerLink="/inventory-mngt/master/stock" >
+<a [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/master/stock' : '/inventory-mngt/dashboard'" >
   <p-card styleClass="card2 ui-g-12" >
         <p-header>
                 Stocks
@@ -90,7 +90,7 @@
 </a>
 </div>
 <div   [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
-    <a routerLink="/inventory-mngt/sales"  >
+    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/sales' : '/inventory-mngt/dashboard'" >
   <p-card styleClass="card3 ui-g-12" >
         <p-header>
                 Sales
@@ -109,7 +109,7 @@
     </a>
 </div>
 <div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
-    <a routerLink="/inventory-mngt/purchase"  >
+    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/purchase' : '/inventory-mngt/dashboard'" >
 
   <p-card styleClass="card4 ui-g-12" >
         <p-header>
@@ -129,7 +129,7 @@
     </a>
 </div>
 <div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'"  >
-    <a routerLink="/inventory-mngt/master/customer" >
+    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/master/customer' : '/inventory-mngt/dashboard'" >
 
   <p-card styleClass="card5 ui-g-12" >
         <p-header>
@@ -150,7 +150,7 @@
 </div>
 </div>
 <div class="ui-g ui-fluid">
-        <div class="ui-g-5">
+        <div class="ui-g-6">
                 <p-card styleClass="ui-g-12" >
                       <!-- <div class="ui-g-3" style="float: right;position: relative;">
                       <p-dropdown [options]="yearList" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
@@ -158,13 +158,13 @@
                   <p-chart type="bar" [data]="data" [options]="options"></p-chart>
                   </p-card>
               </div>
-              <div class="ui-g-5">
+              <div class="ui-g-4">
                     <p-card styleClass="ui-g-12" >
                           <!-- <h3>Profit/Loss Report</h3> -->
                           <!-- <div class="ui-g-3" style="float: right;position: relative;">
                           <p-dropdown [options]="yearList" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
                         </div> -->
-                      <p-chart type="bar" [data]="data1" [options]="options1"></p-chart>
+                      <p-chart type="pie" [data]="data1" [options]="options1"></p-chart>
                       </p-card>
                   </div>
                   <div class="ui-g-2">
@@ -278,7 +278,7 @@
            
        </ng-template>
                   </p-table>
-                  <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Stocks" routerLink="/inventory-mngt/master/stock" style=" width: auto; margin-top: 10px;"></button>
+                  <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Stocks"  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/master/stock' : '/inventory-mngt/dashboard'" style=" width: auto; margin-top: 10px;"></button>
                  
                 </p-card>
               </div>
@@ -338,7 +338,7 @@
                                
                            </ng-template>
                     </p-table>
-                    <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Orders" routerLink="/inventory-mngt/report/sales-report"  style=" width: auto; margin-top: 10px;"></button>
+                    <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Orders"  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/payment' : '/inventory-mngt/dashboard'"  style=" width: auto; margin-top: 10px;"></button>
                 </p-card>
                 </div>
                 
@@ -377,7 +377,7 @@
                    
                </ng-template>
         </p-table>
-        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase" routerLink="/inventory-mngt/report/purchase-report"  style=" width: auto; margin-top: 10px;"></button>
+        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase"  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/master/purchase-report' : '/inventory-mngt/dashboard'" style=" width: auto; margin-top: 10px;"></button>
     </p-card>
     </div>
               </div>

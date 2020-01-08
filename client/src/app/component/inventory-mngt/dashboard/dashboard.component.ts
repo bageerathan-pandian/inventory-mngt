@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { SalesService } from 'src/app/shared/sales.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SessionService } from 'src/app/shared/session.service';
+import { PurchaseService } from 'src/app/shared/purchase.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +44,7 @@ export class DashboardComponent implements OnInit {
   resendVerifyForm: FormGroup
 
   constructor(private companyService: CompanyService,private _fb: FormBuilder, private auth: AuthService, public sessionService: SessionService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
-    private messageService: MessageService
+    private messageService: MessageService, private purchaseService: PurchaseService
     ) {
 
       this.resendVerifyForm = this._fb.group({
@@ -70,40 +71,22 @@ export class DashboardComponent implements OnInit {
               }
           ]
       }
-      this.data1 = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        datasets: [
-            {
-                label: '2018',
-                backgroundColor: '#42A5F5',
-                borderColor: '#1E88E5',
-                data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            {
-                label: '2019',
-                backgroundColor: '#9CCC65',
-                borderColor: '#7CB342',
-                data: [28, 48, 40, 19, 86, 27, 90]
-            }
-        ]
-    }
-    this.data2 = {
-      labels: ['Sales','Purchase'],
+    this.data1 = {
+      labels: ['A','B'],
       datasets: [
           {
-              data: [300, 100],
+              data: [300, 50],
               backgroundColor: [
                   "#FF6384",
-                  "#36A2EB",
-                  "#FFCE56"
+                  "#36A2EB"
               ],
               hoverBackgroundColor: [
                   "#FF6384",
-                  "#36A2EB",
-                  "#FFCE56"
+                  "#36A2EB"
               ]
           }]    
       };
+
       this.yearList = [
         {label: '2019', value: 2019},
         {label: '2018', value: 2018}
@@ -168,13 +151,14 @@ export class DashboardComponent implements OnInit {
         
       })
     this.getTotalSalesAmount();
+    this.getTotalPurchaseAmount();
     this.getLoggedInUsers();
     this.getCompany();
-    this.getCustomerByCompany(this.sessionService.getItem('company_id'));
-    this.getStocksByCompany(this.sessionService.getItem('company_id'));
-    this.getLatestStocks(this.sessionService.getItem('company_id'));
-    this.getLatestSales(this.sessionService.getItem('company_id'));
-    this.getLatestPurchase(this.sessionService.getItem('company_id'));
+    this.getCustomerByCompany();
+    this.getStocksByCompany();
+    this.getLatestStocks();
+    this.getLatestSales();
+    this.getLatestPurchase();
   }
 
   getLoggedInUsers(){
@@ -183,7 +167,7 @@ export class DashboardComponent implements OnInit {
     .subscribe((data:any)=>{
       console.log('getLoggedInUsers',data);
       this.loggedInUsersList = [];
-      if(this.sessionService.getItem('_id').role != 0){
+      if(this.sessionService.getItem('role') != 0){
         for(let lData of data){
           if(lData.company_details_id._id == this.sessionService.getItem('company_id')){
             console.log('lData',lData);
@@ -216,9 +200,19 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  getCustomerByCompany(id){
+  
 
-    this.customerService.getCustomerByCompany(id)
+  getTotalPurchaseAmount(){
+    this.purchaseService.getTotalPurchaseAmount()
+    .subscribe((data:any)=>{
+      console.log('getTotalPurchaseAmount',data);
+      this.totalSalesAmount = data[0].grand_total;
+    })
+  }
+
+  getCustomerByCompany(){
+
+    this.customerService.getCustomerByCompany()
     .subscribe((data:any)=>{
       console.log('customerList',data);
       this.customerList = data;
@@ -226,8 +220,8 @@ export class DashboardComponent implements OnInit {
   }
 
   
-  getStocksByCompany(id){
-    this.stockService.getStockByCompany(id)
+  getStocksByCompany(){
+    this.stockService.getStockByCompany()
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocksList = data;
@@ -235,24 +229,24 @@ export class DashboardComponent implements OnInit {
   }
 
     
-  getLatestStocks(id){
-    this.dashboardService.getLatestStocks(id)
+  getLatestStocks(){
+    this.dashboardService.getLatestStocks()
     .subscribe((data:any)=>{
       console.log('getLatestStocks',data);
       this.stocksLatestList = data;
     })
   }
 
-  getLatestSales(id){
-    this.dashboardService.getLatestSales(id)
+  getLatestSales(){
+    this.dashboardService.getLatestSales()
     .subscribe((data:any)=>{
       console.log('getLatestSales',data);
       this.salesLatestList = data;
     })
   }
 
-  getLatestPurchase(id){
-    this.dashboardService.getLatestPurchase(id)
+  getLatestPurchase(){
+    this.dashboardService.getLatestPurchase()
     .subscribe((data:any)=>{
       console.log('getLatestPurchase',data);
       this.purchaseLatestList = data;

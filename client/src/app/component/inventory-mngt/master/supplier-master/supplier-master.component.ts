@@ -73,7 +73,7 @@ export class SupplierMasterComponent implements OnInit {
 
   ngOnInit() {  
     // this.getSupplier();
-    this.getSupplierByCompany(this.sessionService.getItem('company_id'));
+    this.getSupplierByCompany();
   }
 
   @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
@@ -93,8 +93,8 @@ export class SupplierMasterComponent implements OnInit {
     })
     }
 
-    getSupplierByCompany(id){
-      this.supplierService.getSupplierByCompany(id)
+    getSupplierByCompany(){
+      this.supplierService.getSupplierByCompany()
       .subscribe((data:any)=>{
         console.log('supplierList',data);
         this.supplierList = data;

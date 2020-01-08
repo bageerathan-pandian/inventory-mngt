@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,22 +9,22 @@ import { environment } from 'src/environments/environment';
 export class DashboardService {
 
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private sessionService : SessionService) { }
 
   
   getLoggedInUsers(){
     return this.httpClient.get(environment.api_url + '/api/dashboard/logged-in-users');
   }
 
-  getLatestStocks(id){
-    return this.httpClient.get(environment.api_url + '/api/dashboard/latest-stock/'+id);
+  getLatestStocks(){
+    return this.httpClient.get(environment.api_url + '/api/dashboard/latest-stock/'+this.sessionService.getItem('company_id'));
   }
 
-  getLatestSales(id){
-    return this.httpClient.get(environment.api_url + '/api/dashboard/latest-sales/'+id);
+  getLatestSales(){
+    return this.httpClient.get(environment.api_url + '/api/dashboard/latest-sales/'+this.sessionService.getItem('company_id'));
   }
 
-  getLatestPurchase(id){
-    return this.httpClient.get(environment.api_url + '/api/dashboard/latest-purchase/'+id);
+  getLatestPurchase(){
+    return this.httpClient.get(environment.api_url + '/api/dashboard/latest-purchase/'+this.sessionService.getItem('company_id'));
   }
 }

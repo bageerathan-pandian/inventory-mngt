@@ -45,7 +45,8 @@ export class CompanyInfoComponent implements OnInit {
       status: [1,Validators.required]
     })
     
-    this.croppedImage = environment.api_url + this.sessionService.getItem('company_image');
+    this.croppedImage = this.sessionService.getItem('company_image') ? environment.api_url + this.sessionService.getItem('company_image') : null;
+
    }
 
   ngOnInit() {
@@ -109,11 +110,10 @@ export class CompanyInfoComponent implements OnInit {
       console.log('update',data);
       this.displayDialog = false;
       this.messageService.add({severity:'success', summary:'Company Updated Successfully', detail:'Company Updated Successfully'});
-      this.userService.getUser(this.sessionService.getItem('_id')._id)
+      this.userService.getUser()
       .subscribe((data:any)=>{
         console.log('data',data[0]);
-        this.sessionService.setItem('user_details',JSON.stringify(data[0]));
-
+        this.sessionService.setUserCredentials(data[0]);
       })
     },
     error =>{

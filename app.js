@@ -60,6 +60,7 @@ const dashboard = require("./routers/dashboard.route");
 const pdfs = require("./routers/pdfs.route");
 const imagUpload = require("./routers/imageUpload.route");
 const contact = require("./routers/contact.route");
+const invoice = require("./routers/invoice.route");
 
 app.use("/api/auth", auth); // auth api's goes here 
 app.use("/api/users", passport.authenticate('jwt', { session : false }), users);
@@ -75,6 +76,7 @@ app.use("/api/sales",passport.authenticate('jwt', { session : false }),  sales);
 app.use("/api/pdfs",passport.authenticate('jwt', { session : false }),  pdfs); 
 app.use("/api/image-upload",passport.authenticate('jwt', { session : false }),  imagUpload); 
 app.use("/api/contact",passport.authenticate('jwt', { session : false }),  contact); 
+app.use("/api/invoice",passport.authenticate('jwt', { session : false }),  invoice); 
 // app.use("/api/payment",passport.authenticate('jwt', { session : false }),  paymentController); 
 
 // console.log(ip.address());

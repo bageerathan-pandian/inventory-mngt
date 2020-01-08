@@ -110,7 +110,7 @@ export class UserMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getUser();
     // }else{
-      this.getUserByCompany(this.sessionService.getItem('company_id'));
+      this.getUserByCompany();
     // }
     this.getCompany();
   }
@@ -133,8 +133,8 @@ export class UserMasterComponent implements OnInit {
     })
   }
 
-  getUserByCompany(id){
-    this.userService.getUsersByCompany(id)
+  getUserByCompany(){
+    this.userService.getUsersByCompany()
     .subscribe((data:any)=>{
       console.log('userList',data);
       this.userList = data;

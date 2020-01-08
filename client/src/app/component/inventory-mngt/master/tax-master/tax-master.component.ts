@@ -67,7 +67,7 @@ export class TaxMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getTax();
     // }else{
-      this.getTaxByCompany(this.sessionService.getItem('company_id'));
+      this.getTaxByCompany();
     // }
   }
 
@@ -80,8 +80,8 @@ export class TaxMasterComponent implements OnInit {
     })
   }
 
-  getTaxByCompany(id){
-    this.taxService.getTaxByCompany(id)
+  getTaxByCompany(){
+    this.taxService.getTaxByCompany()
     .subscribe((data:any)=>{
       console.log('taxList',data);
       this.taxList = data;

@@ -65,7 +65,7 @@ export class UnitMasterComponent implements OnInit {
     // if(this.user_details.role == '0'){
     //   this.getTax();
     // }else{
-      this.getUnitByCompany(this.sessionService.getItem('company_id'));
+      this.getUnitByCompany();
     // }
     this.cols = [
       // { field: '_id', header: '#' },
@@ -86,8 +86,8 @@ export class UnitMasterComponent implements OnInit {
     })
   }
 
-  getUnitByCompany(id){
-    this.unitService.getUnitByCompany(id)
+  getUnitByCompany(){
+    this.unitService.getUnitByCompany()
     .subscribe((data:any)=>{
       console.log('unitList',data);
       this.unitList = data;

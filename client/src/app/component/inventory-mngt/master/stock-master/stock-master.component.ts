@@ -57,9 +57,9 @@ export class StockMasterComponent implements OnInit {
   ]
 
 
-  this.getCategoryByCompany(this.sessionService.getItem('company_id'));
-  this.getUnitByCompany(this.sessionService.getItem('company_id'));
-  this.getStocksByCompany(this.sessionService.getItem('company_id'));
+  this.getCategoryByCompany();
+  this.getUnitByCompany();
+  this.getStocksByCompany();
   
     this.stockForm = this._fb.group({
       _id: [''],
@@ -110,8 +110,8 @@ export class StockMasterComponent implements OnInit {
 
   ngOnInit() {}
 
-  getCategoryByCompany(id){
-    this.categoryService.getCategoryByCompany(id)
+  getCategoryByCompany(){
+    this.categoryService.getCategoryByCompany()
     .subscribe((data:any)=>{
       console.log('categoryList',data);         
       for(let catData of data){
@@ -124,8 +124,8 @@ export class StockMasterComponent implements OnInit {
     })
   }
 
-  getUnitByCompany(id){
-    this.unitService.getUnitByCompany(id)
+  getUnitByCompany(){
+    this.unitService.getUnitByCompany()
     .subscribe((data:any)=>{
       console.log('unitList',data);         
       for(let unitData of data){
@@ -138,8 +138,8 @@ export class StockMasterComponent implements OnInit {
     })
   }
 
-  getStocksByCompany(id){
-    this.stockService.getStockByCompany(id)
+  getStocksByCompany(){
+    this.stockService.getStockByCompany()
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocksList = data;

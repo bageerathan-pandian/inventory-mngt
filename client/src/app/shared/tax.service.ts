@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaxService {
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient, private sessionService: SessionService) { }
 
   getTax(){
     return this.httpClient.get(environment.api_url + '/api/tax');
   }
   
-  getTaxByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/tax/get-by-company/'+id);
+  getTaxByCompany(){
+    return this.httpClient.get(environment.api_url + '/api/tax/get-by-company/'+this.sessionService.getItem('company_id'));
   }
 
   addTax(data){

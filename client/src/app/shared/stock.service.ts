@@ -3,26 +3,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StockService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient,private sessionService: SessionService) { }
 
   getStock(){
     return this.httpClient.get(environment.api_url + '/api/stock');
   }
   
 
-  getStockByCompany(id){
-    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company/'+id);
+  getStockByCompany(){
+    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company/'+this.sessionService.getItem('company_id'));
   }
 
   
-  getStockByCompanyActive(id){
-    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company-active/'+id);
+  getStockByCompanyActive(){
+    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company-active/'+this.sessionService.getItem('company_id'));
   }
 
   addStock(data){

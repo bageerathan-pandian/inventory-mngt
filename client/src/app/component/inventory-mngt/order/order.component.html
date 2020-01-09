@@ -15,8 +15,7 @@
             Order Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
         </div>
         <div class="ui-g-4">
-             Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Customer"  formControlName="customer_details_id"  [showClear]="true" filter="true"></p-dropdown>
-            <p-button icon="pi pi-plus" class="ui-button-success" (click)="showDialogToAddCust()"  pTooltip="Add new customer" tooltipPosition="top"></p-button>
+             Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Customer"  formControlName="customer_details_id"  [showClear]="true" filter="true" (onChange)="onSelectCust($event)" ></p-dropdown>
 
         </div>
     </div>
@@ -53,6 +52,7 @@
                            <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"  [showClear]="true" filter="true">
                             
                        </p-dropdown> 
+                       
                </td>
                <td >
                        <input pInputText type="text" formControlName="price"   required readonly>
@@ -66,8 +66,9 @@
                        <input pInputText type="text" formControlName="total"   required readonly>
                       
                </td>
-               <td style="text-align:center">
-                            <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button>
+               <td >
+                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button>
+                <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
                             <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="invoiceForm.value.invoiceList.length == i+1"  style="    margin: 0px 5px;"></button>
                            </td>
            </tr>
@@ -128,14 +129,14 @@
                             <button pButton type="button" label="Reset" icon="pi pi-replay" class="ui-button-secondary" (click)="onReset()"></button>
                         </div>
                     <div class="ui-g-2">
-                            <button pButton type="button" (click)="saveOrder()" label="Save Order" icon="pi pi-save" class="ui-button-success"></button>
+                            <button pButton type="button" (click)="saveOrder()" label="Save & Print Bill" icon="pi pi-save" class="ui-button-success"></button>
                         </div>
-                    <div class="ui-g-2">
+                    <!-- <div class="ui-g-2">
                             <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
-                    </div>
-                    <div class="ui-g-2">
-                            <button pButton type="button" label="PrintJs" icon="pi pi-print" class="ui-button-warning"  ></button>
-                        </div>
+                    </div> -->
+                    <!-- <div class="ui-g-2">
+                        <button pButton type="button" onclick="printJS('print-section', 'html')" label="Print" icon="pi pi-print"  class="ui-button-warning"  ></button>
+                    </div> -->
                 </div>
 
 
@@ -208,3 +209,12 @@
 <p-sidebar [(visible)]="showPdf" position="right" [style]="{width:'35em'}">
     <iframe  [src]="pdfUrl | safe: 'resourceUrl'" width="100%"  #printPdfFrame type="application/pdf"></iframe>
 </p-sidebar>
+           
+
+
+<div id="print-section" style="display: none"> 
+       
+        <app-invoice-design #printDiv></app-invoice-design>
+               
+        <!-- <app-invoice-design-pos></app-invoice-design-pos> -->
+      </div>

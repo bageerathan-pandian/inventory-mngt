@@ -39,6 +39,7 @@ const routes: Routes = [
       {path:'company-info',loadChildren:() => import('./component/inventory-mngt/user/company-info/company-info.module').then(m => m.CompanyInfoModule),canActivate:[AuthGuard]},
       {path:'product-buy',loadChildren:() => import('./component/inventory-mngt/user/product-buy/product-buy.module').then(m => m.ProductBuyModule),canActivate:[AuthGuard]},
       {path:'settings/barcode-generate',loadChildren:() => import('./component/inventory-mngt/settings/barcode-generate/barcode-generate.module').then(m => m.BarcodeGenerateModule),canActivate:[AuthGuard]},
+      {path:'settings/invoice-setup',loadChildren:() => import('./component/inventory-mngt/settings/invoice-setup/invoice-setup.module').then(m => m.InvoiceSetupModule),canActivate:[AuthGuard]},
       {path:'message',loadChildren:() => import('./component/inventory-mngt/message/message.module').then(m => m.MessageModule),canActivate:[AuthGuard]},
       {path:'schedule-calender',loadChildren:() => import('./component/inventory-mngt/schedule-calender/schedule-calender.module').then(m => m.ScheduleCalenderModule),canActivate:[AuthGuard]},
       {path:'contact',loadChildren:() => import('./component/inventory-mngt/contact/contact.module').then(m => m.ContactModule),canActivate:[AuthGuard]},

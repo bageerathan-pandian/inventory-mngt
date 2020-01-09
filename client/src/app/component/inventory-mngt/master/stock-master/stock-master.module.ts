@@ -18,6 +18,7 @@ import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {TooltipModule} from 'primeng/tooltip';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [StockMasterComponent],
@@ -39,7 +40,8 @@ import {TooltipModule} from 'primeng/tooltip';
     InputSwitchModule,
     ReactiveFormsModule,
     ProgressSpinnerModule,
-    TooltipModule
+    TooltipModule,
+    SharedModule
   ]
 })
 export class StockMasterModule { }

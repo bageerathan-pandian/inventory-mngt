@@ -24,6 +24,7 @@ import { DialogModule } from 'primeng/dialog';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import {SidebarModule} from 'primeng/sidebar';
 import { SafePipeModule } from 'safe-pipe';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [OrderComponent],
@@ -51,7 +52,8 @@ import { SafePipeModule } from 'safe-pipe';
     DialogModule,
     GooglePlaceModule,
     SidebarModule,
-    SafePipeModule
+    SafePipeModule,
+    SharedModule
   ]
 })
 export class OrderModule { }

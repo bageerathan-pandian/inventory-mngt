@@ -1,30 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Stock } from "src/app/model/stock.model";
-import {MenuItem} from 'primeng/api';
-import {ConfirmationService} from 'primeng/api';
-import {MessageService} from 'primeng/api';
-import { Router } from '@angular/router';
-
-import * as _ from 'lodash';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StockService } from 'src/app/shared/stock.service';
 import { CategoryService } from 'src/app/shared/category.service';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
-import { CommonService } from 'src/app/shared/common.service';
 import { UnitService } from 'src/app/shared/unit.service';
+import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { Stock } from 'src/app/model/stock.model';
 
 @Component({
-  selector: 'app-stock-master',
-  templateUrl: './stock-master.component.html',
-  styleUrls: ['./stock-master.component.scss'],
-  providers: [ConfirmationService]
+  selector: 'app-stock-form',
+  templateUrl: './stock-form.component.html',
+  styleUrls: ['./stock-form.component.scss']
 })
-export class StockMasterComponent implements OnInit {
+export class StockFormComponent implements OnInit {
 
 
-  loding: boolean = true;
-  public bradCrum: MenuItem[];
+
   displayDialog: boolean;
   displayDialog1: boolean;
   displayDialog2: boolean;
@@ -34,23 +25,13 @@ export class StockMasterComponent implements OnInit {
   car: any = {};
   cols: any[];
   status:any = [];
-  stocksList: Stock[];
-  clonedCars: { [s: string]: Stock } = {};
   categoryList:any = [];
   stockListSheet:any = []
   unitList:any = []
-  constructor(private router:Router,private _fb: FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
+  constructor(private _fb: FormBuilder, private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
-    this.bradCrum = [
-      {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/inventory-mngt/dashboard'])}
-      },
-      {label:'Master',command: (event) => {
-        this.router.navigate(['/inventory-mngt/dashboard']);
-    }},
-      {label:'Stock'},
-  ];
+
   this.status = [
     {label:'Active', value:1},
     {label:'De-Active', value:0},
@@ -59,7 +40,6 @@ export class StockMasterComponent implements OnInit {
 
   this.getCategoryByCompany();
   this.getUnitByCompany();
-  this.getStocksByCompany();
   
     this.stockForm = this._fb.group({
       _id: [''],
@@ -140,30 +120,6 @@ export class StockMasterComponent implements OnInit {
     })
   }
 
-  getStocksByCompany(){
-    this.stockService.getStockByCompany()
-    .subscribe((data:any)=>{
-      console.log('stocksList',data);
-      this.stocksList = data;
-      this.loding = false;
-      for(let sheetData of data){
-        this.stockListSheet.push({
-          'Barcode' : sheetData._id,
-          'Stock Code' : sheetData.stock_code,
-          'Stock Name' : sheetData.stock_name,
-          'Category Name' : sheetData.category_details_id.category_name,
-          'Stock Qty' : sheetData.stock_qty,
-          'Buying Price' : sheetData.buying_price,
-          'Selling Price' : sheetData.selling_price,
-          'Product Details' : sheetData.product_details,
-          'Unit' : sheetData.unit_details_id ? sheetData.unit_details_id.unit_name : '',
-          'Updated date'  : sheetData.updatedAt,
-          'Status'  : sheetData.status
-          // ''  : sheetData.status
-        })
-      }
-    })
-  }
 
   onSelectCat(event){    
     console.log(event.value); 
@@ -186,7 +142,7 @@ export class StockMasterComponent implements OnInit {
 
   showDialogToAdd() {
     this.stockForm.reset();
-    this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
+    // this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
     this.stockForm.controls['status'].setValue(1);
     this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
@@ -241,13 +197,13 @@ export class StockMasterComponent implements OnInit {
 
   delete(stock,index){
     console.log('delete',stock,index);
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to delete this Stock?',
-      accept: () => {
-          //Actual logic to perform a confirmation
-          this.onRowDelete(stock,index);
-      }
-  });
+  //   this.confirmationService.confirm({
+  //     message: 'Are you sure that you want to delete this Stock?',
+  //     accept: () => {
+  //         //Actual logic to perform a confirmation
+  //         this.onRowDelete(stock,index);
+  //     }
+  // });
   }
 
   onRowAdd(stock) {
@@ -256,15 +212,15 @@ export class StockMasterComponent implements OnInit {
     this.stockService.addStock(stock)
     .subscribe((data:any)=>{
       console.log('add customer',data);
-      this.stocksList = [data,...this.stocksList];
+      // this.stocksList = [data,...this.stocksList];
     
-      console.log('this.stocksList',this.stocksList);
-      this.messageService.add({severity:'success', summary:'Stock Added Successfully', detail:'Stock Added Successfully'});
+      // console.log('this.stocksList',this.stocksList);
+      // this.messageService.add({severity:'success', summary:'Stock Added Successfully', detail:'Stock Added Successfully'});
       this.displayDialog = false;
     },
     error =>{
       console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
 
     })
     }
@@ -292,14 +248,14 @@ export class StockMasterComponent implements OnInit {
      this.stockService.deleteStock(stock._id)
     .subscribe((data:any)=>{
       console.log('delete',data);
-      this.stocksList.splice(index, 1);
-      this.stocksList = [...this.stocksList];
-      this.messageService.add({severity:'success', summary:'Stock Deleted Successfully', detail:'Stock Deleted Successfully'});
+      // this.stocksList.splice(index, 1);
+      // this.stocksList = [...this.stocksList];
+      // this.messageService.add({severity:'success', summary:'Stock Deleted Successfully', detail:'Stock Deleted Successfully'});
   
     },
     error =>{
       console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
 
     })
   }
@@ -311,19 +267,19 @@ export class StockMasterComponent implements OnInit {
     this.stockService.updateStock(stock)
     .subscribe((data:any)=>{
       console.log('update',data);
-      var sliceIndex = _.findIndex(this.stocksList, function (o) { return o._id == stock._id; });
-      console.log(sliceIndex);
-      if (sliceIndex > -1) {
+      // var sliceIndex = _.findIndex(this.stocksList, function (o) { return o._id == stock._id; });
+      // console.log(sliceIndex);
+      // if (sliceIndex > -1) {
         // Replace item at index using native splice
-        this.stocksList.splice(sliceIndex, 1, data);
-      }
-      this.stocksList = [...this.stocksList];
-      this.messageService.add({severity:'success', summary:'Stock Updated Successfully', detail:'Stock Updated Successfully'});
+        // this.stocksList.splice(sliceIndex, 1, data);
+      // }
+      // this.stocksList = [...this.stocksList];
+      // this.messageService.add({severity:'success', summary:'Stock Updated Successfully', detail:'Stock Updated Successfully'});
   
     },
     error =>{
       console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
 
     })
 
@@ -351,13 +307,13 @@ export class StockMasterComponent implements OnInit {
         this.categoryList = [newData,...this.categoryList];
         // this.categoryList.push(data);
         console.log('this.categoryList',this.categoryList);
-        this.messageService.add({severity:'success', summary:'New Category Added Successfully', detail:'New Category Added Successfully'});
+        // this.messageService.add({severity:'success', summary:'New Category Added Successfully', detail:'New Category Added Successfully'});
         this.stockForm.controls['category_details_id'].setValue(data._id) 
         this.displayDialog1 = false;
       },
       error =>{
         console.log(error);
-        this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+        // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
         this.displayDialog1 = false;
   
       })
@@ -380,48 +336,18 @@ export class StockMasterComponent implements OnInit {
         this.unitList = [newData,...this.unitList];
         // this.categoryList.push(data);
         console.log('this.unitList',this.unitList);
-        this.messageService.add({severity:'success', summary:'New Unit Added Successfully', detail:'New Unit Added Successfully'});
+        // this.messageService.add({severity:'success', summary:'New Unit Added Successfully', detail:'New Unit Added Successfully'});
         this.stockForm.controls['unit_details_id'].setValue(data._id) 
         this.displayDialog2 = false;
       },
       error =>{
         console.log(error);
-        this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+        // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
         this.displayDialog2 = false;
   
       })
   }
   
-  exportPdf() {
-    import("jspdf").then(jsPDF => {
-        import("jspdf-autotable").then(x => {
-            const doc = new jsPDF();
-            // console.log(this.cols,this.categoryListSheet);
-            // doc.autoTable(this.cols, this.categoryListSheet);
-            doc.save('cat-primengTable.pdf');
-        })
-    })
-}
-
-exportExcel() {
-    import("xlsx").then(xlsx => {
-        const worksheet = xlsx.utils.json_to_sheet(this.stockListSheet);
-        const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, "primengTable");
-    });
-}
-
-saveAsExcelFile(buffer: any, fileName: string): void {
-    import("file-saver").then(FileSaver => {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
-        const data: Blob = new Blob([buffer], {
-            type: EXCEL_TYPE
-        });
-        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-    });
-}
 
 }
 

@@ -1,0 +1,84 @@
+<form [formGroup]="stockForm">
+    <div class="ui-g ui-fluid" >
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Stock Code</label>
+                </div>
+                <div class="ui-g-8">
+                    <input type="text" pInputText formControlName="stock_code"  disabled />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Stock Name</label>
+                </div>
+                <div class="ui-g-8">
+                    <input type="text" pInputText formControlName="stock_name"  autofocus />
+                </div>
+            </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Category</label>
+            </div>
+            <div class="ui-g-8">
+                <p-dropdown [options]="categoryList" placeholder="Select Category" filter="true" formControlName="category_details_id" [showClear]="true" (onChange)="onSelectCat($event)"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Qty</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Buying Price</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pKeyFilter="int" pInputText formControlName="buying_price" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Selling Price</label>
+            </div>
+            <div class="ui-g-8">
+                <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="year">Details</label>
+            </div>
+            <div class="ui-g-8">
+                <!-- <input type="text" pInputText [(ngModel)]="car.product_details" /> -->
+                <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" formControlName="product_details" ></textarea>
+            </div>
+        </div>
+        <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Unit</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [options]="unitList" placeholder="Select Unit" filter="true" formControlName="unit_details_id" [showClear]="true" (onChange)="onSelectUnit($event)"></p-dropdown>
+                </div>
+            </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="brand">Status</label>
+            </div>
+            <div class="ui-g-8">
+                <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
+
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+            <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</form>

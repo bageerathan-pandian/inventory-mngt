@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MenuItem, MessageService, ConfirmationService } from "primeng/api";
 import { Router } from "@angular/router";
 import { Category } from 'src/app/model/category.model';
@@ -20,6 +20,8 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: "app-order",
@@ -60,6 +62,7 @@ export class OrderComponent implements OnInit {
   
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
+  @ViewChild('printDiv',{static:false}) printDiv: ElementRef;
 
   constructor(private _fb:FormBuilder,
     private router: Router,
@@ -71,7 +74,7 @@ export class OrderComponent implements OnInit {
     // this.invalidDates = [invalidDate];
     this.invoiceForm = this._fb.group({
       _id:[''],
-      company_details_id: ['',Validators.required],
+      company_details_id: [this.sessionService.getItem('company_id'),Validators.required],
       invoice_code:['',Validators.required],
       invoice_date:[new Date(),Validators.required],
       customer_details_id:['',Validators.required],
@@ -88,7 +91,7 @@ export class OrderComponent implements OnInit {
     })
     this.customerForm = this._fb.group({
       _id: [''],
-      company_details_id: ['',Validators.required],
+      company_details_id: [this.sessionService.getItem('company_id'),Validators.required],
       customer_code: ['',Validators.required],
       customer_name: ['',Validators.required],
       customer_address: ['',Validators.required],
@@ -178,18 +181,25 @@ priviewPdf(){
   this.pdfGenerator.testPdg()
   .subscribe((data:any)=>{
     console.log('testPdf',data);
-    this.showPdf = true
-    this.pdfUrl = data;
-    // window.open(data, "_blank");
+    console.log('url',environment.api_url + data);
+    // printJS('docs/'+ environment.api_url + data)
+    printJS({printable:'docs/'+environment.api_url + data +"'", type:'pdf', showModal:true})
   })
 }
 
 printOrder(){
-  console.log('printOrder',this.pdfUrl)
-  printJS('docs/'+this.pdfUrl)
+  
+  // let elementCopy = this.printDiv(true);
+  // this.printDiv.nativeElement.appendChild();
+  // document.body.appendChild(this.printDiv.nativeElement);
+
+  // window.print();
+  
+  printJS('print-section', 'html')
 }
 
 printOrderWithoutView(){
+  
 }
 
 initRowFirst() {
@@ -218,6 +228,7 @@ initRowFirst() {
     this.customerService.getCustomer()
     .subscribe((data:any)=>{
       this.customers = data;
+      this.customerList.push({  label:'+ Add New Customer',  value:0 });
       for(let custData of this.customers){
         let listCust =  {
           label:custData.customer_name +' | '+ custData.customer_code,
@@ -238,11 +249,14 @@ initRowFirst() {
   }
 
   getStock(){
+    this.stocks = [];  
+    this.stocksList = [];
     this.stockService.getStockByCompanyActive()
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocks = data;      
         // this.stocksList = data;
+      this.stocksList.push({  label:'+ Add New Stock',  value:0 });
       for(let stockData of this.stocks){
         let listStock=  {
           label:stockData.stock_name + ' | ' + stockData.stock_code,
@@ -261,7 +275,9 @@ initRowFirst() {
     this.salesService.addSales(this.invoiceForm.value)
     .subscribe((data:any)=>{
         console.log(data);
+        this.getStock() // refresh stock qty
         this.invoiceForm.reset();
+        this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
         this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
         this.invoiceForm.controls['sub_total'].setValue(0.00);
@@ -269,6 +285,9 @@ initRowFirst() {
         this.invoiceForm.controls['paid_amount'].setValue(0.00);
         this.invoiceForm.controls['balance_amount'].setValue(0.00);
         this.invoiceForm.controls['grand_total'].setValue(0.00);
+        this.invoiceForm.controls['payment_type'].setValue(1);
+        this.invoiceForm.controls['payment_status'].setValue(1);
+        printJS('print-section', 'html') // print invoice
     })
   }
 
@@ -276,6 +295,7 @@ initRowFirst() {
     console.log(this.invoiceForm.value);    
     if(this.invoiceForm.invalid){
       this.checkValidity()
+      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Please fill the mantatory field!'});
       return false;
     }
     this.addSales()
@@ -287,6 +307,24 @@ initRowFirst() {
     this.customerForm.controls['status'].setValue(1);
     this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.displayDialog = true;
+  }
+
+  showDialogToAddStock(){
+    this.customerForm.reset();
+    this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
+    this.customerForm.controls['status'].setValue(1);
+    this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+    this.displayDialog = true;
+  }
+
+  onSelectCust(event){
+    console.log(event.value); 
+    if(event.value == 0){
+      this.showDialogToAddCust()
+      this.invoiceForm.controls['customer_details_id'].reset();
+      return false
+    }
+
   }
 
   saveCust() {
@@ -347,6 +385,11 @@ onClear() {
 
 onSelectProduct(event,i){
   console.log(event.value); 
+  if(event.value == 0){
+    this.showDialogToAddStock()
+    this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+    return false
+  }
   console.log(this.invoiceForm.value.invoiceList);  
   let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
   console.log('stockAddedData',stockAddedData); 

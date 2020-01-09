@@ -104,6 +104,7 @@
             <span *ngIf="stockForm.value._id">Update</span>
             <span *ngIf="!stockForm.value._id">Add</span> Stock
     </p-header>
+    <app-stock-form></app-stock-form>
     <form [formGroup]="stockForm">
     <div class="ui-g ui-fluid" >
             <div class="ui-g-12">
@@ -126,11 +127,8 @@
             <div class="ui-g-4">
                 <label for="vin">Category</label>
             </div>
-            <div class="ui-g-6">
-                <p-dropdown [options]="categoryList" placeholder="Select Category" filter="true" formControlName="category_details_id" [showClear]="true"></p-dropdown>
-            </div>
-            <div class="ui-g-2">                
-                <p-button icon="pi pi-plus" class="ui-button-success" (click)="showDialogToAddCat()"  pTooltip="Add new category" tooltipPosition="top"></p-button>
+            <div class="ui-g-8">
+                <p-dropdown [options]="categoryList" placeholder="Select Category" filter="true" formControlName="category_details_id" [showClear]="true" (onChange)="onSelectCat($event)"></p-dropdown>
             </div>
         </div>
         <div class="ui-g-12">
@@ -170,11 +168,8 @@
                 <div class="ui-g-4">
                     <label for="vin">Unit</label>
                 </div>
-                <div class="ui-g-6">
-                    <p-dropdown [options]="unitList" placeholder="Select Unit" filter="true" formControlName="unit_details_id" [showClear]="true"></p-dropdown>
-                </div>
-                <div class="ui-g-2">                
-                    <p-button icon="pi pi-plus" class="ui-button-success" (click)="showDialogToAddUnit()"  pTooltip="Add new unit" tooltipPosition="top"></p-button>
+                <div class="ui-g-8">
+                    <p-dropdown [options]="unitList" placeholder="Select Unit" filter="true" formControlName="unit_details_id" [showClear]="true" (onChange)="onSelectUnit($event)"></p-dropdown>
                 </div>
             </div>
         <div class="ui-g-12">

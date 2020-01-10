@@ -58,6 +58,7 @@ exports.addUser =  (req, res)=> {
 
 exports.updateUser =  (req, res)=> {
   StockModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
+    console.log(req.params.id,req.body)
         if (err) return next(err);
         return res.json(result);
       });

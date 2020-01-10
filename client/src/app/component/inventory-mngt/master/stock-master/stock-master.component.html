@@ -82,7 +82,8 @@
             <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
             </td>
             <td style="text-align:center">
-                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
+                <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button> -->
                 <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
                 <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
             </td>
@@ -99,97 +100,17 @@
    
 
 </p-table>
-<p-dialog   [(visible)]="displayDialog"  [maximizable]="true"  [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
-    <p-header>
-            <span *ngIf="stockForm.value._id">Update</span>
-            <span *ngIf="!stockForm.value._id">Add</span> Stock
-    </p-header>
-    <app-stock-form></app-stock-form>
-    <form [formGroup]="stockForm">
-    <div class="ui-g ui-fluid" >
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Stock Code</label>
-                </div>
-                <div class="ui-g-8">
-                    <input type="text" pInputText formControlName="stock_code"  disabled />
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Stock Name</label>
-                </div>
-                <div class="ui-g-8">
-                    <input type="text" pInputText formControlName="stock_name"  autofocus />
-                </div>
-            </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Category</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="categoryList" placeholder="Select Category" filter="true" formControlName="category_details_id" [showClear]="true" (onChange)="onSelectCat($event)"></p-dropdown>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Qty</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Buying Price</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="text" pKeyFilter="int" pInputText formControlName="buying_price" />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Selling Price</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Details</label>
-            </div>
-            <div class="ui-g-8">
-                <!-- <input type="text" pInputText [(ngModel)]="car.product_details" /> -->
-                <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize" formControlName="product_details" ></textarea>
-            </div>
-        </div>
-        <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Unit</label>
-                </div>
-                <div class="ui-g-8">
-                    <p-dropdown [options]="unitList" placeholder="Select Unit" filter="true" formControlName="unit_details_id" [showClear]="true" (onChange)="onSelectUnit($event)"></p-dropdown>
-                </div>
-            </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="brand">Status</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
 
-            </div>
-        </div>
-    </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-            <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Save"></button>
-        </div>
-    </p-footer>
-</form>
-</p-dialog>
+
+</p-card>
+</div>
+
+
+<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" (stockEvent)="receiveStock($event)" (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
+
+<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)"></app-category-form>
+
+<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"></app-unit-form>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
         <p-footer>
@@ -197,90 +118,3 @@
                 <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
             </p-footer>
         </p-confirmDialog>
-
-        <p-dialog   [maximizable]="true" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
-                <p-header>
-                        <span *ngIf="categoryForm.value._id">Update</span>
-                        <span *ngIf="!categoryForm.value._id">Add</span> Category
-                </p-header>
-            <form [formGroup]="categoryForm">
-                    <div class="ui-g ui-fluid" >
-                        
-            <div class="ui-g-12">
-                    <div class="ui-g-4">
-                        <label for="vin">Category Code</label>
-                    </div>
-                    <div class="ui-g-8">
-                        <input type="text" pInputText formControlName="category_code"  disabled />
-                    </div>
-                </div>
-                        <div class="ui-g-12">
-                            <div class="ui-g-4">
-                                <label for="vin">Category Name</label>
-                            </div>
-                            <div class="ui-g-8">
-                                <input pInputText id="vin" formControlName="category_name" autofocus />
-                            </div>
-                        </div>
-                        <div class="ui-g-12">
-                            <div class="ui-g-4">
-                                <label for="brand">Status</label>
-                            </div>
-                            <div class="ui-g-8">
-                                <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
-                
-                            </div>
-                        </div>
-                    </div>
-                    <p-footer>
-                        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-                            <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="addCategory()" label="Save"></button>
-                        </div>
-                    </p-footer>
-                </form>
-                </p-dialog>
-                <p-dialog  [maximizable]="true" [(visible)]="displayDialog2" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
-                        <p-header>
-                                <span *ngIf="unitForm.value._id">Update</span>
-                                <span *ngIf="!unitForm.value._id">Add</span> Unit
-                        </p-header>
-                    <form [formGroup]="unitForm">
-                            <div class="ui-g ui-fluid" >
-                                
-                    <div class="ui-g-12">
-                            <div class="ui-g-4">
-                                <label for="vin">Unit Code</label>
-                            </div>
-                            <div class="ui-g-8">
-                                <input type="text" pInputText formControlName="unit_code"  disabled />
-                            </div>
-                        </div>
-                                <div class="ui-g-12">
-                                    <div class="ui-g-4">
-                                        <label for="vin">Unit Name</label>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <input pInputText id="vin" formControlName="unit_name" autofocus />
-                                    </div>
-                                </div>
-                                <div class="ui-g-12">
-                                    <div class="ui-g-4">
-                                        <label for="brand">Status</label>
-                                    </div>
-                                    <div class="ui-g-8">
-                                        <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
-                        
-                                    </div>
-                                </div>
-                            </div>
-                            <p-footer>
-                                <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                                    <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-                                    <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="addUnit()" label="Save"></button>
-                                </div>
-                            </p-footer>
-                        </form>
-                        </p-dialog>
-</p-card>
-</div>

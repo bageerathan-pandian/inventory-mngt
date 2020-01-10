@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StockService } from 'src/app/shared/stock.service';
 import { CategoryService } from 'src/app/shared/category.service';
@@ -14,17 +14,22 @@ import { Stock } from 'src/app/model/stock.model';
 })
 export class StockFormComponent implements OnInit {
 
+  @Input() stockData: any;
+  @Input() displayDialog: boolean
 
+  @Output() stockEvent = new EventEmitter();
+  @Output() displayChangeEvent = new EventEmitter();
+  
+  @Output() categoryDialogEvent = new EventEmitter();
+  @Output() unitDialogEvent = new EventEmitter();
 
-  displayDialog: boolean;
-  displayDialog1: boolean;
-  displayDialog2: boolean;
   stockForm: FormGroup;
   categoryForm: FormGroup
   unitForm:FormGroup
   car: any = {};
   cols: any[];
   status:any = [];
+  stocksList: any = []
   categoryList:any = [];
   stockListSheet:any = []
   unitList:any = []
@@ -37,7 +42,7 @@ export class StockFormComponent implements OnInit {
     {label:'De-Active', value:0},
   ]
 
-
+  this.getStocksByCompany();
   this.getCategoryByCompany();
   this.getUnitByCompany();
   
@@ -55,40 +60,44 @@ export class StockFormComponent implements OnInit {
       status: [1,Validators.required]
     })
   
-    this.categoryForm = this._fb.group({
-      _id: [''],
-      company_details_id: ['',Validators.required],
-      category_code: ['',Validators.required],
-      category_name: ['',Validators.required],
-      status: [1,Validators.required]
-    })
-
-    this.unitForm = this._fb.group({
-      _id: [''],
-      company_details_id: ['',Validators.required],
-      unit_code: ['',Validators.required],
-      unit_name: ['',Validators.required],
-      status: [1,Validators.required]
-    })
-
-    this.cols = [
-      { field: 'stock_code', header: 'Code' },
-      { field: '_id', header: 'Barcode' },
-      { field: 'stock_name', header: 'Stock Name' },
-      { field: 'category_details_id', header: 'Category' },
-      { field: 'stock_qty', header: 'Stock Qty' },
-      { field: 'buying_price', header: 'Buying Price' },
-      { field: 'selling_price', header: 'Selling Price' },
-      { field: 'product_details', header: 'Product Details' },
-      { field: 'unit_details_id', header: 'Unit' },
-      { field: 'updatedAt', header: 'Updated Date' },
-      { field: 'status', header: 'Status' }
-      // { field: '', header: 'Action' }
-  ];
+    
     
   }
 
   ngOnInit() {}
+
+  ngOnChanges() {
+    console.log('displayDialog',this.displayDialog);
+    if(this.stockData){      
+    console.log('stockData',this.stockData);   
+    this.stockForm.controls['_id'].setValue(this.stockData._id ? this.stockData._id : '');
+    this.stockForm.controls['stock_code'].setValue(this.stockData.stock_code ? this.stockData.stock_code : '');
+    this.stockForm.controls['stock_name'].setValue(this.stockData.stock_name ? this.stockData.stock_name : '');
+    this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id  ? this.stockData.category_details_id._id : null);
+    this.stockForm.controls['company_details_id'].setValue(this.stockData.company_details_id ? this.stockData.company_details_id._id : null)
+    this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : 0);
+    this.stockForm.controls['buying_price'].setValue(this.stockData.buying_price ? this.stockData.buying_price : '');
+    this.stockForm.controls['selling_price'].setValue(this.stockData.selling_price ? this.stockData.selling_price : '');
+    this.stockForm.controls['product_details'].setValue(this.stockData.product_details ? this.stockData.product_details : '');
+    this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : null);
+    this.stockForm.controls['status'].setValue(this.stockData.status ? this.stockData.status : '');      
+    }else{     
+    this.stockForm.reset() 
+    this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
+    this.stockForm.controls['status'].setValue(1);
+    this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+    }
+    
+  }
+
+  getStocksByCompany(){
+    this.stockService.getStockByCompany()
+    .subscribe((data:any)=>{
+      console.log('stocksList',data);
+      this.stocksList = data;      
+      this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
+    })
+  }
 
   getCategoryByCompany(){
     this.categoryService.getCategoryByCompany()
@@ -124,7 +133,8 @@ export class StockFormComponent implements OnInit {
   onSelectCat(event){    
     console.log(event.value); 
     if(event.value == 0){
-      this.showDialogToAddCat()
+      // this.showDialogToAddCat()
+      this.categoryDialogEvent.emit(true)
       this.stockForm.controls['category_details_id'].reset();
       return false
     }
@@ -133,27 +143,20 @@ export class StockFormComponent implements OnInit {
   onSelectUnit(event){    
     console.log(event.value); 
     if(event.value == 0){
-      this.showDialogToAddUnit()
+      // this.showDialogToAddUnit()      
+      this.unitDialogEvent.emit(true)
       this.stockForm.controls['unit_details_id'].reset();
       return false
     }
   }
 
 
-  showDialogToAdd() {
-    this.stockForm.reset();
-    // this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
-    this.stockForm.controls['status'].setValue(1);
-    this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog = true;
-  }
-
   showDialogToAddCat() {
     this.categoryForm.reset();
     this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',this.categoryList.length));
     this.categoryForm.controls['status'].setValue(1);
     this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog1 = true;
+    // this.displayDialog1 = true;
   }
 
   showDialogToAddUnit() {
@@ -161,7 +164,7 @@ export class StockFormComponent implements OnInit {
     this.unitForm.controls['unit_code'].setValue(this.commonService.incrCode('u',this.unitList.length));
     this.unitForm.controls['status'].setValue(1);
     this.unitForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog2 = true;
+    // this.displayDialog2 = true;
   }
 
   public checkValidity(): void {
@@ -170,20 +173,11 @@ export class StockFormComponent implements OnInit {
     });
   }
 
-  public checkValidityUnit(): void {
-    Object.keys(this.stockForm.controls).forEach((key) => {
-        this.stockForm.controls[key].markAsDirty();
-    });
-  }
-
-  public checkValidityCat(): void {
-    Object.keys(this.stockForm.controls).forEach((key) => {
-        this.stockForm.controls[key].markAsDirty();
-    });
-  }
 
   save() {
-    console.log(this.stockForm.value);    
+    console.log(this.stockForm.value);  
+    
+    // this.stockEvent.emit(this.stockForm.value) 
     if(this.stockForm.invalid){
       this.checkValidity()
       return false;
@@ -195,16 +189,6 @@ export class StockFormComponent implements OnInit {
     }
   }
 
-  delete(stock,index){
-    console.log('delete',stock,index);
-  //   this.confirmationService.confirm({
-  //     message: 'Are you sure that you want to delete this Stock?',
-  //     accept: () => {
-  //         //Actual logic to perform a confirmation
-  //         this.onRowDelete(stock,index);
-  //     }
-  // });
-  }
 
   onRowAdd(stock) {
     console.log('onRowAdd',stock);
@@ -212,11 +196,13 @@ export class StockFormComponent implements OnInit {
     this.stockService.addStock(stock)
     .subscribe((data:any)=>{
       console.log('add customer',data);
+      
+        this.stockEvent.emit(data) 
       // this.stocksList = [data,...this.stocksList];
     
       // console.log('this.stocksList',this.stocksList);
       // this.messageService.add({severity:'success', summary:'Stock Added Successfully', detail:'Stock Added Successfully'});
-      this.displayDialog = false;
+     
     },
     error =>{
       console.log(error);
@@ -224,49 +210,17 @@ export class StockFormComponent implements OnInit {
 
     })
     }
-      
+     
   
-  onRowEdit(stock: Stock) {
-    console.log('onRowEdit',stock);
-    console.log('onRowEdit1',this.stockForm);
-    this.displayDialog = true;
-     this.stockForm.controls['_id'].setValue(stock._id);
-     this.stockForm.controls['stock_code'].setValue(stock.stock_code);
-     this.stockForm.controls['stock_name'].setValue(stock.stock_name);
-     this.stockForm.controls['category_details_id'].setValue(stock.category_details_id._id);
-     this.stockForm.controls['company_details_id'].setValue(stock.company_details_id._id)
-     this.stockForm.controls['stock_qty'].setValue(stock.stock_qty);
-     this.stockForm.controls['buying_price'].setValue(stock.buying_price);
-     this.stockForm.controls['selling_price'].setValue(stock.selling_price);
-     this.stockForm.controls['product_details'].setValue(stock.product_details);
-     this.stockForm.controls['unit_details_id'].setValue(stock.unit_details_id._id);
-     this.stockForm.controls['status'].setValue(stock.status);
-  }
-
-  onRowDelete(stock,index) {
-    console.log(stock,index);
-     this.stockService.deleteStock(stock._id)
-    .subscribe((data:any)=>{
-      console.log('delete',data);
-      // this.stocksList.splice(index, 1);
-      // this.stocksList = [...this.stocksList];
-      // this.messageService.add({severity:'success', summary:'Stock Deleted Successfully', detail:'Stock Deleted Successfully'});
-  
-    },
-    error =>{
-      console.log(error);
-      // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-
-    })
-  }
 
   onRowUpdate(stock) {
     console.log(stock);
-    this.displayDialog = false;
   
     this.stockService.updateStock(stock)
     .subscribe((data:any)=>{
       console.log('update',data);
+      
+      this.stockEvent.emit(data) 
       // var sliceIndex = _.findIndex(this.stocksList, function (o) { return o._id == stock._id; });
       // console.log(sliceIndex);
       // if (sliceIndex > -1) {
@@ -285,69 +239,18 @@ export class StockFormComponent implements OnInit {
 
   }
 
-  onChangeStatus(event){
-    console.log(event);
-    let isChecked = event.checked;
+  onClose(){
+    // this.displayDialog = false;
+    this.displayChangeEvent.emit(false)
   }
 
-  addCategory(){
-    console.log('categoryForm',this.categoryForm);
-    if(this.categoryForm.invalid){      
-      this.checkValidityCat()
-      return
+    // Work against memory leak if component is destroyed
+    ngOnDestroy() {
+      this.stockEvent.unsubscribe();
+      this.displayChangeEvent.unsubscribe();
     }
 
-      this.categoryService.addCategory(this.categoryForm.value)
-      .subscribe((data:any)=>{
-        console.log('add cat',data);
-        let newData = {
-          label : data.category_name +' | ' +data.category_code,
-          value : data._id
-         }
-        this.categoryList = [newData,...this.categoryList];
-        // this.categoryList.push(data);
-        console.log('this.categoryList',this.categoryList);
-        // this.messageService.add({severity:'success', summary:'New Category Added Successfully', detail:'New Category Added Successfully'});
-        this.stockForm.controls['category_details_id'].setValue(data._id) 
-        this.displayDialog1 = false;
-      },
-      error =>{
-        console.log(error);
-        // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-        this.displayDialog1 = false;
-  
-      })
-  }
-
-  addUnit(){
-    console.log('unitForm',this.unitForm);
-    if(this.unitForm.invalid){      
-      this.checkValidityUnit()
-      return
-    }
-
-      this.unitService.addUnit(this.unitForm.value)
-      .subscribe((data:any)=>{
-        console.log('add unit',data);
-        let newData = {
-          label : data.unit_name +' | ' +data.unit_code,
-          value : data._id
-         }
-        this.unitList = [newData,...this.unitList];
-        // this.categoryList.push(data);
-        console.log('this.unitList',this.unitList);
-        // this.messageService.add({severity:'success', summary:'New Unit Added Successfully', detail:'New Unit Added Successfully'});
-        this.stockForm.controls['unit_details_id'].setValue(data._id) 
-        this.displayDialog2 = false;
-      },
-      error =>{
-        console.log(error);
-        // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-        this.displayDialog2 = false;
-  
-      })
-  }
-  
+   
 
 }
 

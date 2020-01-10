@@ -55,10 +55,14 @@ export class OrderComponent implements OnInit {
   payment_type:number;
   payment_status:number;
   
-  displayDialog: boolean;
   status:any
   pdfUrl:string;
   showPdf:boolean = false;
+
+  displayDialog: boolean;
+  displayDialog1: boolean;
+  displayDialog2: boolean;
+
   
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
@@ -386,7 +390,8 @@ onClear() {
 onSelectProduct(event,i){
   console.log(event.value); 
   if(event.value == 0){
-    this.showDialogToAddStock()
+    // this.showDialogToAddStock()
+    this.displayDialog = true;
     this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
     return false
   }
@@ -465,6 +470,31 @@ onChangePaindAmount(){
 }
 
 
+
+onDialogClose(event){
+  console.log(event)  
+  this.displayDialog = false;
+}
+
+onDialogClose1(event){
+  console.log(event)  
+  this.displayDialog1 = false;
+}
+
+onDialogClose2(event){
+  console.log(event)  
+  this.displayDialog2 = false;
+}
+
+categoryDialog(event){
+  console.log('categoryDialog',event)  
+  this.displayDialog1 = event;
+}
+
+unitDialog(event){
+  console.log('unitDialog',event)  
+  this.displayDialog2 = event;
+}
 
 
 }

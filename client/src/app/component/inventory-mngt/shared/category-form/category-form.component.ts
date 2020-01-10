@@ -16,10 +16,17 @@ export class CategoryFormComponent implements OnInit {
   @Output() displayChangeEvent1 = new EventEmitter();
 
   categoryForm:FormGroup
+  status:any
 
   constructor(private _fb: FormBuilder, private categoryService:CategoryService,private commonService: CommonService,
     public sessionService: SessionService
     ) {
+
+      this.status = [
+        {label:'Active', value:1},
+        {label:'De-Active', value:0},
+      ]
+  
 
     this.categoryForm = this._fb.group({
       _id: [''],

@@ -62,7 +62,9 @@ export class OrderComponent implements OnInit {
   displayDialog: boolean;
   displayDialog1: boolean;
   displayDialog2: boolean;
-
+  displayDialog3: boolean;
+  
+  stockData: any = [] // pass data to another component
   
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
@@ -179,6 +181,11 @@ public checkValidityCus(): void {
   Object.keys(this.customerForm.controls).forEach((key) => {
       this.customerForm.controls[key].markAsDirty();
   });
+}
+
+
+receiveStock(event){
+  console.log(event) 
 }
 
 priviewPdf(){
@@ -310,16 +317,16 @@ initRowFirst() {
     this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
     this.customerForm.controls['status'].setValue(1);
     this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog = true;
+    this.displayDialog3 = true;
   }
 
-  showDialogToAddStock(){
-    this.customerForm.reset();
-    this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
-    this.customerForm.controls['status'].setValue(1);
-    this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog = true;
-  }
+  // showDialogToAddStock(){
+  //   this.customerForm.reset();
+  //   this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
+  //   this.customerForm.controls['status'].setValue(1);
+  //   this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+  //   this.displayDialog = true;
+  // }
 
   onSelectCust(event){
     console.log(event.value); 

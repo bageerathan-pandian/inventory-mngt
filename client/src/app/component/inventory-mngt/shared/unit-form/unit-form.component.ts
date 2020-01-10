@@ -17,11 +17,16 @@ export class UnitFormComponent implements OnInit {
   @Output() displayChangeEvent2 = new EventEmitter();
 
   unitForm:FormGroup
+  status:any
 
   constructor(private _fb: FormBuilder, private unitService:UnitService,private commonService: CommonService,
     public sessionService: SessionService
     ) {
  
+      this.status = [
+        {label:'Active', value:1},
+        {label:'De-Active', value:0},
+      ]
 
       this.unitForm = this._fb.group({
         _id: [''],

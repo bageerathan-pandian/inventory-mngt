@@ -26,6 +26,7 @@ export class PaymentComponent implements OnInit {
   loding: boolean = true;
   public bradCrum: MenuItem[];
   displayDialog: boolean;
+  display:boolean
   invoiceForm:FormGroup
   car: any = {};
   cols: any[];

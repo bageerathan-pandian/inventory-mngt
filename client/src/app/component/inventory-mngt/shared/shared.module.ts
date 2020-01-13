@@ -11,9 +11,12 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { UnitFormComponent } from './unit-form/unit-form.component';
 import { DialogModule } from 'primeng/dialog';
+import { CustomerFormComponent } from './customer-form/customer-form.component';
+import { InputMaskModule } from 'primeng/inputmask';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
-  declarations: [InvoiceDesignComponent, InvoiceDesignPosComponent, StockFormComponent, CategoryFormComponent, UnitFormComponent],
+  declarations: [InvoiceDesignComponent, InvoiceDesignPosComponent, StockFormComponent, CategoryFormComponent, UnitFormComponent, CustomerFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -21,8 +24,10 @@ import { DialogModule } from 'primeng/dialog';
     InputTextModule,
     ButtonModule,
     InputTextareaModule,
-    DialogModule
+    DialogModule,
+    InputMaskModule,
+    GooglePlaceModule
   ],
-  exports:[InvoiceDesignComponent, InvoiceDesignPosComponent,StockFormComponent, CategoryFormComponent, UnitFormComponent]
+  exports:[InvoiceDesignComponent, InvoiceDesignPosComponent,StockFormComponent, CategoryFormComponent, UnitFormComponent,CustomerFormComponent]
 })
 export class SharedModule { }

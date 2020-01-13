@@ -145,79 +145,19 @@
         </div>
         </form>
 
-        
-<p-dialog  [maximizable]="true" [(visible)]="displayDialog3" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
-    <p-header>
-            <span *ngIf="customerForm.value._id">Update</span>
-            <span *ngIf="!customerForm.value._id">Add</span> Customer
-    </p-header>
-<form [formGroup]="customerForm">
-<div class="ui-g ui-fluid" >
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Customer Code</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText formControlName="customer_code" disabled />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Customer Name</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText  formControlName="customer_name" autofocus />
-            </div>
-        </div>
-    <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Customer Address</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText  formControlName="customer_address" ngx-google-places-autocomplete  #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
-
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Customer Phone</label>
-            </div>
-            <div class="ui-g-8">
-                <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
-
-            </div>
-        </div>
-    <div class="ui-g-12">
-        <div class="ui-g-4">
-            <label for="brand">Status</label>
-        </div>
-        <div class="ui-g-8">
-            <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
-
-        </div>
-    </div>
-</div>
-<p-footer>
-    <div class="ui-dialog-buttonpane ui-helper-clearfix">
-        <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="saveCust()" label="Save"></button>
-    </div>
-</p-footer>
-</form>
-</p-dialog>
+ 
 
 
-<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" (stockEvent)="receiveStock($event)" (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
+<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
 
-<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)"></app-category-form>
+<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
 
-<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"></app-unit-form>
+<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"  (unitEvent)="receiveUnit($event)"></app-unit-form>
 
-<p-sidebar [(visible)]="showPdf" position="right" [style]="{width:'35em'}">
-    <iframe  [src]="pdfUrl | safe: 'resourceUrl'" width="100%"  #printPdfFrame type="application/pdf"></iframe>
-</p-sidebar>
-           
 
+
+<app-customer-form [displayDialog3]="displayDialog3" (displayChangeEvent3)="onDialogClose3($event)"  (customerEvent)="receiveCustomer($event)"></app-customer-form>
+          
 
 <div id="print-section" style="display: none"> 
        

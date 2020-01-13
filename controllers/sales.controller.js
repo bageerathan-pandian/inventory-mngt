@@ -3,6 +3,7 @@ const SalesModel = require('../models/sales.model');
 const InvoiceModel = require('../models/invoice.model');
 const StockModel = require('../models/stock.model');
 
+
 /**
  * get users list
  */
@@ -22,27 +23,7 @@ exports.getAllUsers =  (req, res)=> {
  * get users list
  */
 exports.getLastInvoice =  (req, res)=> {
-  InvoiceModel.countDocuments({},(e,result) => {
-    if(e) {        
-      console.log(e.message);
-        return res.status(500).json(e);
-    } else {
-        return res.json(result);
-    }
-})
-}
-
-
-/**
- * get users list
- */
-exports.getTotalSales =  (req, res)=> {
-  InvoiceModel.aggregate([{
-    $group: {
-      _id: "$id",
-      grand_total: { $sum: "$grand_total" }
-    }
-  }],(e,result) => {
+  InvoiceModel.countDocuments({company_details_id : req.params.id},(e,result) => {
     if(e) {        
       console.log(e.message);
         return res.status(500).json(e);
@@ -120,7 +101,7 @@ exports.addUser =  (req, res)=> {
      
     }
     
-    InvoiceModel.countDocuments({},(e,result4) => {
+    InvoiceModel.countDocuments({company_details_id : req.body.company_details_id},(e,result4) => {
       if(e) {        
         console.log(e.message);
           return res.status(500).json(e);

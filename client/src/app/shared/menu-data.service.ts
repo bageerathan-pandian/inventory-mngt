@@ -34,13 +34,13 @@ export class MenuDataService {
         },
         {
           Label: 'Purchase', Icon: 'fa-dollar', RouterLink: null, Childs: [
-            { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase', Childs: null, IsChildVisible: false },
+            { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase/purchase', Childs: null, IsChildVisible: false },
             { Label: 'Purchase Return', RouterLink: '/inventory-mngt/purchase/purchase-return', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
         {
           Label: 'Sales', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-            { Label: 'Sales', RouterLink: '/inventory-mngt/sales', Childs: null, IsChildVisible: false },
+            { Label: 'Sales', RouterLink: '/inventory-mngt/sales/sales', Childs: null, IsChildVisible: false },
             { Label: 'Sales Return', RouterLink: '/inventory-mngt/sales/sales-return', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
@@ -99,13 +99,13 @@ export class MenuDataService {
         },
         {
           Label: 'Purchase', Icon: 'fa-dollar', RouterLink: null, Childs: [
-            { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase', Childs: null, IsChildVisible: false },
+            { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase/purchase', Childs: null, IsChildVisible: false },
             { Label: 'Purchase Return', RouterLink: '/inventory-mngt/purchase/purchase-return', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
         {
           Label: 'Sales', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-            { Label: 'Sales', RouterLink: '/inventory-mngt/sales', Childs: null, IsChildVisible: false },
+            { Label: 'Sales', RouterLink: '/inventory-mngt/sales/sales', Childs: null, IsChildVisible: false },
             { Label: 'Sales Return', RouterLink: '/inventory-mngt/sales/sales-return', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
@@ -150,7 +150,7 @@ export class MenuDataService {
       },
       {
         Label: 'Sales', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-          { Label: 'Sales', RouterLink: '/inventory-mngt/sales', Childs: null, IsChildVisible: false },
+          { Label: 'Sales', RouterLink: '/inventory-mngt/sales/sales', Childs: null, IsChildVisible: false },
           { Label: 'Sales Return', RouterLink: '/inventory-mngt/sales/sales-return', Childs: null, IsChildVisible: false }
         ], IsChildVisible: false
       },

@@ -5,7 +5,9 @@ import { CategoryService } from 'src/app/shared/category.service';
 import { UnitService } from 'src/app/shared/unit.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
-import { Stock } from 'src/app/model/stock.model';
+import { MessageService } from 'primeng/api';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-stock-form',
@@ -15,6 +17,8 @@ import { Stock } from 'src/app/model/stock.model';
 export class StockFormComponent implements OnInit {
 
   @Input() stockData: any;
+  @Input() catData: any;
+  @Input() unitData: any;
   @Input() displayDialog: boolean
 
   @Output() stockEvent = new EventEmitter();
@@ -34,17 +38,19 @@ export class StockFormComponent implements OnInit {
   stockListSheet:any = []
   unitList:any = []
   constructor(private _fb: FormBuilder, private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
-    public sessionService: SessionService
+    public sessionService: SessionService, private messageService: MessageService
     ) {
+
+      
+    this.getStocksByCompany();
+    this.getCategoryByCompany();
+    this.getUnitByCompany();
 
   this.status = [
     {label:'Active', value:1},
     {label:'De-Active', value:0},
   ]
 
-  this.getStocksByCompany();
-  this.getCategoryByCompany();
-  this.getUnitByCompany();
   
     this.stockForm = this._fb.group({
       _id: [''],
@@ -67,20 +73,38 @@ export class StockFormComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges() {
-    console.log('displayDialog',this.displayDialog);
-    if(this.stockData){      
+    console.log('displayDialog',this.displayDialog);    
+
+    console.log('isObjectcatData',_.isPlainObject(this.catData))
+    if(_.isPlainObject(this.catData)){      
+      console.log('catData',this.catData); 
+      this.getCategoryByCompany()
+      setTimeout(() => {
+        this.stockForm.controls['category_details_id'].setValue(this.catData.value ? this.catData.value : null);         
+      }, 1000);     
+    }
+    console.log('isObjectunitData',_.isPlainObject(this.unitData))
+    if(_.isPlainObject(this.unitData)){      
+      console.log('unitData',this.unitData); 
+      this.getUnitByCompany()
+      setTimeout(() => {
+        this.stockForm.controls['unit_details_id'].setValue(this.unitData.value ? this.unitData.value : null);        
+      }, 1000);
+    }
+    console.log('isObjectstockData',_.isPlainObject(this.stockData))
+    if(_.isPlainObject(this.stockData)){      
     console.log('stockData',this.stockData);   
     this.stockForm.controls['_id'].setValue(this.stockData._id ? this.stockData._id : '');
     this.stockForm.controls['stock_code'].setValue(this.stockData.stock_code ? this.stockData.stock_code : '');
     this.stockForm.controls['stock_name'].setValue(this.stockData.stock_name ? this.stockData.stock_name : '');
-    this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id  ? this.stockData.category_details_id._id : null);
-    this.stockForm.controls['company_details_id'].setValue(this.stockData.company_details_id ? this.stockData.company_details_id._id : null)
-    this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : 0);
+    this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id ? this.stockData.category_details_id._id : '');
+    this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+    this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : '');
     this.stockForm.controls['buying_price'].setValue(this.stockData.buying_price ? this.stockData.buying_price : '');
     this.stockForm.controls['selling_price'].setValue(this.stockData.selling_price ? this.stockData.selling_price : '');
     this.stockForm.controls['product_details'].setValue(this.stockData.product_details ? this.stockData.product_details : '');
-    this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : null);
-    this.stockForm.controls['status'].setValue(this.stockData.status ? this.stockData.status : '');      
+    this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : '');
+    this.stockForm.controls['status'].setValue(this.stockData.status ? this.stockData.status : 1);      
     }else{     
     this.stockForm.reset() 
     this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
@@ -100,6 +124,7 @@ export class StockFormComponent implements OnInit {
   }
 
   getCategoryByCompany(){
+    this.categoryList = []
     this.categoryService.getCategoryByCompany()
     .subscribe((data:any)=>{
       console.log('categoryList',data);  
@@ -111,10 +136,14 @@ export class StockFormComponent implements OnInit {
          })
       }       
       console.log('categoryList1',this.categoryList);
+      // if(_.some(this.catData, _.isObject)){ 
+      //   this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id  ? this.stockData.category_details_id._id : null);
+      // }
     })
   }
 
   getUnitByCompany(){
+    this.unitList = []
     this.unitService.getUnitByCompany()
     .subscribe((data:any)=>{
       console.log('unitList',data); 
@@ -126,6 +155,9 @@ export class StockFormComponent implements OnInit {
          })
       }       
       console.log('unitList',this.unitList);
+      // if(_.some(this.unitData, _.isObject)){ 
+      //   this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id  ? this.stockData.unit_details_id._id : null);
+      // }
     })
   }
 
@@ -150,22 +182,6 @@ export class StockFormComponent implements OnInit {
     }
   }
 
-
-  showDialogToAddCat() {
-    this.categoryForm.reset();
-    this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',this.categoryList.length));
-    this.categoryForm.controls['status'].setValue(1);
-    this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    // this.displayDialog1 = true;
-  }
-
-  showDialogToAddUnit() {
-    this.unitForm.reset();
-    this.unitForm.controls['unit_code'].setValue(this.commonService.incrCode('u',this.unitList.length));
-    this.unitForm.controls['status'].setValue(1);
-    this.unitForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    // this.displayDialog2 = true;
-  }
 
   public checkValidity(): void {
     Object.keys(this.stockForm.controls).forEach((key) => {
@@ -197,16 +213,15 @@ export class StockFormComponent implements OnInit {
     .subscribe((data:any)=>{
       console.log('add customer',data);
       
-        this.stockEvent.emit(data) 
-      // this.stocksList = [data,...this.stocksList];
-    
-      // console.log('this.stocksList',this.stocksList);
-      // this.messageService.add({severity:'success', summary:'Stock Added Successfully', detail:'Stock Added Successfully'});
+      this.stockEvent.emit(data) 
+      this.messageService.add({severity:'success', summary:'Stock Added Successfully', detail:'Stock Added Successfully'});
+      this.displayDialog = false
      
     },
     error =>{
       console.log(error);
-      // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      this.displayDialog = false
 
     })
     }
@@ -221,19 +236,14 @@ export class StockFormComponent implements OnInit {
       console.log('update',data);
       
       this.stockEvent.emit(data) 
-      // var sliceIndex = _.findIndex(this.stocksList, function (o) { return o._id == stock._id; });
-      // console.log(sliceIndex);
-      // if (sliceIndex > -1) {
-        // Replace item at index using native splice
-        // this.stocksList.splice(sliceIndex, 1, data);
-      // }
-      // this.stocksList = [...this.stocksList];
-      // this.messageService.add({severity:'success', summary:'Stock Updated Successfully', detail:'Stock Updated Successfully'});
+      this.messageService.add({severity:'success', summary:'Stock Updated Successfully', detail:'Stock Updated Successfully'});
+      this.displayDialog = false
   
     },
     error =>{
       console.log(error);
-      // this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      this.displayDialog = false
 
     })
 

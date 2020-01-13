@@ -10,12 +10,7 @@ router.get('/', salesController.getAllUsers);
 /**
  * get users list
  */
-router.get('/last-invoice', salesController.getLastInvoice);
-
-/**
- * get users list
- */
-router.get('/total-sales', salesController.getTotalSales);
+router.get('/last-invoice/:id', salesController.getLastInvoice);
 
 /**
  * get users list by company

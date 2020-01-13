@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { OrderRoutingModule } from './order-routing.module';
-import { OrderComponent } from './order.component';
+import { SalesComponent } from './sales.component';
+import { SalesRoutingModule } from './sales-routing.module';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
@@ -24,13 +24,13 @@ import { DialogModule } from 'primeng/dialog';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import {SidebarModule} from 'primeng/sidebar';
 import { SafePipeModule } from 'safe-pipe';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [OrderComponent],
+  declarations: [SalesComponent],
   imports: [
     CommonModule,
-    OrderRoutingModule,
+    SalesRoutingModule,
     ReactiveFormsModule,
     BreadcrumbModule,
     ToastModule,
@@ -56,4 +56,4 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule
   ]
 })
-export class OrderModule { }
+export class SalesModule { }

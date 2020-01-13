@@ -11,12 +11,9 @@ export class SalesService {
   constructor(private httpClient:HttpClient, private sessionService : SessionService) { }
 
   getLastInvoice(){
-    return this.httpClient.get(environment.api_url + '/api/sales/last-invoice');
+    return this.httpClient.get(environment.api_url + '/api/sales/last-invoice/'+ this.sessionService.getItem('company_id'));
   }
 
-  getTotalSalesAmount(){
-    return this.httpClient.get(environment.api_url + '/api/sales/total-sales/'+this.sessionService.getItem('company_id'));
-  }
 
   addSales(data){
     var body = JSON.stringify(data);

@@ -26,4 +26,10 @@ export class InvoiceService {
     return this.httpClient.put(environment.api_url + '/api/invoice/'+ data._id ,body,{headers:headerOption});
   }
 
+  
+  getTotalSalesAmount(){
+    return this.httpClient.get(environment.api_url + '/api/invoice/total-sales/'+this.sessionService.getItem('company_id'));
+  }
+  
+
 }

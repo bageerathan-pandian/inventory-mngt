@@ -12,6 +12,7 @@ import { SalesService } from 'src/app/shared/sales.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SessionService } from 'src/app/shared/session.service';
 import { PurchaseService } from 'src/app/shared/purchase.service';
+import { InvoiceService } from 'src/app/shared/invoice.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,7 +45,7 @@ export class DashboardComponent implements OnInit {
   resendVerifyForm: FormGroup
 
   constructor(private companyService: CompanyService,private _fb: FormBuilder, private auth: AuthService, public sessionService: SessionService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
-    private messageService: MessageService, private purchaseService: PurchaseService
+    private messageService: MessageService, private purchaseService: PurchaseService, private invoiceService: InvoiceService
     ) {
 
       this.resendVerifyForm = this._fb.group({
@@ -193,7 +194,7 @@ export class DashboardComponent implements OnInit {
 
 
   getTotalSalesAmount(){
-    this.salesService.getTotalSalesAmount()
+    this.invoiceService.getTotalSalesAmount()
     .subscribe((data:any)=>{
       console.log('getTotalSalesAmount',data);
       this.totalSalesAmount = data[0].grand_total;

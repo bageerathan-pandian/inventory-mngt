@@ -38,7 +38,11 @@ export class StockMasterComponent implements OnInit {
   categoryList:any = [];
   stockListSheet:any = []
   unitList:any = []
+
   stockData: any = [] // pass data to another component
+  catData: any = [] // pass data to another component
+  unitData: any = [] // pass data to another component
+
   constructor(private router:Router,private _fb: FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
@@ -104,16 +108,24 @@ export class StockMasterComponent implements OnInit {
       if (sliceIndex > -1) {
         // Replace item at index using native splice
         this.stocksList.splice(sliceIndex, 1, event);
-        this.messageService.add({severity:'success', summary:'Stock Added Successfully', detail:'Stock Added Successfully'});
-      }else{
-        this.messageService.add({severity:'success', summary:'Stock Updated Successfully', detail:'Stock Updated Successfully'});
       }
     this.stocksList = [event,...this.stocksList];
+  }
 
+  receiveCategory(event){
+    console.log('receiveCategory',event) 
+    this.catData = event
+  }
+
+  receiveUnit(event){
+    console.log('receiveUnit',event) 
+    this.unitData = event
   }
 
   onDialogClose(event){
-    console.log(event)  
+    console.log(event)       
+    this.catData = []     // clear new cat data while open stock form
+    this.unitData = []  // clear new unit data while open stock form
     this.displayDialog = false;
   }
 
@@ -123,17 +135,17 @@ export class StockMasterComponent implements OnInit {
   }
   
   onDialogClose2(event){
-    console.log(event)  
+    console.log(event) 
     this.displayDialog2 = false;
   }
 
   categoryDialog(event){
-    console.log('categoryDialog',event)  
+    console.log('categoryDialog',event)   
     this.displayDialog1 = event;
   }
 
   unitDialog(event){
-    console.log('unitDialog',event)  
+    console.log('unitDialog',event) 
     this.displayDialog2 = event;
   }
 

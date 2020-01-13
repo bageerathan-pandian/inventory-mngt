@@ -1,35 +1,34 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { MenuItem, MessageService, ConfirmationService } from "primeng/api";
-import { Router } from "@angular/router";
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Category } from 'src/app/model/category.model';
 import { Stock } from 'src/app/model/stock.model';
 import { Customer } from 'src/app/model/customer.model';
+import { Sales } from 'src/app/model/sales.model.';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { CustomerService } from 'src/app/shared/customer.service';
 import { StockService } from 'src/app/shared/stock.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { SalesService } from 'src/app/shared/sales.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Sales } from 'src/app/model/sales.model.';
 import { CommonService } from 'src/app/shared/common.service';
-
-
-import * as _ from 'lodash';
-import * as printJS from 'print-js'
 import { AuthService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
-import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 
+import * as _ from 'lodash';
 
 @Component({
-  selector: "app-order",
-  templateUrl: "./order.component.html",
-  styleUrls: ["./order.component.scss"],
-  providers: [ConfirmationService]
+  selector: 'app-purchase-return',
+  templateUrl: './purchase-return.component.html',
+  styleUrls: ['./purchase-return.component.scss'],
+  providers:[ConfirmationService]
 })
-export class OrderComponent implements OnInit {
+export class PurchaseReturnComponent implements OnInit {
+
+ 
   public bradCrum: MenuItem[];
   filteredBrands: any[];
   categoryList:Category[];
@@ -44,7 +43,6 @@ export class OrderComponent implements OnInit {
   paymentStatus:any =[];
   paymentType:any =[];
   discountPer:any = [];
-  printItems:any = [];
   invoiceForm:FormGroup;
   customerForm: FormGroup
   invoice_id:number;
@@ -65,6 +63,8 @@ export class OrderComponent implements OnInit {
   displayDialog3: boolean;
   
   stockData: any = [] // pass data to another component
+  catData: any = [] // pass data to another component
+  unitData: any = [] // pass data to another component
   
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
@@ -95,15 +95,7 @@ export class OrderComponent implements OnInit {
       balance_amount:[0.00,Validators.required],
       payment_status:[1,Validators.required]
     })
-    this.customerForm = this._fb.group({
-      _id: [''],
-      company_details_id: [this.sessionService.getItem('company_id'),Validators.required],
-      customer_code: ['',Validators.required],
-      customer_name: ['',Validators.required],
-      customer_address: ['',Validators.required],
-      phone: ['',Validators.required],
-      status: [1,Validators.required]
-    })
+  
     
   }
 
@@ -113,9 +105,15 @@ export class OrderComponent implements OnInit {
         this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {
-        label: "Sales",
+        label: "Purchase",
         command: event => {
-          this.router.navigate(["/inventory-mngt/sales"]);
+          this.router.navigate(["/inventory-mngt/purchase/purchase"]);
+        }
+      },
+      {
+        label: "Purchase Return",
+        command: event => {
+          this.router.navigate(["/inventory-mngt/purchase/purchase-return"]);
         }
       }
     ];
@@ -137,19 +135,11 @@ export class OrderComponent implements OnInit {
       {label:'5%', value:1},
       {label:'10%', value:2}
     ]
-    this.printItems = [
-      {label: 'Priview Pdf', icon: 'pi pi-refresh', command: () => {
-          this.priviewPdf();
-      }},
-      {label: 'Priview Print', icon: 'pi pi-times', command: () => {
-        this.printOrder();
-      }}
-  ];
-
-    this.getLastInvoice();
-    this.getCustomer();
-    this.getCategory();
-    this.getStock();
+ 
+    this.getLastInvoiceByCompany();
+    this.getCustomerByCompany();
+    this.getCategoryByCompany();
+    this.getStockByCompany();
        
     this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
   }
@@ -183,18 +173,13 @@ public checkValidityCus(): void {
   });
 }
 
-
-receiveStock(event){
-  console.log(event) 
-}
-
 priviewPdf(){
   this.pdfGenerator.testPdg()
   .subscribe((data:any)=>{
     console.log('testPdf',data);
     console.log('url',environment.api_url + data);
     // printJS('docs/'+ environment.api_url + data)
-    printJS({printable:'docs/'+environment.api_url + data +"'", type:'pdf', showModal:true})
+    // printJS({printable:'docs/'+environment.api_url + data +"'", type:'pdf', showModal:true})
   })
 }
 
@@ -206,7 +191,7 @@ printOrder(){
 
   // window.print();
   
-  printJS('print-section', 'html')
+  // printJS('print-section', 'html')
 }
 
 printOrderWithoutView(){
@@ -223,7 +208,7 @@ initRowFirst() {
     });
 }
 
-  getLastInvoice(){
+  getLastInvoiceByCompany(){
     this.salesService.getLastInvoice()
     .subscribe((data:any)=>{
       console.log('getLastInvoice',data);      
@@ -234,9 +219,9 @@ initRowFirst() {
     })
   }
 
-  getCustomer(){
-
-    this.customerService.getCustomer()
+  getCustomerByCompany(){
+    this.customerList = []
+    this.customerService.getCustomerByCompany()
     .subscribe((data:any)=>{
       this.customers = data;
       this.customerList.push({  label:'+ Add New Customer',  value:0 });
@@ -251,7 +236,7 @@ initRowFirst() {
     })
   }
 
-   getCategory(){
+   getCategoryByCompany(){
     this.categoryService.getCategoryByCompany()
     .subscribe((data:any)=>{
       console.log('categoryList',data);
@@ -259,7 +244,7 @@ initRowFirst() {
     })
   }
 
-  getStock(){
+  getStockByCompany(){
     this.stocks = [];  
     this.stocksList = [];
     this.stockService.getStockByCompanyActive()
@@ -286,7 +271,7 @@ initRowFirst() {
     this.salesService.addSales(this.invoiceForm.value)
     .subscribe((data:any)=>{
         console.log(data);
-        this.getStock() // refresh stock qty
+        this.getStockByCompany() // refresh stock qty
         this.invoiceForm.reset();
         this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
         this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
@@ -298,7 +283,7 @@ initRowFirst() {
         this.invoiceForm.controls['grand_total'].setValue(0.00);
         this.invoiceForm.controls['payment_type'].setValue(1);
         this.invoiceForm.controls['payment_status'].setValue(1);
-        printJS('print-section', 'html') // print invoice
+        // printJS('print-section', 'html') // print invoice
     })
   }
 
@@ -312,57 +297,18 @@ initRowFirst() {
     this.addSales()
   }
 
-  showDialogToAddCust(){
-    this.customerForm.reset();
-    this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
-    this.customerForm.controls['status'].setValue(1);
-    this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog3 = true;
-  }
-
-  // showDialogToAddStock(){
-  //   this.customerForm.reset();
-  //   this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
-  //   this.customerForm.controls['status'].setValue(1);
-  //   this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-  //   this.displayDialog = true;
-  // }
-
+ 
   onSelectCust(event){
     console.log(event.value); 
     if(event.value == 0){
-      this.showDialogToAddCust()
+      // this.showDialogToAddCust()
+      this.displayDialog3 = true
       this.invoiceForm.controls['customer_details_id'].reset();
       return false
     }
 
   }
 
-  saveCust() {
-    if(this.customerForm.invalid){
-      this.checkValidityCus()
-      return false;
-    }
-    this.customerService.addCustomer(this.customerForm.value)
-    .subscribe((data:any)=>{
-      console.log('add customer',data);
-      let newData = {
-        label : data.customer_name +' | ' +data.customer_code,
-        value : data._id
-       }
-      this.customerList = [ newData,...this.customerList];
-    
-      console.log('this.customerList',this.customerList);
-      this.messageService.add({severity:'success', summary:'Customer Added Successfully', detail:'Customer Added Successfully'});
-      this.invoiceForm.controls['customer_details_id'].setValue(data._id) 
-      this.displayDialog = false;
-    },
-    error =>{
-      console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-
-    })
-  }
 
   addListItem(){
     const control = <FormArray>this.invoiceForm.controls['invoiceList'];
@@ -403,13 +349,16 @@ onSelectProduct(event,i){
     return false
   }
   console.log(this.invoiceForm.value.invoiceList);  
-  let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
-  console.log('stockAddedData',stockAddedData); 
-  if(stockAddedData.price){
-    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Stock already added in invoice'});
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
-    return false
+  if(this.invoiceForm.value.invoiceList.length > 1){
+    let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
+    console.log('stockAddedData',stockAddedData); 
+    if(stockAddedData.price){
+      this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Stock already added in invoice'});
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+      return false
+    }
   }
+ 
   var sliceIndex = _.findIndex(this.stocks, function (o) { return  o._id == event.value; });
   console.log(sliceIndex);
   if (sliceIndex > -1) {
@@ -478,8 +427,31 @@ onChangePaindAmount(){
 
 
 
+receiveStock(event){
+  console.log(event)   
+  // this.stocksList = [event,...this.stocksList];
+  this.getStockByCompany()
+}
+
+receiveCategory(event){
+  console.log('receiveCategory',event) 
+  this.catData = event
+}
+
+receiveUnit(event){
+  console.log('receiveUnit',event) 
+  this.unitData = event
+}
+
+receiveCustomer(event){
+  console.log('receiveCustomer',event) 
+  this.getCustomerByCompany()
+}
+
 onDialogClose(event){
-  console.log(event)  
+  console.log(event)       
+  this.catData = []     // clear new cat data while open stock form
+  this.unitData = []  // clear new unit data while open stock form
   this.displayDialog = false;
 }
 
@@ -489,19 +461,23 @@ onDialogClose1(event){
 }
 
 onDialogClose2(event){
-  console.log(event)  
+  console.log(event) 
   this.displayDialog2 = false;
 }
 
+onDialogClose3(event){
+  console.log(event) 
+  this.displayDialog3 = false;
+}
+
 categoryDialog(event){
-  console.log('categoryDialog',event)  
+  console.log('categoryDialog',event)   
   this.displayDialog1 = event;
 }
 
 unitDialog(event){
-  console.log('unitDialog',event)  
+  console.log('unitDialog',event) 
   this.displayDialog2 = event;
 }
-
 
 }

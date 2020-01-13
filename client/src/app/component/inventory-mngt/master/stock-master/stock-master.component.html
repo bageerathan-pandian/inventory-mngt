@@ -106,11 +106,11 @@
 </div>
 
 
-<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" (stockEvent)="receiveStock($event)" (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
+<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
 
-<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)"></app-category-form>
+<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
 
-<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"></app-unit-form>
+<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"  (unitEvent)="receiveUnit($event)"></app-unit-form>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
         <p-footer>

@@ -597,7 +597,7 @@ body .ui-table .ui-table-tbody > tr.ui-table-dragpoint-bottom > td {
   box-shadow: inset 0 -2px 0 0 #007ad9;
 }
 body .ui-table .ui-table-tbody > tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f9f9f9 !important;
 }
 body .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
   background-color: #007ad9;

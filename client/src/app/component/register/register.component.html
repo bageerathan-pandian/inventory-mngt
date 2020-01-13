@@ -3,8 +3,10 @@
         <p style="color: #000" > Sending verification email... </p>
 </ngx-spinner>
 
-<div  class="ui-g-12 ui-md-6 ui-md-offset-3" style="margin-top: 10%;">
-    
+<div  class="ui-g-12" style="padding: 5% 0;background: url(https://userscontent2.emaze.com/images/93b859f2-0037-49f8-af19-246cb1652f28/eb2ed28ab7b4d5fb653164394796a227.jpg) no-repeat center center;
+background-size: cover;">
+  
+    <div  class="ui-g-12 ui-md-6 ui-md-offset-3">
     <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
     <!-- <div class="ui-g-12"  style="text-align: center;position: relative;height: 100px;">
         <a routerLink="">
@@ -13,14 +15,14 @@
     </div> -->
 
 <div  class="register-form ui-g-12">
-           
+         
+   
+
+    
+  <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
 
 <p-card *ngIf="!successRegister" >
-        <div class="">
-                <h2>Registration</h2>
-                <span>You can register free!</span>
-            </div>
-  <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+        
 
   <form [formGroup]="planForm" *ngIf="activeIndex == 0"> 
     <div class="ui-g ui-fluid" >
@@ -375,6 +377,7 @@
               </div>
           </p-card>
 
+</div>
 </div>
 </div>
 <div  class="ui-g-12 ">

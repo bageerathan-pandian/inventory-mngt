@@ -8,14 +8,44 @@
 
     <div class="ui-g ui-fluid">
         
-        <div class="ui-g-4">
-            Invoice No.:  <input pInputText type="text" formControlName="invoice_code"  readonly required>
+          
+<div class="ui-g-3">
+        <div class="ui-g-12">
+                Invoice No.:  <input pInputText type="text" formControlName="invoice_code"  readonly required>
+            </div>
+            <div class="ui-g-12">
+                Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
+            </div>
+</div>
+
+<div class="ui-g-3">
+
+        <div class="ui-g-12">
+                Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Customer"  formControlName="customer_details_id"   filter="true" (onChange)="onSelectCust($event)" ></p-dropdown>
+           
+           </div>
+           <div class="ui-g-12">
+                Customer Address:  <input pInputText type="text" value="{{selectedCustData.customer_address}}" readonly > 
+        </div> 
+</div>
+
+<div class="ui-g-3">
+        <!-- <pre>{{ selectedSupplierData | json }}</pre> -->
+        
+        
+         <div class="ui-g-12">
+                
+                Customer Phone:  <input pInputText type="text" value="{{selectedCustData.phone}}" readonly >
         </div>
+    
+
+
+</div>
+
+<div class="ui-g-3">
+
+</div>
         <div class="ui-g-4">
-            Order Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
-        </div>
-        <div class="ui-g-4">
-             Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Customer"  formControlName="customer_details_id"  [showClear]="true" filter="true" (onChange)="onSelectCust($event)" ></p-dropdown>
 
         </div>
     </div>
@@ -35,7 +65,7 @@
                 <thead>
                 <tr>
                         <th style="width: 10%">Order #</th>
-                        <th>Product Name</th>
+                        <th>Product Name/Code</th>
                         <th>Price</th>
                         <th>Qty</th>
                         <th>Total</th>
@@ -67,9 +97,10 @@
                       
                </td>
                <td >
-                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button>
+                <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
                 <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
-                            <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="invoiceForm.value.invoiceList.length == i+1"  style="    margin: 0px 5px;"></button>
+                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
+                            <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
                            </td>
            </tr>
         </tbody>

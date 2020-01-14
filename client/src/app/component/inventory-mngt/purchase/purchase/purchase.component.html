@@ -2,22 +2,49 @@
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
 <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
-<form class="example-form sec" [formGroup]="invoiceForm">
+<form class="example-form sec" [formGroup]="purchaseInvoiceForm">
 <div style="margin-top: 15px;">
 <p-card>
 
 <div class="ui-g ui-fluid">
+        
+<div class="ui-g-3">
+        <div class="ui-g-12">
+                Invoice No.:  <input pInputText type="text" formControlName="invoice_purchase_code"  readonly required>
+            </div>
+            <div class="ui-g-12">
+                Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
+            </div>
+</div>
 
-<div class="ui-g-4">
-    Invoice No.:  <input pInputText type="text" formControlName="invoice_code"  readonly required>
+<div class="ui-g-3">
+
+        <div class="ui-g-12">
+                Supplier Name: <p-dropdown [options]="supplierList"   placeholder="Select Supplier"  formControlName="supplier_details_id"  filter="true" (onChange)="onSelectSup($event)" ></p-dropdown>
+           
+           </div>
+           <div class="ui-g-12">
+                Supplier Address:  <input pInputText type="text" value="{{selectedSupplierData.supplier_address}}" readonly > 
+        </div> 
 </div>
-<div class="ui-g-4">
-    Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
-</div>
-<div class="ui-g-4">
-     Supplier Name: <p-dropdown [options]="customerList"   placeholder="Select Supplier"  formControlName="customer_details_id"  [showClear]="true" filter="true" (onChange)="onSelectCust($event)" ></p-dropdown>
+
+<div class="ui-g-3">
+        <!-- <pre>{{ selectedSupplierData | json }}</pre> -->
+        
+        
+         <div class="ui-g-12">
+                
+        Phone:  <input pInputText type="text" value="{{selectedSupplierData.phone}}" readonly >
+        </div>
+    
+
 
 </div>
+
+<div class="ui-g-3">
+
+</div>
+
 </div>
 
       
@@ -35,7 +62,7 @@
         <thead>
         <tr>
                 <th style="width: 10%">Order #</th>
-                <th>Product Name</th>
+                <th>Product Name/Code</th>
                 <th>Price</th>
                 <th>Qty</th>
                 <th>Total</th>
@@ -43,7 +70,7 @@
             </tr>
             </thead>
             <tbody>
-    <tr *ngFor="let itemrow of invoiceForm.get('invoiceList')['controls']; let i=index"
+    <tr *ngFor="let itemrow of purchaseInvoiceForm.get('invoiceList')['controls']; let i=index"
     [formGroupName]="i">
         <td >
           {{i + 1}}
@@ -67,9 +94,10 @@
               
        </td>
        <td >
-        <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button>
-        <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
-                    <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="invoiceForm.value.invoiceList.length == i+1"  style="    margin: 0px 5px;"></button>
+        <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(purchaseInvoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
+        <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="purchaseInvoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
+        <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
+                    <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
                    </td>
    </tr>
 </tbody>
@@ -104,17 +132,17 @@
     <div class="ui-g ui-fluid">
             <div class="ui-g-12 ui-md-6" style="text-align: center">
                     <h6>Grand Total</h6>
-                    <h1>{{ invoiceForm.value.grand_total | currency :'INR':true}}</h1>
+                    <h1>{{ purchaseInvoiceForm.value.grand_total | currency :'INR':true}}</h1>
             </div>
             <div class="ui-g-12 ui-md-6">
             <div class="ui-g-12 ui-md-6">
                     Sub Amount:  
-                   <p>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</p> 
-                    Discount $ :<input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
+                   <p>{{purchaseInvoiceForm.value.sub_total  | currency : 'INR':true}}</p> 
+                    Discount $ :<input pInputText type="text" pKeyFilter="int"  required max="{{purchaseInvoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
             </div>
             <div class="ui-g-12 ui-md-6">
                     Grand Total: 
-                   <p>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</p> 
+                   <p>{{purchaseInvoiceForm.value.grand_total  | currency : 'INR':true}}</p> 
                    Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
                    Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
                    Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
@@ -129,7 +157,7 @@
                     <button pButton type="button" label="Reset" icon="pi pi-replay" class="ui-button-secondary" (click)="onReset()"></button>
                 </div>
             <div class="ui-g-2">
-                    <button pButton type="button" (click)="saveOrder()" label="Save & Print Bill" icon="pi pi-save" class="ui-button-success"></button>
+                    <button pButton type="button" (click)="saveOrder()" label="Save" icon="pi pi-save" class="ui-button-success"></button>
                 </div>
             <!-- <div class="ui-g-2">
                     <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
@@ -146,8 +174,6 @@
 </form>
 
 
-
-
 <app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
 
 <app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
@@ -156,8 +182,9 @@
 
 
 
-<app-customer-form [displayDialog3]="displayDialog3" (displayChangeEvent3)="onDialogClose3($event)"  (customerEvent)="receiveCustomer($event)"></app-customer-form>
-  
+
+<app-supplier-form [displayDialog]="displayDialog3" (displayChangeEvent)="onDialogClose3($event)" (supplierEvent)="receiveSupplier($event)" [supplierData]="supplierData"></app-supplier-form>
+
 
 <div id="print-section" style="display: none"> 
 

@@ -24,5 +24,10 @@ router.put('/status-update/:id', invoiceController.userStatusUpdate);
  */
 router.get('/total-sales/:id', invoiceController.getTotalSales);
 
+/**
+ * get users list
+ */
+router.get('/total-purchase/:id', invoiceController.getTotalPurchase);
+
 
 module.exports = router;

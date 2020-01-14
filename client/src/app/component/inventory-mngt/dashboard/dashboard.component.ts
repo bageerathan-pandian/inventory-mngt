@@ -73,17 +73,19 @@ export class DashboardComponent implements OnInit {
           ]
       }
     this.data1 = {
-      labels: ['A','B'],
+      labels: ['Income','Expence','Net'],
       datasets: [
           {
-              data: [300, 50],
+              data: [1000, 1050,50],
               backgroundColor: [
+                "#36A2EB",
                   "#FF6384",
-                  "#36A2EB"
+                  "#FFCE56"
               ],
               hoverBackgroundColor: [
+                "#36A2EB",
                   "#FF6384",
-                  "#36A2EB"
+                  "#FFCE56"
               ]
           }]    
       };
@@ -95,7 +97,7 @@ export class DashboardComponent implements OnInit {
     this.options = {
       title: {
           display: true,
-          text: 'Profit/Loss Report',
+          text: 'Monthly Profit/Loss Report',
           fontSize: 16
       },
       legend: {
@@ -105,7 +107,7 @@ export class DashboardComponent implements OnInit {
   this.options1 = {
     title: {
         display: true,
-        text: 'Customer Yearly Report',
+        text: 'Yearly Profit/Loss Report',
         fontSize: 16
     },
     legend: {
@@ -204,10 +206,10 @@ export class DashboardComponent implements OnInit {
   
 
   getTotalPurchaseAmount(){
-    this.purchaseService.getTotalPurchaseAmount()
+    this.invoiceService.getTotalPurchaseAmount()
     .subscribe((data:any)=>{
       console.log('getTotalPurchaseAmount',data);
-      this.totalSalesAmount = data[0].grand_total;
+      this.totalPurchaceAmount = data[0].grand_total;
     })
   }
 

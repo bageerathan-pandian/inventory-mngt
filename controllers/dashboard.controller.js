@@ -1,6 +1,7 @@
 
 const StockModel = require('../models/stock.model');
 const SalesModel = require('../models/sales.model');
+const PurchaseModel = require('../models/purchase.model');
 const UserModel = require('../models/user.model');
 const InvoiceModel = require('../models/invoice.model');
 
@@ -59,12 +60,12 @@ exports.getLatestSales =  (req, res)=> {
 
 
 exports.getLatestPurchase =  (req, res)=> {
-  SalesModel.find({company_details_id : req.params.id},(e,result) => {
+  PurchaseModel.find({company_details_id : req.params.id},(e,result) => {
   if(e) {        
     console.log(e.message);
       return res.status(500).json(e);
   } else {
       return res.json(result);
   }
-}).populate('company_details_id').sort( { updatedAt: -1 } ).limit(5)
+}).populate('company_details_id').populate('supplier_details_id').populate('invoice_purchase_details_id').populate('stock_details_id').sort( { updatedAt: -1 } ).limit(5)
 }

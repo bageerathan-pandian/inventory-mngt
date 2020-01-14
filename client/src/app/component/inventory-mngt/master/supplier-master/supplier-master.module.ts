@@ -17,6 +17,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import {InputMaskModule} from 'primeng/inputmask';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     GooglePlaceModule,
     InputMaskModule,
     ReactiveFormsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    SharedModule
   ]
 })
 export class SupplierMasterModule { }

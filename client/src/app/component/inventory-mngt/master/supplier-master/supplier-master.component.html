@@ -66,7 +66,7 @@
                 <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
             </td>
             <td style="text-align:center">
-                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
                 <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
                 <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
             </td>
@@ -85,65 +85,7 @@
 
 </p-table>
 
-<p-dialog  [(visible)]="displayDialog" [maximizable]="true"  [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
-        <p-header>
-                <span *ngIf="supplierForm.value._id">Update</span>
-                <span *ngIf="!supplierForm.value._id">Add</span> Supplier
-        </p-header>
-    <form [formGroup]="supplierForm">
-    <div class="ui-g ui-fluid" >
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Supplier Code</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText  formControlName="supplier_code" disabled />
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Supplier Name</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText  formControlName="supplier_name" autofocus />
-                </div>
-            </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Supplier Address</label>
-            </div>
-            <div class="ui-g-8">
-                <input pInputText  formControlName="supplier_address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
-
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Supplier Phone</label>
-            </div>
-            <div class="ui-g-8">
-                <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999" slotChar=" "></p-inputMask>
-
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="brand">Status</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="status"  placeholder="Select Status"  formControlName="status"></p-dropdown>
-
-            </div>
-        </div>
-    </div>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-            <button type="button" pButton  icon="pi pi-save" class="ui-button-success"(click)="save()" label="Save"></button>
-        </div>
-    </p-footer>
-</form>
-</p-dialog>
+<app-supplier-form [displayDialog]="displayDialog" (displayChangeEvent)="onDialogClose($event)" (supplierEvent)="receiveSupplier($event)" [supplierData]="supplierData"></app-supplier-form>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
         <p-footer>

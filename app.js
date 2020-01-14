@@ -55,12 +55,13 @@ const category = require("./routers/category.route");
 const customer = require("./routers/customer.route");
 const supplier = require("./routers/supplier.route");
 const stock = require("./routers/stock.route"); 
-const sales = require("./routers/sales.route");
 const dashboard = require("./routers/dashboard.route");
 const pdfs = require("./routers/pdfs.route");
 const imagUpload = require("./routers/imageUpload.route");
 const contact = require("./routers/contact.route");
+const sales = require("./routers/sales.route");
 const invoice = require("./routers/invoice.route");
+const purchase = require("./routers/purchase.route");
 
 app.use("/api/auth", auth); // auth api's goes here 
 app.use("/api/users", passport.authenticate('jwt', { session : false }), users);
@@ -71,12 +72,13 @@ app.use("/api/category", passport.authenticate('jwt', { session : false }),  cat
 app.use("/api/customer",passport.authenticate('jwt', { session : false }),  customer); 
 app.use("/api/supplier",passport.authenticate('jwt', { session : false }),  supplier); 
 app.use("/api/stock",passport.authenticate('jwt', { session : false }),  stock); 
-app.use("/api/dashboard",passport.authenticate('jwt', { session : false }),  dashboard);
-app.use("/api/sales",passport.authenticate('jwt', { session : false }),  sales); 
+app.use("/api/dashboard",passport.authenticate('jwt', { session : false }),  dashboard); 
 app.use("/api/pdfs",passport.authenticate('jwt', { session : false }),  pdfs); 
 app.use("/api/image-upload",passport.authenticate('jwt', { session : false }),  imagUpload); 
 app.use("/api/contact",passport.authenticate('jwt', { session : false }),  contact); 
+app.use("/api/sales",passport.authenticate('jwt', { session : false }),  sales);
 app.use("/api/invoice",passport.authenticate('jwt', { session : false }),  invoice); 
+app.use("/api/purchase",passport.authenticate('jwt', { session : false }),  purchase); 
 // app.use("/api/payment",passport.authenticate('jwt', { session : false }),  paymentController); 
 
 // console.log(ip.address());

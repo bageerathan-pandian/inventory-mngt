@@ -70,6 +70,7 @@ export class SalesComponent implements OnInit {
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
   @ViewChild('printDiv',{static:false}) printDiv: ElementRef;
+  selectedCustData :any = []
 
   constructor(private _fb:FormBuilder,
     private router: Router,
@@ -296,10 +297,12 @@ initRowFirst() {
   onSelectCust(event){
     console.log(event.value); 
     if(event.value == 0){
-      // this.showDialogToAddCust()
+      this.selectedCustData = []
       this.displayDialog3 = true
       this.invoiceForm.controls['customer_details_id'].reset();
       return false
+    }else{
+      this.selectedCustData = _.find(this.customers, { '_id': event.value })
     }
 
   }

@@ -376,6 +376,11 @@ onChangeQty(i){
   if(!this.invoiceForm.get('invoiceList')['controls'][i].value.stock_details_id && this.invoiceForm.get('invoiceList')['controls'][i].value.stock_details_id  == ''){
      return
   }
+  if(this.invoiceForm.get('invoiceList')['controls'][i].value.qty == 0 || this.invoiceForm.get('invoiceList')['controls'][i].value.qty == '0'){
+    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Quantity atleast 1'});    
+    this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
+    return
+  }
   console.log(i); 
   console.log(this.invoiceForm.value.invoiceList[i].stock_details_id); 
   console.log(this.stocks); 

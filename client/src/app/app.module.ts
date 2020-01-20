@@ -38,6 +38,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 // import { NgxTawkModule } from 'ngx-tawk';
 import { DISQUS_SHORTNAME } from 'ngx-disqus';
 import { PhoneVerifyComponent } from './component/phone-verify/phone-verify.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import { PhoneVerifyComponent } from './component/phone-verify/phone-verify.comp
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: DISQUS_SHORTNAME, useValue: 'ownwaysoft' },
+    { provide: DISQUS_SHORTNAME, useValue: environment.disqus_shotname },
     AuthService, MessageService,ChatService,PushService],
   bootstrap: [AppComponent]
 })

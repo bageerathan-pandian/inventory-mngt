@@ -345,7 +345,6 @@ onClear() {
 onSelectProduct(event,i){
   console.log(event.value); 
   if(event.value == 0){
-    // this.showDialogToAddStock()
     this.displayDialog = true;
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
     return false
@@ -367,11 +366,11 @@ onSelectProduct(event,i){
     // this.loggedInUsersList.splice(sliceIndex, 1);
     console.log(this.stocks[sliceIndex]);    
   console.log(this.purchaseInvoiceForm.get('invoiceList')['controls'][i]);
-  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[sliceIndex].stock_qty) 
-  // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
+  // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[sliceIndex].stock_qty) 
+  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
   this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty) 
   this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].buying_price) 
-  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.stocks[sliceIndex].stock_qty * this.stocks[sliceIndex].buying_price) 
+  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].buying_price) 
   this.calculateTotal()
   }
 }
@@ -379,6 +378,11 @@ onSelectProduct(event,i){
 onChangeQty(i){
   if(!this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.stock_details_id && this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.stock_details_id  == ''){
      return
+  }
+  if(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty == 0 || this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty == '0'){
+    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Quantity atleast 1'});
+    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
+    return
   }
   console.log(i); 
   console.log(this.purchaseInvoiceForm.value.invoiceList[i].stock_details_id); 

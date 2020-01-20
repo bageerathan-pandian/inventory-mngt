@@ -7,7 +7,8 @@ export const environment = {
   version: '1.0.0',
   api_url : 'http://localhost:8082',
   site_key: '6LcAacgUAAAAACpP3bVIOlvunyAntC2Vl-wBIKgv',
-  site_secret_key : '6LcAacgUAAAAADBTOC7Wn-vQHue3dyXy61rOt1fL' 
+  site_secret_key : '6LcAacgUAAAAADBTOC7Wn-vQHue3dyXy61rOt1fL',
+  disqus_shotname: 'ownwaysoft' 
 };
 
 /*

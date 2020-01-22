@@ -25,7 +25,10 @@ import { DialogModule } from 'primeng/dialog';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { SidebarModule } from 'primeng/sidebar';
 import { SafePipeModule } from 'safe-pipe';
-import { SharedModule } from '../../shared/shared.module';
+import { StockFormModule } from '../../shared/stock-form/stock-form.module';
+import { CategoryFormModule } from '../../shared/category-form/category-form.module';
+import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
+import { SupplierFormModule } from '../../shared/supplier-form/supplier-form.module';
 
 @NgModule({
   declarations: [PurchaseComponent],
@@ -54,7 +57,10 @@ import { SharedModule } from '../../shared/shared.module';
     GooglePlaceModule,
     SidebarModule,
     SafePipeModule,
-    SharedModule
+    StockFormModule,
+    CategoryFormModule,
+    UnitFormModule,
+    SupplierFormModule
   ]
 })
 export class PurchaseModule { }

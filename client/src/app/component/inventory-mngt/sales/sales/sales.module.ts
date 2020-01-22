@@ -24,7 +24,12 @@ import { DialogModule } from 'primeng/dialog';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import {SidebarModule} from 'primeng/sidebar';
 import { SafePipeModule } from 'safe-pipe';
-import { SharedModule } from '../../shared/shared.module';
+import { StockFormModule } from '../../shared/stock-form/stock-form.module';
+import { CategoryFormModule } from '../../shared/category-form/category-form.module';
+import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
+import { CustomerFormModule } from '../../shared/customer-form/customer-form.module';
+import { InvoiceDesignModule } from '../../shared/invoice-design/invoice-design.module';
+import { InvoiceDesignPosModule } from '../../shared/invoice-design-pos/invoice-design-pos.module';
 
 @NgModule({
   declarations: [SalesComponent],
@@ -53,7 +58,12 @@ import { SharedModule } from '../../shared/shared.module';
     GooglePlaceModule,
     SidebarModule,
     SafePipeModule,
-    SharedModule
+    StockFormModule,
+    CategoryFormModule,
+    UnitFormModule,
+    CustomerFormModule,
+    InvoiceDesignModule,
+    InvoiceDesignPosModule
   ]
 })
 export class SalesModule { }

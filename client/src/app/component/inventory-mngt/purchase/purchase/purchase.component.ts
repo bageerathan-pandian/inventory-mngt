@@ -346,7 +346,7 @@ onSelectProduct(event,i){
   console.log(event.value); 
   if(event.value == 0){
     this.displayDialog = true;
-    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].reset() 
     return false
   }
   console.log(this.purchaseInvoiceForm.value.invoiceList);  

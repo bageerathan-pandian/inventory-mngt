@@ -146,23 +146,3 @@
 </div>
 </form>
 
-
-
-
-<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
-
-<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
-
-<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"  (unitEvent)="receiveUnit($event)"></app-unit-form>
-
-
-
-<app-customer-form [displayDialog3]="displayDialog3" (displayChangeEvent3)="onDialogClose3($event)"  (customerEvent)="receiveCustomer($event)"></app-customer-form>
-  
-
-<div id="print-section" style="display: none"> 
-
-<app-invoice-design #printDiv></app-invoice-design>
-       
-<!-- <app-invoice-design-pos></app-invoice-design-pos> -->
-</div>

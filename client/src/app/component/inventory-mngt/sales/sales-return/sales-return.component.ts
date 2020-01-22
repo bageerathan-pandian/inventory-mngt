@@ -224,7 +224,7 @@ initRowFirst() {
     this.customerService.getCustomerByCompany()
     .subscribe((data:any)=>{
       this.customers = data;
-      this.customerList.push({  label:'+ Add New Customer',  value:0 });
+      // this.customerList.push({  label:'+ Add New Customer',  value:0 });
       for(let custData of this.customers){
         let listCust =  {
           label:custData.customer_name +' | '+ custData.customer_code,
@@ -252,7 +252,7 @@ initRowFirst() {
       console.log('stocksList',data);
       this.stocks = data;      
         // this.stocksList = data;
-      this.stocksList.push({  label:'+ Add New Stock',  value:0 });
+      // this.stocksList.push({  label:'+ Add New Stock',  value:0 });
       for(let stockData of this.stocks){
         let listStock=  {
           label:stockData.stock_name + ' | ' + stockData.stock_code,
@@ -345,7 +345,7 @@ onSelectProduct(event,i){
   if(event.value == 0){
     // this.showDialogToAddStock()
     this.displayDialog = true;
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+    this.invoiceForm.get('invoiceList')['controls'][i].reset() 
     return false
   }
   console.log(this.invoiceForm.value.invoiceList);  

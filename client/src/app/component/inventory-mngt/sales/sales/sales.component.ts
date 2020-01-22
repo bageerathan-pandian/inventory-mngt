@@ -339,11 +339,11 @@ onClear() {
 }
 
 onSelectProduct(event,i){
-  console.log(event.value); 
+  console.log(event.value,i); 
   if(event.value == 0){
     // this.showDialogToAddStock()
     this.displayDialog = true;
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+    this.invoiceForm.get('invoiceList')['controls'][i].reset() 
     return false
   }
   console.log(this.invoiceForm.value.invoiceList);  

@@ -77,11 +77,11 @@ export class UnitFormComponent implements OnInit {
       this.unitService.addUnit(this.unitForm.value)
       .subscribe((data:any)=>{
         console.log('add unit',data);
-        let newData = {
-          label : data.unit_name +' | ' +data.unit_code,
-          value : data._id
-         }
-         this.unitEvent.emit(newData)
+        // let newData = {
+        //   label : data.unit_name +' | ' +data.unit_code,
+        //   value : data._id
+        //  }
+         this.unitEvent.emit(data)
         // this.unitList = [newData,...this.unitList];
         // this.categoryList.push(data);
         // console.log('this.unitList',this.unitList);

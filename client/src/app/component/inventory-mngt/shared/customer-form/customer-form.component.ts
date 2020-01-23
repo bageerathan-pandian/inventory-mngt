@@ -87,12 +87,12 @@ export class CustomerFormComponent implements OnInit {
     this.customerService.addCustomer(this.customerForm.value)
     .subscribe((data:any)=>{
       console.log('add customer',data);
-      let newData = {
-        label : data.customer_name +' | ' +data.customer_code,
-        value : data._id
-       }
+      // let newData = {
+      //   label : data.customer_name +' | ' +data.customer_code,
+      //   value : data._id
+      //  }
      
-       this.customerEvent.emit(newData)
+       this.customerEvent.emit(data)
       this.messageService.add({severity:'success', summary:'Customer Added Successfully', detail:'Customer Added Successfully'});
       this.displayDialog3 = false;
     },

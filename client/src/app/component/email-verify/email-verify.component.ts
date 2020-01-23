@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/shared/session.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 declare var io: any
@@ -23,7 +24,9 @@ export class EmailVerifyComponent implements OnInit {
   
   private socket;
 
-  constructor(private auth: AuthService, public sessionService: SessionService, private _fb: FormBuilder, private messageService: MessageService, private activeRoute: ActivatedRoute, private router: Router) { 
+  constructor(private auth: AuthService, public sessionService: SessionService, private _fb: FormBuilder, private messageService: MessageService, private activeRoute: ActivatedRoute, private router: Router,
+    private spinner: NgxSpinnerService
+    ) { 
     
     
     this.socket = io(environment.api_url);
@@ -73,7 +76,44 @@ export class EmailVerifyComponent implements OnInit {
     console.log(this.userCredential);
     // this.spinner.show();
     this.auth.logIn(this.userCredential)
-  }
+    .subscribe((data:any)=>{
+      console.log('data',data);
+      this.messageService.clear();
+      this.spinner.hide();
+      if(data.token){
+        // setTimeout(() => {
+          this.socket.emit('loginTodo', data.user);
+
+          this.sessionService.setItem("inventryLogedIn", "1");
+          this.sessionService.setItem('secret_token',data.token);
+          this.sessionService.setItem('rememberMe',  false);
+          this.sessionService.setUserCredentials(data.user)
+          // if(this.loginForm.value.rememberMe == true){
+          //   this.sessionService.setItem('user_email', this.loginForm.value.user_email);
+          //   this.sessionService.setItem('user_pwd',  this.loginForm.value.user_pwd);
+          //   this.sessionService.setItem('rememberMe',  this.loginForm.value.rememberMe);
+          //   this.sessionService.setItem('secret_token', data.token);
+          // }else{
+          //   this.sessionService.clear()
+          // }
+          this.router.navigate(["/inventory-mngt/dashboard"]);
+          this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
+        //  }, 1000);
+        
+      }else{
+        this.messageService.clear();
+        this.messageService.add({severity:'warn', summary:'Warning!', detail:'Check your User Name/Password'});
+      }
+    
+    },
+    error =>{
+      console.log('er',error);
+      this.spinner.hide();
+      this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
+      // this.sessionService.setItem("inventryLogedIn", "1");
+      // this.router.navigate(["/dashboard"]);
+    })
+}
 
 
 

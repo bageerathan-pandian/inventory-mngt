@@ -107,8 +107,12 @@ export class ChangePasswordComponent implements OnInit {
   doUpdatePassword(){
     this.auth.changePassword(this.changePasswordForm.value)
     .subscribe((data:any)=>{
+      this.messageService.add({severity:'success', summary:'Success!', detail:'Password changed successfully!'});
+      this.auth.logOut()
     },
     error => {
+      console.log('er',error);
+      this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
     })
   }
 

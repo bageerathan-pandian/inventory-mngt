@@ -257,42 +257,45 @@ router.get('/check-email-exist/:user_email', async (req, res, next) => {
 router.post('/forgot-password', async (req, res, next) => {
 
   console.log(req.body);
+  let checkData = {
+    user_email: req.body.email
+  }
+  console.log('checkData',checkData)
   // email exist check 
-  UserModel.find({user_email : req.body.email,status:1},(e,result) => {
-    if(e) {        
-      console.log(e.message);
-        return res.status(500).json(e);
-    } else {
-      console.log('result',result);
-        if(result.length == 0){
-          return res.json(2); // email not exist in account
-        }
-
-        // if email exist add expire and send email to client 
-        // Encrypt
-        token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
-
+  const resultEmailExistData = await commonController.getUserDataByEmail(checkData,res);
+    console.log('resultEmailExistData',resultEmailExistData)
+    if(resultEmailExistData.length == 1){ //send token to user
+         token = crypto.randomBytes(10).toString('hex').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '')//creating the token to be sent to the forgot password form (react)
         console.log('token',token); 
-          console.log('result',result); 
-          let id = result[0]._id; 
           let updatedData = {
+            _id: resultEmailExistData[0]._id,
+            user_email: resultEmailExistData[0].user_email, 
             reset_pwd_token : token,  
             reset_pwd_expire : moment().add(1,'hour').format()
           }
-          UserModel.findByIdAndUpdate(id, updatedData, (err, result1) => {
-            if (err) return next(err);  
-            console.log('result1',result1); 
-            req.body = result1
-            emailController.sendResetMail(req,res);            
-            // console.log('sendStatus',sendStatus); 
-             return res.json(1)   
-            });
-
+       
+          const userUpdateStatus = await commonController.userUpdateById(updatedData, res)  // update user email when reenter new email
+          console.log('userUpdateStatus',userUpdateStatus)
+          if(userUpdateStatus == 1){
+            
+            let resultData = {
+              _id: resultEmailExistData[0]._id,
+              user_name: resultEmailExistData[0].user_name,
+              user_email: resultEmailExistData[0].user_email, 
+              reset_pwd_token : token,  
+              reset_pwd_expire : moment().add(1,'hour').format()
+            }
+          const sendMailStatus = await emailController.sendResetMail(resultData, res) // send verify email to client
+            if(sendMailStatus){  // 0-not send, 1-sent
+              return res.json(sendMailStatus) // email send
+            }else{
+              return res.json(2) // email not send
+            }
+          }
+    }else{
+        return res.json(3) // user not exist
     }
-  });
 
-  
-  // let sendStatus = await emailController.sendResetMail(req,res);  
 
 });
 
@@ -309,27 +312,38 @@ router.post('/reset-password', async (req, res, next) => {
         }
 
         console.log(result[0].reset_pwd_token,req.body.reset_pwd_token);
-        // if(result[0].reset_pwd_token == req.body.reset_pwd_token || result[0].reset_pwd_expire < moment().format()){
-        // if(result[0].reset_pwd_token == req.body.reset_pwd_token){
-        //     let updateData = {
-        //       user_pwd: req.body.user_pwd,
-        //       cnfirm_user_pwd: req.body.cnfirm_user_pwd,
-        //       reset_pwd_token: null,
-        //       reset_pwd_expire: null,
-        //     }
-        //   UserModel.findByIdAndUpdate(req.body._id, updateData, (err, result1) => {
-        //     if (err) return next(err);
-        //     return res.json(1)         
-        //   });
-        // }else{
-        //   return res.json(3)  // Invalid or expired reset token
-        // }
+        if(result[0].reset_pwd_token == req.body.reset_pwd_token || result[0].reset_pwd_expire < moment().format()){
+        if(result[0].reset_pwd_token == req.body.reset_pwd_token){
+            let updateData = {
+              user_pwd: req.body.user_pwd,
+              cnfirm_user_pwd: req.body.cnfirm_user_pwd,
+              reset_pwd_token: null,
+              reset_pwd_expire: null,
+            }
+          UserModel.findByIdAndUpdate(req.body._id, updateData, (err, result1) => {
+            if (err) return next(err);
+            return res.json(1)         
+          });
+        }else{
+          return res.json(3)  // Invalid or expired reset token
+        }
 
        
 
     }
-  })
+  }
 
+});
+
+
+});
+
+router.post('/change-password', async (req, res, next) => {
+
+  UserModel.findByIdAndUpdate(req.body._id, req.body,{new: true}, (err, result) => {
+    if (err) return next(err);
+    return res.json(result);
+  });
 
 
 });

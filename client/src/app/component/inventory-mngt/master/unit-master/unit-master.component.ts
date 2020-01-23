@@ -21,7 +21,7 @@ export class UnitMasterComponent implements OnInit {
   public bradCrum: MenuItem[];
   unitList: Unit[];
   unitForm: FormGroup
-  displayDialog: boolean;
+  displayDialog2: boolean;
   car: any = {};  
   status:any = [];
   cols: any[];
@@ -101,7 +101,7 @@ export class UnitMasterComponent implements OnInit {
     this.unitForm.controls['unit_code'].setValue(this.commonService.incrCode('u',this.unitList.length));
     this.unitForm.controls['status'].setValue(1);
     this.unitForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog = true;
+    this.displayDialog2 = true;
   }
 
   public checkValidity(): void {
@@ -143,7 +143,7 @@ export class UnitMasterComponent implements OnInit {
         
           console.log('this.unitList',this.unitList);
           this.messageService.add({severity:'success', summary:'Unit Added Successfully', detail:'Unit Added Successfully'});
-          this.displayDialog = false;
+          this.displayDialog2 = false;
         },
         error =>{
           console.log(error);
@@ -154,7 +154,7 @@ export class UnitMasterComponent implements OnInit {
   
   onRowEdit(unit: Unit) {
     console.log(unit);
-    this.displayDialog = true;
+    this.displayDialog2 = true;
     this.unitForm.controls['_id'].setValue(unit._id);
     this.unitForm.controls['unit_code'].setValue(unit.unit_code);
     this.unitForm.controls['unit_name'].setValue(unit.unit_name);
@@ -180,7 +180,7 @@ export class UnitMasterComponent implements OnInit {
 
   onRowUpdate(Tax) {
     console.log('onRowUpdate',Tax);
-    this.displayDialog = false;
+    this.displayDialog2 = false;
   
     this.unitService.updateUnit(Tax)
     .subscribe((data:any)=>{
@@ -214,6 +214,25 @@ export class UnitMasterComponent implements OnInit {
       this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'}); 
 
     })
+  }
+
+
+
+  onDialogClose2(event){
+    console.log(event)  
+    this.displayDialog2 = false;
+  }
+
+  receiveUnit(event){
+    console.log('receiveUnit',event) 
+        
+    var sliceIndex = _.findIndex(this.unitList, function (o) { return o._id == event._id; });
+    console.log(sliceIndex);
+    if (sliceIndex > -1) {
+      // Replace item at index using native splice
+      this.unitList.splice(sliceIndex, 1, event);
+    }
+  this.unitList = [event,...this.unitList];
   }
   
 }

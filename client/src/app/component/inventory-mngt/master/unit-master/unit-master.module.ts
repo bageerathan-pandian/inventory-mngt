@@ -17,6 +17,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { UnitMasterComponent } from './unit-master.component';
+import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { UnitMasterComponent } from './unit-master.component';
     InputSwitchModule,
     ProgressSpinnerModule,
     ReactiveFormsModule,
-    MultiSelectModule
+    MultiSelectModule,
+    UnitFormModule
   ]
 })
 export class UnitMasterModule { }

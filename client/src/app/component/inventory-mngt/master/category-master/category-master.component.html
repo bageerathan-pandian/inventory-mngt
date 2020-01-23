@@ -49,7 +49,7 @@
                     <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event,rowData.id)"></p-inputSwitch> 
                 </td>
                 <td style="text-align:center">
-                    <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                    <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
                     <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
                     <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
                 </td>
@@ -65,7 +65,7 @@
            </ng-template>
       </p-table>
 
-      <p-dialog    [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+      <!-- <p-dialog    [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
             <p-header>
                     <span *ngIf="categoryForm.value._id">Update</span>
                     <span *ngIf="!categoryForm.value._id">Add</span> Category
@@ -100,12 +100,11 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
                 <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Save"></button>
             </div>
         </p-footer>
     </form>
-    </p-dialog>
+    </p-dialog> -->
     
     <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
             <p-footer>
@@ -117,6 +116,9 @@
 
     </p-card>
     </div>
+
+    <app-category-form [displayDialog1]="displayDialog1" [catData]="catData" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
+
 
     <p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
             <ng-template let-message pTemplate="message">

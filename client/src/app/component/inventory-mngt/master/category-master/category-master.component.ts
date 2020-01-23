@@ -22,12 +22,11 @@ export class CategoryMasterComponent implements OnInit {
   categoryList: Category[];
   categoryListSheet: any[] = [];
   categoryForm: FormGroup
-  clonedCars: { [s: string]: Category; } = {};
-  displayDialog: boolean;
-  car: any = {};  
+  displayDialog1: boolean;
   status:any = [];
   cols: any[];
   columns: any[];
+  catData:any = []
   constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
@@ -99,13 +98,13 @@ export class CategoryMasterComponent implements OnInit {
     })
   }
  
-  showDialogToAdd() {
-    this.categoryForm.reset();
-    this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',this.categoryList.length));
-    this.categoryForm.controls['status'].setValue(1);
-    this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog = true;
-  }
+  // showDialogToAdd() {
+  //   this.categoryForm.reset();
+  //   this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',this.categoryList.length));
+  //   this.categoryForm.controls['status'].setValue(1);
+  //   this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+  //   this.displayDialog1 = true;
+  // }
 
   public checkValidity(): void {
     Object.keys(this.categoryForm.controls).forEach((key) => {
@@ -113,17 +112,7 @@ export class CategoryMasterComponent implements OnInit {
     });
   }
 
-  save() {
-    if(this.categoryForm.invalid){
-      this.checkValidity()
-      return false;
-    }
-    if(this.categoryForm.value._id){
-      this.onRowUpdate(this.categoryForm.value);
-    }else{      
-      this.onRowAdd(this.categoryForm.value);
-    }
-  }
+ 
 
   delete(data,index){
     console.log('delete',data,index);
@@ -148,34 +137,16 @@ export class CategoryMasterComponent implements OnInit {
     this.messageService.clear('c');
   }
 
-  onRowAdd(category) {
-    console.log('onRowAdd',category);
-           // this.cars.push(newcar); 
-        this.categoryService.addCategory(category)
-        .subscribe((data:any)=>{
-          console.log('add cat',data);
-          this.categoryList = [data,...this.categoryList];
-        
-          console.log('this.categoryList',this.categoryList);
-          this.messageService.add({severity:'success', summary:'Category Added Successfully', detail:'Category Added Successfully'});
-          this.displayDialog = false;
-        },
-        error =>{
-          console.log(error);
-          this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-    
-        })
-  }
   
-  onRowEdit(category: Category) {
-    console.log(category);
-    this.displayDialog = true;
-    this.categoryForm.controls['_id'].setValue(category._id);
-    this.categoryForm.controls['category_code'].setValue(category.category_code);
-    this.categoryForm.controls['category_name'].setValue(category.category_name);
-    this.categoryForm.controls['company_details_id'].setValue(category.company_details_id._id)
-    this.categoryForm.controls['status'].setValue(category.status);
-  }
+  // onRowEdit(category: Category) {
+  //   console.log(category);
+  //   this.displayDialog1 = true;
+  //   this.categoryForm.controls['_id'].setValue(category._id);
+  //   this.categoryForm.controls['category_code'].setValue(category.category_code);
+  //   this.categoryForm.controls['category_name'].setValue(category.category_name);
+  //   this.categoryForm.controls['company_details_id'].setValue(category.company_details_id._id)
+  //   this.categoryForm.controls['status'].setValue(category.status);
+  // }
 
   onRowDelete(category,index) {
     console.log(category,index);
@@ -194,29 +165,6 @@ export class CategoryMasterComponent implements OnInit {
     })
   }
 
-  onRowUpdate(category) {
-    console.log('onRowUpdate',category);
-    this.displayDialog = false;
-  
-    this.categoryService.updateCategory(category)
-    .subscribe((data:any)=>{
-      console.log('update',data);
-      var sliceIndex = _.findIndex(this.categoryList, function (o) { return o._id == category._id; });
-      console.log(sliceIndex);
-      if (sliceIndex > -1) {
-        // Replace item at index using native splice
-        this.categoryList.splice(sliceIndex, 1, data);
-      }
-      this.categoryList = [...this.categoryList];
-      this.messageService.add({severity:'success', summary:'Category Updated Successfully', detail:'Category Updated Successfully'});
-  
-    },
-    error =>{
-      console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-
-    })
-  }
 
   onChangeStatus(event,id){
     console.log(event);
@@ -230,6 +178,28 @@ export class CategoryMasterComponent implements OnInit {
       this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'}); 
 
     })
+  }
+
+  showDialogToAdd(Data) {
+    this.catData = Data;
+    this.displayDialog1 = true;
+  }
+
+  onDialogClose1(event){
+    console.log(event)  
+    this.displayDialog1 = false;
+  }
+
+  receiveCategory(event){
+    console.log('receiveCategory',event) 
+        
+    var sliceIndex = _.findIndex(this.categoryList, function (o) { return o._id == event._id; });
+    console.log(sliceIndex);
+    if (sliceIndex > -1) {
+      // Replace item at index using native splice
+      this.categoryList.splice(sliceIndex, 1, event);
+    }
+  this.categoryList = [event,...this.categoryList];
   }
 
   

@@ -16,6 +16,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {DialogModule} from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
+import { CategoryFormModule } from '../../shared/category-form/category-form.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { TooltipModule } from 'primeng/tooltip';
     DialogModule,
     ReactiveFormsModule,
     ProgressSpinnerModule,
-    TooltipModule
+    TooltipModule,
+    CategoryFormModule
   ]
 })
 export class CategoryMasterModule { }

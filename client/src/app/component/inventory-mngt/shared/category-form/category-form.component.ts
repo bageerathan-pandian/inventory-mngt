@@ -4,6 +4,8 @@ import { CategoryService } from 'src/app/shared/category.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { MessageService } from 'primeng/api';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-category-form',
@@ -12,6 +14,7 @@ import { MessageService } from 'primeng/api';
 })
 export class CategoryFormComponent implements OnInit {
 
+  @Input() catData: any;
   @Input() displayDialog1: boolean
   
   @Output() displayChangeEvent1 = new EventEmitter();
@@ -19,6 +22,7 @@ export class CategoryFormComponent implements OnInit {
 
   categoryForm:FormGroup
   status:any
+  categoryList: any = []
 
   constructor(private _fb: FormBuilder, private categoryService:CategoryService,private commonService: CommonService,
     public sessionService: SessionService, private messageService: MessageService
@@ -45,8 +49,18 @@ export class CategoryFormComponent implements OnInit {
 
   
   ngOnChanges() {
-    console.log('displayDialog1',this.displayDialog1);
-    this.getCategoryByCompany()
+    console.log('displayDialog1',this.displayDialog1);    
+    console.log('isObjectcatData',_.isPlainObject(this.catData))
+    if(_.isPlainObject(this.catData)){      
+      console.log('catData',this.catData);   
+      this.categoryForm.controls['_id'].setValue(this.catData._id);
+      this.categoryForm.controls['category_code'].setValue(this.catData.category_code);
+      this.categoryForm.controls['category_name'].setValue(this.catData.category_name);
+      this.categoryForm.controls['company_details_id'].setValue(this.catData.company_details_id._id)
+      this.categoryForm.controls['status'].setValue(this.catData.status);    
+      }else{           
+      this.getCategoryByCompany()
+      }
 
   }
 
@@ -54,7 +68,8 @@ export class CategoryFormComponent implements OnInit {
   getCategoryByCompany(){
     this.categoryService.getCategoryByCompany()
     .subscribe((data:any)=>{
-      console.log('categoryList',data);         
+      console.log('categoryList',data);  
+    this.categoryList = data       
     this.categoryForm.reset();
     this.categoryForm.controls['category_code'].setValue(this.commonService.incrCode('c',data.length));
     this.categoryForm.controls['status'].setValue(1);
@@ -78,11 +93,11 @@ export class CategoryFormComponent implements OnInit {
       this.categoryService.addCategory(this.categoryForm.value)
       .subscribe((data:any)=>{
         console.log('add cat',data);
-        let newData = {
-          label : data.category_name +' | ' +data.category_code,
-          value : data._id
-         }
-         this.catEvent.emit(newData);
+        // let newData = {
+        //   label : data.category_name +' | ' +data.category_code,
+        //   value : data._id
+        //  }
+         this.catEvent.emit(data);
         // this.categoryList = [newData,...this.categoryList];
         // this.categoryList.push(data);
         // console.log('this.categoryList',this.categoryList);

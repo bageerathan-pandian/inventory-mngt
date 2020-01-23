@@ -7,7 +7,7 @@ var __parentDir =require('path').resolve(__dirname, '..');
  * send reset email
  */
 exports.sendResetMail = (req, res)=> {
-  console.log('sendResetMail', req.body);
+  console.log('sendResetMail0', req);
   // var transporter = nodeMailer.createTransport({
   //   service: 'gmail',
   //   auth: {
@@ -29,9 +29,9 @@ exports.sendResetMail = (req, res)=> {
   });
 
   let emailData = {
-    user_name : req.body.user_name,
-    _id : req.body._id,
-    reset_pwd_token : req.body.reset_pwd_token,
+    user_name : req.user_name,
+    _id : req._id,
+    reset_pwd_token : req.reset_pwd_token,
     host : process.env.PRODUCTION == 'DEV' ? process.env.CLIENT_HOST : process.env.HOST
   }
   
@@ -43,7 +43,7 @@ exports.sendResetMail = (req, res)=> {
     } else {
         var mainOptions = { 
           from: process.env.CONTACTMAILFROM,
-          to: req.body.user_email,
+          to: req.user_email,
           subject: 'Password Reset',
           html: data
         };

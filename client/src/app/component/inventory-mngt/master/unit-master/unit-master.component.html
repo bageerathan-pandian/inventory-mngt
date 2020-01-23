@@ -74,7 +74,7 @@
            </ng-template>
       </p-table>
 
-      <p-dialog  [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+      <!-- <p-dialog  [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
             <p-header>
                     <span *ngIf="unitForm.value._id">Update</span>
                     <span *ngIf="!unitForm.value._id">Add</span> Unit
@@ -109,12 +109,11 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
                 <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Save"></button>
             </div>
         </p-footer>
     </form>
-    </p-dialog>
+    </p-dialog> -->
     
     <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
             <p-footer>
@@ -124,3 +123,5 @@
             </p-confirmDialog>
     </p-card>
     </div>
+
+    <app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"  (unitEvent)="receiveUnit($event)"></app-unit-form>

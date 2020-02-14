@@ -90,7 +90,7 @@
 </a>
 </div>
 <div   [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
-    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/sales' : '/inventory-mngt/dashboard'" >
+    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/sales/sales' : '/inventory-mngt/dashboard'" >
   <p-card styleClass="card3 ui-g-12" >
         <p-header>
                 Sales
@@ -109,7 +109,7 @@
     </a>
 </div>
 <div  [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'" >
-    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/purchase' : '/inventory-mngt/dashboard'" >
+    <a  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/purchase/purchase' : '/inventory-mngt/dashboard'" >
 
   <p-card styleClass="card4 ui-g-12" >
         <p-header>
@@ -160,10 +160,6 @@
               </div>
               <div class="ui-g-12 ui-md-6 ui-lg-4">
                     <p-card styleClass="ui-g-12" >
-                          <!-- <h3>Profit/Loss Report</h3> -->
-                          <!-- <div class="ui-g-3" style="float: right;position: relative;">
-                          <p-dropdown [options]="yearList" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
-                        </div> -->
                       <p-chart type="pie" [data]="data1" [options]="options1"></p-chart>
                       </p-card>
                   </div>

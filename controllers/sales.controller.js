@@ -68,7 +68,7 @@ exports.addUser =  (req, res)=> {
     payment_status:req.body.payment_status
    }
    InvoiceModel.create(invoiceData, (err, result) => {
-    if (err) return next(err);
+    if (err)  return res.status(500).json(err);
     console.log('invoice result',result)
     for(let invoiceArry of req.body.invoiceList){
       let salesData = {
@@ -86,7 +86,7 @@ exports.addUser =  (req, res)=> {
         payment_status:req.body.payment_status
        }
       SalesModel.create(salesData, (err, result1) => {
-        if (err) return next(err);
+        if (err)  return res.status(500).json(err);
         console.log('sales result',result1)
         let stockData = {
           company_details_id:req.body.company_details_id,
@@ -106,7 +106,21 @@ exports.addUser =  (req, res)=> {
         console.log(e.message);
           return res.status(500).json(e);
       } else {
-          return res.json(result4);
+        console.log('invoice id',result._id);
+          SalesModel.find({invoice_details_id : result._id},(e,result5) => {
+            if(e) {        
+              console.log(e.message);
+                return res.status(500).json(e);
+            } else {
+                let restfinal = {
+                  next_invoice: result4,
+                  data : result5
+                }
+                return res.json(restfinal);
+            }
+        }).populate('company_details_id').populate('customer_details_id').populate('stock_details_id').populate('invoice_details_id')
+       
+
       }
   })
   });

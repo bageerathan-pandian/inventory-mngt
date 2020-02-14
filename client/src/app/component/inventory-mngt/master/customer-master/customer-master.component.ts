@@ -26,7 +26,7 @@ export class CustomerMasterComponent implements OnInit {
 
   loding: boolean = true;
   public bradCrum: MenuItem[];
-  displayDialog: boolean;
+  displayDialog3: boolean;
   customerForm:FormGroup
   car: any = {};
   cols: any[];
@@ -112,26 +112,13 @@ export class CustomerMasterComponent implements OnInit {
     this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
     this.customerForm.controls['status'].setValue(1);
     this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog = true;
+    this.displayDialog3 = true;
   }
 
   public checkValidity(): void {
     Object.keys(this.customerForm.controls).forEach((key) => {
         this.customerForm.controls[key].markAsDirty();
     });
-  }
-
-  save() {
-    if(this.customerForm.invalid){
-      this.checkValidity()
-      return false;
-    }
-    console.log('data',this.customerForm.value);
-    if(this.customerForm.value._id){
-      this.onRowUpdate(this.customerForm.value);
-    }else{      
-      this.onRowAdd(this.customerForm.value);
-    }
   }
 
   delete(customer,index){
@@ -145,36 +132,7 @@ export class CustomerMasterComponent implements OnInit {
   });
   }
 
-  onRowAdd(customer) {
-    console.log('onRowAdd',customer);
-    // this.cars.push(newcar); 
-    this.customerService.addCustomer(customer)
-    .subscribe((data:any)=>{
-      console.log('add customer',data);
-      this.customerList = [ data,...this.customerList];
-    
-      console.log('this.customerList',this.customerList);
-      this.messageService.add({severity:'success', summary:'Customer Added Successfully', detail:'Customer Added Successfully'});
-      this.displayDialog = false;
-    },
-    error =>{
-      console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-
-    })
-  }
   
-  onRowEdit(customer: Customer) {
-    console.log(customer);
-    this.displayDialog = true;
-    this.customerForm.controls['_id'].setValue(customer._id);
-    this.customerForm.controls['company_details_id'].setValue(customer.company_details_id._id);
-    this.customerForm.controls['customer_code'].setValue(customer.customer_code);
-    this.customerForm.controls['customer_name'].setValue(customer.customer_name);
-     this.customerForm.controls['customer_address'].setValue(customer.customer_address);
-     this.customerForm.controls['phone'].setValue(customer.phone);
-     this.customerForm.controls['status'].setValue(customer.status);
-  }
 
   onRowDelete(customer,index) {
     console.log(customer,index);
@@ -193,35 +151,32 @@ export class CustomerMasterComponent implements OnInit {
     })
   }
 
-  onRowUpdate(customer) {
-    console.log(customer);
-    this.displayDialog = false;
-    customer.customer_address = (this.customerForm.value.customer_address) ? this.customerForm.value.customer_address : customer.customer_address;
-    this.customerService.updateCustomer(customer)
-    .subscribe((data:any)=>{
-      console.log('update',data);
-      var sliceIndex = _.findIndex(this.customerList, function (o) { return o._id == customer._id; });
-      console.log(sliceIndex);
-      if (sliceIndex > -1) {
-        // Replace item at index using native splice
-        this.customerList.splice(sliceIndex, 1, data);
-      }
-      this.customerList = [...this.customerList];
-      this.messageService.add({severity:'success', summary:'Customer Updated Successfully', detail:'Customer Updated Successfully'});
-  
-    },
-    error =>{
-      console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
-
-    })
-
-  }
 
   onChangeStatus(event){
     console.log(event);
     let isChecked = event.checked;
   }
+
+  
+
+
+  onDialogClose2(event){
+    console.log(event)  
+    this.displayDialog3 = false;
+  }
+
+  receiveCustomer(event){
+    console.log('receiveUnit',event) 
+        
+    var sliceIndex = _.findIndex(this.customerList, function (o) { return o._id == event._id; });
+    console.log(sliceIndex);
+    if (sliceIndex > -1) {
+      // Replace item at index using native splice
+      this.customerList.splice(sliceIndex, 1, event);
+    }
+  this.customerList = [event,...this.customerList];
+  }
+  
 
 
 }

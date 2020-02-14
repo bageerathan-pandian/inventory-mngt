@@ -71,11 +71,15 @@
                             <img [src]="croppedImage" *ngIf="croppedImage" class="car-addafter" >
                         </div>
                         <button class="cmn-btn" type="button" style="border:none;float:initial;font-size: 12px !important;background: #ef6a97;margin-top: 15px;position: relative;">
-                            <input #upload_logofile type="file" accept=".png, .jpg, .jpeg" style="position:absolute;display:inline-block;opacity:0;width:100%;left: 0;"
-                            (change)="fileChangeEvent($event.target.files)"/>
+                            <!-- <input #upload_logofile type="file" accept=".png, .jpg, .jpeg" style="position:absolute;display:inline-block;opacity:0;width:100%;left: 0;"
+                            (change)="fileChangeEvent($event.target.files)"/>  -->
+                              <input #upload_logofile type="file" accept=".png, .jpg, .jpeg" style="position:absolute;display:inline-block;opacity:0;width:100%;left: 0;"
+                            (change)="fileChangeEvent($event)"/>
                             <i class="pi pi-cloud-upload" style="font-size:23px;"></i>Upload Company Logo</button>
                     </div>
+                  
             </div>
+
     </div>
     
         
@@ -92,5 +96,24 @@
 
 </p-card>
 </div>
+
+<p-dialog  [(visible)]="displayDialog" [maximizable]="true" [responsive]="true" [showHeader]="false" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '500px'}">
+ 
+    <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+    <button type="button" pButton (click)="onConfirm()" label="Yes" class="ui-button-success"></button>
+
+    <button type="button" pButton (click)="onReject()" label="No" class="ui-button-secondary"></button>
+
+    </p-dialog>
+
     
-   
+ 

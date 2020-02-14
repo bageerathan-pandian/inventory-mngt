@@ -71,6 +71,8 @@ export class SalesComponent implements OnInit {
   @ViewChild("form",{static:false}) form;
   @ViewChild('printDiv',{static:false}) printDiv: ElementRef;
   selectedCustData :any = []
+  invoiceData:any
+  customerData:any
 
   constructor(private _fb:FormBuilder,
     private router: Router,
@@ -267,10 +269,11 @@ initRowFirst() {
     this.salesService.addSales(this.invoiceForm.value)
     .subscribe((data:any)=>{
         console.log(data);
+        this.invoiceData = data
         this.getStockByCompany() // refresh stock qty
         this.invoiceForm.reset();
         this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data.next_invoice)); 
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
         this.invoiceForm.controls['sub_total'].setValue(0.00);
         this.invoiceForm.controls['discount'].setValue(0.00);
@@ -279,7 +282,9 @@ initRowFirst() {
         this.invoiceForm.controls['grand_total'].setValue(0.00);
         this.invoiceForm.controls['payment_type'].setValue(1);
         this.invoiceForm.controls['payment_status'].setValue(1);
-        printJS('print-section', 'html') // print invoice
+        setTimeout(() => {
+          printJS('print-section', 'html') // print invoice          
+        }, 1000);
     })
   }
 

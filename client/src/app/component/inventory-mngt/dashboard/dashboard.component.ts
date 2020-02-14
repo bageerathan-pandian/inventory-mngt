@@ -66,26 +66,36 @@ export class DashboardComponent implements OnInit {
               },
               {
                   label: 'Sales',
-                  backgroundColor: '#9CCC65',
+                  // backgroundColor: '#9CCC65',
+                  // borderColor: '#7CB342',
+                  backgroundColor: '#FFB300',
                   borderColor: '#7CB342',
                   data: [28, 48, 40, 19, 86, 27, 90]
+              },
+              {
+                  label: 'Profit/Loss',
+                  backgroundColor: '#66BB6A',
+                  borderColor: '#7CB342',
+                  data: [8, 18, 50, -19, 46, 7, -90]
               }
           ]
       }
     this.data1 = {
-      labels: ['Income','Expence','Net'],
+      labels: ['Purchase','Sales','Profit/Loss'],
       datasets: [
           {
               data: [1000, 1050,50],
               backgroundColor: [
                 "#36A2EB",
-                  "#FF6384",
-                  "#FFCE56"
+                  "#FFB300",
+                  // '#FFB300',
+                  '#66BB6A'
               ],
               hoverBackgroundColor: [
                 "#36A2EB",
-                  "#FF6384",
-                  "#FFCE56"
+                  "#FFB300",
+                  // '#FFB300',
+                  '#66BB6A'
               ]
           }]    
       };

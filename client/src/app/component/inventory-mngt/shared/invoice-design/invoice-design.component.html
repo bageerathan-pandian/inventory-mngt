@@ -2,106 +2,82 @@
               <div class="invoice">
                 <div class="row">
                   <div class="col-7">
-                    <img src="https://s3.eu-central-1.amazonaws.com/zl-clients-sharings/90Tech.png" class="logo">
+                    
+                    <img src="./assets/img/logo.png" class="logo" *ngIf="!company_image">
+                    <img [src]="company_image" *ngIf="company_image" class="logo" >
                   </div>
                   <div class="col-5">
                     <h1 class="document-type display-4">INVOICE</h1>
-                    <p class="text-right"><strong>#INV729490</strong></p>
+                    <p class="text-right"><strong>#{{invoiceData?.data[0].invoice_details_id.invoice_code}}</strong></p>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-7">
+                  <div class="col-5" style="float: left;text-align: left;">
                     <p>
-                      <strong>90TECH SAS</strong><br>
-                      6B Rue Aux-Saussaies-Des-Dames<br>
-                      57950 MONTIGNY-LES-METZ
+                      <Strong>{{sessionService.getItem('company_name') | titlecase}}</Strong><br>
+                      {{sessionService.getItem('company_address')}}<br>
+                      Ph : {{sessionService.getItem('phone')}}<br>
                     </p>
-                  </div>
-                  <div class="col-5">
-                    <br><br><br>
+                  </div> <div class="col-5" style="float: right;text-align: right;">
                     <p>
-                      <strong>Energies54</strong><br>
-                      Ref. Client <em>C00022</em><br>
-                      12 Rue de Verdun<br>
-                      54250 JARNY
+                      
+                      Ref. Client <em>{{invoiceData?.data[0].customer_details_id.customer_code}}</em><br>
+                      {{invoiceData?.data[0].customer_details_id.customer_name}}<br>
+                      {{invoiceData?.data[0].customer_details_id.customer_address}}<br>
+                      {{invoiceData?.data[0].customer_details_id.phone}}
                     </p>
                   </div>
                 </div>
                 <br>
                 <br>
-                <h6>Audits and monthly reports (1st November 2016 - 30 November 2016)                  </h6>
-                <br>
+              <!-- <pre>{{ invoiceData | json }}</pre> -->
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>Description</th>
-                      <th>Quantit</th>
-                      <th>Unit</th>
-                      <th>PU HT</th>
-                      <th>VAT</th>
-                      <th>Total HT</th>
+                      <th>Item</th>
+                      <th>Qty</th>
+                      <th>Price</th>
+                      <th></th>
+                      <th style="text-align: right;">Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     
-                      <tr>
-                          <td>name</td>
-                          <td>age</td>
-                          <td>Report</td>
-                          <td class="text-right">800,00€</td>
-                          <td>20%</td>
-                          <td class="text-right">3 200,00€</td>
+                      <tr *ngFor="let item of invoiceData?.data; let i=index">
+                          <td>{{item.stock_details_id.stock_name}}</td>
+                          <td>{{item.stock_qty}}</td>
+                          <td>{{item.stock_price | currency : 'INR':true}}</td>
+                          <td></td>
+                          <td style="text-align: right;">{{item.stock_price * item.stock_qty | currency : 'INR':true}}</td>
                         </tr>
                    
                     
                   </tbody>
                 </table>
-                <div class="row">
+                <div class="row" style="margin: 0;">
                   <div class="col-8">
                   </div>
-                  <div class="col-4">
+                  <div class="col-4" style="text-align: right;float: right">
                     <table class="table table-sm text-right">
                       <tr>
-                        <td><strong>Total HT</strong></td>
-                        <td class="text-right">3 700,00€</td>
+                        <td><strong>Sub Total</strong></td>
+                        <td class="text-right">{{invoiceData?.data[0].sub_total | currency : 'INR':true}}</td>
                       </tr>
                       <tr>
-                        <td>TVA 20%</td>
-                        <td class="text-right">740,00€</td>
+                        <td>Discount</td>
+                        <td class="text-right">{{invoiceData?.data[0].discount | currency : 'INR':true}}</td>
                       </tr>
                       <tr>
-                        <td><strong>Total TTC</strong></td>
-                        <td class="text-right">4 440,00€</td>
+                        <td><strong>Total</strong></td>
+                        <td class="text-right">{{invoiceData?.data[0].grand_total | currency : 'INR':true}}</td>
                       </tr>
                     </table>
                   </div>
                 </div>
                 
-                <p class="conditions">
-                    In your kind settlement
+                <p class="conditions" style="text-align: center;">
                   <br>
                   And with our thanks.
-                  <br><br>
-                  Payment terms: payment receipt of invoice, 15 days.
-                  <br>
-                  No discount for early settlement.
-                  <br>
-                  Payment by bank transfer.
-                  <br><br>
-                  In the event of late payment, lump sum compensation for recovery costs: 40 euros (art. L.4413 and L.4416 commercial code).
-
-                </p>
-                
-                <br>
-                <br>
-                <br>
-                <br>
-                
-                <p class="bottom-page text-right">
-                  90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
-                  6B, Rue aux Saussaies des Dames - 57950 MONTIGNY-LES-METZ 03 55 80 42 62 - www.90tech.fr<br>
-                  Code APE 6201Z - N° TVA Intracom. FR 77 808977532<br>
-                  IBAN FR76 1470 7034 0031 4211 7882 825 - SWIFT CCBPFRPPMTZ
                 </p>
               </div>
             </div>

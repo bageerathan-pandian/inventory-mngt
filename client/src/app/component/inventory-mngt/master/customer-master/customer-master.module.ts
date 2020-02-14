@@ -18,6 +18,7 @@ import {ChartModule} from 'primeng/chart';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import {InputMaskModule} from 'primeng/inputmask';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CustomerFormModule } from '../../shared/customer-form/customer-form.module';
 
 @NgModule({
   declarations: [CustomerMasterComponent],
@@ -39,7 +40,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     GooglePlaceModule,
     InputMaskModule,
     ReactiveFormsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CustomerFormModule
   ]
 })
 export class CustomerMasterModule { }

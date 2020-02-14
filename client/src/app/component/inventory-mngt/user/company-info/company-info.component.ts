@@ -26,7 +26,7 @@ export class CompanyInfoComponent implements OnInit {
   uploadedFiles: any[] = [];
 
   
-  imageChangedEvent: any = '';
+  imageChangedEvent: any = ''
   croppedImage: any = '';
   constructor(public sessionService: SessionService,private userService: UserService, private _fb: FormBuilder, private imageUploadService: ImageUploadService, private router: Router, private companyService: CompanyService, private messageService: MessageService) {
     
@@ -86,7 +86,8 @@ export class CompanyInfoComponent implements OnInit {
   // }
 
   imageUpload(){
-    this.imageUploadService.imageUpload(this.imageChangedEvent)
+    console.log(this.imageChangedEvent.target.files.item(0))
+    this.imageUploadService.imageUpload(this.imageChangedEvent.target.files.item(0))
     .subscribe((data:any)=>{
       console.log(data)
       this.companyForm.controls['company_image'].setValue(data);
@@ -134,20 +135,36 @@ export class CompanyInfoComponent implements OnInit {
 
   
   
-  fileChangeEvent(file: FileList) {
-    console.log(file)
-    this.imageChangedEvent = file.item(0);
-    console.log('imageChangedEvent',this.imageChangedEvent)
-     // show image preview
-     var render:FileReader = new FileReader();
+//   fileChangeEvent(file: FileList) {
+//     console.log(file)
+//     this.imageChangedEvent = file.item(0);
+//     console.log('imageChangedEvent',this.imageChangedEvent)
+//      // show image preview
+//      var render:FileReader = new FileReader();
 
-     render.onloadend = (e) => {
-      console.log('reslt',render)
-       this.croppedImage = render.result;
-     }
-     render.readAsDataURL(this.imageChangedEvent);
+//      render.onloadend = (e) => {
+//       console.log('reslt',render)
+//        this.croppedImage = render.result;
+//      }
+//      render.readAsDataURL(this.imageChangedEvent);
+  
+// }
+
+fileChangeEvent(event) {
+  console.log(event)
+  this.displayDialog = true;
+  this.imageChangedEvent = event;
+}
+
+onConfirm() {  
+  this.displayDialog = false;
   
 }
+
+onReject() {
+  this.displayDialog = false;
+}
+
 imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
 }

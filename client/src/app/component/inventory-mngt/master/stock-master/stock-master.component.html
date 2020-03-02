@@ -89,15 +89,10 @@
             </td>
         </tr>
     </ng-template>
-    <ng-template pTemplate="footer" >
-         <tr>
-            <td colspan="13" style="text-align: center">
-                    There are {{stocksList?.length}} records
-            </td>
-        </tr>
-        
-    </ng-template>
    
+    <ng-template pTemplate="paginatorleft" let-state>
+        Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{stocksList?.length}}</strong> entries
+      </ng-template>
 
 </p-table>
 

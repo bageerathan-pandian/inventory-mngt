@@ -55,14 +55,10 @@
                 </td>
               </tr>
           </ng-template>
-          <ng-template pTemplate="footer">
-                <tr>
-                   <td colspan="6" style="text-align: center">
-                           There are {{categoryList?.length}} records
-                   </td>
-               </tr>
-               
-           </ng-template>
+           
+           <ng-template pTemplate="paginatorleft" let-state>
+            Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{categoryList?.length}}</strong> entries
+          </ng-template>
       </p-table>
 
       <!-- <p-dialog    [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">

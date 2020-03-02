@@ -12,7 +12,7 @@ export class InvoiceDesignComponent implements OnInit {
   company_image:any
   @Input() invoiceData: any
 
-  constructor(private sessionService:SessionService) {
+  constructor(public sessionService:SessionService) {
     this.company_image = this.sessionService.getItem('company_image') ? environment.api_url + this.sessionService.getItem('company_image') : null;
    }
 

@@ -20,7 +20,7 @@ const ProductPaymentModel = require('../models/product_payment.model');
 //     });
 
     // do expired account. it runs every day
-var task3 = nodeCron.schedule("* * * * *", () => {
+var task3 = nodeCron.schedule("0 0 * * *", () => {
     console.log("will run every day at 12:00 AM");
     ProductPaymentModel.find({expiry_date:  {$lte: moment().format(), $ne: null }}, (err, result) => {
         if (err) return next(err);

@@ -32,8 +32,8 @@ export class CustomerMasterComponent implements OnInit {
   cols: any[];
   status:any = [];
   customerList: Customer[];
-  clonedCars: { [s: string]: Customer } = {};
   data:any;
+  custData:any = []
   constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private customerService:CustomerService,private commonService: CommonService,
     public sessionService: SessionService
     ) {
@@ -107,13 +107,13 @@ export class CustomerMasterComponent implements OnInit {
       })
     }
 
-  showDialogToAdd() {
-    this.customerForm.reset();
-    this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
-    this.customerForm.controls['status'].setValue(1);
-    this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-    this.displayDialog3 = true;
-  }
+  // showDialogToAdd() {
+  //   this.customerForm.reset();
+  //   this.customerForm.controls['customer_code'].setValue(this.commonService.incrCode('c',this.customerList.length));
+  //   this.customerForm.controls['status'].setValue(1);
+  //   this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+  //   this.displayDialog3 = true;
+  // }
 
   public checkValidity(): void {
     Object.keys(this.customerForm.controls).forEach((key) => {
@@ -159,8 +159,12 @@ export class CustomerMasterComponent implements OnInit {
 
   
 
+  showDialogToAdd(Data) {
+    this.custData = Data;
+    this.displayDialog3 = true;
+  }
 
-  onDialogClose2(event){
+  onDialogClose3(event){
     console.log(event)  
     this.displayDialog3 = false;
   }

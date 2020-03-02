@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { SessionService } from 'src/app/shared/session.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-customer-form',
@@ -15,6 +16,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 export class CustomerFormComponent implements OnInit {
 
   
+  @Input() custData: any;
   @Input() displayDialog3: boolean
   
   @Output() displayChangeEvent3 = new EventEmitter();
@@ -56,8 +58,18 @@ export class CustomerFormComponent implements OnInit {
   }
   
   ngOnChanges() {
-    console.log('displayDialog3',this.displayDialog3);
-    this.getCustomerByCompany()
+    console.log('displayDialog3',this.displayDialog3);    
+    console.log('isObjectcatData',_.isPlainObject(this.custData))
+    if(_.isPlainObject(this.custData)){      
+      console.log('custData',this.custData);   
+      this.customerForm.controls['_id'].setValue(this.custData._id);
+      this.customerForm.controls['customer_code'].setValue(this.custData.customer_code);
+      this.customerForm.controls['customer_name'].setValue(this.custData.customer_name);
+      this.customerForm.controls['company_details_id'].setValue(this.custData.company_details_id._id)
+      this.customerForm.controls['status'].setValue(this.custData.status);    
+      }else{           
+        this.getCustomerByCompany()
+      }
 
   }
 

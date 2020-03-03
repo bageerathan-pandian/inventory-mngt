@@ -9,7 +9,8 @@ mongoose.connect(mongoDB, {
   keepAlive: true,
   useCreateIndex: true,
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useUnifiedTopology: true
  })
     .then(() => console.log('Now connected to MongoDB!'))
     .catch(err => console.error('MongoDB connection error:', err));

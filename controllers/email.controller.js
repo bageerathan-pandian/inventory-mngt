@@ -128,10 +128,10 @@ exports.sendVerifyMail =  (req, res)=> {
 
 
 /**
- * send reset email
+ * send register email
  */
 exports.sendRegisterMail =  (req, res)=> {
-  console.log('sendRegisterMail', req.body);
+  console.log('sendRegisterMail', req);
   var transporter = nodeMailer.createTransport({
     host: process.env.MAILHOST,
     port:  process.env.MAILPORT,
@@ -144,27 +144,52 @@ exports.sendRegisterMail =  (req, res)=> {
   debug:true
   });
 
-  // mail to company
+  
+  
+   return new Promise((resolve, reject)=> {
+     // mail to company
   var mainOptions = {         
     from: process.env.CONTACTMAILFROM,
     to: process.env.CONTACTMAILTO,
     subject: 'New User Registered',
-    text: JSON.stringify(req.body)
+    text: JSON.stringify(req)
   };
-  // console.log("html data ======================>", mainOptions.html);
+  
+      // console.log("html data ======================>", mainOptions.html);
   transporter.sendMail(mainOptions, function (err, info) {
-      if (err) {
-          console.log(err);
-          // res.json(0)
-      } else {
-          console.log('Message sent: ' + info.response);
-          // res.json(1)
-      }
+    if (err) {
+        console.log(err);
+        res.json(0)
+    } else {
+        console.log('Message sent: ' + info.response);
+        res.json(1)
+    }
+});
   });
+}
+
+
+/**
+ * send register email
+ */
+exports.sendWelcomeMail =  (req, res)=> {
+  console.log('sendWelcomeMail', req);
+  var transporter = nodeMailer.createTransport({
+    host: process.env.MAILHOST,
+    port:  process.env.MAILPORT,
+    secure: true, 
+    auth: {
+      user:  process.env.MAILAUTHUSERNAME,
+      pass:  process.env.MAILAUTHPASSWORD
+    },
+	tls: { rejectUnauthorized: false  },
+  debug:true
+  });
+
   
   let emailData = {
     user:{
-      name: req.body.user_name
+      name: req.user_name
     }
   }
 
@@ -177,7 +202,7 @@ exports.sendRegisterMail =  (req, res)=> {
     } else {
         var mainOptions = {         
           from: process.env.CONTACTMAILFROM,
-          to: req.body.user_email,
+          to: req.user_email,
           subject: 'Welcome to Ownwaysoft Billing Software',
           html: data
         };
@@ -197,6 +222,7 @@ exports.sendRegisterMail =  (req, res)=> {
     });
   });
 }
+
 
 
 /**

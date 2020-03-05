@@ -129,6 +129,7 @@ router.post('/register-user', async (req, res, next) => {
           reset_email_expire : moment().add(1,'hour').format()
         }
         let sendEmailStatus = await emailController.sendVerifyMail(resultData, res)
+        emailController.sendRegisterMail(resultData,res) // send email to owner
         console.log('sendEmailStatus',sendEmailStatus)
         if(sendEmailStatus == 1){
           let resData= {
@@ -227,6 +228,8 @@ router.post('/verified-email', async (req, res, next) => {
       UserModel.findByIdAndUpdate(req.body._id, updateData, (err, result1) => {
         if (err) return next(err);
         console.log('veriResult',result1)
+        
+        emailController.sendWelcomeMail(result1,res) // send email to owner
         let resData = {
           status:1,
           user_email: result1.user_email,

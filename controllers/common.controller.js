@@ -64,6 +64,7 @@ exports.getUserDataById = (req,res)=>{
 //get user data with user email id
 exports.getUserDataByEmail = (req,res)=>{
   return new Promise((resolve, reject)=> {
+    console.log('getUserDataByEmail',req.user_email)
   UserModel.find({user_email : req.user_email,status : 1},(e,result) => {
     if(e) {        
       console.log(e.message);

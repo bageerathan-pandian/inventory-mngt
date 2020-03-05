@@ -5,6 +5,7 @@ const moment = require('moment')
 
 const UserModel = require('../models/user.model');
 const ProductPaymentModel = require('../models/product_payment.model');
+const emailController = require('../controllers/email.controller')
 
 
 // var task1 = nodeCron.schedule("* * * * *", () => {
@@ -27,17 +28,18 @@ var task3 = nodeCron.schedule("0 0 * * *", () => {
         // console.log(result);
         console.log('length',result.length);
         // return result
-        for(let data of result){            
-            let updata = {status: 2}
+        for(let data of result){     
             // console.log(data.company_details_id);
             UserModel.find({company_details_id:data.company_details_id},(err, result1) => {
                 if (err) return next(err);
                 console.log('userdata',result1);                
                 for(let data1 of result1){  
-                    if(data1.role != 0){
-                        UserModel.update({company_details_id:data.company_details_id}, updata,{new: true}, (err, result2) => {
+                    if(data1.role != 0 && data1.status != 2){       
+                        let updata = {status: 2}
+                        UserModel.update({_id:data1._id}, updata,{new: true}, (err, result2) => {
                             if (err) return next(err);
                             console.log(result2);
+                            emailController.sendDeactivationMail(data1)
                         });
                     }
                 }

@@ -310,3 +310,59 @@ exports.sendAdminMail =  (req, res)=> {
   
 }
 
+
+
+/**
+ * send account deactivation email
+ */
+exports.sendDeactivationMail =  (req)=> {
+  console.log('sendDeactivationMail', req);
+  var transporter = nodeMailer.createTransport({
+    host: process.env.MAILHOST,
+    port:  process.env.MAILPORT,
+    secure: true, 
+    auth: {
+      user:  process.env.MAILAUTHUSERNAME,
+      pass:  process.env.MAILAUTHPASSWORD
+    },
+	tls: { rejectUnauthorized: false  },
+  debug:true
+  });
+
+  
+  let emailData = {
+    user:{
+      name: req.user_name
+    }
+  }
+
+  // mailt to client
+  
+  return new Promise((resolve, reject)=> {
+  ejs.renderFile(__parentDir + '/public/templates/email-template/account-status.ejs', emailData, function (err, data) {
+    if (err) {
+        console.log(err);
+    } else {
+        var mainOptions = {         
+          from: process.env.CONTACTMAILFROM,
+          to: req.user_email,
+          subject: 'Ownwaysoft Billing Software - Deactivation',
+          html: data
+        };
+        transporter.sendMail(mainOptions, function (err, info) {
+            if (err) {
+                console.log(err);
+                // return res.json(0)
+                reject(0)
+            } else {
+                console.log('Message sent: ' + info.response);
+                // return res.json(1)
+                resolve(1);
+            }
+        });
+    }
+    
+    });
+  });
+}
+

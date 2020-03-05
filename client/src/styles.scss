@@ -772,6 +772,10 @@ table td{
   }
 }
 
+body .ui-button.ui-state-default.ui-button-secondary:enabled:focus, body .ui-buttonset.ui-button-secondary > .ui-button.ui-state-default:enabled:focus {
+  box-shadow: none !important;
+}
+
 
 /* Small devices (portrait tablets and large phones, 768px or less) */
 

@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit {
     this.invoiceService.getTotalSalesAmount()
     .subscribe((data:any)=>{
       console.log('getTotalSalesAmount',data);
-      this.totalSalesAmount = data[0].grand_total;
+      this.totalSalesAmount = data.length > 0 ? data[0].grand_total : 0;
     })
   }
 
@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit {
     this.invoiceService.getTotalPurchaseAmount()
     .subscribe((data:any)=>{
       console.log('getTotalPurchaseAmount',data);
-      this.totalPurchaceAmount = data[0].grand_total;
+      this.totalPurchaceAmount = data.length > 0 ? data[0].grand_total : 0;
     })
   }
 

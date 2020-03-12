@@ -58,3 +58,4 @@ var task3 = nodeCron.schedule("0 0 * * *", () => {
 
 // wont start the cron job as it has been destroyed
 // task.start();
+task3.start();

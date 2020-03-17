@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
       return false;
     }
     console.log(this.loginForm.value);
+    this.messageService.clear();
     this.auth.logIn(this.loginForm.value)
     .subscribe((data:any)=>{
       console.log('data',data);
@@ -98,7 +99,6 @@ export class LoginComponent implements OnInit {
         //  }, 1000);
         
       }else{
-        this.messageService.clear();
         this.messageService.add({severity:'warn', summary:'Warning!', detail:'Check your User Name/Password'});
       }
     

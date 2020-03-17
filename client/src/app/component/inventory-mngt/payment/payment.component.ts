@@ -23,7 +23,7 @@ import { InvoiceService } from 'src/app/shared/invoice.service';
 export class PaymentComponent implements OnInit {
  
 
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog: boolean;
   display:boolean
@@ -87,12 +87,12 @@ export class PaymentComponent implements OnInit {
 
 
     getInvoiceByCompany(){
-
+      this.loading = true
       this.invoiceService.getInvoiceByCompany()
       .subscribe((data:any)=>{
         console.log('invoiceList',data);
         this.invoiceList = data;
-        this.loding = false;
+        this.loading = false;
       })
     }
 

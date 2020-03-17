@@ -17,7 +17,7 @@ import { SessionService } from 'src/app/shared/session.service';
 })
 export class UnitMasterComponent implements OnInit {
 
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   unitList: Unit[];
   unitForm: FormGroup
@@ -78,20 +78,22 @@ export class UnitMasterComponent implements OnInit {
   }
 
   getUnit(){
+    this.loading = true
     this.unitService.getUnit()
     .subscribe((data:any)=>{
       console.log('unitList',data);
       this.unitList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
 
   getUnitByCompany(){
+    this.loading = true
     this.unitService.getUnitByCompany()
     .subscribe((data:any)=>{
       console.log('unitList',data);
       this.unitList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
 

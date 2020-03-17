@@ -282,9 +282,9 @@ initRowFirst() {
         this.invoiceForm.controls['grand_total'].setValue(0.00);
         this.invoiceForm.controls['payment_type'].setValue(1);
         this.invoiceForm.controls['payment_status'].setValue(1);
-        setTimeout(() => {
-          printJS('print-section', 'html') // print invoice          
-        }, 1000);
+        // setTimeout(() => {
+        //   printJS('print-section', 'html') // print invoice          
+        // }, 1000);
     })
   }
 
@@ -330,7 +330,7 @@ initRowFirst() {
     // reset whole form back to initial state   
     // this.invoiceForm.reset();
     // this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',this.customerList.length)); 
-    this.invoiceForm.controls['invoiceList'].reset()
+    this.invoiceForm.controls['invoiceList'].reset() 
     this.invoiceForm.controls['invoice_date'].setValue(new Date());
     this.invoiceForm.controls['sub_total'].setValue(0.00);
     this.invoiceForm.controls['discount'].setValue(0.00);

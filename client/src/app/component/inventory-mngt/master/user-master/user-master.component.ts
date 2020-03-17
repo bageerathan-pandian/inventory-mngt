@@ -24,7 +24,7 @@ import { SessionService } from 'src/app/shared/session.service';
   providers: [ConfirmationService]
 })
 export class UserMasterComponent implements OnInit {
-  loding: boolean = true;
+  loading: boolean;
   actionLoding: boolean = true;
   userForm: FormGroup;
   public bradCrum: MenuItem[];
@@ -125,20 +125,25 @@ export class UserMasterComponent implements OnInit {
 
 
   getUser(){
+    this.loading = true
     this.userService.getUsers()
     .subscribe((data:any)=>{
       console.log('userList',data);
-      this.userList = data;
-      this.loding = false;
+      this.userList = [];     
+      for(let cdata of data){     
+        this.userList.push(Object.assign({activeStatus:cdata.status == 1 ? true : false},cdata))
+      }
+      this.loading = false;
     })
   }
 
   getUserByCompany(){
+    this.loading = true
     this.userService.getUsersByCompany()
     .subscribe((data:any)=>{
       console.log('userList',data);
       this.userList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
 

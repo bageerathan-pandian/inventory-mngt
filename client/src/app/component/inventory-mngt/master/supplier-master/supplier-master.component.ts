@@ -23,7 +23,7 @@ import { SessionService } from 'src/app/shared/session.service';
 })
 export class SupplierMasterComponent implements OnInit {
 
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog: boolean = false;
   supplierForm:FormGroup
@@ -86,11 +86,12 @@ export class SupplierMasterComponent implements OnInit {
 
 
     getSupplierByCompany(){
+      this.loading =true
       this.supplierService.getSupplierByCompany()
       .subscribe((data:any)=>{
         console.log('supplierList',data);
         this.supplierList = data;
-        this.loding = false;
+        this.loading = false;
       })
       }
 

@@ -17,7 +17,7 @@ import { SessionService } from 'src/app/shared/session.service';
 })
 export class CategoryMasterComponent implements OnInit {
   
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   categoryList: Category[];
   categoryListSheet: any[] = [];
@@ -81,20 +81,22 @@ export class CategoryMasterComponent implements OnInit {
   }
 
   getCategory(){
+    this.loading = true
     this.categoryService.getCategory()
     .subscribe((data:any)=>{
       console.log('categoryList',data);
       this.categoryList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
 
   getCategoryByCompany(){
+    this.loading = true
     this.categoryService.getCategoryByCompany()
     .subscribe((data:any)=>{
       console.log('categoryList',data);
       this.categoryList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
  

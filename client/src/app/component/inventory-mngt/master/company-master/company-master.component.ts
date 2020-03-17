@@ -23,7 +23,7 @@ import * as moment from 'moment';
 })
 export class CompanyMasterComponent implements OnInit {
 
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog: boolean;
   companyForm:FormGroup
@@ -135,12 +135,17 @@ export class CompanyMasterComponent implements OnInit {
 }
 
   getCompanyAdminUsers(){
-
+      this.loading = true
       this.companyService.getCompanyAdminUsers()
       .subscribe((data:any)=>{
         console.log('companyList',data);
-        this.companyList = data;
-        this.loding =false;
+        this.companyList = []
+        for(let cdata of data){     
+          this.companyList.push(Object.assign({activeStatus:cdata.company_details_id.status == 1 ? true : false},cdata))
+        }
+        // this.companyList = data;
+        console.log('companyList1',this.companyList);
+        this.loading =false;
       })
     }
 

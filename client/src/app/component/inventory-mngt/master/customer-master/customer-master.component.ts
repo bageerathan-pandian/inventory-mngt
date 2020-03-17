@@ -24,7 +24,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class CustomerMasterComponent implements OnInit {
 
 
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog3: boolean;
   customerForm:FormGroup
@@ -88,22 +88,22 @@ export class CustomerMasterComponent implements OnInit {
 }
 
     getCustomer(){
-
+      this.loading = true
       this.customerService.getCustomer()
       .subscribe((data:any)=>{
         console.log('customerList',data);
         this.customerList = data;
-        this.loding =false;
+        this.loading =false;
       })
     }
 
     getCustomerByCompany(){
-
+      this.loading = true
       this.customerService.getCustomerByCompany()
       .subscribe((data:any)=>{
         console.log('customerList',data);
         this.customerList = data;
-        this.loding =false;
+        this.loading =false;
       })
     }
 

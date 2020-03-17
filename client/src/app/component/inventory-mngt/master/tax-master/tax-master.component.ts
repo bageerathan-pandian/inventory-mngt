@@ -19,7 +19,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class TaxMasterComponent implements OnInit {
 
  
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   taxList: Tax[];
   taxForm: FormGroup
@@ -72,20 +72,22 @@ export class TaxMasterComponent implements OnInit {
   }
 
   getTax(){
+    this.loading =true
     this.taxService.getTax()
     .subscribe((data:any)=>{
       console.log('taxList',data);
       this.taxList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
 
   getTaxByCompany(){
+    this.loading = true
     this.taxService.getTaxByCompany()
     .subscribe((data:any)=>{
       console.log('taxList',data);
       this.taxList = data;
-      this.loding = false;
+      this.loading = false;
     })
   }
 

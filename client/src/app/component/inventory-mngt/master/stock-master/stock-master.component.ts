@@ -23,7 +23,7 @@ import { SessionService } from 'src/app/shared/session.service';
 export class StockMasterComponent implements OnInit {
 
 
-  loding: boolean = true;
+  loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog: boolean;
   displayDialog1: boolean;
@@ -180,11 +180,12 @@ export class StockMasterComponent implements OnInit {
   }
 
   getStocksByCompany(){
+    this.loading = true
     this.stockService.getStockByCompany()
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocksList = data;
-      this.loding = false;
+      this.loading = false;
       for(let sheetData of data){
         this.stockListSheet.push({
           'Barcode' : sheetData._id,

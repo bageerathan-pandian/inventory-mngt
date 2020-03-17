@@ -1,6 +1,110 @@
-<div style="margin-top: 15px;">
+<!-- <div style="margin-top: 15px;">
 <h1>
         {{title}}
       </h1>
       <ngx-barcode [bc-value]="value" [bc-display-value]="true"></ngx-barcode>
+</div> -->
+
+
+
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+<div style="margin-top: 15px;">
+       
+<p-card >
+<p-table  #dt   [value]="stocksList"  [columns]="cols" dataKey="_id"  [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','stock_name','stock_qty','buying_price','selling_price','product_details']" [rows]="10" >
+
+<ng-template pTemplate="caption">
+<div style="text-align: right">        
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+    <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
 </div>
+</ng-template>
+<ng-template pTemplate="header" let-columns>
+    <tr>
+          <th style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+              </th>
+    <!-- <th style="width: 10%;">
+            <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Add"  pTooltip="Add new stock" tooltipPosition="top"></button>
+
+    </th> -->
+</tr>
+<!-- <tr>
+    <th ></th>
+    <th *ngFor="let col of columns" pResizableColumn>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
+    </th>            
+    <th ></th>
+</tr> -->
+
+</ng-template>
+<ng-template pTemplate="body" let-rowData let-ri="rowIndex" >
+    <tr [pSelectableRow]="rowData">
+            <td >
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </td>
+                <td>
+                        {{rowData.stock_code}}
+                  </td>
+                <td>
+                        <!-- {{rowData._id}} -->
+                        <ngx-barcode [bc-value]="rowData._id" [bc-display-value]="true"></ngx-barcode>
+                  </td>
+    <td>              
+            {{rowData.stock_name}}
+    </td>
+    <!-- <td>              
+        {{rowData.category_details_id.category_name}}
+    </td> -->
+    <td>
+            {{rowData.stock_qty}}
+    </td>
+    <!-- <td>
+        {{rowData.buying_price  | currency : 'INR':true}}
+</td>
+<td>
+    {{rowData.selling_price  | currency : 'INR':true}}
+</td>
+<td>
+{{rowData.product_details}}
+</td>
+<td>
+        {{rowData.unit_details_id?.unit_name}}
+</td>
+<td>
+    {{rowData.updatedAt | date:'medium'}}
+</td> -->
+<td style="text-align: center">
+    <!-- <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
+    <ng-container *ngIf="rowData.status == 1; then thenTemplate; else elseTemplate"></ng-container>
+    <ng-template #thenTemplate>
+      Active
+    </ng-template>
+    <ng-template #elseTemplate>
+      Deactive
+    </ng-template>
+    
+    </td>
+    <!-- <td style="text-align:center">
+        <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
+       <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+    </td> -->
+</tr>
+</ng-template>
+
+<ng-template pTemplate="paginatorleft" let-state>
+Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{stocksList?.length}}</strong> entries
+</ng-template>
+
+</p-table>
+
+
+</p-card>
+</div>
+
+

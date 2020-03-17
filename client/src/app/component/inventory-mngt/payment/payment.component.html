@@ -2,7 +2,7 @@
         <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
         <div style="margin-top: 15px;">
   <p-card>
-    <p-table  #dt  [value]="invoiceList"  [columns]="cols" dataKey="_id" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','customer_name']"  [rows]="10" >
+    <p-table  #dt  [value]="invoiceList"  [loading]="loading"  [columns]="cols" dataKey="_id" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','customer_name']"  [rows]="10" >
  
     <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix" >

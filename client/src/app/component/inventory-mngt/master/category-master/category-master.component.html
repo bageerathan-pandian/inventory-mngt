@@ -1,11 +1,8 @@
 
         <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
         <div style="margin-top: 15px;">
-                <div *ngIf="loding" style="text-align: center">
-                        <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
-                </div>
-      <p-card *ngIf="!loding" >
-      <p-table  #dt1 [columns]="cols"  [value]="categoryList" dataKey="_id" [paginator]="true" [rows]="10"   [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['category_code','category_name']">
+      <p-card  >
+      <p-table  #dt1 [columns]="cols" [loading]="loading" [value]="categoryList" dataKey="_id" [paginator]="true" [rows]="10"   [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['category_code','category_name']">
           <ng-template pTemplate="caption">
              
            

@@ -2,11 +2,8 @@
 
         <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
         <div style="margin-top: 15px;">
-                <div *ngIf="loding" style="text-align: center">
-                        <p-progressSpinner  [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
-                </div>
-      <p-card *ngIf="!loding" >
-<p-table  #dt  [value]="companyList" [columns]="cols" dataKey="_id"  [paginator]="true"  [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['company_code','company_name','company_address','owner_name','phone']"  [rows]="10" >
+      <p-card  >
+<p-table  #dt  [value]="companyList" [loading]="loading" [columns]="cols" dataKey="_id"  [paginator]="true"  [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['company_code','company_name','company_address','owner_name','phone']"  [rows]="10" >
  
     <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix" >
@@ -69,7 +66,7 @@
                 {{rowData.company_details_id.updatedAt | date:'medium'}}
         </td>
             <td style="text-align: center">
-                <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
+                <p-inputSwitch  [(ngModel)]="rowData.activeStatus" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
             </td>
             <td style="text-align:center">
                 <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
@@ -79,9 +76,9 @@
         </tr>
     </ng-template>
        
-       <ng-template pTemplate="paginatorleft" let-state>
+       <!-- <ng-template pTemplate="paginatorleft" let-state>
         Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{companyList?.length}}</strong> entries
-      </ng-template>
+      </ng-template> -->
    
 
 

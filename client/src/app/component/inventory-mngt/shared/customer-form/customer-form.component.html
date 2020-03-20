@@ -51,9 +51,10 @@
     </div>
 </div>
 <p-footer>
-    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <div class="ui-dialog-buttonpane ui-helper-clearfix"> 
         <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="saveCust()" label="Save"></button>
+        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="!customerForm.value._id" (click)="saveCust()" label="Add"></button>
+        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="customerForm.value._id" (click)="updateCust()" label="Update"></button>
     </div>
 </p-footer>
 </form>

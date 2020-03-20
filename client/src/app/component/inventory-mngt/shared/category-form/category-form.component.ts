@@ -56,7 +56,7 @@ export class CategoryFormComponent implements OnInit {
       this.categoryForm.controls['_id'].setValue(this.catData._id);
       this.categoryForm.controls['category_code'].setValue(this.catData.category_code);
       this.categoryForm.controls['category_name'].setValue(this.catData.category_name);
-      this.categoryForm.controls['company_details_id'].setValue(this.catData.company_details_id._id)
+      this.categoryForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))  
       this.categoryForm.controls['status'].setValue(this.catData.status);    
       }else{           
       this.getCategoryByCompany()
@@ -112,6 +112,38 @@ export class CategoryFormComponent implements OnInit {
   
       })
   }
+
+  updateCategory(){
+    console.log('categoryForm',this.categoryForm);
+    if(this.categoryForm.invalid){      
+      this.checkValidity()
+      return
+    }
+
+      this.categoryService.updateCategory(this.categoryForm.value)
+      .subscribe((data:any)=>{
+        console.log('update cat',data);
+        // let newData = {
+        //   label : data.category_name +' | ' +data.category_code,
+        //   value : data._id
+        //  }
+         this.catEvent.emit(data);
+        // this.categoryList = [newData,...this.categoryList];
+        // this.categoryList.push(data);
+        // console.log('this.categoryList',this.categoryList);
+        this.messageService.add({severity:'success', summary:'Category Updated Successfully', detail:'Category Updated Successfully'});
+        // this.stockForm.controls['category_details_id'].setValue(data._id) 
+        this.displayDialog1 = false;
+      },
+      error =>{
+        console.log(error);
+        this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+        this.displayDialog1 = false;
+  
+      })
+  }
+
+  
 
   onClose(){
     // this.displayDialog = false;

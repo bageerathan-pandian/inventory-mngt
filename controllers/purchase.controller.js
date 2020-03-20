@@ -68,7 +68,7 @@ exports.addUser =  (req, res)=> {
     payment_status:req.body.payment_status
    }
    InvoicePurchaseModel.create(invoiceData, (err, result) => {
-    if (err) return next(err);
+    if (err) return res.status(500).json(err);
     console.log('invoice result',result)
     for(let invoiceArry of req.body.invoiceList){
       let salesData = {
@@ -86,7 +86,7 @@ exports.addUser =  (req, res)=> {
         payment_status:req.body.payment_status
        }
       PurchaseModel.create(salesData, (err, result1) => {
-        if (err) return next(err);
+        if (err) return res.status(500).json(err);
         console.log('sales result',result1)
         let stockData = {
           company_details_id:req.body.company_details_id,
@@ -94,7 +94,7 @@ exports.addUser =  (req, res)=> {
          }
          console.log('stockData',stockData,invoiceArry.total_qty,invoiceArry.qty)
         StockModel.findByIdAndUpdate(invoiceArry.stock_details_id, stockData, (err, result3) => {
-          if (err) return next(err);
+          if (err) return res.status(500).json(err);
           console.log('qty result',result3)
         });
       });
@@ -115,16 +115,24 @@ exports.addUser =  (req, res)=> {
 }
 
 exports.updateUser =  (req, res)=> {
-  PurchaseModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-        if (err) return next(err);
+  PurchaseModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 
 exports.deleteUser =  (req, res)=> {
-  PurchaseModel.findByIdAndRemove(req.params.id, req.body, (err, result) => {
-        if (err) return next(err);
+  PurchaseModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 

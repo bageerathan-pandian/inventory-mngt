@@ -53,24 +53,36 @@ exports.addUser =  (req, res)=> {
     if(req.body._id === null) {
      delete req.body._id;
    }
-    CompanyModel.create(req.body, (err, result) => {
-    if (err) return next(err);
-    return res.json(result); 
+    CompanyModel.create(req.body, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
   }); 
 }
 
 exports.updateUser =  (req, res)=> {
   console.log('update user1', req.body); 
-  CompanyModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-        if (err) return next(err);
+  CompanyModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 
 exports.deleteUser =  (req, res)=> {
-  CompanyModel.findByIdAndRemove(req.params.id, req.body, (err, result) => {
-        if (err) return next(err);
+  CompanyModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 

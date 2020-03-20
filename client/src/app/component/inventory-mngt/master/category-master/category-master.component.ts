@@ -200,8 +200,10 @@ export class CategoryMasterComponent implements OnInit {
     if (sliceIndex > -1) {
       // Replace item at index using native splice
       this.categoryList.splice(sliceIndex, 1, event);
+      this.categoryList = [...this.categoryList];
+    }else{
+      this.categoryList = [event,...this.categoryList];
     }
-  this.categoryList = [event,...this.categoryList];
   }
 
   

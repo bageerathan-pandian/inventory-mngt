@@ -93,9 +93,13 @@ exports.addUser =  (req, res)=> {
           stock_qty: Number(invoiceArry.total_qty) - Number(invoiceArry.qty)
          }
          console.log('stockData',stockData,invoiceArry.total_qty,invoiceArry.qty)
-        StockModel.findByIdAndUpdate(invoiceArry.stock_details_id, stockData, (err, result3) => {
-          if (err) return next(err);
-          console.log('qty result',result3)
+        StockModel.findByIdAndUpdate(invoiceArry.stock_details_id, stockData, (e,result3) => {
+          if(e) {        
+            console.log(e.message);
+              return res.status(500).json(e);
+          } else {
+              return res.json(result3);
+          }
         });
       });
      
@@ -129,16 +133,24 @@ exports.addUser =  (req, res)=> {
 }
 
 exports.updateUser =  (req, res)=> {
-  SalesModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-        if (err) return next(err);
+  SalesModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 
 exports.deleteUser =  (req, res)=> {
-  SalesModel.findByIdAndRemove(req.params.id, req.body, (err, result) => {
-        if (err) return next(err);
+  SalesModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 

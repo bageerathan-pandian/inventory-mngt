@@ -65,7 +65,9 @@ export class CustomerFormComponent implements OnInit {
       this.customerForm.controls['_id'].setValue(this.custData._id);
       this.customerForm.controls['customer_code'].setValue(this.custData.customer_code);
       this.customerForm.controls['customer_name'].setValue(this.custData.customer_name);
-      this.customerForm.controls['company_details_id'].setValue(this.custData.company_details_id._id)
+      this.customerForm.controls['customer_address'].setValue(this.custData.customer_address);
+      this.customerForm.controls['phone'].setValue(this.custData.phone);
+      this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
       this.customerForm.controls['status'].setValue(this.custData.status);    
       }else{           
         this.getCustomerByCompany()
@@ -106,6 +108,32 @@ export class CustomerFormComponent implements OnInit {
      
        this.customerEvent.emit(data)
       this.messageService.add({severity:'success', summary:'Customer Added Successfully', detail:'Customer Added Successfully'});
+      this.displayDialog3 = false;
+    },
+    error =>{
+      console.log(error);
+      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      this.displayDialog3 = false;
+
+    })
+  }
+
+    
+  updateCust() {
+    if(this.customerForm.invalid){
+      this.checkValidity()
+      return false;
+    }
+    this.customerService.addCustomer(this.customerForm.value)
+    .subscribe((data:any)=>{
+      console.log('add customer',data);
+      // let newData = {
+      //   label : data.customer_name +' | ' +data.customer_code,
+      //   value : data._id
+      //  }
+     
+       this.customerEvent.emit(data)
+      this.messageService.add({severity:'success', summary:'Customer Updated Successfully', detail:'Customer Updated Successfully'});
       this.displayDialog3 = false;
     },
     error =>{

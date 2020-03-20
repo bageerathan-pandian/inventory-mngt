@@ -2,8 +2,8 @@
 
 <p-dialog   [maximizable]="true" [(visible)]="displayDialog1" (onHide)="onClose()"  [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '400px'}">
     <p-header>
-            <!-- <span *ngIf="categoryForm.value._id">Update</span>
-            <span *ngIf="!categoryForm.value._id">Add</span> Category -->
+            <span *ngIf="categoryForm.value._id">Update</span>
+            <span *ngIf="!categoryForm.value._id">Add</span> Category
     </p-header>
     
  <form [formGroup]="categoryForm">
@@ -37,7 +37,8 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="addCategory()" label="Save"></button>
+                <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="!categoryForm.value._id" (click)="addCategory()" label="Add"></button>
+                <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="categoryForm.value._id" (click)="updateCategory()" label="Update"></button>
             </div>
         </p-footer>
     </form> 

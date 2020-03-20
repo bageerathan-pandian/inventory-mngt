@@ -6,17 +6,25 @@ exports.sentMail =  (req, res)=> {
     console.log('add cont', req.body);    
     emailController.sendAdminMail(req, res)  // send email to ownwaysoft
 
-    ContactModel.create(req.body, (err, result) => {
-    if (err) return next(err);
-    return res.json(result);
+    ContactModel.create(req.body, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
   });
 }
 
 exports.getContact =  (req, res)=> {  
 
-  ContactModel.find({}, (err, result) => {
-  if (err) return next(err);
-  return res.json(result);
+  ContactModel.find({}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
+        return res.json(result);
+    }
   }).sort( { updatedAt: -1 } )
 }
 

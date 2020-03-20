@@ -97,13 +97,13 @@ export class StockFormComponent implements OnInit {
     this.stockForm.controls['_id'].setValue(this.stockData._id ? this.stockData._id : '');
     this.stockForm.controls['stock_code'].setValue(this.stockData.stock_code ? this.stockData.stock_code : '');
     this.stockForm.controls['stock_name'].setValue(this.stockData.stock_name ? this.stockData.stock_name : '');
-    this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id ? this.stockData.category_details_id._id : '');
+    this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id ? this.stockData.category_details_id._id : null);
     this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : '');
     this.stockForm.controls['buying_price'].setValue(this.stockData.buying_price ? this.stockData.buying_price : '');
     this.stockForm.controls['selling_price'].setValue(this.stockData.selling_price ? this.stockData.selling_price : '');
     this.stockForm.controls['product_details'].setValue(this.stockData.product_details ? this.stockData.product_details : '');
-    this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : '');
+    this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : null);
     this.stockForm.controls['status'].setValue(this.stockData.status ? this.stockData.status : 1);      
     }else{     
     this.stockForm.reset() 

@@ -49,25 +49,35 @@ exports.addUser =  (req, res)=> {
     if(req.body._id === null) {
       delete req.body._id;
     }
-    StockModel.create(req.body, (err, result) => {
-    if (err) return next(err);
-    console.log('result', result); 
-    return res.json(result);
+    StockModel.create(req.body, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
   });
 }
 
 exports.updateUser =  (req, res)=> {
-  StockModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-    console.log(req.params.id,req.body)
-        if (err) return next(err);
+  StockModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 
 exports.deleteUser =  (req, res)=> {
-  StockModel.findByIdAndRemove(req.params.id, req.body, (err, result) => {
-        if (err) return next(err);
+  StockModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 

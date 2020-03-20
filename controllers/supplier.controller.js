@@ -34,23 +34,35 @@ exports.addUser =  (req, res)=> {
     if(req.body._id === null) {
      delete req.body._id;
    }
-    SupplierModel.create(req.body, (err, result) => {
-    if (err) return next(err);
-    return res.json(result);
+    SupplierModel.create(req.body, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
   });
 }
 
 exports.updateUser =  (req, res)=> {
-  SupplierModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-        if (err) return next(err);
+  SupplierModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 
 exports.deleteUser =  (req, res)=> {
-  SupplierModel.findByIdAndRemove(req.params.id, req.body, (err, result) => {
-        if (err) return next(err);
+  SupplierModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 

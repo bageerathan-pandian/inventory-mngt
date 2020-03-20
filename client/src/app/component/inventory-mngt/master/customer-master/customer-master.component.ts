@@ -177,8 +177,10 @@ export class CustomerMasterComponent implements OnInit {
     if (sliceIndex > -1) {
       // Replace item at index using native splice
       this.customerList.splice(sliceIndex, 1, event);
+      this.customerList = [...this.customerList];
+    }else{
+      this.customerList = [event,...this.customerList];
     }
-  this.customerList = [event,...this.customerList];
   }
   
 

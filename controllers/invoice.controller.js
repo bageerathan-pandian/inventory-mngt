@@ -24,9 +24,13 @@ exports.getAllUsersByCompany =  (req, res)=> {
 
 exports.updateUser =  (req, res)=> {
   console.log('req.params.id', req.params.id);
-  InvoiceModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-        if (err) return next(err);
+  InvoiceModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
         return res.json(result);
+    }
       });
 }
 

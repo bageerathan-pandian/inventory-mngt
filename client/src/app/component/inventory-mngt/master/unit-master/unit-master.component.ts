@@ -233,8 +233,10 @@ export class UnitMasterComponent implements OnInit {
     if (sliceIndex > -1) {
       // Replace item at index using native splice
       this.unitList.splice(sliceIndex, 1, event);
+      this.unitList = [...this.unitList];
+    }else{
+      this.unitList = [event,...this.unitList];
     }
-  this.unitList = [event,...this.unitList];
   }
   
 }

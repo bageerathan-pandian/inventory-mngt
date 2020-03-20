@@ -130,8 +130,10 @@ export class SupplierMasterComponent implements OnInit {
      if (sliceIndex > -1) {
        // Replace item at index using native splice
        this.supplierList.splice(sliceIndex, 1, event);
+       this.supplierList = [...this.supplierList];
+     }else{       
+        this.supplierList = [event,...this.supplierList];
      }
-   this.supplierList = [event,...this.supplierList];
   }
 
   onDialogClose(event){

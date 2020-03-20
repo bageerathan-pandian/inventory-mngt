@@ -49,23 +49,35 @@ exports.addUser =  (req, res)=> {
     if(req.body._id === null) {
      delete req.body._id;
    }
-    UserModel.create(req.body, (err, result) => {
-    if (err) return next(err);
-    return res.json(result);
+    UserModel.create(req.body, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
   });
 }
 
 exports.updateUser =  (req, res)=> {
-    UserModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (err, result) => {
-        if (err) return next(err);
-        return res.json(result);
+    UserModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
       });
 }
 
 exports.deleteUser =  (req, res)=> {
-    UserModel.findByIdAndRemove(req.params.id, req.body, (err, result) => {
-        if (err) return next(err);
-        return res.json(result);
+    UserModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
+      if(e) {        
+        console.log(e.message);
+          return res.status(500).json(e);
+      } else {
+          return res.json(result);
+      }
       });
 }
 

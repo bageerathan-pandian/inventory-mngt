@@ -70,7 +70,7 @@
                     {{rowData.updatedAt | date:'medium'}}
             </td>
             <td style="text-align: center">
-                <p-inputSwitch [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
+                <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
             </td>
             <td style="text-align:center">
                 <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>

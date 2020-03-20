@@ -72,8 +72,9 @@ export class UserMasterComponent implements OnInit {
    
 
     this.status = [
-      {label:'Active', value:1},
-      {label:'De-Active', value:0},
+      {label:'Active', value:1, disabled: false},
+      {label:'De-Active', value:0, disabled: false},
+      {label:'Expired', value:2, disabled: true}
     ]
    
     this.userForm = this._fb.group({

@@ -60,11 +60,14 @@ export class CompanyMasterComponent implements OnInit {
       {label:'Admin', value:1}
     ]
   
-
     this.status = [
-      {label:'Active', value:1},
-      {label:'De-Active', value:0},
+      {label:'Active', value:1, disabled: false},
+      {label:'De-Active', value:0, disabled: false},
+      {label:'Expired', value:2, disabled: true}
     ]
+
+    
+
     this.companyForm = this._fb.group({
       _id: [''],
       company_code: ['',Validators.required],
@@ -100,7 +103,6 @@ export class CompanyMasterComponent implements OnInit {
       { field: 'phone', header: 'Phone' },
       { field: 'gstin', header: 'GSTIN' },
       { field: 'updatedAt', header: 'Updated Date' },
-      { field: 'status', header: 'Ac Status' },
       { field: 'status', header: 'Status' }
       // { field: '', header: 'Action' }
   ];
@@ -383,7 +385,7 @@ export class CompanyMasterComponent implements OnInit {
 
   onChangeStatus(event){
     console.log(event);
-    let isChecked = event.checked;
+    let value = event.value;
   }
 
   companyLogoUpload(){

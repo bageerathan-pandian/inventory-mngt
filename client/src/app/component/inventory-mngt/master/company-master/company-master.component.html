@@ -66,25 +66,8 @@
                 {{rowData.company_details_id.updatedAt | date:'medium'}}
         </td>
         <td style="text-align: center">
-            <span [ngSwitch]="rowData.status">
-                {{rowData.status}}
-            <p *ngSwitchCase="rowData.status == '0'">
-                Deactive
-            </p>
-            <p *ngSwitchCase="rowData.status == '1'">
-                Active
-            </p>
-            <p *ngSwitchCase="rowData.status == '2'">
-                Expired
-            </p>
-            <p *ngSwitchDefault>
-                --
-            </p>
-            </span>
+            <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
         </td>
-            <td style="text-align: center">
-                <p-inputSwitch  [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-inputSwitch> 
-            </td>
             <td style="text-align:center">
                 <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
                 <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->

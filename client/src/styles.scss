@@ -240,10 +240,8 @@ body {
   padding: 5px;
 }
 
-.notification-message {
-  min-height: 25px;
-  width: 200px;
-  padding: 5px;
+.deletepopuplist .ui-toast-message{
+  border-left: 2px solid #c01120 !important;
 }
 
 .hidden {

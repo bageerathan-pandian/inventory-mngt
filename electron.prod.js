@@ -12,12 +12,12 @@ const createWindow = () => {
         width: 800,
         height: 600,
         //frame: false, // framless
-        icon: path.join(__dirname, 'client/dist/client/favicon.ico'),
+        icon: path.join(__dirname, 'dist/client/favicon.ico'),
     });
 
     // and load the index.html of the app.
     win.loadURL(url.format({
-        pathname: path.join(__dirname, 'client/dist/client/index.html'),
+        pathname: path.join(__dirname, 'dist/client/index.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -49,6 +49,8 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
+
+// app.allowRendererProcessReuse = true;
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

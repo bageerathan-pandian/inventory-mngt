@@ -119,16 +119,16 @@ export class CategoryMasterComponent implements OnInit {
   delete(data,index){
     console.log('delete',data,index);
     
-    this.messageService.clear();
-    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure?', detail:'You want to delete this item'});
+    // this.messageService.clear();
+    // this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure?', detail:'You want to delete this item'});
 
-  //   this.confirmationService.confirm({
-  //     message: 'Are you sure that you want to delete this category?',
-  //     accept: () => {
-  //         //Actual logic to perform a confirmation
-  //         this.onRowDelete(data,index);
-  //     }
-  // });
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this category?',
+      accept: () => {
+          //Actual logic to perform a confirmation
+          this.onRowDelete(data,index);
+      }
+  });
   }
 
   onConfirm() {

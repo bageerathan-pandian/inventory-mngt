@@ -17,6 +17,8 @@ require('./config/twilio'); //send message
 // cron job init
 require('./cron-job/cron-index')
 
+// require('./controllers/printer.controller.js')
+
 // set app
 var app = express();
 var server = require("http").Server(app);
@@ -35,7 +37,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "dist/client")));
 // app.use(express.static('public'));
 app.use('/static', express.static('public'))
-app.use(cookieParser());
+app.use(cookieParser()); 
 // use session
 app.use(session({secret: process.env.SECRET_KEY,saveUninitialized: false,resave: false}));
 // app.use(express.cookieSession()); // Express cookie session middleware 
@@ -62,6 +64,7 @@ const contact = require("./routers/contact.route");
 const sales = require("./routers/sales.route");
 const invoice = require("./routers/invoice.route");
 const purchase = require("./routers/purchase.route");
+const report = require("./routers/report.route");
 
 app.use("/api/auth", auth); // auth api's goes here 
 app.use("/api/users", passport.authenticate('jwt', { session : false }), users);
@@ -79,6 +82,7 @@ app.use("/api/contact",passport.authenticate('jwt', { session : false }),  conta
 app.use("/api/sales",passport.authenticate('jwt', { session : false }),  sales);
 app.use("/api/invoice",passport.authenticate('jwt', { session : false }),  invoice); 
 app.use("/api/purchase",passport.authenticate('jwt', { session : false }),  purchase); 
+app.use("/api/report",passport.authenticate('jwt', { session : false }),  report); 
 // app.use("/api/payment",passport.authenticate('jwt', { session : false }),  paymentController); 
 
 // console.log(ip.address());

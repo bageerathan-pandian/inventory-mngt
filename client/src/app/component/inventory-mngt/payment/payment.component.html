@@ -40,7 +40,7 @@
                           {{rowData.invoice_code}}
                     </td>
                     <td>
-                          {{rowData.invoice_date}}
+                          {{rowData.invoice_date | date:'medium'}}
                     </td>
                     <td>
                         {{rowData.sub_total  | currency : 'INR':true}}

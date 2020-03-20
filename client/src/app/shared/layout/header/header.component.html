@@ -60,11 +60,34 @@
 </p-overlayPanel>
 
 <!-- notifications sidebar -->
+{{notiListData}}
 <p-sidebar [(visible)]="displayNotifications" position="right">
-    <div *ngFor="let notification of notifications; let i=index" class="notification-message">
-        <!-- <div><b>Message: </b><i [innerHtml]="notification.message"></i></div>
-        <div><i>Created On: </i><i [innerHtml]="notification.createdOn | date:'dd/MM/yyyy'"></i></div> -->
-       sdfdsfdsf
+    <div  class="notification-message">
+        <div class="notify-wrapper" >
+            <!-- <h4>Notification</h4> -->
+         
+    <ul *ngIf="notiListData">
+
+        <li  *ngFor="let item of notiListData; let i= index">
+            <h5>   <i class="fa fa-calendar"></i>  {{ item.created_date | date : "MMM dd y" }}</h5>
+            <div class="notify-list">
+                <p  style="cursor: pointer;">
+                    <span>{{ item.title}}</span>  
+                    <span style="color: coral;float:left;width:100%;font-size:11px"  > {{item.msg}}</span>
+                </p>
+            </div>
+        </li>
+    </ul>
+  
+<ul style="text-align: center; padding-top: 35px;" *ngIf="notiListData?.length == 0">
+    <li><img src="/assets/img/notofication.gif" style="max-width:50%;"></li>
+    <li style="font-size: 18px;text-transform: capitalize;padding-top: 20px;color: #5a5a5a;font-weight: 500;">
+    No new notifications!
+    </li>
+</ul>  
+
+         
+        </div>
     </div>
 </p-sidebar>
 

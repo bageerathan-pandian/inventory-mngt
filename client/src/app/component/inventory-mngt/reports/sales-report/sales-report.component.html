@@ -1,7 +1,92 @@
-<p>
-  sales-report works!
-</p>
-<div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+
+
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+
+
+
+
+<div style="margin-top: 15px;">
+
+<p-card>
+  
+ 
+
+<p-table  #dt  [value]="invoiceList"  [loading]="loading"  [columns]="cols" dataKey="_id" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','invoice_details_id.invoice_code']"  [rows]="10" >
+
+<ng-template pTemplate="caption">
+  <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 30%">
     <i class="fa fa-calendar"></i>&nbsp;
     <span></span> <i class="fa fa-caret-down"></i>
+  </div>
+  <div class="ui-helper-clearfix" style="text-align: left;width: 50%; float: left; margin-bottom: 10px;">
+          <!-- <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button> -->
+          <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+          <!-- <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"  style="margin-right: 0.5em;" ></button> -->
+          <!-- <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})"  style="margin-right: 0.5em;"  ></button> -->
+      </div>
+<div style="text-align: right">        
+  <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+  <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
 </div>
+</ng-template>
+<ng-template pTemplate="header" let-columns>
+<tr>
+      <th style="width: 3em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
+              {{col.header}}
+              <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+          </th>
+</tr>
+
+</ng-template>
+<ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+  <tr [pSelectableRow]="rowData">
+        <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td>
+                  {{rowData.invoice_details_id.invoice_code}}
+            </td>
+            <td>
+                  {{rowData.invoice_details_id.invoice_date | date:'medium'}}
+            </td>
+            <td>
+                {{rowData.sub_total  | currency : 'INR':true}}
+        </td>
+        <td>
+            {{rowData.discount  | currency : 'INR':true}}
+    </td>
+    <td>
+        {{rowData.grand_total  | currency : 'INR':true}}
+</td>
+<td>
+  {{rowData.payment_type}}
+
+</td>
+<td>
+{{rowData.updatedAt | date:'medium'}}
+</td>
+    <td>
+        <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
+        {{rowData.payment_status}}
+    </td>
+</tr>
+</ng-template>
+
+
+<ng-template pTemplate="paginatorleft" let-state>
+Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{invoiceList?.length}}</strong> entries
+</ng-template>
+
+
+</p-table>
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+</p-card>
+</div>
+

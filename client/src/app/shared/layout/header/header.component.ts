@@ -8,6 +8,7 @@ import { User } from 'src/app/model/user.model';
 import { MenuDataService } from '../../menu-data.service';
 import { AuthService } from '../../auth.service';
 import { ConfirmationService } from 'primeng/api';
+import { dateToLocalArray } from '@fullcalendar/core/datelib/marker';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,7 @@ export class HeaderComponent implements OnInit {
   displayNotifications: boolean;
 
   // notifications: notification[];
-  notifications: any =[];
+  notiListData: any =[];
 
   constructor(
     private router: Router,
@@ -44,11 +45,15 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.sessionService.getItem("currentUser");
-    this.notifications = [];
-    for (var i = 1; i <= 5; i++) {
-      var notificationObj = {msg:"Message"}
-      this.notifications.push(notificationObj);
-    }
+    // this.notiListData = [];
+    // for (var i = 1; i <= 5; i++) {
+    //   var notificationObj = {
+    //     created_date: new Date(),
+    //     title:'New message',
+    //     msg:'New User created'
+    //   }
+    //   this.notiListData.push(notificationObj);
+    // }
 
     //Start watching for user inactivity.
     // this.userIdle.startWatching();

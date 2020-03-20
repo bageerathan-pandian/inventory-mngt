@@ -4,6 +4,7 @@ import { UnitService } from 'src/app/shared/unit.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { MessageService } from 'primeng/api';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-unit-form',
@@ -13,6 +14,7 @@ import { MessageService } from 'primeng/api';
 export class UnitFormComponent implements OnInit {
 
  
+  @Input() unitData: any;
   @Input() displayDialog2: boolean
   
   @Output() displayChangeEvent2 = new EventEmitter();
@@ -44,8 +46,18 @@ export class UnitFormComponent implements OnInit {
 
   
   ngOnChanges() {
-    console.log('displayDialog2',this.displayDialog2);
-    this.getUnitByCompany()
+    console.log('displayDialog2',this.displayDialog2);   
+    console.log('isObjectcatData',_.isPlainObject(this.unitData))
+    if(_.isPlainObject(this.unitData)){      
+      console.log('catData',this.unitData);   
+      this.unitForm.controls['_id'].setValue(this.unitData._id);
+      this.unitForm.controls['unit_code'].setValue(this.unitData.unit_code);
+      this.unitForm.controls['unit_name'].setValue(this.unitData.unit_name);
+      this.unitForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))  
+      this.unitForm.controls['status'].setValue(this.unitData.status);    
+      }else{           
+      this.getUnitByCompany()
+      }
 
   }
 
@@ -86,6 +98,36 @@ export class UnitFormComponent implements OnInit {
         // this.categoryList.push(data);
         // console.log('this.unitList',this.unitList);
         this.messageService.add({severity:'success', summary:'New Unit Added Successfully', detail:'New Unit Added Successfully'});
+        // this.stockForm.controls['unit_details_id'].setValue(data._id) 
+        this.displayDialog2 = false;
+      },
+      error =>{
+        console.log(error);
+        this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+        this.displayDialog2 = false;
+  
+      })
+  }
+
+  updateUnit(){
+    console.log('unitForm',this.unitForm);
+    if(this.unitForm.invalid){      
+      this.checkValidity()
+      return
+    }
+
+      this.unitService.updateUnit(this.unitForm.value)
+      .subscribe((data:any)=>{
+        console.log('add unit',data);
+        // let newData = {
+        //   label : data.unit_name +' | ' +data.unit_code,
+        //   value : data._id
+        //  }
+         this.unitEvent.emit(data)
+        // this.unitList = [newData,...this.unitList];
+        // this.categoryList.push(data);
+        // console.log('this.unitList',this.unitList);
+        this.messageService.add({severity:'success', summary:'Unit Updated Successfully', detail:'Unit Updated Successfully'});
         // this.stockForm.controls['unit_details_id'].setValue(data._id) 
         this.displayDialog2 = false;
       },

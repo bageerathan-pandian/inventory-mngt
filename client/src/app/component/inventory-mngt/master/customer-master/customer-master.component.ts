@@ -27,14 +27,13 @@ export class CustomerMasterComponent implements OnInit {
   loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog3: boolean;
-  customerForm:FormGroup
   car: any = {};
   cols: any[];
   status:any = [];
   customerList: Customer[];
   data:any;
   custData:any = []
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private customerService:CustomerService,private commonService: CommonService,
+  constructor(private router:Router, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private customerService:CustomerService,private commonService: CommonService,
     public sessionService: SessionService
     ) {
     this.bradCrum = [
@@ -50,16 +49,7 @@ export class CustomerMasterComponent implements OnInit {
       {label:'Active', value:1},
       {label:'De-Active', value:0},
     ]
-    this.customerForm = this._fb.group({
-      _id: [''],
-      company_details_id: ['',Validators.required],
-      customer_code: ['',Validators.required],
-      customer_name: ['',Validators.required],
-      customer_address: ['',Validators.required],
-      phone: ['',Validators.required],
-      status: [1,Validators.required]
-    })
-    
+     
     this.cols = [
       // { field: '_id', header: '#' },
       { field: 'customer_code', header: 'Code' },
@@ -79,13 +69,6 @@ export class CustomerMasterComponent implements OnInit {
     this.getCustomerByCompany();
   }
 
-  @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
-    
-  public handleAddressChange(address: Address) {
-    console.log('address',address);
-  // Do some stuff
-  this.customerForm.controls['customer_address'].setValue(address.formatted_address);
-}
 
     getCustomer(){
       this.loading = true
@@ -115,11 +98,7 @@ export class CustomerMasterComponent implements OnInit {
   //   this.displayDialog3 = true;
   // }
 
-  public checkValidity(): void {
-    Object.keys(this.customerForm.controls).forEach((key) => {
-        this.customerForm.controls[key].markAsDirty();
-    });
-  }
+ 
 
   delete(customer,index){
     console.log('delete',customer,index);

@@ -2,8 +2,8 @@
 
     <p-dialog  [maximizable]="true" [(visible)]="displayDialog2" (onHide)="onClose()" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '400px'}">
         <p-header>
-                <!-- <span *ngIf="unitForm.value._id">Update</span>
-                <span *ngIf="!unitForm.value._id">Add</span> Unit -->
+                <span *ngIf="unitForm.value._id">Update</span>
+                <span *ngIf="!unitForm.value._id">Add</span> Unit
         </p-header>
         
     <form [formGroup]="unitForm">
@@ -37,7 +37,8 @@
             </div>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="addUnit()" label="Save"></button>
+                    <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="!unitForm.value._id" (click)="addUnit()" label="Add"></button>
+                    <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="unitForm.value._id" (click)="updateUnit()" label="Update"></button>
                 </div>
             </p-footer>
         </form> 

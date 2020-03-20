@@ -108,10 +108,11 @@ export class StockMasterComponent implements OnInit {
       if (sliceIndex > -1) {
         // Replace item at index using native splice
         this.stocksList.splice(sliceIndex, 1, event);
-        this.stocksList = [...this.stocksList];
+        // this.stocksList = [...this.stocksList];
       }else{
-        this.stocksList = [event,...this.stocksList];
+        // this.stocksList = [event,...this.stocksList];
       }
+      this.getStocksByCompany()
   }
 
   receiveCategory(event){

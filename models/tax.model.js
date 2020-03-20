@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const TaxSchema = new mongoose.Schema({
   company_details_id:  { type: Schema.Types.ObjectId, ref: 'company_details' },
+  tax_code: { type: String },
   tax_name: { type: String },
   tax_value: { type: String },
   status: { type: Number },

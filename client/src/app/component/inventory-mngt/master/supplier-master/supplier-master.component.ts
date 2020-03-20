@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { User } from "src/app/model/user.model";
 import {MenuItem} from 'primeng/api';
 import {ConfirmationService} from 'primeng/api';
 import {MessageService} from 'primeng/api';
@@ -10,7 +9,6 @@ import { Supplier } from 'src/app/model/supplier.model';
 import { SuppierService } from 'src/app/shared/suppier.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -26,14 +24,13 @@ export class SupplierMasterComponent implements OnInit {
   loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog: boolean = false;
-  supplierForm:FormGroup
   car: any = {};
   cols: any[];
   status:any = [];
   supplierList: Supplier[];
   supplierData: any
 
-  constructor(private router:Router,private _fb:FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
+  constructor(private router:Router, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
     public sessionService : SessionService
     ) {
     this.bradCrum = [
@@ -49,15 +46,7 @@ export class SupplierMasterComponent implements OnInit {
     {label:'Active', value:1},
     {label:'De-Active', value:0},
   ]
-  this.supplierForm = this._fb.group({
-    _id: [''],
-    company_details_id: ['',Validators.required],
-    supplier_code: ['',Validators.required],
-    supplier_name: ['',Validators.required],
-    supplier_address: ['',Validators.required],
-    phone: ['',Validators.required],
-    status: [1,Validators.required]
-  })
+
      
   this.cols = [
     // { field: '_id', header: '#' },
@@ -74,15 +63,6 @@ export class SupplierMasterComponent implements OnInit {
   ngOnInit() {  
     this.getSupplierByCompany();
   }
-
-  @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
-    
-  public handleAddressChange(address: Address) {
-    console.log('address',address);
-  // Do some stuff
-  this.supplierForm.controls['supplier_address'].setValue(address.formatted_address);
-}
-
 
 
     getSupplierByCompany(){

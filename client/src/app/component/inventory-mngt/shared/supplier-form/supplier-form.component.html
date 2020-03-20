@@ -53,7 +53,8 @@
 <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
         <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-        <button type="button" pButton  icon="pi pi-save" class="ui-button-success"(click)="save()" label="Save"></button>
+        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="!supplierForm.value._id" (click)="save()" label="Add"></button>
+        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="supplierForm.value._id" (click)="save()" label="Update"></button>
     </div>
 </p-footer>
 </form>

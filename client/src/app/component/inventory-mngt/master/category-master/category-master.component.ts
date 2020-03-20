@@ -21,13 +21,12 @@ export class CategoryMasterComponent implements OnInit {
   public bradCrum: MenuItem[];
   categoryList: Category[];
   categoryListSheet: any[] = [];
-  categoryForm: FormGroup
   displayDialog1: boolean;
   status:any = [];
   cols: any[];
   columns: any[];
   catData:any = []
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService,
+  constructor(private router:Router,private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
   }
@@ -55,14 +54,7 @@ export class CategoryMasterComponent implements OnInit {
       {label:'Active', value:1},
       {label:'De-Active', value:0},
     ]
-    
-    this.categoryForm = this._fb.group({
-      _id: [''],
-      company_details_id: ['',Validators.required],
-      category_code: ['',Validators.required],
-      category_name: ['',Validators.required],
-      status: [1,Validators.required]
-    })
+   
    
     // if(this.user_details.role == '0'){
     //   this.getCategory();
@@ -108,12 +100,7 @@ export class CategoryMasterComponent implements OnInit {
   //   this.displayDialog1 = true;
   // }
 
-  public checkValidity(): void {
-    Object.keys(this.categoryForm.controls).forEach((key) => {
-        this.categoryForm.controls[key].markAsDirty();
-    });
-  }
-
+ 
  
 
   delete(data,index){
@@ -138,17 +125,6 @@ export class CategoryMasterComponent implements OnInit {
   onReject() {
     this.messageService.clear('c');
   }
-
-  
-  // onRowEdit(category: Category) {
-  //   console.log(category);
-  //   this.displayDialog1 = true;
-  //   this.categoryForm.controls['_id'].setValue(category._id);
-  //   this.categoryForm.controls['category_code'].setValue(category.category_code);
-  //   this.categoryForm.controls['category_name'].setValue(category.category_name);
-  //   this.categoryForm.controls['company_details_id'].setValue(category.company_details_id._id)
-  //   this.categoryForm.controls['status'].setValue(category.status);
-  // }
 
   onRowDelete(category,index) {
     console.log(category,index);

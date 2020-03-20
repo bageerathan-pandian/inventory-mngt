@@ -100,6 +100,7 @@ export class CompanyMasterComponent implements OnInit {
       { field: 'phone', header: 'Phone' },
       { field: 'gstin', header: 'GSTIN' },
       { field: 'updatedAt', header: 'Updated Date' },
+      { field: 'status', header: 'Ac Status' },
       { field: 'status', header: 'Status' }
       // { field: '', header: 'Action' }
   ];
@@ -139,11 +140,7 @@ export class CompanyMasterComponent implements OnInit {
       this.companyService.getCompanyAdminUsers()
       .subscribe((data:any)=>{
         console.log('companyList',data);
-        this.companyList = []
-        for(let cdata of data){     
-          this.companyList.push(Object.assign({activeStatus:cdata.company_details_id.status == 1 ? true : false},cdata))
-        }
-        // this.companyList = data;
+        this.companyList = data
         console.log('companyList1',this.companyList);
         this.loading =false;
       })

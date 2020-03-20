@@ -124,9 +124,9 @@ export class CustomerFormComponent implements OnInit {
       this.checkValidity()
       return false;
     }
-    this.customerService.addCustomer(this.customerForm.value)
+    this.customerService.updateCustomer(this.customerForm.value)
     .subscribe((data:any)=>{
-      console.log('add customer',data);
+      console.log('update customer',data);
       // let newData = {
       //   label : data.customer_name +' | ' +data.customer_code,
       //   value : data._id

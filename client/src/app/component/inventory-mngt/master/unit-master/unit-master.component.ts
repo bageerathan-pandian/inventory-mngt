@@ -39,7 +39,7 @@ export class UnitMasterComponent implements OnInit {
       {
         label: "Master",
         command: event => {
-          this.router.navigate(["/inventory-mngt/dashboard"]);
+          this.router.navigate(["/inventory-mngt/master"]);
         }
       },
       {

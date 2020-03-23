@@ -22,24 +22,13 @@ const routes: Routes = [
     children: [
       {path:'change-password',loadChildren:() => import('./component/inventory-mngt/user/change-password/change-password.module').then(m => m.ChangePasswordModule),canActivate:[AuthGuard]},
       {path:'dashboard',loadChildren:() => import('./component/inventory-mngt/dashboard/dashboard.module').then(m => m.DashboardModule),canActivate:[AuthGuard]},
-      {path:'master/company',loadChildren:() => import('./component/inventory-mngt/master/company-master/company-master.module').then(m => m.CompanyMasterModule),canActivate:[AuthGuard]},
-      {path:'master/category',loadChildren:() => import('./component/inventory-mngt/master/category-master/category-master.module').then(m => m.CategoryMasterModule),canActivate:[AuthGuard]},
-      {path:'master/sub-category',loadChildren:() => import('./component/inventory-mngt/master/sub-category-master/sub-category-master.module').then(m => m.SubCategoryMasterModule),canActivate:[AuthGuard]},
-      {path:'master/unit',loadChildren:() => import('./component/inventory-mngt/master/unit-master/unit-master.module').then(m => m.UnitMasterModule),canActivate:[AuthGuard]},
-      {path:'master/stock',loadChildren:() => import('./component/inventory-mngt/master/stock-master/stock-master.module').then(m => m.StockMasterModule),canActivate:[AuthGuard]},
-      {path:'master/user',loadChildren:() => import('./component/inventory-mngt/master/user-master/user-master.module').then(m => m.UserMasterModule),canActivate:[AuthGuard]},
-      {path:'master/customer',loadChildren:() => import('./component/inventory-mngt/master/customer-master/customer-master.module').then(m => m.CustomerMasterModule),canActivate:[AuthGuard]},
-      {path:'master/supplier',loadChildren:() => import('./component/inventory-mngt/master/supplier-master/supplier-master.module').then(m => m.SupplierMasterModule),canActivate:[AuthGuard]},
-      {path:'master/tax',loadChildren:() => import('./component/inventory-mngt/master/tax-master/tax-master.module').then(m => m.TaxMasterModule),canActivate:[AuthGuard]},
+      {path:'master',loadChildren:() => import('./component/inventory-mngt/master/master.module').then(m => m.MasterModule),canActivate:[AuthGuard]},
       {path:'sales/sales',loadChildren:() => import('./component/inventory-mngt/sales/sales/sales.module').then(m => m.SalesModule),canActivate:[AuthGuard]},
       {path:'sales/sales-return',loadChildren:() => import('./component/inventory-mngt/sales/sales-return/sales-return.module').then(m => m.SalesReturnModule),canActivate:[AuthGuard]},
       {path:'purchase/purchase',loadChildren:() => import('./component/inventory-mngt/purchase/purchase/purchase.module').then(m => m.PurchaseModule),canActivate:[AuthGuard]},
       {path:'purchase/purchase-return',loadChildren:() => import('./component/inventory-mngt/purchase/purchase-return/purchase-return.module').then(m => m.PurchaseReturnModule),canActivate:[AuthGuard]},
-      {path:'payment',loadChildren:() => import('./component/inventory-mngt/payment/payment.module').then(m => m.PaymentModule),canActivate:[AuthGuard]},
-      {path:'report/sales-report',loadChildren:() => import('./component/inventory-mngt/reports/sales-report/sales-report.module').then(m => m.SalesReportModule),canActivate:[AuthGuard]},
-      {path:'report/sales-return-report',loadChildren:() => import('./component/inventory-mngt/reports/sales-return-report/sales-return-report.module').then(m => m.SalesReturnReportModule),canActivate:[AuthGuard]},
-      {path:'report/purchase-report',loadChildren:() => import('./component/inventory-mngt/reports/purchase-report/purchase-report.module').then(m => m.PurchaseReportModule),canActivate:[AuthGuard]},
-      {path:'report/purchase-return-report',loadChildren:() => import('./component/inventory-mngt/reports/purchase-return-report/purchase-return-report.module').then(m => m.PurchaseReturnReportModule),canActivate:[AuthGuard]},
+      {path:'payment',loadChildren:() => import('./component/inventory-mngt/payment/payment.module').then(m => m.PaymentModule),canActivate:[AuthGuard]},      
+      {path:'reports', loadChildren: () => import('./component/inventory-mngt/reports/reports.module').then(m => m.ReportsModule),canActivate:[AuthGuard]},    
       {path:'profile',loadChildren:() => import('./component/inventory-mngt/user/profile/profile.module').then(m => m.ProfileModule),canActivate:[AuthGuard]},
       {path:'company-info',loadChildren:() => import('./component/inventory-mngt/user/company-info/company-info.module').then(m => m.CompanyInfoModule),canActivate:[AuthGuard]},
       {path:'product-buy',loadChildren:() => import('./component/inventory-mngt/user/product-buy/product-buy.module').then(m => m.ProductBuyModule),canActivate:[AuthGuard]},
@@ -50,11 +39,9 @@ const routes: Routes = [
       {path:'contact',loadChildren:() => import('./component/inventory-mngt/contact/contact.module').then(m => m.ContactModule),canActivate:[AuthGuard]},      
       {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
   ]
-  },
- 
+  }, 
   // {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
-
 ];
 
 @NgModule({

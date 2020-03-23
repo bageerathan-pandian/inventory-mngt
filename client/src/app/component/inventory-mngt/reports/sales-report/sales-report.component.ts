@@ -34,8 +34,11 @@ export class SalesReportComponent implements OnInit {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}
+      },    
+      {label:'Reports',icon: 'pi pi-file',command: (event) => {
+        this.router.navigate(['/inventory-mngt/reports'])}
       },
-      {label:'reports/Sales report'},
+      {label:'Sales report'},
   ];
   
     

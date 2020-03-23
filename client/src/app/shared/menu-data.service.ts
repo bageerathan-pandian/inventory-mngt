@@ -49,10 +49,10 @@ export class MenuDataService {
         },
         {
           Label: 'Reports', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-              { Label: 'Sales Report', RouterLink: '/inventory-mngt/report/sales-report', Childs: null, IsChildVisible: false },
-              { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/report/sales-return-report', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Report', RouterLink: '/inventory-mngt/report/purchase-report', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/report/purchase-return-report', Childs: null, IsChildVisible: false }
+              { Label: 'Sales Report', RouterLink: '/inventory-mngt/reports/sales-report', Childs: null, IsChildVisible: false },
+              { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/reports/sales-return-report', Childs: null, IsChildVisible: false },
+              { Label: 'Purchase Report', RouterLink: '/inventory-mngt/reports/purchase-report', Childs: null, IsChildVisible: false },
+              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/reports/purchase-return-report', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
         {
@@ -114,10 +114,10 @@ export class MenuDataService {
         },
         {
           Label: 'Reports', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
-              { Label: 'Sales Report', RouterLink: '/inventory-mngt/report/sales-report', Childs: null, IsChildVisible: false },
-              { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/report/sales-return-report', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Report', RouterLink: '/inventory-mngt/report/purchase-report', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/report/purchase-return-report', Childs: null, IsChildVisible: false }
+              { Label: 'Sales Report', RouterLink: '/inventory-mngt/reports/sales-report', Childs: null, IsChildVisible: false },
+              { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/reports/sales-return-report', Childs: null, IsChildVisible: false },
+              { Label: 'Purchase Report', RouterLink: '/inventory-mngt/reports/purchase-report', Childs: null, IsChildVisible: false },
+              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/reports/purchase-return-report', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
         {

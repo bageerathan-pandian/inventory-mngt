@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { Category } from 'src/app/model/category.model';
 import * as _ from 'lodash';
 import { CategoryService } from 'src/app/shared/category.service';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -40,7 +39,7 @@ export class CategoryMasterComponent implements OnInit {
       {
         label: "Master",
         command: event => {
-          this.router.navigate(["/inventory-mngt/dashboard"]);
+          this.router.navigate(["/inventory-mngt/master"]);
         }
       },
       {

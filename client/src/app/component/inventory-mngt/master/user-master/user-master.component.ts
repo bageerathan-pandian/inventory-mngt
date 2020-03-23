@@ -48,7 +48,7 @@ export class UserMasterComponent implements OnInit {
         this.router.navigate(['/inventory-mngt/dashboard'])}
       },
       {label:'Master',command: (event) => {
-        this.router.navigate(['/inventory-mngt/dashboard']);
+        this.router.navigate(["/inventory-mngt/master"]);
     }},
       {label:'Users'},
   ];

@@ -116,7 +116,7 @@
                     <label for="vin">Company Address</label>
                 </div>
                 <div class="ui-g-8">
-                    <input pInputText  formControlName="company_address" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+                    <input pInputText  formControlName="company_address" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
 
                 </div>
             </div>

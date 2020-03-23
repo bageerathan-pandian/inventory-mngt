@@ -272,9 +272,14 @@ initRowFirst() {
         this.invoiceData = data
         this.getStockByCompany() // refresh stock qty
         this.invoiceForm.reset();
+        this.selectedCustData = []
         this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
         this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data.next_invoice)); 
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
+        this.invoiceForm.controls['invoiceList'].reset() 
+        const control = <FormArray>this.invoiceForm.controls['invoiceList'];
+        control.clear();
+        control.push(this.initRowFirst());
         this.invoiceForm.controls['sub_total'].setValue(0.00);
         this.invoiceForm.controls['discount'].setValue(0.00);
         this.invoiceForm.controls['paid_amount'].setValue(0.00);
@@ -330,7 +335,11 @@ initRowFirst() {
     // reset whole form back to initial state   
     // this.invoiceForm.reset();
     // this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',this.customerList.length)); 
+    this.selectedCustData = []
     this.invoiceForm.controls['invoiceList'].reset() 
+    const control = <FormArray>this.invoiceForm.controls['invoiceList'];
+    control.clear();
+    control.push(this.initRowFirst());
     this.invoiceForm.controls['invoice_date'].setValue(new Date());
     this.invoiceForm.controls['sub_total'].setValue(0.00);
     this.invoiceForm.controls['discount'].setValue(0.00);
@@ -349,8 +358,7 @@ onSelectProduct(event,i){
     // this.showDialogToAddStock()
     this.displayDialog = true;
     this.invoiceForm.get('invoiceList')['controls'][i].reset() 
-    return false
-  }
+    return false}
   console.log(this.invoiceForm.value.invoiceList);  
   if(this.invoiceForm.value.invoiceList.length > 1){
     let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
@@ -398,7 +406,7 @@ onChangeQty(i){
   // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
   // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
   if(stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty){
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.stocks[i].selling_price) 
+    this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price) 
   }else{    
     this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
     let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
@@ -486,6 +494,24 @@ categoryDialog(event){
 unitDialog(event){
   console.log('unitDialog',event) 
   this.displayDialog2 = event;
+}
+
+scanBarcode(){
+  let bardcode = '5e12c97cfb943b2df8151858';
+  var geStockData = _.find(this.stocks, function (o) { return  o._id == bardcode; });
+  console.log('geStockData',geStockData) 
+  let event = {value:geStockData._id}
+  console.log('event',event) 
+  let addIndex = Number(this.invoiceForm.get('invoiceList')['controls'].length) - 1
+  if(addIndex == 0 && this.invoiceForm.get('invoiceList')['controls'][addIndex].invalid){
+    this.onSelectProduct(event,addIndex)
+    this.invoiceForm.get('invoiceList')['controls'][addIndex].controls['stock_details_id'].setValue(geStockData._id)
+  }else{ 
+    this.addListItem()
+    this.onSelectProduct(event,addIndex)
+    this.invoiceForm.get('invoiceList')['controls'][addIndex].controls['stock_details_id'].setValue(geStockData._id)
+  }
+
 }
 
 }

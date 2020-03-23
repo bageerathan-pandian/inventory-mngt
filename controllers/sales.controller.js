@@ -94,12 +94,7 @@ exports.addUser =  (req, res)=> {
          }
          console.log('stockData',stockData,invoiceArry.total_qty,invoiceArry.qty)
         StockModel.findByIdAndUpdate(invoiceArry.stock_details_id, stockData, (e,result3) => {
-          if(e) {        
-            console.log(e.message);
-              return res.status(500).json(e);
-          } else {
-              return res.json(result3);
-          }
+          if (e)  return res.status(500).json(e);
         });
       });
      

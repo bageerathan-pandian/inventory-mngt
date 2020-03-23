@@ -5,10 +5,11 @@ import { SalesReportRoutingModule } from './sales-report-routing.module';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
-import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,12 +17,14 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     CommonModule,
     SalesReportRoutingModule,
+    FormsModule,
     BreadcrumbModule,
     TableModule,
     CardModule,
     ConfirmDialogModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    NgxDaterangepickerMd.forRoot()
   ]
 })
 export class SalesReportModule { }

@@ -17,10 +17,21 @@
   
   <div class="ui-helper-clearfix" style="text-align: left;width: 50%; float: left; margin-bottom: 10px;">
     <div style="width: 68%;padding: 0 1%; float: left;">
-      <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+      <!-- <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
         <i class="fa fa-calendar"></i>&nbsp;
         <span></span> <i class="fa fa-caret-down"></i>
-      </div>
+      </div> -->
+      <input type="text" pInputText [(ngModel)]="selectedDate" 
+      ngxDaterangepickerMd
+      [showCustomRangeLabel]="true"
+      [alwaysShowCalendars]="true"
+      [ranges]="ranges"
+      [linkedCalendars]="true" 
+      [showCancel]="true"
+       placeholder="Select please..."
+        readonly
+        [locale]="{format: 'DD/MM/YYYY'}"
+         (ngModelChange)="change($event)" />
     </div>
     <div style="width: 28%;padding: 0 1%; float: left;">
              <!-- <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button> -->

@@ -37,6 +37,7 @@
     "ng-stripe-checkout": "^1.0.4",
     "ng2-tel-input": "^2.0.3",
     "ngx-barcode": "^0.2.4",
+    "ngx-daterangepicker-material": "^2.2.0",
     "ngx-disqus": "^2.4.3",
     "ngx-google-places-autocomplete": "^2.0.4",
     "ngx-image-cropper": "^2.0.0",

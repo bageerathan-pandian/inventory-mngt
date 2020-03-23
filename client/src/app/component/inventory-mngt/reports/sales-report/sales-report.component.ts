@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
-import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { SessionService } from 'src/app/shared/session.service';
-import { CommonService } from 'src/app/shared/common.service';
 import { ReportService } from 'src/app/shared/report.service';
-declare var $:any
+
 @Component({
   selector: 'app-sales-report',
   templateUrl: './sales-report.component.html',
@@ -17,19 +16,21 @@ export class SalesReportComponent implements OnInit {
 
   loading: boolean;
   public bradCrum: MenuItem[];
-  displayDialog: boolean;
-  display:boolean
   cols: any[];
-  status:any = [];
   invoiceList: any = [];
   reportListSheet: any = []
-  data:any;
-  from_date: any
-  to_date: any
-  constructor(private router:Router, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private reportService:ReportService,private commonService: CommonService,
-    
-    public sessionService: SessionService
-    ) {
+  selectedDate = {start: moment().format(), end: moment().format()};
+  alwaysShowCalendars: boolean;
+  ranges: any = {
+    'Today': [moment().format(), moment().format()],
+    'Yesterday': [moment().subtract(1, 'days').format(), moment().subtract(1, 'days').format()],
+    'Last 7 Days': [moment().subtract(6, 'days').format(), moment().format()],
+    'Last 30 Days': [moment().subtract(29, 'days').format(), moment().format()],
+    'This Month': [moment().startOf('month').format(), moment().endOf('month').format()],
+    'Last Month': [moment().subtract(1, 'month').startOf('month').format(), moment().subtract(1, 'month').endOf('month').format()]
+  }
+  constructor(private router:Router, private auth:AuthService,private reportService:ReportService, public sessionService: SessionService ) {
+      this.alwaysShowCalendars = true;
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}
@@ -54,44 +55,15 @@ export class SalesReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    var self = this;
-    $(function() {
 
-      var start = moment().subtract(29, 'days');
-      var end = moment();
+    console.log(this.selectedDate)
+    this.getSalesReportByCompany(this.selectedDate.start, this.selectedDate.end);
   
-     
-      function cb(start, end) {
-
-        var from_date = start.format();
-        var to_date = end.format();
-        self.from_date = start.format();
-        self.to_date = end.format();
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-          console.log("start ", from_date);
-          console.log("end ", to_date);
-          self.getSalesReportByCompany(self.from_date, self.to_date);
-      }
-  
-      $('#reportrange').daterangepicker({
-          startDate: start,
-          endDate: end,
-          ranges: {
-             'Today': [moment(), moment()],
-             'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-             'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-             'This Month': [moment().startOf('month'), moment().endOf('month')],
-             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          }
-      }, cb);
-  
-      cb(start, end);
-  
-  });
   }
 
-  getReport(){
+  change(event){
+    console.log(event)
+    this.getSalesReportByCompany(event.startDate, event.endDate);
     
   }
 
@@ -118,36 +90,6 @@ export class SalesReportComponent implements OnInit {
       }
     })
   }
-
-
-public checkValidity(): void {
-  // Object.keys(this.invoiceForm.controls).forEach((key) => {
-  //     this.invoiceForm.controls[key].markAsDirty();
-  // });
-}
-
-save() {
- 
-}
-
-
-
-onRowEdit(invoice) {
-  console.log(invoice);
-  
-}
-
-
-
-onRowUpdate(invoice) {
-  console.log(invoice); 
-
-}
-
-onChangeStatus(event){
-  console.log(event);
-  let isChecked = event.checked;
-}
 
 
 exportExcel() {

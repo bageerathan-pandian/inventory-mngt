@@ -393,7 +393,7 @@
                    
                </ng-template>
         </p-table>
-        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase"  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/master/purchase-report' : '/inventory-mngt/dashboard'" style=" width: auto; margin-top: 10px;"></button>
+        <button pButton icon="pi pi-eye" iconPos="left"  class="ui-button-raised ui-button-rounded" label="view all Purchase"  [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/reports/purchase-report' : '/inventory-mngt/dashboard'" style=" width: auto; margin-top: 10px;"></button>
     </p-card>
     </div>
               </div>

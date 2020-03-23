@@ -4,13 +4,22 @@
             <a class="icon" (click)="toggleMenu()"><i class="fa fa-bars"></i></a>
         </div>
         <div class="logo right">
-            <img  *ngIf="sessionService.getItem('company_image')" src="{{auth.apiURL()}}{{sessionService.getItem('company_image')}}" class="logo-large">
-            <img *ngIf="!sessionService.getItem('company_image')" src="./assets/img/logo.png" class="logo-large">
+            <a  routerLink="/inventory-mngt/dashboard">
+            <img  *ngIf="sessionService.getItem('company_image')" src="{{auth.apiURL()}}{{sessionService.getItem('company_image')}}" class="logo-large" >
+            <img *ngIf="!sessionService.getItem('company_image')" src="./assets/img/logo.png" class="logo-large">                
+        </a>
         </div>
     </div>
     <div class="ng-header-right right">
-        <div class="ng-header-right-item right">
+        <!-- <div class="ng-header-right-item right">
             <a class="icon" (click)="confirmLogout()"><i class="fa fa-sign-out"></i></a>
+        </div> -->
+        <div class="ng-header-right-item right" (click)="userdetails.toggle($event)">
+            <a  class="icon" style="display: flex">
+                   <img *ngIf="sessionService.getItem('user_image')" src="{{auth.apiURL()}}{{sessionService.getItem('user_image')}}" style="    height: 30px;  width: 30px;border-radius: 100%;" />
+                     <img *ngIf="!sessionService.getItem('user_image')" src="./assets/img/userface.jpg" style="    height: 30px;  width: 30px;border-radius: 100%;" />      
+                    <em class="hidden-xs" style="    margin-top: -10px; padding-left: 5px; "> {{sessionService.getItem('user_name')}}  <i class="fa fa-angle-down" style="font-size: 15px; margin-left: 5px;"></i></em>
+            </a>
         </div>
         <div class="ng-header-right-item right" (click)="themeChooser.toggle($event)">
             <a class="icon"><i class="fa fa-cog"></i></a>
@@ -21,46 +30,26 @@
         <div class="ng-header-right-item right" >
                 <a class="icon" routerLink="/inventory-mngt/schedule-calender"><i class="fa fa-calendar"></i></a>
             </div>
-        <div class="ng-header-right-item right" (click)="userdetails.toggle($event)">
-            <!-- <a class="icon"><span [innerHtml]="user.emailId" class="user-name"></span><i class="fa fa-user"></i></a> -->
-            <!-- <a class="icon"><span  class="user-name"></span><i class="fa fa-user"></i></a> -->
-            <a  class="icon" style="display: flex">
-                   <img *ngIf="sessionService.getItem('user_image')" src="{{auth.apiURL()}}{{sessionService.getItem('user_image')}}" style="    height: 30px;  width: 30px;border-radius: 100%;" />
-                     <img *ngIf="!sessionService.getItem('user_image')" src="./assets/img/userface.jpg" style="    height: 30px;  width: 30px;border-radius: 100%;" />      
-                    <em class="hidden-xs" style="    margin-top: -10px; padding-left: 5px; "> {{sessionService.getItem('user_name')}}  <i class="fa fa-angle-down" style="font-size: 15px; margin-left: 5px;"></i></em>
-               
-                    
-             </a>
-        </div>
+       
     </div>
 </div>
 
 <!-- user detials overlay panel -->
 <p-overlayPanel #userdetails>
-    <!-- <div><b>User Name: </b><i [innerHtml]="user.userName"></i></div>
-    <div><b>Email Id: </b><i [innerHtml]="user.emailId"></i></div>
-    <div><b>Birthdate: </b><i [innerHtml]="user.birthDate | date:'dd/MM/yyyy'"></i></div> -->
-  <ul>
-      <li>
-          <a  routerLink="/inventory-mngt/profile" (click)="userdetails.hide($event)">Profile</a>
-      </li>
-      
-      <li *ngIf="sessionService.getItem('role') != 3">
-            <a  routerLink="/inventory-mngt/company-info" (click)="userdetails.hide($event)">Company Info.</a>
-        </li>
-        
-      <li>
-            <a  routerLink="/inventory-mngt/change-password" (click)="userdetails.hide($event)">Change Password</a>
-        </li>
-        
-      <li *ngIf="sessionService.getItem('role') == 1">
-            <a  routerLink="/inventory-mngt/product-buy" (click)="userdetails.hide($event)">Account Type</a>
-        </li>
-  </ul>
+    <div class="drp-menu">
+    <div class="head-drpmenu">
+        <button routerLink="/inventory-mngt/profile"  (click)="userdetails.hide($event)"><i class="fa fa-user-circle-o" aria-hidden="true" style="color:#7e57c2;margin-right:7px;outline: none;"></i>Profile</button>
+       <button routerLink="/inventory-mngt/change-password" (click)="userdetails.hide($event)"><i class="fa fa-cog" aria-hidden="true" style="color:#ff9800;margin-right:7px;outline: none;"></i>Change Password</button>        
+       <button *ngIf="sessionService.getItem('role') != 3" routerLink="/inventory-mngt/company-info" (click)="userdetails.hide($event)" ><i class="fa fa-users" aria-hidden="true" style="color:#009688;margin-right:7px;outline: none;"></i>Company Info.</button>
+       <button *ngIf="sessionService.getItem('role') == 1" routerLink="/inventory-mngt/product-buy" (click)="userdetails.hide($event)"><i class="fa fa-toggle-on" aria-hidden="true" style="color:#29b6f6;margin-right:7px;outline: none;"></i>Account Type</button>
+        <button style="outline: none;"><a class="user-thumb" style="background: transparent;width: auto;cursor:pointer;color:#333"
+            (click)="confirmLogout()"><i class="fa fa-sign-out" style="color:#e91e63;margin-right:3px;"></i>&nbsp;<span>Log Out</span></a></button>
+        </div>
+    </div>
 </p-overlayPanel>
 
 <!-- notifications sidebar -->
-{{notiListData}}
+
 <p-sidebar [(visible)]="displayNotifications" position="right">
     <div  class="notification-message">
         <div class="notify-wrapper" >

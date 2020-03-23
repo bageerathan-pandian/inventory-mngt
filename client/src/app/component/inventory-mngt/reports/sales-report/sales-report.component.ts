@@ -35,7 +35,7 @@ export class SalesReportComponent implements OnInit {
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}
       },    
-      {label:'Reports',icon: 'pi pi-file',command: (event) => {
+      {label:'Reports',command: (event) => {
         this.router.navigate(['/inventory-mngt/reports'])}
       },
       {label:'Sales report'},

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReportsRoutingModule } from './reports-routing.module';
 import { ReportsComponent } from './reports.component';
 import { CardModule } from 'primeng/card';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CardModule } from 'primeng/card';
   imports: [
     CommonModule,
     ReportsRoutingModule,
-    CardModule
+    CardModule,
+    BreadcrumbModule
   ]
 })
 export class ReportsModule { }

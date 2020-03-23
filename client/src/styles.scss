@@ -774,6 +774,17 @@ body .ui-button.ui-state-default.ui-button-secondary:enabled:focus, body .ui-but
   box-shadow: none !important;
 }
 
+body .ui-paginator {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 10px !important
+}
+
+body .ui-table .ui-table-caption, body .ui-table .ui-table-summary {
+  background-color: #f7f9fa !important;
+  border: none !important;
+}
+
 
 /* Small devices (portrait tablets and large phones, 768px or less) */
 

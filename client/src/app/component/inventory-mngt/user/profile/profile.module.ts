@@ -21,6 +21,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { FileUploadModule } from 'primeng/fileupload';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -45,7 +46,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ReactiveFormsModule,
     ProgressSpinnerModule,
     ImageCropperModule,
-    FileUploadModule
+    FileUploadModule,
+    Ng2TelInputModule
   ]
 })
 export class ProfileModule { }

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProductPaymentSchema = new mongoose.Schema({
-    company_details_id:  { type: Schema.Types.ObjectId, ref: 'company_details' },
     plan_type: { type: Number }, // 0-free,1-premium
     payment_amount: { type: String },
     currency: { type: String },

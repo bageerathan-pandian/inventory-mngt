@@ -38,12 +38,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(sessionStorage.getItem('rememberMe') == 'true'){
-      this.loginForm.controls['user_email'].setValue(sessionStorage.getItem('user_email'))
-      this.loginForm.controls['user_pwd'].setValue(sessionStorage.getItem('user_pwd'))
-      this.loginForm.controls['rememberMe'].setValue(sessionStorage.getItem('rememberMe') == 'true' ? true : false)
+    if(localStorage.getItem('rememberMe') == 'true'){
+      this.loginForm.controls['user_email'].setValue(localStorage.getItem('user_email'))
+      this.loginForm.controls['user_pwd'].setValue(localStorage.getItem('user_pwd'))
+      this.loginForm.controls['rememberMe'].setValue(localStorage.getItem('rememberMe') == 'true' ? true : false)
     }else{
-      sessionStorage.clear()
+      // sessionStorage.clear()
+      localStorage.clear()
     }
   }
 
@@ -60,11 +61,13 @@ export class LoginComponent implements OnInit {
     }
     console.log(this.loginForm.value);
     this.messageService.clear();
+    this.showSpinner = true
     this.auth.logIn(this.loginForm.value)
     .subscribe((data:any)=>{
       console.log('data',data);
       this.messageService.clear();
       this.spinner.hide();
+      this.showSpinner = false
       if(data.user.status == 0){
         this.display = true
         this.errorMsg = 'Your account is deactivated by Company admin';
@@ -84,16 +87,14 @@ export class LoginComponent implements OnInit {
 
           this.sessionService.setItem("inventryLogedIn", "1");
           this.sessionService.setItem('secret_token',data.token);
-          this.sessionService.setItem('rememberMe',  this.loginForm.value.rememberMe);
-          this.sessionService.setUserCredentials(data.user)
-          // if(this.loginForm.value.rememberMe == true){
-          //   this.sessionService.setItem('user_email', this.loginForm.value.user_email);
-          //   this.sessionService.setItem('user_pwd',  this.loginForm.value.user_pwd);
-          //   this.sessionService.setItem('rememberMe',  this.loginForm.value.rememberMe);
-          //   this.sessionService.setItem('secret_token', data.token);
-          // }else{
-          //   this.sessionService.clear()
-          // }
+          this.sessionService.setUserCredentials(data.user)          
+          if(this.loginForm.value.rememberMe){
+            localStorage.setItem('user_email',  data.user.user_email);
+            localStorage.setItem('user_pwd',  data.user.user_pwd);
+            localStorage.setItem('rememberMe',  this.loginForm.value.rememberMe);
+          }else{
+            localStorage.clear()
+          }
           this.router.navigate(["/inventory-mngt/dashboard"]);
           this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
         //  }, 1000);
@@ -106,6 +107,7 @@ export class LoginComponent implements OnInit {
     error =>{
       console.log('er',error);
       this.spinner.hide();
+      this.showSpinner = false
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
       // this.sessionService.setItem("inventryLogedIn", "1");
       // this.router.navigate(["/dashboard"]);

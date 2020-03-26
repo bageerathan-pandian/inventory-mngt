@@ -73,9 +73,9 @@
                 <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
             </td>
             <td style="text-align:center">
-                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                <button  pButton type="button" [disabled]="sessionService.getItem('_id') == rowData._id" icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
                 <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
-                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;" ></button>
+                <button  pButton type="button" [disabled]="sessionService.getItem('_id') == rowData._id"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;" ></button>
             </td>
         </tr>
     </ng-template>
@@ -155,7 +155,9 @@
                                 <label for="year">Phone</label>
                             </div>
                             <div class="ui-g-8">
-                                    <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+                                <input pInputText type="text" pKeyFilter="int" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry:'in'}"  formControlName="phone"  />
+
+                                    <!-- <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask> -->
                                 </div>
                         </div>
                     

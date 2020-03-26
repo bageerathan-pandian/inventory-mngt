@@ -18,6 +18,11 @@ export class CompanyService {
     return this.httpClient.get(environment.api_url + '/api/company/admin-users');
   }
 
+  
+  getAllCompanies(){
+    return this.httpClient.get(environment.api_url + '/api/company/get-all-companies');
+  }
+
   getCompanyByGroup(){
     return this.httpClient.get(environment.api_url + '/api/company/groupByCompany');
   }

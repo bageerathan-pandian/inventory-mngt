@@ -26,7 +26,8 @@ passport.use('authLogin', new localStrategy({
 
     console.log(ciphertext,originalText); // 'my message'
     try {
-      const user = await UserModel.findOne({user_email, user_pwd}).populate('company_details_id');
+      const user = await UserModel.findOne({user_email, user_pwd}).populate({path:'company_details_id',populate:{path:'product_payment_details_id'}})
+
      console.log('await user',user)
      if(!user ){ 
       return done(null, false, { message : 'User not found'});

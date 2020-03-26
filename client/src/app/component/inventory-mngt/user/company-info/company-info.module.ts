@@ -20,6 +20,7 @@ import { ChartModule } from 'primeng/chart';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 
 @NgModule({
   declarations: [CompanyInfoComponent],
@@ -43,7 +44,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputMaskModule,
     ReactiveFormsModule,
     ProgressSpinnerModule,
-    ImageCropperModule
+    ImageCropperModule,
+    Ng2TelInputModule
   ]
 })
 export class CompanyInfoModule { }

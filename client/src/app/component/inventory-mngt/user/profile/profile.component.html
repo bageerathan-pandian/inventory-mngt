@@ -36,7 +36,9 @@
                         <label for="vin">Company Phone</label>
                     </div>
                     <div class="ui-g-8">
-                            <input type="text" pInputText [value]="sessionService.getItem('phone')" disabled>
+                        <input pInputText type="text" [value]="sessionService.getItem('phone')" disabled pKeyFilter="int" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry:'in'}"  />
+
+                            <!-- <input type="text" pInputText [value]="sessionService.getItem('phone')" disabled> -->
 
                     </div>
                 </div>
@@ -79,7 +81,9 @@
               <label for="year">Phone</label>
           </div>
           <div class="ui-g-8">
-                  <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+            <input pInputText type="text"  disabled pKeyFilter="int" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry:'in'}"  formControlName="phone"  />
+
+                  <!-- <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask> -->
               </div>
       </div>
   <div class="ui-g-12">

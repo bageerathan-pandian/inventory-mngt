@@ -18,6 +18,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import { HttpClientModule } from '@angular/common/http';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { InputMaskModule } from 'primeng/inputmask';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 
 @NgModule({
   declarations: [UserMasterComponent],
@@ -39,7 +40,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     InputSwitchModule,
     ProgressSpinnerModule,
     ReactiveFormsModule,
-    InputMaskModule
+    InputMaskModule,
+    Ng2TelInputModule
   ]
 })
 export class UserMasterModule { }

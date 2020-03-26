@@ -57,16 +57,35 @@
                     {{rowData.company_details_id.owner_name}}
             </td> 
             <td>              
-                {{rowData.company_details_id.phone}}
+                    {{rowData.company_details_id.country_dialCode}} -   {{rowData.company_details_id.phone}}
         </td>
         <td>              
-            {{rowData.company_details_id.gstin}}
-    </td>
+            <ng-container *ngIf="rowData.company_details_id.product_payment_details_id.plan_type == 0; then thenTemplateAc; else elseTemplateAc"></ng-container>
+            <ng-template #thenTemplateAc>
+                <span class="label label-warning"  >Free Account </span>
+            </ng-template>
+            <ng-template #elseTemplateAc>
+                    <span class="label label-success" >Paid Account</span>
+                </ng-template>
+            
+        </td>
+        <td>              
+            {{rowData.company_details_id.product_payment_details_id.payment_amount | currency : 'INR':true}}
+        </td>
+        <td>              
+            <ng-container *ngIf="rowData.company_details_id.product_payment_details_id.expiry_date; then thenTemplateExp; else elseTemplateExp"></ng-container>
+            <ng-template #thenTemplateExp>
+                    {{rowData.company_details_id.product_payment_details_id.expiry_date | date:'medium'}}
+                            </ng-template>
+            <ng-template #elseTemplateExp>
+                   --
+                </ng-template>
+        </td>
             <td>
                 {{rowData.company_details_id.updatedAt | date:'medium'}}
         </td>
         <td style="text-align: center">
-            <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
+            <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.company_details_id.status" (onChange)="onChangeStatus($event)"></p-dropdown>
         </td>
             <td style="text-align:center">
                 <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
@@ -76,9 +95,9 @@
         </tr>
     </ng-template>
        
-       <!-- <ng-template pTemplate="paginatorleft" let-state>
+       <ng-template pTemplate="paginatorleft" let-state>
         Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{companyList?.length}}</strong> entries
-      </ng-template> -->
+      </ng-template>
    
 
 
@@ -135,7 +154,9 @@
                         <label for="vin">Company Phone</label>
                     </div>
                     <div class="ui-g-8">
-                        <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
+                            <input pInputText type="text" pKeyFilter="int" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry:'in'}"  formControlName="phone"  />
+
+                        <!-- <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask> -->
         
                     </div>
                 </div>
@@ -161,10 +182,32 @@
                 
                             </div>
                         </div>
+                        <div class="ui-g-12">
+                                <div class="ui-g-4">
+                                    <label for="brand">Status</label>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
+                    
+                                </div>
+                            </div>
             </div>
     </div>
 </form>
   
+<form [formGroup]="productPaymentForm" >
+    
+        <div class="ui-g ui-fluid" >
+                <div class="ui-g-6">
+                <div class="ui-g-4">
+                    <label for="vin">Plan Type</label>
+                </div>
+                <div class="ui-g-8">
+                        <p-dropdown [options]="plan" placeholder="Select Plan" formControlName="plan_type"></p-dropdown>
+                 </div>
+            </div>
+        </div>
+</form>
 
 <form [formGroup]="userForm" > 
         <div class="ui-g ui-fluid" >
@@ -230,7 +273,7 @@
                             <i class="pi pi-cloud-upload" style="font-size:23px;"></i>Upload Profile</button>
                     </div>
                    
-                    <div class="ui-g-12">
+                    <!-- <div class="ui-g-12">
                         <div class="ui-g-4">
                             <label for="brand">Status</label>
                         </div>
@@ -238,7 +281,7 @@
                             <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
             
                         </div>
-                    </div>
+                    </div> -->
             </div>
 
         </div>

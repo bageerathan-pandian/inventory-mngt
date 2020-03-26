@@ -107,7 +107,7 @@ public onBuyProduct() {
         plan_type : 1,
         payment_amount : 15000,
         currency: 'INR',
-        company_details_id: this.sessionService.getItem('company_id'),
+        // company_details_id: this.sessionService.getItem('company_id'),
         payment_details: token,
         expiry_date: '',
         status: 1

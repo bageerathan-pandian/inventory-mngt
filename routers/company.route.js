@@ -12,6 +12,13 @@ router.get('/', companyController.getAllUsers);
  */
 router.get('/admin-users', companyController.getAllAdminUsers);
 
+
+/**
+ * get all company list
+ */
+router.get('/get-all-companies', companyController.getAllCompanies);
+
+
 /**
  * get users list
  */

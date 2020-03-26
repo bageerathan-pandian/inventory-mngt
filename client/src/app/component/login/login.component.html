@@ -2,9 +2,9 @@
 
     <app-header></app-header>
 
-<ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
+<!-- <ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
         <p style="color: #000" > Authendicating... </p>
-</ngx-spinner>
+</ngx-spinner> -->
 
 <div  class="ui-g-12" style="padding: 5% 0;;background: url(./assets/img/home-bg1.png) no-repeat center center;
 background-size: cover;">
@@ -60,8 +60,9 @@ background-size: cover;">
           </div>
           </div>
         <p-footer>
-            <button pButton type="submit" label="Login"  class="ui-button-raised " style="margin-right: .25em;    width: 100% !important;" ></button>
-        </p-footer>
+                <button *ngIf="!showSpinner" pButton type="submit" label="Login"  class="ui-button-raised " style="margin-right: .25em;    width: 100% !important;" ></button>
+                <button *ngIf="showSpinner" pButton type="submit" disabled label="Logging In..."  icon="pi pi-spinner pi-spin" class="ui-button-raised " style="margin-right: .25em;    width: 100% !important;" ></button>
+            </p-footer>
       </form>
       <p>------------------ Or ------------------</p>
       <p-footer>

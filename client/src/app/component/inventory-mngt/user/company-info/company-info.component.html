@@ -41,8 +41,9 @@
                             <label for="vin">Company Phone</label>
                         </div>
                         <div class="ui-g-8">
-                            <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask>
-            
+                            <!-- <p-inputMask formControlName="phone" mask="99-99999-99999" placeholder="99-99999-99999"  slotChar=" "></p-inputMask> -->
+                            <input pInputText type="text" pKeyFilter="int" ng2TelInput (countryChange)="onCountryChange($event)" [ng2TelInputOptions]="{initialCountry:'in'}"  formControlName="phone"  />
+
                         </div>
                     </div>
                     <div class="ui-g-12">

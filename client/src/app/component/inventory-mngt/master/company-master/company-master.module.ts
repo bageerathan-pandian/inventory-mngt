@@ -23,6 +23,7 @@ import { ChartModule } from 'primeng/chart';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import {FileUploadModule} from 'primeng/fileupload';
 import { StepsModule } from 'primeng/steps';
+import {Ng2TelInputModule} from 'ng2-tel-input';
 
 @NgModule({
   declarations: [CompanyMasterComponent],
@@ -48,7 +49,8 @@ import { StepsModule } from 'primeng/steps';
     ProgressSpinnerModule,
     ImageCropperModule,
     FileUploadModule,
-    StepsModule
+    StepsModule,
+    Ng2TelInputModule
   ]
 })
 export class CompanyMasterModule { }

@@ -92,9 +92,19 @@ router.post('/register-payment', async (req, res, next) => {
 });
 
 
+router.put('/update-payment/:id', async (req, res, next) => {
+  console.log('req',req.body) 
+ ProductPaymentModel.updateOne({_id:req.params.id},req.body, (err, result) => {
+    if (err) return next(err);
+    console.log('pymntresultupate',result) 
+     return  res.json(result) 
+  });
+});
+
+
 router.get('/get-payment-details/:id', async (req, res, next) => {
   console.log('req',req.params.id) 
- ProductPaymentModel.find({company_details_id : req.params.id}, (err, result) => {
+ ProductPaymentModel.find({_id : req.params.id}, (err, result) => {
     if (err) return next(err);
     console.log('pymntresult',result) 
      return  res.json(result) 

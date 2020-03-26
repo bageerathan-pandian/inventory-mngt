@@ -42,6 +42,7 @@ export class SessionService {
     console.log('setUserCredentials',data)
     _.mapValues(data, (value, key) => {  (key != 'company_details_id') ? this.setItem(key,value) :'';  }) // set user details
     _.mapValues(data.company_details_id, (value, key) => { (key == '_id') ? this.setItem('company_id',value) : this.setItem(key,value);    }) // set company details
+    _.mapValues(data.company_details_id.product_payment_details_id, (value, key) => { (key == '_id') ? this.setItem('product_payment_details_id',value) : this.setItem(key,value);    }) // set payment details
   }
 
 }

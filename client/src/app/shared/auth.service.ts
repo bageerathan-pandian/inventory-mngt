@@ -121,12 +121,18 @@ export class AuthService {
     return this.httpClient.post(environment.api_url + '/api/auth/register-payment',body,{headers:headerOption})
   }
 
+  onUpdatePayment(data) {
+    var body = JSON.stringify(data);
+    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
+    return this.httpClient.put(environment.api_url + '/api/auth/update-payment/'+data._id,body,{headers:headerOption})
+  }
+
   onCheckEmailExist(data) {
     return this.httpClient.get(environment.api_url + '/api/auth/check-email-exist/'+data)
   }
 
   getPaymentDetails() {
-    return this.httpClient.get(environment.api_url + '/api/auth/get-payment-details/'+this.sessionService.getItem('company_id'))
+    return this.httpClient.get(environment.api_url + '/api/auth/get-payment-details/'+this.sessionService.getItem('product_payment_details_id'))
   }
 
   getCompanyCount(){

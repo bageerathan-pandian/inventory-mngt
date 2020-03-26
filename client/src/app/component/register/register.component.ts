@@ -56,8 +56,11 @@ export class RegisterComponent implements OnInit {
         company_name: ['',Validators.required],
         owner_name: ['',Validators.required],
         company_address: ['',Validators.required],
+        country_code: ['in',Validators.required],
+        country_dialCode: [91,Validators.required],
         phone: ['',Validators.required],
         gstin: [''],
+        product_payment_details_id: [''],
         status: [1]
       })
 
@@ -193,30 +196,14 @@ export class RegisterComponent implements OnInit {
 
   }
 
- 
-
   onRegisterCompany(){
     this.messageService.clear();
   this.auth.onRegisterCompany(this.companyForm.value)
   .subscribe((data:any)=>{  
     console.log('data',data); 
-    this.userForm.controls['company_details_id'].setValue(data._id); 
+    this.userForm.controls['company_details_id'].setValue(data._id);   
+    this.onRegisterUser() 
     
-    if (this.planForm.value.plan_type == 1) {
-      this.onBuyProduct(data);
-      return false;
-    }else{
-      let payData:ProductPayment = {
-        plan_type : 0,
-        payment_amount : 15000,
-        currency: 'INR',
-        company_details_id: data,
-        payment_details: '',
-        expiry_date: this.futureMonthEnd,
-        status: 0
-    }
-    this.onRegisterPayment(payData)
-    }
   },
   error =>{   
     console.log('er',error);
@@ -253,13 +240,32 @@ export class RegisterComponent implements OnInit {
   })
 }
 
+onCheckPaymentType(){
+  if (this.planForm.value.plan_type == 1) {
+    this.onBuyProduct();
+    return false;
+  }else{
+    let payData:ProductPayment = {
+      plan_type : 0,
+      payment_amount : 15000,
+      currency: 'INR',
+      // company_details_id: data,
+      payment_details: '',
+      expiry_date: this.futureMonthEnd,
+      status: 0
+  }
+  this.onRegisterPayment(payData)
+  }
+}
 
  onRegisterPayment(cdata){
   this.messageService.clear();
   this.auth.onRegisterPayment(cdata)
   .subscribe((data:any)=>{  
-    console.log('data',data);    
-    this.onRegisterUser();
+    console.log('onRegisterPayment data',data);       
+    this.companyForm.controls['product_payment_details_id'].setValue(data._id);  
+    // this.onRegisterUser();
+    this.onRegisterCompany()
   },
   error =>{   
     console.log('er',error);
@@ -289,7 +295,7 @@ export class RegisterComponent implements OnInit {
       return false;
     }
 
-    this.onRegisterCompany();
+    this.onCheckPaymentType()
     
   }
 
@@ -383,7 +389,7 @@ export class RegisterComponent implements OnInit {
     });
 }
 
-public onBuyProduct(cdata) {
+public onBuyProduct() {
   this.stripeCheckoutHandler.open({
     amount: 1500000,
     currency: 'INR',
@@ -394,7 +400,7 @@ public onBuyProduct(cdata) {
         plan_type : 1,
         payment_amount : 15000,
         currency: 'INR',
-        company_details_id: cdata,
+        // company_details_id: cdata,
         payment_details: token,
         expiry_date: '',
         status: 1
@@ -491,6 +497,14 @@ getNumber(evnt){
   changePhoneVerify(e,p){
     this.emailVerify = (e == 1) ? true : false;
     this.phoneVerify = (p == 1) ? true : false;
+  }
+
+  onCountryChange(event) {
+    console.log(event);  
+    this.companyForm.get('country_code').setValue(event.iso2)
+    this.companyForm.get('country_dialCode').setValue(event.dialCode)
+    // console.log(obj.s.dialCode);
+    // obj.setCountry('in');
   }
  
 

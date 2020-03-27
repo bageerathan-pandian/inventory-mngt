@@ -4,7 +4,7 @@
             <a class="icon" (click)="toggleMenu()"><i class="fa fa-bars"></i></a>
         </div>
         <div class="logo right">
-            <a  routerLink="/inventory-mngt/dashboard">
+            <a>
             <img  *ngIf="sessionService.getItem('company_image')" src="{{auth.apiURL()}}{{sessionService.getItem('company_image')}}" class="logo-large" >
             <img *ngIf="!sessionService.getItem('company_image')" src="./assets/img/logo.png" class="logo-large">                
         </a>
@@ -40,10 +40,20 @@
 <p-overlayPanel #userdetails>
     <div class="drp-menu">
     <div class="head-drpmenu">
-        <button routerLink="/inventory-mngt/profile"  (click)="userdetails.hide($event)"><i class="fa fa-user-circle-o" aria-hidden="true" style="color:#7e57c2;margin-right:7px;outline: none;"></i>Profile</button>
-       <button routerLink="/inventory-mngt/change-password" (click)="userdetails.hide($event)"><i class="fa fa-cog" aria-hidden="true" style="color:#ff9800;margin-right:7px;outline: none;"></i>Change Password</button>        
-       <button *ngIf="sessionService.getItem('role') != 3" routerLink="/inventory-mngt/company-info" (click)="userdetails.hide($event)" ><i class="fa fa-users" aria-hidden="true" style="color:#009688;margin-right:7px;outline: none;"></i>Company Info.</button>
-       <button *ngIf="sessionService.getItem('role') == 1" routerLink="/inventory-mngt/product-buy" (click)="userdetails.hide($event)"><i class="fa fa-toggle-on" aria-hidden="true" style="color:#29b6f6;margin-right:7px;outline: none;"></i>Account Type</button>
+        <button *ngIf="sessionService.getItem('status') == 1" routerLink="/inventory-mngt/profile"  (click)="userdetails.hide($event)"><i class="fa fa-user-circle-o" aria-hidden="true" style="color:#7e57c2;margin-right:7px;outline: none;"></i>Profile</button>
+       <button *ngIf="sessionService.getItem('status') == 1" routerLink="/inventory-mngt/change-password" (click)="userdetails.hide($event)"><i class="fa fa-cog" aria-hidden="true" style="color:#ff9800;margin-right:7px;outline: none;"></i>Change Password</button>        
+       <button *ngIf="sessionService.getItem('status') == 1 && sessionService.getItem('role') != 3" routerLink="/inventory-mngt/company-info" (click)="userdetails.hide($event)" ><i class="fa fa-users" aria-hidden="true" style="color:#009688;margin-right:7px;outline: none;"></i>Company Info.</button>
+       <button *ngIf="sessionService.getItem('status') == 1 && sessionService.getItem('role') == 1" routerLink="/inventory-mngt/product-buy" (click)="userdetails.hide($event)"><i class="fa fa-toggle-on" aria-hidden="true" style="color:#29b6f6;margin-right:7px;outline: none;"></i>
+        Account Type
+        <ng-container *ngIf="sessionService.getItem('plan_type') == 1; then thenTemplateAc; else elseTemplateAc"></ng-container>
+        <ng-template #thenTemplateAc>
+            <span class="label label-success"  >Paid </span>            
+        </ng-template>
+        <ng-template #elseTemplateAc>
+            <span class="label label-warning"  >Free</span>            
+        </ng-template>
+        
+    </button>
         <button style="outline: none;"><a class="user-thumb" style="background: transparent;width: auto;cursor:pointer;color:#333"
             (click)="confirmLogout()"><i class="fa fa-sign-out" style="color:#e91e63;margin-right:3px;"></i>&nbsp;<span>Log Out</span></a></button>
         </div>

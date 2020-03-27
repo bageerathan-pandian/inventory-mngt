@@ -8,7 +8,6 @@ import { User } from 'src/app/model/user.model';
 import { MenuDataService } from '../../menu-data.service';
 import { AuthService } from '../../auth.service';
 import { ConfirmationService } from 'primeng/api';
-import { dateToLocalArray } from '@fullcalendar/core/datelib/marker';
 
 @Component({
   selector: 'app-header',

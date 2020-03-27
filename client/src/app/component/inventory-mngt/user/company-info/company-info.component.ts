@@ -179,5 +179,8 @@ loadImageFailed() {
 }
 
 
+onCountryChange(event) {
+  console.log(event);  
+ }
 
 }

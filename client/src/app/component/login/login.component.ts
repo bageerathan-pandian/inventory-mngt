@@ -74,12 +74,12 @@ export class LoginComponent implements OnInit {
         // this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account is deactivated by Company admin!'});
         return false;
       }
-      if(data.user.status == 2){
-        this.display = true
-        this.errorMsg = 'Your account has been expired. Contact Ownwaysoft.com';
+      // if(data.user.status == 2){
+        // this.display = true
+        // this.errorMsg = 'Your account has been expired. Contact Ownwaysoft.com';
         // this.messageService.add({severity:'error', summary:'Opps!', detail:'Your account has been expired. Contact Ownwaysoft.com!'});
-        return false;
-      }
+      //   return false;
+      // }
       if(data.token){
         // setTimeout(() => {
         this.display = false
@@ -95,7 +95,12 @@ export class LoginComponent implements OnInit {
           }else{
             localStorage.clear()
           }
-          this.router.navigate(["/inventory-mngt/dashboard"]);
+          
+      if(data.user.status == 2){
+        this.router.navigate(["/inventory-mngt/product-buy"]);
+      }else{        
+        this.router.navigate(["/inventory-mngt/dashboard"]);
+      }
           this.messageService.add({severity:'success', summary:'Success!', detail:'Login success!'});
         //  }, 1000);
         

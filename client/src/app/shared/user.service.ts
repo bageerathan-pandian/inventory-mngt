@@ -42,6 +42,13 @@ export class UserService {
     return this.httpClient.put(environment.api_url + '/api/users/'+ data._id ,body,{headers:headerOption});
   }
 
+  updateAllUsers(data){
+    var body = JSON.stringify(data);
+    console.log('body',body);
+    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
+    return this.httpClient.put(environment.api_url + '/api/users/update-all-users/'+ data.company_details_id ,body,{headers:headerOption});
+  }
+
   deleteUser(id){
     return this.httpClient.delete(environment.api_url + '/api/users/'+ id);
   }

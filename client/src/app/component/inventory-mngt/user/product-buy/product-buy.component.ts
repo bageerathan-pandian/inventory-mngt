@@ -6,6 +6,9 @@ import { StripeCheckoutLoader, StripeCheckoutHandler } from 'ng-stripe-checkout'
 import * as moment from 'moment';
 import { AuthService } from 'src/app/shared/auth.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { CompanyService } from 'src/app/shared/company.service';
+import { UserService } from 'src/app/shared/user.service';
+import { MenuDataService } from 'src/app/shared/menu-data.service';
 declare var paypal:any;
 
 @Component({
@@ -42,24 +45,13 @@ export class ProductBuyComponent implements OnInit {
     }
   }
   constructor(private messageService: MessageService,private stripeCheckoutLoader: StripeCheckoutLoader, private auth: AuthService,
-    public sessionService: SessionService
+    public sessionService: SessionService, private companyService: CompanyService, private userService: UserService, private menuDataService: MenuDataService
     ) { }
 
   ngOnInit() {
-    this.getPaymentDetails()
   }
 
-  getPaymentDetails(){
-    this.auth.getPaymentDetails()
-    .subscribe((data:any)=>{  
-      console.log('data',data);  
-      this.paymentDetails = data[0]
-    },
-    error =>{   
-      console.log('er',error);
-      this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
-    })
-  }
+
 
   ngAfterViewChecked(): void {
     //Called after every check of the component's view. Applies to components only.
@@ -104,6 +96,7 @@ public onBuyProduct() {
     // Do something with the token...
     console.log('Payment successful!', token);
     let payData:ProductPayment = {
+        _id: this.sessionService.getItem('product_payment_details_id'),
         plan_type : 1,
         payment_amount : 15000,
         currency: 'INR',
@@ -112,7 +105,7 @@ public onBuyProduct() {
         expiry_date: '',
         status: 1
     }
-    this.onRegisterPayment(payData)
+    this.onUpdatePayment(payData)
   }).catch((err) => {
     // Payment failed or was canceled by user...
     if (err !== 'stripe_closed') {
@@ -133,16 +126,65 @@ public onBuyProduct() {
 }
 
 
-onRegisterPayment(cdata){
+
+ onUpdatePayment(pdata){
   this.messageService.clear();
-  this.auth.onRegisterPayment(cdata)
+  this.auth.onUpdatePayment(pdata)
   .subscribe((data:any)=>{  
-    console.log('data',data);  
+    console.log('data',data); 
+    this.sessionService.setItem('plan_type',1);
+    this.sessionService.setItem('expiry_date','');
+    this.sessionService.setItem('payment_details',pdata.payment_details);
+  let updateCompany = {
+    _id: this.sessionService.getItem('company_id'),
+    status: 1
+  }
+    this.onRowUpdateCompany(updateCompany)
   },
   error =>{   
     console.log('er',error);
     this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
   })
  }
+
+ 
+ onRowUpdateCompany(company) {
+  console.log(company);
+  this.companyService.updateCompany(company)
+  .subscribe((data:any)=>{
+    console.log('update',data);    
+    this.sessionService.setItem('status',1);
+    this.messageService.add({severity:'success', summary:'Company Updated Successfully', detail:'Company Updated Successfully'});
+    let updateUser = {
+      _id: this.sessionService.getItem('_id'),
+      status: 1
+    }
+    this.menuDataService.companyStatusSource.next(1)
+    this.onRowUpdateUser(updateUser);
+  },
+  error =>{
+    console.log(error);
+    this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+
+  })
+
+}
+
+onRowUpdateUser(user) {
+  console.log(user);
+  this.userService.updateUser(user)
+  .subscribe((data:any)=>{
+    console.log('update',data);    
+    console.log('data',data);
+    this.messageService.add({severity:'success', summary:'User Updated Successfully', detail:'User Updated Successfully'});
+
+  },
+  error =>{
+    console.log(error);
+    this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+
+  })
+
+}
 
 }

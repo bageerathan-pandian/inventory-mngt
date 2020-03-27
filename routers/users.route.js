@@ -26,6 +26,13 @@ router.post('/', userController.addUser);
  */
 router.put('/:id', userController.updateUser);
 
+
+/**
+ * update alluser by company id
+ */
+router.put('/update-all-users/:id', userController.updateAllUser);
+
+
 /**
  * delete user by id
  */

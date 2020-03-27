@@ -354,6 +354,10 @@ export class UserMasterComponent implements OnInit {
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
     })
    }
+
+   onCountryChange(event) {
+    console.log(event);  
+   }
   
 
 

@@ -154,4 +154,8 @@ loadImageFailed() {
     // show message
 }
 
+onCountryChange(event) {
+  console.log(event);  
+ }
+
 }

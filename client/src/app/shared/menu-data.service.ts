@@ -7,15 +7,17 @@ import { SessionService } from './session.service';
 })
 export class MenuDataService {
 
-
   public toggleMenuBar: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  constructor(private sessionService : SessionService){}
+  public companyStatusSource: BehaviorSubject<any> = new BehaviorSubject<any>(this.sessionService.getItem('status'));
+  constructor(private sessionService : SessionService){
+  }
 
   
   
   getMenuList() {
-    if(this.sessionService.getItem('role') == 0){
+    // console.log('companyStatusSource',this.companyStatusSource)
+    if(this.sessionService.getItem('status') == 1){    
+      if(this.sessionService.getItem('role') == 0){
       return [
         {
             Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/inventory-mngt/dashboard', Childs: null, IsChildVisible: false
@@ -81,7 +83,7 @@ export class MenuDataService {
         //     ], IsChildVisible: false
         // }
     ];
-    }else if(this.sessionService.getItem('role') == 1 || this.sessionService.getItem('role') == 2){
+      }else if(this.sessionService.getItem('role') == 1 || this.sessionService.getItem('role') == 2){
       return [
         {
             Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/inventory-mngt/dashboard', Childs: null, IsChildVisible: false
@@ -143,7 +145,7 @@ export class MenuDataService {
         //     ], IsChildVisible: false
         // }
     ];
-  }else{
+      }else{
     return [
       {
           Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/inventory-mngt/dashboard', Childs: null, IsChildVisible: false
@@ -169,7 +171,11 @@ export class MenuDataService {
       //     ], IsChildVisible: false
       // }
   ];
-  }
+      }
+    }else{
+      return [];
+    }  
     
   }
+
 }

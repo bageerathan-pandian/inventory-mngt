@@ -3,8 +3,13 @@
 <!-- Product Price:Rs 4500.00 -->
 <!-- <div id="paypal-checkout-btn"></div> -->
 <!-- <pre>{{ paymentDetails | json }}</pre>  -->
+
+<div class="alert alert-warning" *ngIf="sessionService.getItem('status') != 1">
+    Your account has been expired. Please buy to activate.
+ </div> 
+
 <div class="ui-g ui-fluid" >
-<div  *ngIf="paymentDetails.plan_type == '0'">
+<div  *ngIf="sessionService.getItem('plan_type') == '0'">
       <div class="ui-g-12">
         <div class="ui-g-4">
             <label for="vin">Plan Type</label>
@@ -18,7 +23,7 @@
                 <label for="vin">Payment Amount</label>
             </div>
             <div class="ui-g-8">
-                    {{paymentDetails.payment_amount | currency : 'INR':true}}
+                    {{sessionService.getItem('payment_amount') | currency : 'INR':true}}
             </div>
         </div>
         <div class="ui-g-12">
@@ -26,7 +31,7 @@
                     <label for="vin">Currency</label>
                 </div>
                 <div class="ui-g-8">
-                        {{paymentDetails.currency}}
+                        {{sessionService.getItem('currency')}}
                 </div>
             </div>
             <div class="ui-g-12">
@@ -34,12 +39,12 @@
                         <label for="vin">Expiry Date</label>
                     </div>
                     <div class="ui-g-8">
-                            {{paymentDetails.expiry_date | date:'medium'}}
+                            {{sessionService.getItem('expiry_date') | date:'medium'}}
                     </div>
                 </div>
 </div>
 
-<div  *ngIf="paymentDetails.plan_type == '1'">
+<div  *ngIf="sessionService.getItem('plan_type') == '1'">
         <div class="ui-g-12">
           <div class="ui-g-4">
               <label for="vin">Plan Type</label>
@@ -54,7 +59,7 @@
                   <label for="vin">Payment Amount</label>
               </div>
               <div class="ui-g-8">
-                      {{paymentDetails.payment_amount | currency : 'INR':true}}
+                      {{sessionService.getItem('payment_amount') | currency : 'INR':true}}
               </div>
           </div>
           <div class="ui-g-12">
@@ -62,7 +67,7 @@
                       <label for="vin">Currency</label>
                   </div>
                   <div class="ui-g-8">
-                          {{paymentDetails.currency}}
+                          {{sessionService.getItem('currency')}}
                   </div>
               </div>
               <div class="ui-g-12">
@@ -70,7 +75,7 @@
                         <label for="vin">Email</label>
                     </div>
                     <div class="ui-g-8">
-                            {{paymentDetails.payment_details.email}}
+                            {{sessionService.getItem('payment_details').email}}
                     </div>
                 </div>
                 <div class="ui-g-12">
@@ -78,7 +83,7 @@
                             <label for="vin">Type</label>
                         </div>
                         <div class="ui-g-8">
-                                {{paymentDetails.payment_details.type}}
+                                {{sessionService.getItem('payment_details').type}}
                         </div>
                     </div>
               <div class="ui-g-12">
@@ -86,11 +91,13 @@
                           <label for="vin">Paid date</label>
                       </div>
                       <div class="ui-g-8">
-                            {{paymentDetails.updatedAt | date:'medium'}}
+                            {{sessionService.getItem('updatedAt') | date:'medium'}}
                       </div>
                   </div>
   </div>
 </div>
-<p-button label="Buy" (onClick)="onBuyProduct()" *ngIf="paymentDetails.plan_type == '0'"></p-button>
+<p-button label="Buy" (onClick)="onBuyProduct()" *ngIf="sessionService.getItem('plan_type') == '0'"></p-button>
 </p-card>
 </div>
+
+

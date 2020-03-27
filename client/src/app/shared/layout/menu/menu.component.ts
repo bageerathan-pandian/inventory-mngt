@@ -25,6 +25,13 @@ export class MenuComponent implements OnInit {
     ngOnInit() {
         this.items = this.menuDataService.getMenuList();
 
+        this.menuDataService.companyStatusSource.subscribe((data: any)=> {
+            if (data && data != null) {
+                console.log('list menu called')
+                this.items = this.menuDataService.getMenuList();
+            }
+        });
+
         var that = this;
         this.menuDataService.toggleMenuBar.subscribe(function (data: any) {
             if (data && data != null) {

@@ -380,6 +380,11 @@ getCompanyAdminUsers(){
     this.companyService.updateCompany(company)
     .subscribe((data:any)=>{
       console.log('update',data);
+      let updateData = {
+        company_details_id:data._id,
+        status: data.status
+      }
+      this.updateAllUserStatus(updateData)
       this.messageService.add({severity:'success', summary:'Company Updated Successfully', detail:'Company Updated Successfully'});
       if(this.profileImageChangedEvent){
         this.profileImageUpload(data);   
@@ -405,6 +410,21 @@ getCompanyAdminUsers(){
       
       this.getCompanyAdminUsers()
       this.messageService.add({severity:'success', summary:'User Updated Successfully', detail:'User Updated Successfully'});
+  
+    },
+    error =>{
+      console.log(error);
+      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+
+    })
+
+  }
+
+  updateAllUserStatus(data){
+    this.userService.updateAllUsers(data)
+    .subscribe(data=>{
+      console.log('updateAllUserStatus',data)
+      this.messageService.add({severity:'success', summary:'All User Updated Successfully', detail:'User Updated Successfully'});
   
     },
     error =>{

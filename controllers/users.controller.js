@@ -70,6 +70,26 @@ exports.updateUser =  (req, res)=> {
       });
 }
 
+
+exports.updateAllUser =  (req, res, next)=> {
+  console.log(req.body,req.params.id)
+  UserModel.find({company_details_id:req.params.id},(e,result)=>{
+    if (e) return next(e);
+    console.log(result) 
+    console.log(result.length) 
+      for(let reslt of result){         
+        let updata = {status: req.body.status}
+        console.log('updata',updata) 
+        UserModel.update({_id:reslt._id}, updata,{new: true}, (err,result1) => {
+          if (err) return next(err);
+              // res.json(result1);
+          });
+      }
+    
+  })
+ 
+}
+
 exports.deleteUser =  (req, res)=> {
     UserModel.findByIdAndRemove(req.params.id, req.body, (e,result) => {
       if(e) {        

@@ -84,20 +84,25 @@
                        </p-dropdown> 
                        
                </td>
-               <td style="width: 20%;">
+               <td class="hidden-spinner" style="width: 20%;">
                        <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
-                     
-                       <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ invoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span>
+                       <p-spinner size="30"  formControlName="price"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+                       <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ invoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span> -->
                       
                </td>
                <td>
-                       <!-- <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1"  [max]="2"  (keypress)="onChangeQty(i)"  ></p-spinner> -->
-                       <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required>
-               </td>
-               <td style="width: 20%;">
+                       <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1"  (onChange)="onChangeQty(i)" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
+                       <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
+                       <p class="error-msg" style="position: absolute;">
+                        <em *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">*Ther are {{invoiceForm.value.invoiceList[i].total_qty}} only available</em>
+                        </p>
+                </td>
+               <td class="hidden-spinner" style="width: 20%;">
                        <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
-                       
-                       <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;"> {{ invoiceForm.value.invoiceList[i].total  | currency :'INR':true}}</span>
+                       <p-spinner styleClasssize="30"  formControlName="total"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+                       <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;"> {{ invoiceForm.value.invoiceList[i].total  | currency :'INR':true}}</span> -->
                       
                </td>
                <td >

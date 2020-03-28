@@ -4,7 +4,7 @@
                 <div class="alert alert-warning" *ngIf="!sessionService.getItem('isEmailVerified')">
                     <div *ngIf="sendingVerificationMailStatus != 1">
                         Your email
-                        <form [formGroup]="resendVerifyForm" > 
+                        <form [formGroup]="resendVerifyForm" style="display: inline-block;" > 
                         <p-inplace closable="closable">
                                 <span pInplaceDisplay>
                                         <strong>{{sessionService.getItem('user_email')}} </strong><i class="pi pi-pencil" ></i>

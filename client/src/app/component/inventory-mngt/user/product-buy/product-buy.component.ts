@@ -90,7 +90,7 @@ export class ProductBuyComponent implements OnInit {
   
 public onBuyProduct() {
   this.stripeCheckoutHandler.open({
-    amount: 1500000,
+    amount: 1499900,
     currency: 'INR',
   }).then((token) => {
     // Do something with the token...
@@ -98,7 +98,7 @@ public onBuyProduct() {
     let payData:ProductPayment = {
         _id: this.sessionService.getItem('product_payment_details_id'),
         plan_type : 1,
-        payment_amount : 15000,
+        payment_amount : 14999,
         currency: 'INR',
         // company_details_id: this.sessionService.getItem('company_id'),
         payment_details: token,
@@ -114,7 +114,7 @@ public onBuyProduct() {
     
   //   let payData:ProductPayment = {
   //     plan_type : 1,
-  //     payment_amount : 15000,
+  //     payment_amount : 14999,
   //     currency: 'INR',
   //     company_details_id: this.auth.getUserData().company_details_id,
   //     payment_details: err,

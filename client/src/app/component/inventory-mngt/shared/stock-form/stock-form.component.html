@@ -35,23 +35,29 @@
                     <label for="year">Qty</label>
                 </div>
                 <div class="ui-g-8">
-                    <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" />
+                    <!-- <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" /> -->
+                    <p-spinner size="30"  formControlName="stock_qty" [min]="1" [formatInput]="true" ></p-spinner>
+
                 </div>
             </div>
             <div class="ui-g-12">
                 <div class="ui-g-4">
                     <label for="year">Buying Price</label>
                 </div>
-                <div class="ui-g-8">
-                    <input type="text" pKeyFilter="int" pInputText formControlName="buying_price" />
+                <div class="ui-g-8 hidden-spinner">
+                    <!-- <input type="text" pKeyFilter="int" pInputText formControlName="buying_price" /> -->
+                    <p-spinner size="30"  formControlName="buying_price" [min]="1" [formatInput]="true" ></p-spinner>
+
                 </div>
             </div>
             <div class="ui-g-12">
                 <div class="ui-g-4">
                     <label for="year">Selling Price</label>
                 </div>
-                <div class="ui-g-8">
-                    <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" />
+                <div class="ui-g-8 hidden-spinner">
+                    <!-- <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" /> -->
+                    <p-spinner  formControlName="selling_price" [min]="1" [formatInput]="true" ></p-spinner>
+
                 </div>
             </div>
             <div class="ui-g-12">

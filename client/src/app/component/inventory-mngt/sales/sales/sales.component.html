@@ -92,7 +92,7 @@
                       
                </td>
                <td>
-                       <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1"  (onChange)="onChangeQty(i)" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
+                       <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
                        <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
                        <p class="error-msg" style="position: absolute;">
                         <em *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">*Ther are {{invoiceForm.value.invoiceList[i].total_qty}} only available</em>

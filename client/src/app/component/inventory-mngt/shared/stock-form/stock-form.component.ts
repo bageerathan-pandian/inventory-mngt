@@ -61,7 +61,7 @@ export class StockFormComponent implements OnInit {
       stock_qty: ['',Validators.required],
       buying_price: ['',Validators.required],
       selling_price: ['',Validators.required],
-      product_details: ['',Validators.required],
+      product_details: [''],
       unit_details_id: [''],
       status: [1,Validators.required]
     })

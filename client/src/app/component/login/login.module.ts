@@ -11,7 +11,6 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {CheckboxModule} from 'primeng/checkbox';
-import { NgxSpinnerModule } from "ngx-spinner";
 import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
 import {DialogModule} from 'primeng/dialog';
@@ -30,7 +29,6 @@ import {DialogModule} from 'primeng/dialog';
     MessageModule,
     ToastModule,
     CheckboxModule,
-    NgxSpinnerModule,
     HeaderModule,
     FooterModule,
     DialogModule

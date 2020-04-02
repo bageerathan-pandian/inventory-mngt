@@ -247,7 +247,7 @@ onCheckPaymentType(){
   }else{
     let payData:ProductPayment = {
       plan_type : 0,
-      payment_amount : 15000,
+      payment_amount : 14999,
       currency: 'INR',
       // company_details_id: data,
       payment_details: '',
@@ -391,14 +391,14 @@ onCheckPaymentType(){
 
 public onBuyProduct() {
   this.stripeCheckoutHandler.open({
-    amount: 1500000,
+    amount: 1499900,
     currency: 'INR',
   }).then((token) => {
     // Do something with the token...
     console.log('Payment successful!', token);
     let payData:ProductPayment = {
         plan_type : 1,
-        payment_amount : 15000,
+        payment_amount : 14999,
         currency: 'INR',
         // company_details_id: cdata,
         payment_details: token,
@@ -414,7 +414,7 @@ public onBuyProduct() {
     
   //   let payData:ProductPayment = {
   //     plan_type : 1,
-  //     payment_amount : 15000,
+  //     payment_amount : 14999,
   //     currency: 'INR',
   //     company_details_id: cdata,
   //     payment_details: err,

@@ -56,7 +56,7 @@ exports.addUser =  (req, res)=> {
    }
    let invoiceData = {
     company_details_id:req.body.company_details_id,
-    customer_details_id:req.body.customer_details_id,
+    customer_details_id:req.body.customer_details_id ? req.body.customer_details_id : null,
     invoice_code:req.body.invoice_code,
     invoice_date:req.body.invoice_date,
     sub_total:req.body.sub_total,
@@ -67,13 +67,14 @@ exports.addUser =  (req, res)=> {
     balance_amount:req.body.balance_amount,
     payment_status:req.body.payment_status
    }
+   console.log('invoiceData',invoiceData)
    InvoiceModel.create(invoiceData, (err, result) => {
     if (err)  return res.status(500).json(err);
     console.log('invoice result',result)
     for(let invoiceArry of req.body.invoiceList){
       let salesData = {
         company_details_id:req.body.company_details_id,
-        customer_details_id:req.body.customer_details_id,
+        customer_details_id:req.body.customer_details_id ? req.body.customer_details_id : null,
         stock_details_id:invoiceArry.stock_details_id,
         invoice_details_id: result._id,
         stock_price:invoiceArry.price,

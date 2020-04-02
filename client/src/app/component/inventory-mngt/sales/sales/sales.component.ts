@@ -87,7 +87,7 @@ export class SalesComponent implements OnInit {
       company_details_id: [this.sessionService.getItem('company_id'),Validators.required],
       invoice_code:['',Validators.required],
       invoice_date:[new Date(),Validators.required],
-      customer_details_id:['',Validators.required],
+      customer_details_id:[''],
       invoiceList: this._fb.array([
         this.initRowFirst()
       ]),

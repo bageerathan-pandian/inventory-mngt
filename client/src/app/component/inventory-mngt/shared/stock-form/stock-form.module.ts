@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
+import { SpinnerModule } from 'primeng/spinner';
 
 
 
@@ -22,6 +23,7 @@ import { InputMaskModule } from 'primeng/inputmask';
     InputTextareaModule,
     DialogModule,
     InputMaskModule,
+    SpinnerModule
     // GooglePlaceModule
   ],
   exports:[StockFormComponent]

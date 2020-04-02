@@ -76,7 +76,7 @@ export class CompanyMasterComponent implements OnInit {
     this.productPaymentForm = this._fb.group({
       _id: [''],
       plan_type: ['0',Validators.required],
-      payment_amount: [15000,Validators.required],
+      payment_amount: [14999,Validators.required],
       currency: ['INR',Validators.required],
       payment_details: ['',Validators.required],
       expiry_date: [null,Validators.required],

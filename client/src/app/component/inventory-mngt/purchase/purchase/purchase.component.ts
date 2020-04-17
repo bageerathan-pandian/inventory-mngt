@@ -247,7 +247,7 @@ initRowFirst() {
   getStockByCompany(){
     this.stocks = [];  
     this.stocksList = [];
-    this.stockService.getStockByCompanyActive()
+    this.stockService.getStockByCompany()
     .subscribe((data:any)=>{
       console.log('stocksList',data);
       this.stocks = data;      
@@ -343,12 +343,12 @@ onClear() {
 }
 
 onSelectProduct(event,i){
-  console.log(event.value); 
+  console.log(event.value,i); 
   if(event.value == 0){
+    // this.showDialogToAddStock()
     this.displayDialog = true;
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].reset() 
-    return false
-  }
+    return false}
   console.log(this.purchaseInvoiceForm.value.invoiceList);  
   if(this.purchaseInvoiceForm.value.invoiceList.length > 1){
     let stockAddedData = _.find(this.purchaseInvoiceForm.value.invoiceList, { 'stock_details_id': event.value })
@@ -369,8 +369,8 @@ onSelectProduct(event,i){
   // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[sliceIndex].stock_qty) 
   this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
   this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty) 
-  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].buying_price) 
-  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].buying_price) 
+  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price) 
+  this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].selling_price) 
   this.calculateTotal()
   }
 }
@@ -380,7 +380,7 @@ onChangeQty(i){
      return
   }
   if(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty == 0 || this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty == '0'){
-    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Quantity atleast 1'});
+    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Quantity atleast 1'});    
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
     return
   }
@@ -395,13 +395,13 @@ onChangeQty(i){
   console.log(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value);
   // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
   // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
-  // if(stockData.stock_qty >= this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty){
-    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty * this.stocks[i].selling_price) 
-  // }else{    
-    // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
-    // let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
-    // this.messageService.add({severity:'error', summary:'Oopss!', detail: qty_data});
-  // }
+  if(stockData.stock_qty >= this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty){
+    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty * this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.price) 
+  }else{    
+    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
+    let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
+    this.messageService.add({severity:'error', summary:'Oopss!', detail: qty_data});
+  }
   this.calculateTotal()
 
 }
@@ -430,8 +430,6 @@ calculateTotal(){
 onChangePaindAmount(){
   this.purchaseInvoiceForm.controls['balance_amount'].setValue(this.purchaseInvoiceForm.value.grand_total - this.purchaseInvoiceForm.value.paid_amount)
 }
-
-
 
 receiveSupplier(event){
   console.log(event)   

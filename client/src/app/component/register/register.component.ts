@@ -10,7 +10,6 @@ import { ProductPayment } from 'src/app/model/product_payment.model';
 import * as moment from 'moment';
 import { CommonService } from 'src/app/shared/common.service';
 import { environment } from 'src/environments/environment';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { SessionService } from 'src/app/shared/session.service';
 declare var io: any
 
@@ -23,6 +22,7 @@ export class RegisterComponent implements OnInit {
   private stripeCheckoutHandler: StripeCheckoutHandler;
   
   successRegister: boolean = false;
+  loaingSpinner: boolean
   emailVerify: boolean = true;
   phoneVerify: boolean = false;
   items:any  
@@ -41,7 +41,6 @@ export class RegisterComponent implements OnInit {
   
   constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthService, private router:Router,
     private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
-    private spinner: NgxSpinnerService,
     public sessionService: SessionService
     ) {
       this.socket = io(environment.api_url);
@@ -216,7 +215,8 @@ export class RegisterComponent implements OnInit {
   this.auth.onRegisterUser(this.userForm.value)
   .subscribe((data:any)=>{  
     console.log('onRegisterUser',data); 
-    this.spinner.hide() 
+    
+    this.loaingSpinner = false;
     if(data.status == 1){      
       this.successRegister = true;     
       this.sessionService.setItem('_id',data._id);
@@ -236,7 +236,8 @@ export class RegisterComponent implements OnInit {
     console.log('er',error);
     this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
     this.successRegister = false;
-    this.spinner.hide()
+    
+    this.loaingSpinner = false;
   })
 }
 
@@ -276,7 +277,8 @@ onCheckPaymentType(){
   onRegister(){
     console.log(this.companyForm);
     console.log(this.userForm);
-    this.spinner.show()
+    
+    this.loaingSpinner = true;
     this.userForm.controls['phone'].setValue(this.companyForm.value.phone); 
     this.messageService.clear();
     if (this.planForm.invalid) {
@@ -307,11 +309,11 @@ onCheckPaymentType(){
     if(this.resendVerifyForm.invalid){
       return;
     } 
-    this.spinner.show()
+    this.loaingSpinner = true
     this.auth.resendVerifyEmail(this.resendVerifyForm.value)
     .subscribe((data:any)=>{  
       console.log('data',data); 
-      this.spinner.hide()
+      this.loaingSpinner = false
       if(data == 1){
         this.sessionService.setItem('user_email',this.resendVerifyForm.value.user_email) // update localstoreage values
         this.messageService.add({severity:'success', summary:'Service Message', detail:'Send Successfully'});
@@ -325,7 +327,7 @@ onCheckPaymentType(){
     },
     error =>{   
       console.log('er',error);
-      this.spinner.hide()
+      this.loaingSpinner = false
       this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
     })
   }
@@ -341,7 +343,7 @@ onCheckPaymentType(){
       .subscribe((data:any)=>{
         console.log('data',data);
         this.messageService.clear();
-        this.spinner.hide();
+        this.loaingSpinner = false
         if(data.token){
           // setTimeout(() => {
             this.socket.emit('loginTodo', data.user);
@@ -370,7 +372,7 @@ onCheckPaymentType(){
       },
       error =>{
         console.log('er',error);
-        this.spinner.hide();
+        this.loaingSpinner = false
         this.messageService.add({severity:'error', summary:'Opps!', detail:'Sothing went wrong!'});
         // this.sessionService.setItem("inventryLogedIn", "1");
         // this.router.navigate(["/dashboard"]);

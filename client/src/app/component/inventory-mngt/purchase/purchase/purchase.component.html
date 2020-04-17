@@ -70,36 +70,46 @@
             </tr>
             </thead>
             <tbody>
-    <tr *ngFor="let itemrow of purchaseInvoiceForm.get('invoiceList')['controls']; let i=index"
-    [formGroupName]="i">
-        <td >
-          {{i + 1}}
-        </td>
+   
+   <tr *ngFor="let itemrow of purchaseInvoiceForm.get('invoiceList')['controls']; let i=index"
+   [formGroupName]="i">
        <td >
-                   <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select/Enter Product" editable="true"  filter="true">
-                    
-               </p-dropdown> 
-               
+         {{i + 1}}
        </td>
-       <td >
-               <input pInputText type="text" formControlName="price"   required readonly>
+      <td >
+                  <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"   filter="true">
+                   
+              </p-dropdown> 
               
+      </td>
+      <td class="hidden-spinner" style="width: 20%;">
+              <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
+              <p-spinner size="30"  formControlName="price"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+              <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ purchaseInvoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span> -->
+             
+      </td>
+      <td>
+              <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="purchaseInvoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
+              <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
+              <p class="error-msg" style="position: absolute;">
+               <em *ngIf="purchaseInvoiceForm.value.invoiceList[i].qty && (purchaseInvoiceForm.value.invoiceList[i].total_qty < purchaseInvoiceForm.value.invoiceList[i].qty)">*Ther are {{purchaseInvoiceForm.value.invoiceList[i].total_qty}} only available</em>
+               </p>
        </td>
-       <td>
-               <!-- <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1"  [max]="2"  (keypress)="onChangeQty(i)"  ></p-spinner> -->
-               <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  [max]="2"  (keyup)="onChangeQty(i)"  required>
-       </td>
-       <td >
-               <input pInputText type="text" formControlName="total"   required readonly>
-              
-       </td>
-       <td >
-        <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(purchaseInvoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
-        <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="purchaseInvoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
-        <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
-                    <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
-                   </td>
-   </tr>
+      <td class="hidden-spinner" style="width: 20%;">
+              <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
+              <p-spinner styleClasssize="30"  formControlName="total"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+              <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;"> {{ invoiceForm.value.invoiceList[i].total  | currency :'INR':true}}</span> -->
+             
+      </td>
+      <td >
+       <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(purchaseInvoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
+       <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="purchaseInvoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
+       <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
+                   <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
+                  </td>
+  </tr>
 </tbody>
 <!-- <tfoot>
    <tr >

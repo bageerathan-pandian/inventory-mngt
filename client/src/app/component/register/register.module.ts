@@ -15,7 +15,6 @@ import { PasswordModule } from 'primeng/password';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import {RadioButtonModule} from 'primeng/radiobutton';
-import { NgxSpinnerModule } from "ngx-spinner";
 import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
 import {InplaceModule} from 'primeng/inplace';
@@ -39,7 +38,6 @@ import {KeyFilterModule} from 'primeng/keyfilter';
     GooglePlaceModule,
     StripeCheckoutModule,
     RadioButtonModule,
-    NgxSpinnerModule,
     HeaderModule,
     FooterModule,
     InplaceModule,    

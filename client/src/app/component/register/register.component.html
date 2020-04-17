@@ -1,7 +1,4 @@
 <app-header></app-header>
-<ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
-        <p style="color: #000" > Sending verification email... </p>
-</ngx-spinner>
 
 <div  class="ui-g-12" style="padding: 5% 0;background: url(./assets/img/home-bg2.jpg) no-repeat center center;
 background-size: cover;">
@@ -258,7 +255,8 @@ background-size: cover;">
                 <p-footer>
                     <div class="ui-dialog-buttonpane ui-helper-clearfix">
                         <button type="button" pButton icon="pi pi-angle-left" (click)="back(2)" label="Back" style="float: left;"></button>
-                        <button type="button" pButton  icon="actionLoding ? 'pi pi-save' : 'pi pi-spin pi-spinner'" class="ui-button-success" (click)="onRegister()"  label="Register" style="float: right;"></button>
+                          <button type="button" pButton *ngIf="!loaingSpinner" icon="pi pi-save" class="ui-button-success" (click)="onRegister()"  label="Register" style="float: right;"></button>
+                          <button type="button" pButton *ngIf="loaingSpinner" disabled icon="pi pi-spin pi-spinner" class="ui-button-success"  label="Please wait..." style="float: right;"></button>
                     </div>
                 </p-footer>
               </div>

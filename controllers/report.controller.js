@@ -8,8 +8,8 @@ const moment = require('moment')
 exports.getAllSalesByCompany =  (req, res)=> {
     console.log(req.body);
   SalesModel.find({ createdAt: {
-    $gte: moment(req.body.from_date).format(),
-    $lt: moment(req.body.to_date).format()
+    $gte: moment(req.body.from_date).startOf('day').format(),
+    $lt: moment(req.body.to_date).endOf('day').format()
 },company_details_id : req.body.company_id},(e,result) => {
     if(e) {        
       console.log(e.message);

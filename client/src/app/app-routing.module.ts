@@ -40,8 +40,9 @@ const routes: Routes = [
       {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
   ]
   }, 
-  // {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: ':company-slug', loadChildren: () => import('./component/e-commerce/company/company.module').then(m => m.CompanyModule) },
+  { path: ':company-slug/products', loadChildren: () => import('./component/e-commerce/company/products/products.module').then(m => m.ProductsModule) },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({

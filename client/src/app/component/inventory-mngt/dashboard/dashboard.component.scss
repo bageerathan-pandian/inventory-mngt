@@ -77,3 +77,14 @@
         }
         
     }
+
+
+    @media only screen and (max-width: 767px) {
+        .adminClass{
+                width: 100%;
+        }
+        
+        .userClass{
+                width: 100%;
+        }
+    }

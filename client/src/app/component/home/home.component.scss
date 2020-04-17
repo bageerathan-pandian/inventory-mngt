@@ -18,9 +18,10 @@ body {
     margin-bottom: 30px;
   }  
   .carousel-inner img {
-    -webkit-filter: grayscale(90%);
-    filter: grayscale(90%); /* make all photos black and white */ 
+    // -webkit-filter: grayscale(90%);
+    // filter: grayscale(90%); /* make all photos black and white */ 
     width: 100%; /* Set width to 100% */
+    height: 600px;
     margin: auto;
   }
   .carousel-caption h3 {
@@ -176,6 +177,11 @@ body {
       -webkit-transform: translateY(0%);
     }
   }
+
+  .pricing-wrapper{
+    width: 20%;
+  }
+
   @media screen and (max-width: 768px) {
     .col-sm-4 {
       text-align: center;
@@ -184,6 +190,9 @@ body {
     .btn-lg {
       width: 100%;
       margin-bottom: 35px;
+    }
+    .pricing-wrapper{
+      width: 100%;
     }
   }
   @media screen and (max-width: 480px) {

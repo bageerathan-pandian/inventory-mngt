@@ -194,6 +194,17 @@ body {
     .pricing-wrapper{
       width: 100%;
     }
+    .carousel-indicators{
+      display: none !important;
+    }
+    .carousel-inner{
+      top: 80px !important;
+      .item{
+        img{
+          height: 240px !important;
+        }
+      }
+    }
   }
   @media screen and (max-width: 480px) {
     .logo {

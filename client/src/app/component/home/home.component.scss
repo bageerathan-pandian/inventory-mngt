@@ -194,11 +194,15 @@ body {
     .pricing-wrapper{
       width: 100%;
     }
+    .carousel-control.left, .carousel-control.right{
+      display: none !important;
+
+    }
     .carousel-indicators{
       display: none !important;
     }
     .carousel-inner{
-      top: 80px !important;
+      top: 30px !important;
       .item{
         img{
           height: 240px !important;

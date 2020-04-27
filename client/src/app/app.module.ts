@@ -1,4 +1,4 @@
-import { BrowserModule } from "@angular/platform-browser";
+import { BrowserModule, Title } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 
@@ -80,7 +80,7 @@ import { environment } from 'src/environments/environment';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: DISQUS_SHORTNAME, useValue: environment.disqus_shotname },
-    AuthService, MessageService,ChatService,PushService],
+    AuthService, MessageService,ChatService,PushService, Title],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

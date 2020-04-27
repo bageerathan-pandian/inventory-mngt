@@ -8,6 +8,7 @@ import { ThemeService } from './shared/theme.service';
 import { SessionService } from './shared/session.service';
 import { LoaderService } from './shared/loader.service';
 import { environment } from 'src/environments/environment';
+import { TitleService } from './shared/title.service';
 
 
 @Component({
@@ -27,10 +28,12 @@ export class AppComponent {
   showValue: boolean = true
   constructor(public auth:AuthService,
     private themeService: ThemeService,
+    public titleService: TitleService,
     private loaderService: LoaderService,
     public sessionService: SessionService,private messageService: MessageService,private router:Router,private confirmationService: ConfirmationService, public pushService: PushService,private connectionService: ConnectionService){
     this.sessionService.setItem("access_token","0061f705d47142c5ada1a37e9bcf05ef");
     this.sessionService.setItem("api_url",environment.api_url);
+    this.titleService.setDocTitle('Ownwaysoft - Home')
     console.log('isConnected','cl')
     var theme = this.sessionService.getItem("selected-theme");
     if (theme != null && theme.length > 0) {

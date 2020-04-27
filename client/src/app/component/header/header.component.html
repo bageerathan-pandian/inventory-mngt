@@ -16,8 +16,8 @@
               <div class="collapse navbar-collapse" id="myNavbar">
                   
                 <ul class="nav navbar-nav navbar-right">
-                  <li><a (click)="goTo('/register')" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                  <li><a (click)="goTo('/login')" routerLinkActive="active"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  <li><a (click)="goTo('/register');titleService.setDocTitle('Ownwaysoft - Register')" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                  <li><a (click)="goTo('/login');titleService.setDocTitle('Ownwaysoft - Login')" routerLinkActive="active"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -26,11 +26,11 @@
                         <li><a href="#portfolio">PORTFOLIO</a></li>
                         <li><a href="#pricing">PRICING</a></li>
                         <li><a href="#contact">CONTACT</a></li> -->
-                        <li><a (click)="goTo('/about-us')" routerLinkActive="active">ABOUT US</a></li>
-                        <li><a (click)="goTo('/services')" routerLinkActive="active">SERVICES</a></li>
+                        <li><a (click)="goTo('/about-us');titleService.setDocTitle('Ownwaysoft - About Us')" routerLinkActive="active">ABOUT US</a></li>
+                        <li><a (click)="goTo('/services');titleService.setDocTitle('Ownwaysoft - Services')" routerLinkActive="active">SERVICES</a></li>
                         <!-- <li><a (click)="goTo('/#portfolio')" routerLinkActive="active">PORTFOLIO</a></li> -->
-                        <li><a (click)="goTo('/pricing')" routerLinkActive="active">PRICING</a></li>
-                        <li><a (click)="goTo('/contact-us')" routerLinkActive="active">CONTACT US</a></li>
+                        <li><a (click)="goTo('/pricing');titleService.setDocTitle('Ownwaysoft - Pricing')" routerLinkActive="active">PRICING</a></li>
+                        <li><a (click)="goTo('/contact-us');titleService.setDocTitle('Ownwaysoft - Contact Us')" routerLinkActive="active">CONTACT US</a></li>
                 </ul>
                 
               </div>

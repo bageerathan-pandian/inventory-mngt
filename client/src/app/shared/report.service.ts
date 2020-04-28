@@ -22,4 +22,17 @@ export class ReportService {
     let httpHeaders = new HttpHeaders({'Content-Type':'application/json'})
     return this.httpClient.post(environment.api_url + '/api/report/get-sales-report',body,{headers:httpHeaders});
   }
+
+
+  getPurchaseReportByCompany(from_date, to_date){
+    let data = {
+      company_id: this.sessionService.getItem('company_id'),
+      from_date: from_date,
+      to_date:to_date
+    }
+    let body = JSON.stringify(data);
+    let httpHeaders = new HttpHeaders({'Content-Type':'application/json'})
+    return this.httpClient.post(environment.api_url + '/api/report/get-purchase-report',body,{headers:httpHeaders});
+  }
+
 }

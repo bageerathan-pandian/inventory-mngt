@@ -50,7 +50,7 @@ exports.getAllUsersByCompany =  (req, res)=> {
 }
 
 exports.addUser =  (req, res)=> {
-    console.log('add sales', req.body); 
+    console.log('add purchase', req.body); 
     if(req.body._id === null) {
      delete req.body._id;
    }

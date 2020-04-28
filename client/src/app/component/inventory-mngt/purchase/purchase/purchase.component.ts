@@ -68,6 +68,7 @@ export class PurchaseComponent implements OnInit {
   supplierData: any = [] // pass data to another component
   catData: any = [] // pass data to another component
   unitData: any = [] // pass data to another component
+  formType: string = 'purchase'
   
   invoiceArray:any = [];
   @ViewChild("form",{static:false}) form;
@@ -395,13 +396,13 @@ onChangeQty(i){
   console.log(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value);
   // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
   // this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
-  if(stockData.stock_qty >= this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty){
+  // if(stockData.stock_qty >= this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty){
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty * this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.price) 
-  }else{    
-    this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
-    let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
-    this.messageService.add({severity:'error', summary:'Oopss!', detail: qty_data});
-  }
+  // }else{    
+  //   this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
+  //   let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
+  //   this.messageService.add({severity:'error', summary:'Oopss!', detail: qty_data});
+  // }
   this.calculateTotal()
 
 }

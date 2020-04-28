@@ -82,7 +82,13 @@
         {{rowData.grand_total  | currency : 'INR':true}}
 </td>
 <td>
-  {{rowData.payment_type}}
+  <ng-container *ngIf="rowData.payment_type == 1; then thenPaymentTemplate; else elsePaymentTemplate"></ng-container>
+  <ng-template #thenPaymentTemplate>
+    Cash
+  </ng-template>
+  <ng-template #elsePaymentTemplate>
+    Card
+  </ng-template>
 
 </td>
 <td>
@@ -90,7 +96,14 @@
 </td>
     <td>
         <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
-        {{rowData.payment_status}}
+        <!-- {{rowData.payment_status}} -->
+        <ng-container *ngIf="rowData.payment_status == 1; then thenStatusTemplate; else elseStatusTemplate"></ng-container>
+        <ng-template #thenStatusTemplate>
+          Paid
+        </ng-template>
+        <ng-template #elseStatusTemplate>
+          Pending
+        </ng-template>
     </td>
 </tr>
 </ng-template>

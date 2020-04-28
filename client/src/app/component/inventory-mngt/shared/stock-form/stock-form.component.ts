@@ -19,6 +19,7 @@ export class StockFormComponent implements OnInit {
   @Input() stockData: any;
   @Input() catData: any;
   @Input() unitData: any;
+  @Input() formType : string
   @Input() displayDialog: boolean
 
   @Output() stockEvent = new EventEmitter();
@@ -110,6 +111,11 @@ export class StockFormComponent implements OnInit {
     this.stockForm.controls['stock_code'].setValue(this.commonService.incrCode('s',this.stocksList.length));
     this.stockForm.controls['status'].setValue(1);
     this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+    }
+
+    if(this.formType == 'purchase'){
+      this.stockForm.controls['stock_qty'].setValue(0);
+    }else{
     }
     
   }

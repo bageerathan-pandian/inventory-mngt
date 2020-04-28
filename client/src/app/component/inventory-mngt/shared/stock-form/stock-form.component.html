@@ -36,7 +36,7 @@
                 </div>
                 <div class="ui-g-8">
                     <!-- <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" /> -->
-                    <p-spinner size="30"  formControlName="stock_qty" [min]="1" [formatInput]="true" ></p-spinner>
+                    <p-spinner size="30"  formControlName="stock_qty" [min]="1" [formatInput]="true" [disabled]="formType == 'purchase' ? true : false"></p-spinner>
 
                 </div>
             </div>

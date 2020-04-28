@@ -92,9 +92,7 @@
       <td>
               <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="purchaseInvoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
               <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
-              <p class="error-msg" style="position: absolute;">
-               <em *ngIf="purchaseInvoiceForm.value.invoiceList[i].qty && (purchaseInvoiceForm.value.invoiceList[i].total_qty < purchaseInvoiceForm.value.invoiceList[i].qty)">*Ther are {{purchaseInvoiceForm.value.invoiceList[i].total_qty}} only available</em>
-               </p>
+           
        </td>
       <td class="hidden-spinner" style="width: 20%;">
               <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
@@ -184,7 +182,7 @@
 </form>
 
 
-<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
+<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [formType]="formType" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
 
 <app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
 

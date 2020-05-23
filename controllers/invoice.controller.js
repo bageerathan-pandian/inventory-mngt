@@ -9,7 +9,7 @@ var ObjectID = mongoose.Types.ObjectId;
 /**
  * get users list
  */
-exports.getAllUsersByCompany =  (req, res)=> {
+exports.getAllUsersByCompanySales =  (req, res)=> {
   InvoiceModel.find({company_details_id : req.params.id},(e,result) => {
     if(e) {        
       console.log(e.message);
@@ -21,6 +21,19 @@ exports.getAllUsersByCompany =  (req, res)=> {
 }
 
 
+/**
+ * get users list
+ */
+exports.getAllUsersByCompanyPurchase =  (req, res)=> {
+  InvoicePurchaseModel.find({company_details_id : req.params.id},(e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
+        return res.json(result);
+    }
+}).populate('company_details_id').populate('customer_details_id').sort( { updatedAt: -1 } )
+}
 
 exports.updateUser =  (req, res)=> {
   console.log('req.params.id', req.params.id);

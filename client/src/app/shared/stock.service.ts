@@ -21,6 +21,10 @@ export class StockService {
     return this.httpClient.get(environment.api_url + '/api/stock/get-by-company/'+this.sessionService.getItem('company_id'));
   }
 
+  getStockByCompanySlug(){
+    return this.httpClient.get(environment.api_url + '/api/stock/get-by-company-slug/'+this.sessionService.getItem('slug'));
+  }
+
   
   getStockByCompanyActive(){
     return this.httpClient.get(environment.api_url + '/api/stock/get-by-company-active/'+this.sessionService.getItem('company_id'));

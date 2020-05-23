@@ -1,158 +1,276 @@
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+<div style="margin-top: 15px;">
+    <p-tabView (onChange)="handleChange($event)">
+        <p-tabPanel header="Sales Payment" leftIcon="pi-bell-" rightIcon="pi-bookmark" [selected]="true">
+            <p-table #dt [value]="invoiceList" [loading]="loading" [columns]="cols" dataKey="_id" [paginator]="true"
+                [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','customer_name']" [rows]="10">
 
-        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
-        <div style="margin-top: 15px;">
-  <p-card>
-    <p-table  #dt  [value]="invoiceList"  [loading]="loading"  [columns]="cols" dataKey="_id" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','customer_name']"  [rows]="10" >
- 
-    <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix" >
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
 
-            <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
-            <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
-        </div>
-        <div style="text-align: right">        
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
-            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-              <th style="width: 3em">
-                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
-              <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
-                      {{col.header}}
-                      <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                        <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+                    </div>
+                    <div style="text-align: right">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Global Filter"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
 
-                  </th>
-                  <th >
-                    Action
-                    </th>
-    </tr>
-   
-</ng-template>
-    <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
-          <tr [pSelectableRow]="rowData">
-                <td>
-                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-                    </td>
-                    <td>
-                          {{rowData.invoice_code}}
-                    </td>
-                    <td>
-                          {{rowData.invoice_date | date:'medium'}}
-                    </td>
-                    <td>
-                        {{rowData.sub_total  | currency : 'INR':true}}
-                </td>
-                <td>
-                    {{rowData.discount  | currency : 'INR':true}}
-            </td>
-            <td>
-                {{rowData.grand_total  | currency : 'INR':true}}
-        </td>
-        <td>
-            <p-dropdown [options]="paymentTypes"   placeholder="Select Status" [(ngModel)]="rowData.payment_type" required ></p-dropdown> 
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
 
-        </td>
-        <td>
-        {{rowData.updatedAt | date:'medium'}}
-        </td>
-            <td>
-                <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
-                <p-dropdown [options]="paymentStatus"   placeholder="Select Status" [(ngModel)]="rowData.payment_status" required ></p-dropdown> 
-            </td>
-                <td style="text-align:center">
-                    <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" (click)="onRowEdit(rowData)" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>  -->
-                     <button  pButton type="button"  icon="pi pi-eye" class="ui-button-info" (click)="display = true" pTooltip="View Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>
-                        <button  pButton type="button"  icon="pi pi-download" class="ui-button-success" (click)="display = true" pTooltip="Downwload Invoice" tooltipPosition="top"style="margin-right: .5em"></button>
-                        <button  pButton type="button"  icon="pi pi-print" class="ui-button-warning" (click)="display = true" pTooltip="Print Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>
-                    </td>
-        </tr>
-    </ng-template>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                    <tr [pSelectableRow]="rowData">
+                        <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{rowData.invoice_code}}
+                        </td>
+                        <td>
+                            {{rowData.invoice_date | date:'medium'}}
+                        </td>
+                        <td>
+                            {{rowData.sub_total  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            {{rowData.discount  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            {{rowData.grand_total  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            <p-dropdown [options]="paymentTypes" placeholder="Select Status"
+                                [(ngModel)]="rowData.payment_type" required></p-dropdown>
 
-      
-   <ng-template pTemplate="paginatorleft" let-state>
-    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{invoiceList?.length}}</strong> entries
-  </ng-template>
-   
+                        </td>
+                        <td>
+                            {{rowData.updatedAt | date:'medium'}}
+                        </td>
+                        <td>
+                            <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
+                            <p-dropdown [options]="paymentStatus" placeholder="Select Status"
+                                [(ngModel)]="rowData.payment_status" required></p-dropdown>
+                        </td>
+                        <td style="text-align:center">
+                            <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" (click)="onRowEdit(rowData)" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>  -->
+                            <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
+                                (click)="viewData(rowData)" pTooltip="View Invoice" tooltipPosition="top"
+                                style="    margin: 0px 5px;"></button>
+                            <!-- <button  pButton type="button"  icon="pi pi-download" class="ui-button-success" (click)="display = true" pTooltip="Downwload Invoice" tooltipPosition="top"style="margin-right: .5em"></button> -->
+                            <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="print()"
+                                pTooltip="Print Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>
+                        </td>
+                    </tr>
+                </ng-template>
 
-</p-table>
 
-<p-dialog  [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
-    <p-header>
-        Update Invoice
-</p-header>
-<form [formGroup]="invoiceForm">
-    <div class="ui-g ui-fluid" >
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Invoice Code</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="text" pInputText formControlName="invoice_code" readonly/>
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="vin">Sub Total</label>
-            </div>
-            <div class="ui-g-8">
-                    <input type="text" pInputText formControlName="sub_total" />
-                            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Discount</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="text" pKeyFilter="int" pInputText formControlName="discount" />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="year">Grand Total</label>
-            </div>
-            <div class="ui-g-8">
-                <input type="text" pKeyFilter="int" pInputText formControlName="grand_total" />
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="brand">Payment Type</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="paymentTypes" placeholder="Select Payment Type" formControlName="payment_type"></p-dropdown>
+                <ng-template pTemplate="paginatorleft" let-state>
+                    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
+                    <strong>{{invoiceList?.length}}</strong> entries
+                </ng-template>
 
-            </div>
-        </div>
-        <div class="ui-g-12">
-            <div class="ui-g-4">
-                <label for="brand">Payment Status</label>
-            </div>
-            <div class="ui-g-8">
-                <p-dropdown [options]="paymentStatus" placeholder="Select Payment Status" formControlName="payment_status"></p-dropdown>
 
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="Purchase Payment" leftIcon="pi-bell-" rightIcon="pi-bookmark">
+            <p-table #dt1 [value]="purchaseInvoiceList" [loading]="loading" [columns]="cols" dataKey="_id"
+                [paginator]="true" [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','customer_name']"
+                [rows]="10">
+
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+
+                        <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                        <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+                    </div>
+                    <div style="text-align: right">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Global Filter"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                    <tr [pSelectableRow]="rowData">
+                        <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{rowData.invoice_purchase_code}}
+                        </td>
+                        <td>
+                            {{rowData.invoice_date | date:'medium'}}
+                        </td>
+                        <td>
+                            {{rowData.sub_total  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            {{rowData.discount  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            {{rowData.grand_total  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            <p-dropdown [options]="paymentTypes" placeholder="Select Status"
+                                [(ngModel)]="rowData.payment_type" required></p-dropdown>
+
+                        </td>
+                        <td>
+                            {{rowData.updatedAt | date:'medium'}}
+                        </td>
+                        <td>
+                            <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
+                            <p-dropdown [options]="paymentStatus" placeholder="Select Status"
+                                [(ngModel)]="rowData.payment_status" required></p-dropdown>
+                        </td>
+                        <td style="text-align:center">
+                            <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" (click)="onRowEdit(rowData)" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>  -->
+                            <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
+                                (click)="viewData(rowData)" pTooltip="View Invoice" tooltipPosition="top"
+                                style="    margin: 0px 5px;"></button>
+                            <!-- <button  pButton type="button"  icon="pi pi-download" class="ui-button-success" (click)="display = true" pTooltip="Downwload Invoice" tooltipPosition="top"style="margin-right: .5em"></button> -->
+                            <button pButton type="button" icon="pi pi-print" class="ui-button-warning"
+                                (click)="display = true" pTooltip="Print Invoice" tooltipPosition="top"
+                                style="    margin: 0px 5px;"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+
+
+                <ng-template pTemplate="paginatorleft" let-state>
+                    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
+                    <strong>{{invoiceList?.length}}</strong> entries
+                </ng-template>
+
+
+            </p-table> Content 2
+        </p-tabPanel>
+    </p-tabView>
+
+
+
+
+    <p-dialog [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"
+        [style]="{width: '450px'}">
+        <p-header>
+            Update Invoice
+        </p-header>
+        <form [formGroup]="invoiceForm">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Invoice Code</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input type="text" pInputText formControlName="invoice_code" readonly />
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Sub Total</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input type="text" pInputText formControlName="sub_total" />
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Discount</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input type="text" pKeyFilter="int" pInputText formControlName="discount" />
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Grand Total</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input type="text" pKeyFilter="int" pInputText formControlName="grand_total" />
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="brand">Payment Type</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <p-dropdown [options]="paymentTypes" placeholder="Select Payment Type"
+                            formControlName="payment_type"></p-dropdown>
+
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="brand">Payment Status</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <p-dropdown [options]="paymentStatus" placeholder="Select Payment Status"
+                            formControlName="payment_status"></p-dropdown>
+
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</form>
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-            <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Update"></button>
-        </div>
-    </p-footer>
-</p-dialog>
+        </form>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+                <button type="button" pButton icon="pi pi-save" class="ui-button-success" (click)="save()"
+                    label="Update"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
 
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-</p-card>
 </div>
 
-<p-sidebar [(visible)]="display" position="right"  [style]="{width:'40em'}">
-        <!-- <button  pButton type="button"  icon="pi pi-eye" class="ui-button-info" (click)="display = true" label="View"  style="    margin: 0px 5px;"></button> -->
-        <button  pButton type="button"  icon="pi pi-download" class="ui-button-info" (click)="display = true" label="Downwload" style="margin-right: .5em"></button>
-        <button  pButton type="button"  icon="pi pi-print" class="ui-button-warning" (click)="display = true" label="Print"  style="    margin: 0px 5px;"></button>
-   
-    </p-sidebar>
+<button (click)="onPrintInvoice()">Pirnt</button>
+<p-sidebar [(visible)]="display" position="right" [style]="{width:'40em'}">
+    <pre>{{ showData | json }}</pre>
+    <div class="col-xs-6">
+        <button pButton type="button" icon="pi pi-download" class="ui-button-info" (click)="display = true"
+            label="Downwload" style="margin-right: .5em"></button>
+
+    </div>
+    <div class="col-xs-6">
+        <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="display = true"
+            label="Print" style="    margin: 0px 5px;"></button>
+
+    </div>
+    <!-- <button  pButton type="button"  icon="pi pi-eye" class="ui-button-info" (click)="display = true" label="View"  style="    margin: 0px 5px;"></button> -->
+
+</p-sidebar>

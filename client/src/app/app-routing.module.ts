@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
 import { LayoutComponent } from './shared/layout/layout.component';
+import { InvoiceDesignLayoutComponent } from './shared/layout/invoice-design-layout/invoice-design-layout.component';
+import { PrintComponent } from './component/inventory-mngt/print/print.component';
 
 const routes: Routes = [
   // {path:'',redirectTo:'home',pathMatch:'full'},
@@ -39,7 +41,18 @@ const routes: Routes = [
       {path:'contact',loadChildren:() => import('./component/inventory-mngt/contact/contact.module').then(m => m.ContactModule),canActivate:[AuthGuard]},      
       {path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
   ]
-  }, 
+  },   
+  // { path: 'print', loadChildren: () => import('./component/inventory-mngt/print/print.module').then(m => m.PrintModule) },
+  { 
+    path: 'print',
+    outlet: 'print',
+    component: InvoiceDesignLayoutComponent,
+    children: [
+      // { path: 'invoice', loadChildren: () => import('./component/inventory-mngt/print/print.module').then(m => m.PrintModule) },
+      { path: 'invoice', component: PrintComponent },
+      // { path:'**',loadChildren:() => import('./component/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule)}
+    ]
+  },
   { path: 'company/:company-slug', loadChildren: () => import('./component/e-commerce/company/company.module').then(m => m.CompanyModule) },
   { path: 'company/:company-slug/products', loadChildren: () => import('./component/e-commerce/company/products/products.module').then(m => m.ProductsModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },

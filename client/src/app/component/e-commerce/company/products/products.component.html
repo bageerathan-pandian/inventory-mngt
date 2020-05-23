@@ -1,1 +1,40 @@
-<p>products works!</p>
+<!-- <div class="wrapper">
+    <h1>Bike Stock</h1>
+<span><i class="shopping-cart"></i></span>
+
+   <div class="clear"></div>
+   <div class="items">
+       <div class="item" *ngFor="let item of stocksList; let i=index">
+           <img src="http://img.tjskl.org.cn/pic/z2577d9d-200x200-1/pinarello_lungavita_2010_single_speed_bike.jpg" alt="item" />
+            <h2>{{item.stock_name}}</h2>
+
+           <p>Price: <em>{{item.selling_price  | currency : 'INR':true}}</em>
+           </p>
+           <button class="add-to-cart" type="button" (click)="addCart()">Add to cart</button>
+       </div>
+      
+   </div>
+</div> -->
+
+
+<div class="ui-g ui-fluid">
+    
+    <div class="ui-g-12" >
+        <h1> Stock</h1>
+        <span><i class="shopping-cart"></i></span>
+    </div>
+    <div class="ui-g-12" >
+      
+        <div class="ui-g-3"*ngFor="let item of stocksList; let i=index">
+<p-card header="{{item.stock_name}}" subheader="{{item.selling_price  | currency : 'INR':true}}" [style]="{width: '320px'}" styleClass="ui-card-shadow">
+    <p-header>
+        <img src="Card" src="http://img.tjskl.org.cn/pic/z2577d9d-200x200-1/pinarello_lungavita_2010_single_speed_bike.jpg">
+    </p-header>
+    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+    <p-footer>
+        <button pButton type="button" label="Buy" (click)="addCart()" icon="pi pi-check" style="margin-right: .25em"></button>
+    </p-footer>
+</p-card>
+</div>
+</div>
+</div>

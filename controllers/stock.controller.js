@@ -33,6 +33,23 @@ exports.getAllUsersByCompany =  (req, res)=> {
 /**
  * get users list
  */
+exports.getAllUsersByCompanySlug =  (req, res)=> {
+  console.log(req.params.slug)
+  StockModel.find({stock_qty: {  $gt: 0 }},(e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
+        return res.json(result);
+    }
+}).populate('company_details_id').populate('category_details_id').populate('unit_details_id').sort( { updatedAt: -1 } )
+}
+
+
+
+/**
+ * get users list
+ */
 exports.getAllUsersByCompanyActive =  (req, res)=> {
   StockModel.find({company_details_id : req.params.id,stock_qty: {  $gt: 0 }},(e,result) => {
     if(e) {        

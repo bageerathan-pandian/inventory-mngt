@@ -43,7 +43,7 @@
                   </thead>
                   <tbody>
                     
-                      <tr *ngFor="let item of invoiceData?.data; let i=index">
+                      <tr class="invoice" *ngFor="let item of invoiceData?.data; let i=index">
                           <td>{{item.stock_details_id.stock_name}}</td>
                           <td>{{item.stock_qty}}</td>
                           <td>{{item.stock_price | currency : 'INR':true}}</td>

@@ -19,9 +19,11 @@ import {KeyFilterModule} from 'primeng/keyfilter';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {SidebarModule} from 'primeng/sidebar';
 import {TooltipModule} from 'primeng/tooltip';
+import {TabViewModule} from 'primeng/tabview';
+
 
 @NgModule({
-  declarations: [PaymentComponent],
+  declarations: [PaymentComponent,],
   imports: [
     CommonModule,
     PaymentRoutingModule,
@@ -41,7 +43,8 @@ import {TooltipModule} from 'primeng/tooltip';
     KeyFilterModule,
     InputSwitchModule,
     SidebarModule,
-    TooltipModule
+    TooltipModule,
+    TabViewModule
   ]
 })
 export class PaymentModule { }

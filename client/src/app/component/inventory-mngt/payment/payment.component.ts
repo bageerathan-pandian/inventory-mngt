@@ -12,6 +12,7 @@ import { SessionService } from 'src/app/shared/session.service';
 import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { InvoiceService } from 'src/app/shared/invoice.service';
+import { PrintService } from 'src/app/shared/print.service';
 
 
 @Component({
@@ -32,11 +33,13 @@ export class PaymentComponent implements OnInit {
   cols: any[];
   status:any = [];
   invoiceList: Invoice[];
+  purchaseInvoiceList: Invoice[];
   data:any;
   paymentStatus:any
   paymentTypes:any
+  showData:any 
   constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private invoiceService:InvoiceService,private commonService: CommonService,
-    public sessionService: SessionService
+    public sessionService: SessionService, private printService: PrintService
     ) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
@@ -92,6 +95,17 @@ export class PaymentComponent implements OnInit {
       .subscribe((data:any)=>{
         console.log('invoiceList',data);
         this.invoiceList = data;
+        this.loading = false;
+      })
+    }
+
+    
+    getPurchaseInvoiceByCompany(){
+      this.loading = true
+      this.invoiceService.getPurchaseInvoiceByCompany()
+      .subscribe((data:any)=>{
+        console.log('p-invoiceList',data);
+        this.purchaseInvoiceList = data;
         this.loading = false;
       })
     }
@@ -156,6 +170,28 @@ export class PaymentComponent implements OnInit {
     console.log(event);
     let isChecked = event.checked;
   }
+  
+  handleChange(event){
+    console.log(event);
+    if(event.index == 0){
+      this.getInvoiceByCompany()
+    }else{
+      this.getPurchaseInvoiceByCompany()
+    }
+  }
+
+  viewData(data){
+    this.showData = data
+    this.display = true
+  }
+
+  onPrintInvoice() {
+    console.log('onPrintInvoice')
+
+    const invoiceIds = ['101', '102'];
+    this.printService.printDocument('invoice', invoiceIds);
+  }
+
 
 
 }

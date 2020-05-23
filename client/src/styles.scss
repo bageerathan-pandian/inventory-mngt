@@ -789,6 +789,28 @@ body .ui-table .ui-table-caption, body .ui-table .ui-table-summary {
   border: none !important;
 }
 
+// @media print {
+// 	app-root {
+// 		>* {
+// 			// display: none;
+// 		}
+//     app-invoice-design-layout {
+// 			display: block;
+// 		}
+// 	}
+// }
+
+// @media print {
+//   .isPrinting {
+//     >* {
+//       display: none;
+//     }
+//     app-invoice-design-layout {
+//       display: block;
+//     }
+//   }
+// }
+
 
 /* Small devices (portrait tablets and large phones, 768px or less) */
 

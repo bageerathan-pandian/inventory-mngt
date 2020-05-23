@@ -39,18 +39,22 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import { DISQUS_SHORTNAME } from 'ngx-disqus';
 import { PhoneVerifyComponent } from './component/phone-verify/phone-verify.component';
 import { environment } from 'src/environments/environment';
+import { InvoiceDesignLayoutComponent } from './shared/layout/invoice-design-layout/invoice-design-layout.component';
+import { PrintComponent } from './component/inventory-mngt/print/print.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
+    InvoiceDesignLayoutComponent,
     MenuComponent,
     TestPipe,
     HeaderComponent,
     FooterComponent,
     ChatBotComponent,
     OrderByPipe,
-    PhoneVerifyComponent
+    PhoneVerifyComponent,
+    PrintComponent
   ],
   imports: [
     BrowserModule,

@@ -57,6 +57,7 @@ exports.addUser =  (req, res)=> {
    let invoiceData = {
     company_details_id:req.body.company_details_id,
     supplier_details_id:req.body.supplier_details_id,
+    invoice_list: req.body.invoiceList,
     invoice_purchase_code:req.body.invoice_purchase_code,
     invoice_date:req.body.invoice_date,
     sub_total:req.body.sub_total,

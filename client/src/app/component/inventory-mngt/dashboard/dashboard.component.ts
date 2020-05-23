@@ -56,13 +56,13 @@ export class DashboardComponent implements OnInit {
    
     this.company_id = this.sessionService.getItem('_id').company_details_id;
     this.data = {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          labels: ['January', 'February', 'March', 'April', 'May', 'June','July','Augest','Septemper','October','November','December'],
           datasets: [
               {
                   label: 'Purchase',
                   backgroundColor: '#42A5F5',
                   borderColor: '#1E88E5',
-                  data: [65, 59, 80, 81, 56, 55, 40]
+                  data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40]
               },
               {
                   label: 'Sales',
@@ -70,13 +70,13 @@ export class DashboardComponent implements OnInit {
                   // borderColor: '#7CB342',
                   backgroundColor: '#FFB300',
                   borderColor: '#7CB342',
-                  data: [28, 48, 40, 19, 86, 27, 90]
+                  data: [28, 48, 40, 19, 86, 27, 90,28, 48, 40, 19, 86, 27, 90]
               },
               {
                   label: 'Profit/Loss',
                   backgroundColor: '#66BB6A',
                   borderColor: '#7CB342',
-                  data: [8, 18, 50, -19, 46, 7, -90]
+                  data: [8, 18, 50, -19, 46, 7, -90,8, 18, 50, -19, 46, 7, -90]
               }
           ]
       }

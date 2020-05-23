@@ -14,8 +14,13 @@ export class InvoiceService {
   
 
   getInvoiceByCompany(){
-    return this.httpClient.get(environment.api_url + '/api/invoice/get-by-company/'+this.sessionService.getItem('company_id'));
+    return this.httpClient.get(environment.api_url + '/api/invoice/get-by-company-sales/'+this.sessionService.getItem('company_id'));
   }
+
+  getPurchaseInvoiceByCompany(){
+    return this.httpClient.get(environment.api_url + '/api/invoice/get-by-company-purchase/'+this.sessionService.getItem('company_id'));
+  }
+
 
 
 

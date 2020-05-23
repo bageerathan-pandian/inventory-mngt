@@ -16,6 +16,12 @@ router.get('/get-by-company/:id', stockController.getAllUsersByCompany);
 /**
  * get users list by company
  */
+router.get('/get-by-company-slug/:slug', stockController.getAllUsersByCompanySlug);
+
+
+/**
+ * get users list by company
+ */
 router.get('/get-by-company-active/:id', stockController.getAllUsersByCompanyActive);
 
 

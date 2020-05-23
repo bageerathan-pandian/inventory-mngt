@@ -5,7 +5,13 @@ const invoiceController = require('../controllers/invoice.controller')
 /**
  * get users list by company
  */
-router.get('/get-by-company/:id', invoiceController.getAllUsersByCompany);
+router.get('/get-by-company-sales/:id', invoiceController.getAllUsersByCompanySales);
+
+
+/**
+ * get users list by company
+ */
+router.get('/get-by-company-purchase/:id', invoiceController.getAllUsersByCompanyPurchase);
 
 
 /**

@@ -3,7 +3,6 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { Contact } from 'src/app/model/contact.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/auth.service';
 import { ContactService } from 'src/app/shared/contact.service';
 
 @Component({
@@ -20,7 +19,7 @@ export class ContactComponent implements OnInit {
   displayDialog: boolean; 
   cols: any[];
   columns: any[];
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private messageService: MessageService, private contactService: ContactService) {
+  constructor(private router:Router,private _fb: FormBuilder, private messageService: MessageService, private contactService: ContactService) {
   }
 
   ngOnInit() {

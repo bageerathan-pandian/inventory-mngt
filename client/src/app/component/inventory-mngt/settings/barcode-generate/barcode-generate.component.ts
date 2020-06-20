@@ -4,7 +4,7 @@ import {MenuItem} from 'primeng/api';
 import { Router } from '@angular/router';
 
 import { StockService } from 'src/app/shared/stock.service';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
 
@@ -22,7 +22,7 @@ export class BarcodeGenerateComponent implements OnInit {
   cols: any[];
   stocksList: Stock[];
 
-  constructor(private router:Router,private auth: AuthService, private stockService:StockService, private commonService: CommonService,  public sessionService: SessionService ) {
+  constructor(private router:Router,private auth: AuthLoginService, private stockService:StockService, private commonService: CommonService,  public sessionService: SessionService ) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}

@@ -1,5 +1,5 @@
 import { Component, ViewChild, HostListener } from '@angular/core';
-import { AuthService } from './shared/auth.service';
+import { AuthLoginService } from './shared/auth.service';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { PushService } from './shared/push.service';
@@ -9,12 +9,14 @@ import { SessionService } from './shared/session.service';
 import { LoaderService } from './shared/loader.service';
 import { environment } from 'src/environments/environment';
 import { TitleService } from './shared/title.service';
+import { routerHomeAnimation } from './shared/animations/router-home-animations';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  animations:[routerHomeAnimation],
   providers:[ConfirmationService,PushService,ConnectionService]
 })
 export class AppComponent {
@@ -26,7 +28,7 @@ export class AppComponent {
   status:any;
   isConnected = true;
   showValue: boolean = true
-  constructor(public auth:AuthService,
+  constructor(public auth:AuthLoginService,
     private themeService: ThemeService,
     public titleService: TitleService,
     private loaderService: LoaderService,

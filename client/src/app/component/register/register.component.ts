@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
   private socket;
   site_key:string
   
-  constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthService, private router:Router,
+  constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthLoginService, private router:Router,
     private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
     public sessionService: SessionService
     ) {

@@ -15,7 +15,7 @@ import { CommonService } from 'src/app/shared/common.service';
 
 import * as _ from 'lodash';
 import * as printJS from 'print-js'
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
@@ -76,7 +76,7 @@ export class SalesComponent implements OnInit {
 
   constructor(private _fb:FormBuilder,
     private router: Router,
-    private messageService: MessageService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthService,
+    private messageService: MessageService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthLoginService,
     private pdfGenerator: PdfGeneratorService,
     public sessionService : SessionService
   ) {

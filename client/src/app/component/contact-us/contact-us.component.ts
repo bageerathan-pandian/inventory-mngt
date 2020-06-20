@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -16,7 +16,7 @@ export class ContactUsComponent implements OnInit {
   overlays: any[];
 
   constructor(
-    private authService:AuthService,
+    private authService:AuthLoginService,
     private messageService: MessageService,
     private _fb: FormBuilder
     ) { 

@@ -7,7 +7,7 @@ import { DashboardService } from 'src/app/shared/dashboard.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { CompanyService } from 'src/app/shared/company.service';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { SalesService } from 'src/app/shared/sales.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SessionService } from 'src/app/shared/session.service';
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   sendingVerificationMailStatus:Number
   resendVerifyForm: FormGroup
 
-  constructor(private companyService: CompanyService,private _fb: FormBuilder, private auth: AuthService, public sessionService: SessionService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
+  constructor(private companyService: CompanyService,private _fb: FormBuilder, private auth: AuthLoginService, public sessionService: SessionService, private customerService:CustomerService,private stockService:StockService,private dashboardService:DashboardService, private salesService:SalesService,
     private messageService: MessageService, private purchaseService: PurchaseService, private invoiceService: InvoiceService
     ) {
 

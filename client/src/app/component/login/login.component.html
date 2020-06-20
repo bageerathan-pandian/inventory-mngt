@@ -1,113 +1,113 @@
-
-
-    <app-header></app-header>
+<app-header></app-header>
 
 <!-- <ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
         <p style="color: #000" > Authendicating... </p>
 </ngx-spinner> -->
 
-<div  class="ui-g-12" style="padding: 5% 0;;background: url(./assets/img/home-bg1.png) no-repeat center center;
+<div class="ui-g-12" style="padding: 5% 0;;background: url(./assets/img/home-bg1.png) no-repeat center center;
 background-size: cover;">
-  
-    
-        
-    <div class="ui-g-12 ui-md-4 ui-md-offset-4">
-    <!-- <img src="Card" src="http://localhost:8082/static/uploads/1ff378a1b901b5eae043ebba354869811574952066723.png" > -->
 
-    <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
-<!-- <div class="ui-g-12"  style="text-align: center;position: relative;height: 100px;">
+
+
+    <div class="ui-g-12 ui-md-4 ui-md-offset-4">
+        <!-- <img src="Card" src="http://localhost:8082/static/uploads/1ff378a1b901b5eae043ebba354869811574952066723.png" > -->
+
+        <p-messages class="ui-g-12" styleClass="loagin-wrapper"></p-messages>
+        <!-- <div class="ui-g-12"  style="text-align: center;position: relative;height: 100px;">
         <a routerLink="">
           <img src="Card" src="./assets/img/comp_logo.png" style="    max-height: 100%;  max-width: 100%;   left: 0;   right: 0;    top: 0;     bottom: 0;   margin: auto;">
         </a>
     </div> -->
-    <p-card  class="login-form  ui-g-12">
-           
-        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
-        <div class="ui-g ui-fluid">
+        <p-card class="login-form  ui-g-12">
+            <button (click)="socialSignIn('facebook')">Sign in with Facebook</button>
+            <button (click)="socialSignIn('google')">Sign in with Google</button>
 
-                <div class="ui-g-12 ui-md-12">
-                    <h2>Login</h2>
-                    <span>With your Account</span>
+            <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
+                <div class="ui-g ui-fluid">
+
+                    <div class="ui-g-12 ui-md-12">
+                        <h2>Login</h2>
+                        <span>With your Account</span>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
+                            <input type="text" pInputText placeholder="User Email" formControlName="user_email"
+                                required>
+                        </div>
+                        <p class="error-msg"
+                            *ngIf="!loginForm.controls['user_email'].valid && (loginForm.controls['user_email'].dirty || loginForm.controls['user_email'].touched)">
+                            <em *ngIf="loginForm.controls['user_email'].errors['required']"> User Email is required
+                            </em>
+                            <em *ngIf="loginForm.controls['user_email'].errors['pattern']"> Invalid Email </em>
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
+                            <input type="text" pInputText placeholder="Password" formControlName="user_pwd" required>
+                        </div>
+                        <p class="error-msg"
+                            *ngIf="!loginForm.controls['user_pwd'].valid && (loginForm.controls['user_pwd'].dirty || loginForm.controls['user_pwd'].touched)">
+                            <em *ngIf="loginForm.controls['user_pwd'].errors['required']">Password is required </em>
+                        </p>
+
+                    </div>
+
+                    <div class="ui-g-6 ui-md-6">
+                        <p-checkbox name="groupname" label="Remember Me" binary="true" formControlName="rememberMe">
+                        </p-checkbox>
+                    </div>
                 </div>
-        
-            <div class="ui-g-12 ui-md-12">
-                <div class="ui-inputgroup">
-                    <span class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></span>
-                    <input type="text" pInputText placeholder="User Email" formControlName="user_email" required >              
-               </div>
-                <p class="error-msg" *ngIf="!loginForm.controls['user_email'].valid && (loginForm.controls['user_email'].dirty || loginForm.controls['user_email'].touched)">
-                    <em *ngIf="loginForm.controls['user_email'].errors['required']"> User Email is required    </em>
-                    <em *ngIf="loginForm.controls['user_email'].errors['pattern']">  Invalid Email    </em>
-                 </p>
-            
-            </div>
-      
-            
-      
-            <div class="ui-g-12 ui-md-12">
-                <div class="ui-inputgroup">
-                    <span class="ui-inputgroup-addon"><i class="pi pi-key"></i></span>
-                    <input type="text" pInputText placeholder="Password" formControlName="user_pwd" required>         
-                </div>
-                <p class="error-msg" *ngIf="!loginForm.controls['user_pwd'].valid && (loginForm.controls['user_pwd'].dirty || loginForm.controls['user_pwd'].touched)">
-                        <em *ngIf="loginForm.controls['user_pwd'].errors['required']">Password is required  </em>
-                     </p>
-               
-            </div>
-            
-            <div class="ui-g-6 ui-md-6">
-            <p-checkbox name="groupname" label="Remember Me"  binary="true" formControlName="rememberMe"  ></p-checkbox>
-          </div>
-          </div>
-        <p-footer>
-                <button *ngIf="!showSpinner" pButton type="submit" label="Login"  class="ui-button-raised " style="margin-right: .25em;    width: 100% !important;" ></button>
-                <button *ngIf="showSpinner" pButton type="submit" disabled label="Logging In..."  icon="pi pi-spinner pi-spin" class="ui-button-raised " style="margin-right: .25em;    width: 100% !important;" ></button>
-            </p-footer>
-      </form>
-      <p>------------------ Or ------------------</p>
-      <p-footer>
-                    <p >Don't have an account? <a  rel="noopener noreferrer"  routerLink="/register" >Register</a></p>
-                
-                  
-                <a  rel="noopener noreferrer"  routerLink="/forgot-password" >Forgot Password?</a>
+                <p-footer>
+                    <button *ngIf="!showSpinner" pButton type="submit" label="Login" class="ui-button-raised "
+                        style="margin-right: .25em;    width: 100% !important;"></button>
+                    <button *ngIf="showSpinner" pButton type="submit" disabled label="Logging In..."
+                        icon="pi pi-spinner pi-spin" class="ui-button-raised "
+                        style="margin-right: .25em;    width: 100% !important;"></button>
+                </p-footer>
+            </form>
+            <p>------------------ Or ------------------</p>
+            <p-footer>
+                <p>Don't have an account? <a rel="noopener noreferrer" routerLink="/register">Register</a></p>
+
+
+                <a rel="noopener noreferrer" routerLink="/forgot-password">Forgot Password?</a>
                 <!-- <button type="button" (click)="showDialog()" pButton icon="pi pi-info-circle" label="Show"></button> -->
 
-      </p-footer>
-    </p-card>
-  
-   
-</div>
-</div>
+            </p-footer>
+        </p-card>
 
 
-<div  class="ui-g-12 ">
-        <app-footer></app-footer>
-</div>
-      
- 
-
-        <p-dialog [(visible)]="display" [showHeader]="false" [baseZIndex]="10000" [modal]="true" >
-            
-                      <div style="text-align: center;padding: 16px;">
-                        <i class="pi pi-exclamation-triangle" style="    color: #fff;   background:#FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
-
-                        <h5 style="margin-top: 5px;color: #000;font-weight: 500;margin-bottom: 5px;"> Account Deactivated! </h5>
-                        <p>{{errorMsg}}</p>
-                </div>
-                      
-<div class="ui-g ui-fluid" style="margin-bottom: 5px;text-align: center;" >
-    <div class="ui-g-12">
-        <button style="padding: 0.429em 1em;" type="button" pButton (click)="display=false"  label="Cancel" class="ui-button-secondary"></button>
     </div>
 </div>
-      </p-dialog>
 
 
-     
-
-
-
-
+<div class="ui-g-12 ">
+    <app-footer></app-footer>
+</div>
 
 
 
+<p-dialog [(visible)]="display" [showHeader]="false" [baseZIndex]="10000" [modal]="true">
+
+    <div style="text-align: center;padding: 16px;">
+        <i class="pi pi-exclamation-triangle"
+            style="    color: #fff;   background:#FF9800;     border-radius: 100%;margin: 10px;font-size: 50px"></i>
+
+        <h5 style="margin-top: 5px;color: #000;font-weight: 500;margin-bottom: 5px;"> Account Deactivated! </h5>
+        <p>{{errorMsg}}</p>
+    </div>
+
+    <div class="ui-g ui-fluid" style="margin-bottom: 5px;text-align: center;">
+        <div class="ui-g-12">
+            <button style="padding: 0.429em 1em;" type="button" pButton (click)="display=false" label="Cancel"
+                class="ui-button-secondary"></button>
+        </div>
+    </div>
+</p-dialog>

@@ -30,6 +30,8 @@ import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
 import { CustomerFormModule } from '../../shared/customer-form/customer-form.module';
 import { InvoiceDesignModule } from '../../shared/invoice-design/invoice-design.module';
 import { InvoiceDesignPosModule } from '../../shared/invoice-design-pos/invoice-design-pos.module';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+
 
 @NgModule({
   declarations: [SalesComponent],
@@ -63,7 +65,8 @@ import { InvoiceDesignPosModule } from '../../shared/invoice-design-pos/invoice-
     UnitFormModule,
     CustomerFormModule,
     InvoiceDesignModule,
-    InvoiceDesignPosModule
+    InvoiceDesignPosModule,
+    ScrollPanelModule
   ]
 })
 export class SalesModule { }

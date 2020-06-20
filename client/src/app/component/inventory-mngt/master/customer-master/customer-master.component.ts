@@ -11,7 +11,6 @@ import { CustomerService } from 'src/app/shared/customer.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
 
@@ -33,7 +32,7 @@ export class CustomerMasterComponent implements OnInit {
   customerList: Customer[];
   data:any;
   custData:any = []
-  constructor(private router:Router, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private customerService:CustomerService,private commonService: CommonService,
+  constructor(private router:Router,private confirmationService: ConfirmationService,private messageService: MessageService,private customerService:CustomerService,private commonService: CommonService,
     public sessionService: SessionService
     ) {
     this.bradCrum = [

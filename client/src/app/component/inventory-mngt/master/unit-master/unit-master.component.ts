@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/auth.service';
 import { Unit } from 'src/app/model/unit.model';
 import { UnitService } from 'src/app/shared/unit.service';
 
@@ -25,7 +24,7 @@ export class UnitMasterComponent implements OnInit {
   status:any = [];
   cols: any[];
   unitData: any = []
-  constructor(private router:Router, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private unitService:UnitService, private commonService: CommonService,
+  constructor(private router:Router, private confirmationService: ConfirmationService,private messageService: MessageService,private unitService:UnitService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
   }

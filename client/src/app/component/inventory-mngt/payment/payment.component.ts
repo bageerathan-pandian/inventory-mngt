@@ -9,7 +9,6 @@ import * as _ from 'lodash';
 import { Invoice } from 'src/app/model/invoice.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SessionService } from 'src/app/shared/session.service';
-import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { InvoiceService } from 'src/app/shared/invoice.service';
 import { PrintService } from 'src/app/shared/print.service';
@@ -38,7 +37,7 @@ export class PaymentComponent implements OnInit {
   paymentStatus:any
   paymentTypes:any
   showData:any 
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private invoiceService:InvoiceService,private commonService: CommonService,
+  constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private invoiceService:InvoiceService,private commonService: CommonService,
     public sessionService: SessionService, private printService: PrintService
     ) {
     this.bradCrum = [

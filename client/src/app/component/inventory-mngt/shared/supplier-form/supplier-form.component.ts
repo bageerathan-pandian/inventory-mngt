@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { MessageService } from 'primeng/api';
 import { SuppierService } from 'src/app/shared/suppier.service';
 import { CommonService } from 'src/app/shared/common.service';
@@ -26,7 +26,7 @@ export class SupplierFormComponent implements OnInit {
   status:any = [];
   supplierList: any = []
 
-  constructor(private _fb:FormBuilder, private auth: AuthService, private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
+  constructor(private _fb:FormBuilder, private auth: AuthLoginService, private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
     public sessionService : SessionService
     ) {
  

@@ -10,7 +10,7 @@ import { FooterComponent } from "./shared/layout/footer/footer.component";
 import { MenubarModule } from "primeng/menubar";
 import { MenuModule } from "primeng/menu";
 import { ButtonModule } from "primeng/button";
-import { AuthService } from "./shared/auth.service";
+import { AuthLoginService } from "./shared/auth.service";
 import { MessageService } from "primeng/api";
 import { PanelMenuModule } from "primeng/panelmenu";
 import { ListboxModule } from "primeng/listbox";
@@ -84,7 +84,7 @@ import { PrintComponent } from './component/inventory-mngt/print/print.component
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: DISQUS_SHORTNAME, useValue: environment.disqus_shotname },
-    AuthService, MessageService,ChatService,PushService, Title],
+    AuthLoginService, MessageService,ChatService,PushService, Title],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

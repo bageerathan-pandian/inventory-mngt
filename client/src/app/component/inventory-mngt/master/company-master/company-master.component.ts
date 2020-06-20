@@ -8,7 +8,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import * as _ from 'lodash';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CommonService } from 'src/app/shared/common.service';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { ImageUploadService } from 'src/app/shared/image-upload.service';
 import { UserService } from 'src/app/shared/user.service';
 import { User } from 'src/app/model/user.model';
@@ -46,7 +46,7 @@ export class CompanyMasterComponent implements OnInit {
   emailCheckStatus:any  
   futureMonthEnd = moment().add(1, 'M');
   
-  constructor(private router:Router,private _fb: FormBuilder,private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private companyService:CompanyService, private commonService: CommonService, private imageUploadService: ImageUploadService,private userService: UserService) {
+  constructor(private router:Router,private _fb: FormBuilder,private auth:AuthLoginService, private confirmationService: ConfirmationService,private messageService: MessageService,private companyService:CompanyService, private commonService: CommonService, private imageUploadService: ImageUploadService,private userService: UserService) {
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {
         this.router.navigate(['/inventory-mngt/dashboard'])}

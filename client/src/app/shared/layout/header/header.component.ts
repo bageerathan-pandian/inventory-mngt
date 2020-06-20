@@ -6,7 +6,7 @@ import { SessionService } from '../../session.service';
 import { ThemeService } from '../../theme.service';
 import { User } from 'src/app/model/user.model';
 import { MenuDataService } from '../../menu-data.service';
-import { AuthService } from '../../auth.service';
+import { AuthLoginService } from '../../auth.service';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public auth:AuthService,
+    public auth:AuthLoginService,
     public sessionService: SessionService,
     // private userIdle: UserIdleService,
     private themeService: ThemeService,

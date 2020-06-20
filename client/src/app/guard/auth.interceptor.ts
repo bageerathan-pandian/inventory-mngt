@@ -1,7 +1,7 @@
 import { HttpInterceptor, HttpRequest, HttpHandler} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthService } from "../shared/auth.service";
+import { AuthLoginService } from "../shared/auth.service";
 import { SessionService } from '../shared/session.service';
 
 @Injectable()

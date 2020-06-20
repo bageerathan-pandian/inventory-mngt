@@ -12,7 +12,6 @@ import { CustomerService } from 'src/app/shared/customer.service';
 import { StockService } from 'src/app/shared/stock.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { CommonService } from 'src/app/shared/common.service';
-import { AuthService } from 'src/app/shared/auth.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { environment } from 'src/environments/environment';
@@ -77,7 +76,7 @@ export class PurchaseComponent implements OnInit {
 
   constructor(private _fb:FormBuilder,
     private router: Router,
-    private messageService: MessageService, private supplierService: SuppierService,private stockService:StockService,private categoryService: CategoryService,private purchaseService:PurchaseService, private commonService: CommonService, private auth: AuthService,
+    private messageService: MessageService, private supplierService: SuppierService,private stockService:StockService,private categoryService: CategoryService,private purchaseService:PurchaseService, private commonService: CommonService,
     private pdfGenerator: PdfGeneratorService,
     public sessionService : SessionService
   ) {

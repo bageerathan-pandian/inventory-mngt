@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { MustMatch } from 'src/app/shared/validations/password-match';
@@ -18,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup
   displayDialog: boolean
   public bradCrum: MenuItem[];
-  constructor(private auth: AuthService, private _fb: FormBuilder, private messageService: MessageService,private router: Router, private confirmationService: ConfirmationService,
+  constructor(private auth: AuthLoginService, private _fb: FormBuilder, private messageService: MessageService,private router: Router, private confirmationService: ConfirmationService,
     public sessionService: SessionService
     ) {
     

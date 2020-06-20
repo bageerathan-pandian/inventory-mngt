@@ -13,7 +13,7 @@ import { SessionService } from './session.service';
 @Injectable({
   providedIn: "root"
 })
-export class AuthService {
+export class AuthLoginService {
     
   private socket;   
 

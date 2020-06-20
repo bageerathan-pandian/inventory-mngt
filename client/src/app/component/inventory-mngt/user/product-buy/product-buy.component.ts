@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { StripeCheckoutLoader, StripeCheckoutHandler } from 'ng-stripe-checkout';
 
 import * as moment from 'moment';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CompanyService } from 'src/app/shared/company.service';
 import { UserService } from 'src/app/shared/user.service';
@@ -44,7 +44,7 @@ export class ProductBuyComponent implements OnInit {
       })
     }
   }
-  constructor(private messageService: MessageService,private stripeCheckoutLoader: StripeCheckoutLoader, private auth: AuthService,
+  constructor(private messageService: MessageService,private stripeCheckoutLoader: StripeCheckoutLoader, private auth: AuthLoginService,
     public sessionService: SessionService, private companyService: CompanyService, private userService: UserService, private menuDataService: MenuDataService
     ) { }
 

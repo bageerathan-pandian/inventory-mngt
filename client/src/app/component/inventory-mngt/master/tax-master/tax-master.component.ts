@@ -3,7 +3,6 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Tax } from 'src/app/model/tax.model';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/auth.service';
 import { TaxService } from 'src/app/shared/tax.service';
 
 import * as _ from 'lodash';
@@ -26,7 +25,7 @@ export class TaxMasterComponent implements OnInit {
   displayDialog: boolean;
   car: any = {};  
   status:any = [];
-  constructor(private router:Router,private _fb: FormBuilder, private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private taxService:TaxService,private commonService: CommonService,
+  constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private taxService:TaxService,private commonService: CommonService,
     public sessionService: SessionService
     ) {
   }

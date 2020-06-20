@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { Category } from 'src/app/model/category.model';
 import * as _ from 'lodash';
 import { CategoryService } from 'src/app/shared/category.service';
-import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
 
@@ -25,7 +24,7 @@ export class CategoryMasterComponent implements OnInit {
   cols: any[];
   columns: any[];
   catData:any = []
-  constructor(private router:Router,private auth:AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService,
+  constructor(private router:Router, private confirmationService: ConfirmationService,private messageService: MessageService,private categoryService:CategoryService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
   }

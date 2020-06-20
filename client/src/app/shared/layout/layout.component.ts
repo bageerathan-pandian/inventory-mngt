@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationStateService } from '../application-state.service';
 import { MenuDataService } from '../menu-data.service';
+import { routerDashboardAnimation } from '../animations/router-dashboard-animations';
 
 @Component({
   selector: 'app-layout',
   templateUrl: 'layout.component.html',
-  styleUrls: ['layout.component.css']
+  styleUrls: ['layout.component.css'],
+  animations:[routerDashboardAnimation]
 })
 export class LayoutComponent implements OnInit {
 

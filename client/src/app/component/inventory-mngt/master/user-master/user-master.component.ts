@@ -9,7 +9,6 @@ import * as _ from 'lodash';
 import { UserService } from 'src/app/shared/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompanyService } from 'src/app/shared/company.service';
-import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { ImageUploadService } from 'src/app/shared/image-upload.service';
 import { environment } from 'src/environments/environment';
@@ -38,7 +37,7 @@ export class UserMasterComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   private socket;
-  constructor(private router:Router,private auth:AuthService, private companyService: CompanyService, private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private userService:UserService,private commonService: CommonService,private imageUploadService: ImageUploadService,
+  constructor(private router:Router, private companyService: CompanyService, private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private userService:UserService,private commonService: CommonService,private imageUploadService: ImageUploadService,
     public sessionService: SessionService
     ) {
 

@@ -1,11 +1,13 @@
-<ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
-    <p style="color: #000" > Logging out... </p>
+<ngx-spinner bdOpacity=0.1 bdColor="rgba(255,255,255,0.9)" size="default" color="#060606" type="ball-clip-rotate"
+  [fullScreen]="false">
+  <p style="color: #000"> Logging out... </p>
 </ngx-spinner>
 <app-header></app-header>
 <div class="ng-content" [ngClass]="{'hidden-menu-content': !isMenuVisible}">
   <app-menu></app-menu>
-  <router-outlet ></router-outlet>
-
+  <main [@routerDashboardAnimation]="o.isActivated ? o.activatedRoute : ''">
+    <router-outlet #o="outlet"></router-outlet>
+  </main>
 </div>
 <!-- <router-outlet name="print"></router-outlet> -->
 

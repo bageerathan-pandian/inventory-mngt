@@ -9,7 +9,6 @@ import * as _ from 'lodash';
 import { StockService } from 'src/app/shared/stock.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { UnitService } from 'src/app/shared/unit.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -43,7 +42,7 @@ export class StockMasterComponent implements OnInit {
   catData: any = [] // pass data to another component
   unitData: any = [] // pass data to another component
 
-  constructor(private router:Router,private _fb: FormBuilder, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
+  constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
     public sessionService: SessionService
     ) {
     this.bradCrum = [

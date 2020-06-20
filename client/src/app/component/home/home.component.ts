@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   contactForm: FormGroup
 
   constructor(
-    private authService:AuthService,
+    private authService:AuthLoginService,
     private messageService: MessageService,
     private _fb: FormBuilder
     ) { 

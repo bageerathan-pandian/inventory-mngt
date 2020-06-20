@@ -20,7 +20,7 @@ export class ScheduleCalenderComponent implements OnInit {
       this.events = [
           {
               "title": "All Day Event",
-              "start": "2019-01-01"
+              "start": "2020-06-14"
           },
           {
               "title": "Long Event",
@@ -33,23 +33,27 @@ export class ScheduleCalenderComponent implements OnInit {
           },
           {
               "title": "Repeating Event",
-              "start": "2019-01-16T16:00:00"
+              "start": "2020-01-16T16:00:00"
           },
           {
               "title": "Conference",
-              "start": "2019-01-11",
-              "end": "2019-01-13"
+              "start": "2020-01-11",
+              "end": "2020-01-13"
           }
       ];
       this.options = {
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        // defaultDate: '2019-11-11',
-        // header: {
-        //     left: 'prev,next',
-        //     center: 'title',
-        //     right: 'month,agendaWeek,agendaDay'
-        // },
-        editable: true
+        defaultDate: new Date(),
+        header: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        editable: true,
+        dateClick: (e) =>  {
+            //handle date click
+            console.log(e)
+        }
     };
   }
 

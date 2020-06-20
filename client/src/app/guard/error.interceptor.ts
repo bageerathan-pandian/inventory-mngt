@@ -1,41 +1,49 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { AuthService } from '../shared/auth.service';
+import { catchError, retryWhen, map, tap, delay, take } from 'rxjs/operators';
+import { AuthLoginService } from '../shared/auth.service';
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService) { }
-
-    presentErrorAlert(code){
-      console.log(code)
-      // this.confirmationService.confirm({
-      //   message: code,
-      //   accept: () => {
-      //       //Actual logic to perform a confirmation
-      //   }
-      // });
-    }
+    constructor(private authService: AuthLoginService) { }
+   
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
-          console.log('err.status',err.status);
-            if (err.status === 401) {
-                // 401 - unauthoried access
-                this.authService.logOut(); // auto logout
-            }else if (err.status === 404 || err.status === 405 || err.status === 500 || err.status === 0) {
-                // 404 - page not found
-                // 405 - method not allowed
-                // 500 - internal server error
-                // 0   - timing out   
-                this.presentErrorAlert(err.status);
-            }
-            
+        return next.handle(request).pipe(
+                // retry(3), // retry the failed request up to 3 times
+                // catchError(err => this.errorHandler(err)),
+                retryWhen(res => res.pipe(
+                    map((err, index) => {
+                        console.log(index)
+                        if (index === 2) {
+                            this.errorHandler(err)
+                        }
+                    }),
+                    tap(() => console.log('retrying...')),
+                    delay(1000),
+                    take(3)
+                ))
+            )
            
-            const error = err.error.message || err.statusText;
-            return throwError(err);
-        }))
+    }
+
+    private errorHandler(error: HttpEvent<any>): Observable<HttpEvent<any>> {
+        if (error instanceof HttpErrorResponse) {
+            switch (error.status) {
+                case 401:
+                    this.authService.logOut();
+                    location.reload(true);
+                    break;
+                // case 500:
+                    // this.toastr.warning(error.statusText)
+                default:
+                    // this.toastr.warning(error.statusText)
+                    break;
+
+            }
+            return throwError(error);
+        }
     }
 }

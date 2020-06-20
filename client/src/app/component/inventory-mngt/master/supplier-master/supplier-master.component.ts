@@ -9,7 +9,6 @@ import { Supplier } from 'src/app/model/supplier.model';
 import { SuppierService } from 'src/app/shared/suppier.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { AuthService } from 'src/app/shared/auth.service';
 import { CommonService } from 'src/app/shared/common.service';
 import { SessionService } from 'src/app/shared/session.service';
 
@@ -30,7 +29,7 @@ export class SupplierMasterComponent implements OnInit {
   supplierList: Supplier[];
   supplierData: any
 
-  constructor(private router:Router, private auth: AuthService, private confirmationService: ConfirmationService,private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
+  constructor(private router:Router, private confirmationService: ConfirmationService,private messageService: MessageService,private supplierService:SuppierService,private commonService:CommonService,
     public sessionService : SessionService
     ) {
     this.bradCrum = [

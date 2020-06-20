@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth.service';
+import { AuthLoginService } from 'src/app/shared/auth.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -16,7 +16,7 @@ export class ForgotPasswordComponent implements OnInit {
   forgotForm: FormGroup;
   successRegister: boolean = false;
 
-  constructor(private auth: AuthService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,
+  constructor(private auth: AuthLoginService, private _fb: FormBuilder,private messageService: MessageService, private router: Router,
     private spinner: NgxSpinnerService,
     public sessionService: SessionService
     ) {

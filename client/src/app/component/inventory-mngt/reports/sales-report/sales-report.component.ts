@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/auth.service';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { SessionService } from 'src/app/shared/session.service';
 import { ReportService } from 'src/app/shared/report.service';
@@ -29,7 +28,7 @@ export class SalesReportComponent implements OnInit {
     'This Month': [moment().startOf('month').format(), moment().endOf('month').format()],
     'Last Month': [moment().subtract(1, 'month').startOf('month').format(), moment().subtract(1, 'month').endOf('month').format()]
   }
-  constructor(private router:Router, private auth:AuthService,private reportService:ReportService, public sessionService: SessionService ) {
+  constructor(private router:Router,private reportService:ReportService, public sessionService: SessionService ) {
       this.alwaysShowCalendars = true;
     this.bradCrum = [
       {label:'',icon: 'pi pi-home',command: (event) => {

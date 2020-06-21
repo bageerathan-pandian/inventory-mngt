@@ -128,8 +128,14 @@ background-size: cover;">
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" pButton icon="pi pi-angle-left" (click)="back(0)" label="Back" style="float: left;"></button>
-            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(2)" label="Next" style="float: right;"></button>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button type="button" pButton icon="pi pi-angle-left" (click)="back(0)" label="Back" style="float: left;"></button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(2)" label="Next" style="float: right;"></button>
+                </div>
+            </div>
         </div>
     </p-footer>
   </form>
@@ -190,8 +196,14 @@ background-size: cover;">
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" pButton icon="pi pi-angle-left" (click)="back(1)" label="Back" style="float: left;"></button>
-                <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(3)" label="Next" style="float: right;"></button>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-6">
+                        <button type="button" pButton icon="pi pi-angle-left" (click)="back(1)" label="Back" style="float: left;"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-success" (click)="onSaveData(3)" label="Next" style="float: right;"></button>
+                    </div>
+                </div>
             </div>
         </p-footer>
       </form>
@@ -254,10 +266,16 @@ background-size: cover;">
                 </div>
                 <p-footer>
                     <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                        <button type="button" pButton icon="pi pi-angle-left" (click)="back(2)" label="Back" style="float: left;"></button>
-                          <button type="button" pButton *ngIf="!loaingSpinner" icon="pi pi-save" class="ui-button-success" (click)="onRegister()"  label="Register" style="float: right;"></button>
-                          <button type="button" pButton *ngIf="loaingSpinner" disabled icon="pi pi-spin pi-spinner" class="ui-button-success"  label="Please wait..." style="float: right;"></button>
-                    </div>
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-6">
+                                <button type="button" pButton icon="pi pi-angle-left" (click)="back(2)" label="Back" style="float: left;"></button>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <button type="button" pButton *ngIf="!loaingSpinner" icon="pi pi-save" class="ui-button-success" (click)="onRegister()"  label="Register" style="float: right;"></button>
+                                <button type="button" pButton *ngIf="loaingSpinner" disabled icon="pi pi-spin pi-spinner" class="ui-button-success"  label="Please wait..." style="float: right;"></button>
+                                   </div>
+                        </div>
+                   </div>
                 </p-footer>
               </div>
          <p-footer>
@@ -309,9 +327,11 @@ background-size: cover;">
                         <!-- <p>(or)</p>                        
                         <a (click)="changePhoneVerify(0,1)" >Verify Phone Number</a> -->
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                                <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
-                            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
-                        </div>
+                            <div class="ui-g-12 ui-md-6 ui-md-offset-3">
+                               <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
+                               <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
+                            </div>
+                                                    </div>
                     </p-footer>
               </div>
           </p-card>
@@ -370,8 +390,12 @@ background-size: cover;">
                         <p>(or)</p>                        
                         <a (click)="changePhoneVerify(1,0)" >Verify Email</a>
                         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                                <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
-                            <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12 ui-md-6">
+          <!-- <button type="button" pButton (click)="resendVerifyEmail()" label="Resend Verification Email" style="float: left;"></button> -->
+          <button type="button" pButton  icon="pi pi-angle-right" conPos="right" class="ui-button-secondary" (click)="skipToDashboard()" label="Skip" style="float: right;"></button>
+        </div>
+                            </div>
                         </div>
                     </p-footer>
               </div>

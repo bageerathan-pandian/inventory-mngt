@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 import { SessionService } from 'src/app/shared/session.service';
-import { AuthService, FacebookLoginProvider, GoogleLoginProvider,LinkedinLoginProvider } from 'angular-6-social-login';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider, LinkedinLoginProvider } from 'angular-6-social-login';
 declare var io: any
 
 @Component({
@@ -67,9 +67,7 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(socialPlatform + " sign in data : ", userData);
-        // Now sign-in with userData
-        // ...
-
+        this.router.navigate(["/register"],{queryParams:userData});
       }
     );
   }

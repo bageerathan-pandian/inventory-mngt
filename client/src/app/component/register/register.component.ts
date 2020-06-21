@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthLoginService } from 'src/app/shared/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import {StripeCheckoutLoader, StripeCheckoutHandler} from 'ng-stripe-checkout';
@@ -38,13 +38,22 @@ export class RegisterComponent implements OnInit {
   emailCheckStatus : any
   private socket;
   site_key:string
+  params:any = {}
   
   constructor(private messageService: MessageService, private _fb: FormBuilder,private auth: AuthLoginService, private router:Router,
     private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
-    public sessionService: SessionService
+    public sessionService: SessionService, private activedRoute: ActivatedRoute
     ) {
       this.socket = io(environment.api_url);
       this.site_key = environment.site_key;
+
+      this.activedRoute.queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        console.log(params)
+        this.params = params
+      });
+
       this.planForm = this._fb.group({
         plan_type: ['',Validators.required]
       })
@@ -66,8 +75,8 @@ export class RegisterComponent implements OnInit {
     this.userForm = this._fb.group({
       _id: [''],
       user_code: ['u-0001',Validators.required],
-      user_name: ['',Validators.required],
-      user_email:  ['',[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+      user_name: [this.params ? this.params.name: '',Validators.required],
+      user_email:  [this.params ? this.params.email: '',[Validators.required,Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
       user_pwd: ['',Validators.required],
       cnfirm_user_pwd: ['',Validators.required],
       phone: ['',Validators.required],

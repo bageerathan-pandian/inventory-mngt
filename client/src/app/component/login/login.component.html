@@ -19,8 +19,14 @@ background-size: cover;">
         </a>
     </div> -->
         <p-card class="login-form  ui-g-12">
-            <button (click)="socialSignIn('facebook')">Sign in with Facebook</button>
-            <button (click)="socialSignIn('google')">Sign in with Google</button>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton (click)="socialSignIn('facebook')" icon="fa fa-facebook" iconPos="left"  label="Login with Facebook" class="ui-button-raised ">  </button>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <button pButton (click)="socialSignIn('google')" icon="pi pi-google" iconPos="left"  label="Login with Google" class="ui-button-raised ui-button-danger">  </button>
+                </div>
+            </div>
 
             <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
                 <div class="ui-g ui-fluid">

@@ -8,6 +8,7 @@ import { SessionService } from 'src/app/shared/session.service';
 import { MessageService } from 'primeng/api';
 
 import * as _ from 'lodash';
+import { TaxService } from 'src/app/shared/tax.service';
 
 @Component({
   selector: 'app-stock-form',
@@ -18,6 +19,7 @@ export class StockFormComponent implements OnInit {
 
   @Input() stockData: any;
   @Input() catData: any;
+  @Input() taxData: any;
   @Input() unitData: any;
   @Input() formType : string
   @Input() displayDialog: boolean
@@ -26,6 +28,7 @@ export class StockFormComponent implements OnInit {
   @Output() displayChangeEvent = new EventEmitter();
   
   @Output() categoryDialogEvent = new EventEmitter();
+  @Output() taxDialogEvent = new EventEmitter();
   @Output() unitDialogEvent = new EventEmitter();
 
   stockForm: FormGroup;
@@ -36,15 +39,17 @@ export class StockFormComponent implements OnInit {
   status:any = [];
   stocksList: any = []
   categoryList:any = [];
+  taxList:any = [];
   stockListSheet:any = []
   unitList:any = []
-  constructor(private _fb: FormBuilder, private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
+  constructor(private _fb: FormBuilder, private stockService:StockService,private categoryService:CategoryService, private taxService: TaxService, private unitService: UnitService, private commonService: CommonService,
     public sessionService: SessionService, private messageService: MessageService
     ) {
 
       
     this.getStocksByCompany();
     this.getCategoryByCompany();
+    this.getTaxByCompany();
     this.getUnitByCompany();
 
   this.status = [
@@ -59,6 +64,7 @@ export class StockFormComponent implements OnInit {
       stock_code: ['',Validators.required],
       stock_name: ['',Validators.required],
       category_details_id: ['',Validators.required],
+      tax_details_id: ['',Validators.required],
       stock_qty: ['',Validators.required],
       buying_price: ['',Validators.required],
       selling_price: ['',Validators.required],
@@ -84,6 +90,14 @@ export class StockFormComponent implements OnInit {
         this.stockForm.controls['category_details_id'].setValue(this.catData.value ? this.catData.value : null);         
       }, 1000);     
     }
+    console.log('isObjectcatData',_.isPlainObject(this.taxData))
+    if(_.isPlainObject(this.taxData)){      
+      console.log('catData',this.taxData); 
+      this.getTaxByCompany()
+      setTimeout(() => {
+        this.stockForm.controls['tax_details_id'].setValue(this.taxData.value ? this.taxData.value : null);         
+      }, 1000);     
+    }
     console.log('isObjectunitData',_.isPlainObject(this.unitData))
     if(_.isPlainObject(this.unitData)){      
       console.log('unitData',this.unitData); 
@@ -103,7 +117,7 @@ export class StockFormComponent implements OnInit {
     this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : '');
     this.stockForm.controls['buying_price'].setValue(this.stockData.buying_price ? this.stockData.buying_price : '');
     this.stockForm.controls['selling_price'].setValue(this.stockData.selling_price ? this.stockData.selling_price : '');
-    this.stockForm.controls['product_details'].setValue(this.stockData.product_details ? this.stockData.product_details : '');
+    this.stockForm.controls['tax_details_id'].setValue(this.stockData.tax_details_id ? this.stockData.tax_details_id._id : null);
     this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : null);
     this.stockForm.controls['status'].setValue(this.stockData.status ? this.stockData.status : 1);      
     }else{     
@@ -148,6 +162,24 @@ export class StockFormComponent implements OnInit {
     })
   }
 
+  getTaxByCompany(){
+    this.taxList = []
+    this.taxService.getTaxByCompany()
+    .subscribe((data:any)=>{
+      this.taxList.push({  label:'+ Add New Tax',  value:0 });       
+      for(let taxData of data){
+        this.taxList.push({
+          label : taxData.tax_name +  ' | ' +taxData.tax_code,
+          value : taxData._id
+         })
+      }       
+      console.log('taxList',this.taxList);
+      // if(_.some(this.catData, _.isObject)){ 
+      //   this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id  ? this.stockData.category_details_id._id : null);
+      // }
+    })
+  }
+
   getUnitByCompany(){
     this.unitList = []
     this.unitService.getUnitByCompany()
@@ -174,6 +206,17 @@ export class StockFormComponent implements OnInit {
       // this.showDialogToAddCat()
       this.categoryDialogEvent.emit(true)
       this.stockForm.controls['category_details_id'].reset();
+      return false
+    }
+  }
+
+  
+  onSelectTax(event){    
+    console.log(event.value); 
+    if(event.value == 0){
+      // this.showDialogToAddCat()
+      this.taxDialogEvent.emit(true)
+      this.stockForm.controls['tax_details_id'].reset();
       return false
     }
   }

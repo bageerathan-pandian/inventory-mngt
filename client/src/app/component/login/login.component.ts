@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     if (this.sessionService.getItem('inventryLogedIn')) {
       this.router.navigate(["/inventory-mngt/dashboard"]);
     }
-    this.socket = io(environment.api_url);
+    // this.socket = io(environment.api_url);
 
     this.loginForm = this._fb.group({
       // userName: ["", Validators.compose([Validators.required, Validators.minLength(6)])],
@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
         if (data.token) {
           // setTimeout(() => {
           this.display = false
-          this.socket.emit('loginTodo', data.user);
+          // this.socket.emit('loginTodo', data.user);
 
           this.sessionService.setItem("inventryLogedIn", "1");
           this.sessionService.setItem('secret_token', data.token);

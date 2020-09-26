@@ -26,7 +26,7 @@ exports.getAllUsersByCompany =  (req, res)=> {
     } else {
         return res.json(result);
     }
-}).populate('company_details_id').populate('category_details_id').populate('unit_details_id').sort( { updatedAt: -1 } )
+}).populate('company_details_id').populate('category_details_id').populate('tax_details_id').populate('unit_details_id').sort( { updatedAt: -1 } )
 }
 
 

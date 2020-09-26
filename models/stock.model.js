@@ -11,6 +11,7 @@ const StockSchema = new mongoose.Schema({
   selling_price: { type: Number },
   product_details: { type: String },
   unit_details_id:  { type: Schema.Types.ObjectId, ref: 'unit_details' },
+  tax_details_id:  { type: Schema.Types.ObjectId, ref: 'tax_details' },
   status: { type: Number },
 },{timestamps: true});
 

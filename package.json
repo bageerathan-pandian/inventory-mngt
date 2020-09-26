@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "electron": "electron electron.dev.js",
+    "electron-build": "ng build --prod && electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

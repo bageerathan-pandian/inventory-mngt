@@ -6,8 +6,8 @@ import { InvoiceDesignLayoutComponent } from './shared/layout/invoice-design-lay
 import { PrintComponent } from './component/inventory-mngt/print/print.component';
 
 const routes: Routes = [
-  // {path:'',redirectTo:'home',pathMatch:'full'},
-  {path:'',loadChildren:() => import('./component/home/home.module').then(m => m.HomeModule)},
+  {path:'',redirectTo:'login',pathMatch:'full'},
+  // {path:'',loadChildren:() => import('./component/home/home.module').then(m => m.HomeModule)},
   {path:'login',loadChildren:() => import('./component/login/login.module').then(m => m.LoginModule)},
   {path:'register',loadChildren:() => import('./component/register/register.module').then(m => m.RegisterModule)},
   {path:'forgot-password',loadChildren:() => import('./component/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)},
@@ -55,7 +55,7 @@ const routes: Routes = [
   },
   { path: 'company/:company-slug', loadChildren: () => import('./component/e-commerce/company/company.module').then(m => m.CompanyModule) },
   { path: 'company/:company-slug/products', loadChildren: () => import('./component/e-commerce/company/products/products.module').then(m => m.ProductsModule) },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
     private stripeCheckoutLoader: StripeCheckoutLoader, private commonService: CommonService,
     public sessionService: SessionService, private activedRoute: ActivatedRoute
     ) {
-      this.socket = io(environment.api_url);
+      // this.socket = io(environment.api_url);
       this.site_key = environment.site_key;
 
       this.activedRoute.queryParams
@@ -355,7 +355,7 @@ onCheckPaymentType(){
         this.loaingSpinner = false
         if(data.token){
           // setTimeout(() => {
-            this.socket.emit('loginTodo', data.user);
+            // this.socket.emit('loginTodo', data.user);
   
             this.sessionService.setItem("inventryLogedIn", "1");
             this.sessionService.setItem('secret_token',data.token);

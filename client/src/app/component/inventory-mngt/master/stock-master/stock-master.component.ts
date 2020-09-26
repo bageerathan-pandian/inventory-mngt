@@ -27,6 +27,7 @@ export class StockMasterComponent implements OnInit {
   displayDialog: boolean;
   displayDialog1: boolean;
   displayDialog2: boolean;
+  displayDialog3: boolean;
   categoryForm: FormGroup
   unitForm:FormGroup
   car: any = {};
@@ -40,6 +41,7 @@ export class StockMasterComponent implements OnInit {
 
   stockData: any = [] // pass data to another component
   catData: any = [] // pass data to another component
+  taxData: any = [] // pass data to another component
   unitData: any = [] // pass data to another component
 
   constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
@@ -61,6 +63,7 @@ export class StockMasterComponent implements OnInit {
 
 
   this.getCategoryByCompany();
+  // this.getTaxByCompany();
   this.getUnitByCompany();
   this.getStocksByCompany();
   
@@ -89,7 +92,7 @@ export class StockMasterComponent implements OnInit {
       { field: 'stock_qty', header: 'Stock Qty' },
       { field: 'buying_price', header: 'Buying Price' },
       { field: 'selling_price', header: 'Selling Price' },
-      { field: 'product_details', header: 'Product Details' },
+      { field: 'tax_details_id', header: 'Tax %' },
       { field: 'unit_details_id', header: 'Unit' },
       { field: 'updatedAt', header: 'Updated Date' },
       { field: 'status', header: 'Status' }
@@ -119,6 +122,11 @@ export class StockMasterComponent implements OnInit {
     this.catData = event
   }
 
+  receiveTax(event){
+    console.log('receiveTax',event) 
+    this.taxData = event
+  }
+
   receiveUnit(event){
     console.log('receiveUnit',event) 
     this.unitData = event
@@ -141,9 +149,20 @@ export class StockMasterComponent implements OnInit {
     this.displayDialog2 = false;
   }
 
+  
+  onDialogClose3(event){
+    console.log(event) 
+    this.displayDialog3 = false;
+  }
+
   categoryDialog(event){
     console.log('categoryDialog',event)   
     this.displayDialog1 = event;
+  }
+
+  taxDialog(event){
+    console.log('taxDialog',event)   
+    this.displayDialog3 = event;
   }
 
   unitDialog(event){

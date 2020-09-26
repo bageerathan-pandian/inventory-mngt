@@ -1,11 +1,11 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
 
 <!-- <ngx-spinner  bdOpacity = 0.1  bdColor = "rgba(255,255,255,0.9)"  size = "default"  color = "#060606"  type = "ball-clip-rotate"  [fullScreen] = "false"  >
         <p style="color: #000" > Authendicating... </p>
 </ngx-spinner> -->
 
 <div class="ui-g-12" style="padding: 5% 0;;background: url(./assets/img/home-bg1.png) no-repeat center center;
-background-size: cover;">
+background-size: cover;height: 100%;">
 
 
 
@@ -19,14 +19,7 @@ background-size: cover;">
         </a>
     </div> -->
         <p-card class="login-form  ui-g-12">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-6">
-                    <button pButton (click)="socialSignIn('facebook')" icon="fa fa-facebook" iconPos="left"  label="Login with Facebook" class="ui-button-raised ">  </button>
-                </div>
-                <div class="ui-g-12 ui-md-6">
-                    <button pButton (click)="socialSignIn('google')" icon="pi pi-google" iconPos="left"  label="Login with Google" class="ui-button-raised ui-button-danger">  </button>
-                </div>
-            </div>
+            
 
             <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="text-align: center">
                 <div class="ui-g ui-fluid">
@@ -34,6 +27,15 @@ background-size: cover;">
                     <div class="ui-g-12 ui-md-12">
                         <h2>Login</h2>
                         <span>With your Account</span>
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-md-6">
+                                <button pButton (click)="socialSignIn('facebook')" icon="fa fa-facebook" iconPos="left"  label="Login with Facebook" class="ui-button-raised ">  </button>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <button pButton (click)="socialSignIn('google')" icon="pi pi-google" iconPos="left"  label="Login with Google" class="ui-button-raised ui-button-danger">  </button>
+                            </div>
+                        </div>
+                        <p>------------------ Or ------------------</p>
                     </div>
 
                     <div class="ui-g-12 ui-md-12">
@@ -94,9 +96,9 @@ background-size: cover;">
 </div>
 
 
-<div class="ui-g-12 ">
+<!-- <div class="ui-g-12 ">
     <app-footer></app-footer>
-</div>
+</div> -->
 
 
 

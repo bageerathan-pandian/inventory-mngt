@@ -1,7 +1,7 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
 
 <div  class="ui-g-12" style="padding: 5% 0;background: url(./assets/img/home-bg2.jpg) no-repeat center center;
-background-size: cover;">
+background-size: cover;height: 100%;">
   
     <div  class="ui-g-12 ui-md-6 ui-md-offset-3">
     <p-messages class="ui-g-12" styleClass="loagin-wrapper" ></p-messages>
@@ -16,10 +16,10 @@ background-size: cover;">
    
 
     
-  <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
 
 <p-card *ngIf="!successRegister" >
-        
+    <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+
 
   <form [formGroup]="planForm" *ngIf="activeIndex == 0"> 
     <div class="ui-g ui-fluid" >
@@ -404,6 +404,6 @@ background-size: cover;">
 </div>
 </div>
 </div>
-<div  class="ui-g-12 ">
+<!-- <div  class="ui-g-12 ">
         <app-footer></app-footer>
-</div>
+</div> -->

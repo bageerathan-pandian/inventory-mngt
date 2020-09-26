@@ -6,10 +6,10 @@
  
     <ng-template pTemplate="caption">
             <div class="ui-helper-clearfix" style="text-align: left;width: 50%; float: left; margin-bottom: 10px;">
-                    <!-- <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button> -->
-                    <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                    <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;width: 20%;"></button>
+                    <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;width: 20%;" class="ui-button-success"></button>
                     <!-- <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"  style="margin-right: 0.5em;" ></button> -->
-                    <!-- <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})"  style="margin-right: 0.5em;"  ></button> -->
+                    <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})"  style="margin-right: 0.5em;width: 35%;"  ></button>
                 </div>
         <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
@@ -67,7 +67,7 @@
             {{rowData.selling_price  | currency : 'INR':true}}
         </td>
         <td>
-        {{rowData.product_details}}
+            {{rowData.tax_details_id.tax_name}}
         </td>
         <td>
                 {{rowData.unit_details_id?.unit_name}}
@@ -98,11 +98,13 @@
 </div>
 
 
-<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
+<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" (taxDialogEvent)="taxDialog($event)" [stockData]="stockData" [catData]="catData" [taxData]="taxData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
 
 <app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
 
 <app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"  (unitEvent)="receiveUnit($event)"></app-unit-form>
+
+<app-tax-form [displayDialog3]="displayDialog3" (displayChangeEvent3)="onDialogClose3($event)" (taxEvent)="receiveTax($event)"></app-tax-form>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
         <p-footer>

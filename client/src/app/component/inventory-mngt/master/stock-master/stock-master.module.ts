@@ -21,6 +21,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import { StockFormModule } from '../../shared/stock-form/stock-form.module';
 import { CategoryFormModule } from '../../shared/category-form/category-form.module';
 import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
+import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
 
 @NgModule({
   declarations: [StockMasterComponent],
@@ -45,7 +46,8 @@ import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
     TooltipModule,
     StockFormModule,
     CategoryFormModule,
-    UnitFormModule
+    UnitFormModule,
+    TaxFormModule
   ]
 })
 export class StockMasterModule { }

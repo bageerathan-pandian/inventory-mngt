@@ -25,7 +25,11 @@
                   <p-sortIcon [field]="tax_name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                   </th>
                   <th  [pSortableColumn]="'tax_value'" pResizableColumn>
-                    Tax %
+                    Tax (CGST)%
+                <p-sortIcon [field]="tax_value" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th  [pSortableColumn]="'tax_value'" pResizableColumn>
+                    Tax (SGST)%
                 <p-sortIcon [field]="tax_value" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                 </th>
                   <th [pSortableColumn]="'updatedAt'" pResizableColumn>
@@ -61,13 +65,23 @@
                   <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="rowData.tax_value" required>
+                            <input pInputText type="text" [(ngModel)]="rowData.tax_value_cgst" required>
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{rowData.tax_value}}
+                            {{rowData.tax_value_cgst}} %
                         </ng-template>
                     </p-cellEditor>
                 </td>
+                <td>
+                  <p-cellEditor>
+                      <ng-template pTemplate="input">
+                          <input pInputText type="text" [(ngModel)]="rowData.tax_value_sgst" required>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                          {{rowData.tax_value_sgst}} %
+                      </ng-template>
+                  </p-cellEditor>
+              </td>
                   <td>
                     {{rowData.updatedAt | date:'medium'}}
             </td>
@@ -75,7 +89,7 @@
                     <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
                 </td>
                 <td style="text-align:center">
-                    <button  pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+                    <button  pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
                     <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
                     <button  pButton type="button" pCancelEditableRow icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
                 </td>
@@ -87,7 +101,10 @@
           </ng-template>
       </p-table>
 
-      <p-dialog   [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+      <app-tax-form [displayDialog3]="displayDialog3" [taxData]="taxData" (displayChangeEvent3)="onDialogClose3($event)" (taxEvent)="receiveTax($event)"></app-tax-form>
+
+
+      <!-- <p-dialog   [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
             <p-header>
                     <span *ngIf="taxForm.value._id">Update</span>
                     <span *ngIf="!taxForm.value._id">Add</span> Tax
@@ -130,13 +147,13 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+                 <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button>
                 <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="!taxForm.value._id" (click)="save()" label="Add"></button>
                 <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="taxForm.value._id" (click)="save()" label="Update"></button>
             </div>
         </p-footer>
     </form>
-    </p-dialog>
+    </p-dialog> -->
     
     <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
             <p-footer>

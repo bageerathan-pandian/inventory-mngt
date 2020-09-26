@@ -287,9 +287,9 @@ initRowFirst() {
         this.invoiceForm.controls['grand_total'].setValue(0.00);
         this.invoiceForm.controls['payment_type'].setValue(1);
         this.invoiceForm.controls['payment_status'].setValue(1);
-        // setTimeout(() => {
-        //   printJS('print-section', 'html') // print invoice          
-        // }, 1000);
+        setTimeout(() => {
+          printJS('print-section', 'html') // print invoice          
+        }, 1000);
     })
   }
 

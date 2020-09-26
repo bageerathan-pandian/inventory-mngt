@@ -62,6 +62,14 @@
             </div>
             <div class="ui-g-12">
                 <div class="ui-g-4">
+                    <label for="vin">Tax %</label>
+                </div>
+                <div class="ui-g-8">
+                    <p-dropdown [options]="taxList" placeholder="Select Tax" filter="true" formControlName="tax_details_id" [showClear]="true" (onChange)="onSelectTax($event)"></p-dropdown>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
                     <label for="year">Details</label>
                 </div>
                 <div class="ui-g-8">

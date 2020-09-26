@@ -18,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {MultiSelectModule} from 'primeng/multiselect';
+import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
     InputSwitchModule,
     ProgressSpinnerModule,
     ReactiveFormsModule,
-    MultiSelectModule
+    MultiSelectModule,
+    TaxFormModule
   ]
 })
 export class TaxMasterModule { }

@@ -32,81 +32,86 @@ import { environment } from 'src/environments/environment';
 export class SalesComponent implements OnInit {
   public bradCrum: MenuItem[];
   filteredBrands: any[];
-  categoryList:Category[];
-  stocks:Stock[];
-  customers:Customer[];
-  stocksList:any = [];
-  customerList:any = [];
+  categoryList: Category[];
+  stocks: Stock[];
+  customers: Customer[];
+  stocksList: any = [];
+  customerList: any = [];
   cities1: any = [];
   salesList: Sales[] = [];
   invoiceDate: any = new Date();
   rowData: any = {};
-  paymentStatus:any =[];
-  paymentType:any =[];
-  discountPer:any = [];
-  invoiceForm:FormGroup;
+  paymentStatus: any = [];
+  paymentType: any = [];
+  discountPer: any = [];
+  invoiceForm: FormGroup;
   customerForm: FormGroup
-  invoice_id:number;
-  customerName:any;
-  discount:number = 0.00;
-  sub_total:number =0.00;
-  grand_total:number = 0.00;
-  payment_type:number;
-  payment_status:number;
-  
-  status:any
-  pdfUrl:string;
-  showPdf:boolean = false;
+  invoice_id: number;
+  customerName: any;
+  discount: number = 0.00;
+  sub_total: number = 0.00;
+  grand_total: number = 0.00;
+  payment_type: number;
+  payment_status: number;
+
+  status: any
+  pdfUrl: string;
+  showPdf: boolean = false;
 
   displayDialog: boolean;
   displayDialog1: boolean;
   displayDialog2: boolean;
   displayDialog3: boolean;
-  
+
   stockData: any = [] // pass data to another component
   catData: any = [] // pass data to another component
   unitData: any = [] // pass data to another component
-  
-  invoiceArray:any = [];
-  @ViewChild("form",{static:false}) form;
-  @ViewChild('printDiv',{static:false}) printDiv: ElementRef;
-  selectedCustData :any = []
-  invoiceData:any
-  customerData:any
 
-  constructor(private _fb:FormBuilder,
+  invoiceArray: any = [];
+  @ViewChild("form", { static: false }) form;
+  @ViewChild('printDiv', { static: false }) printDiv: ElementRef;
+  selectedCustData: any = []
+  invoiceData: any
+  customerData: any
+
+  constructor(private _fb: FormBuilder,
     private router: Router,
-    private messageService: MessageService, private customerService: CustomerService,private stockService:StockService,private categoryService: CategoryService,private salesService:SalesService, private commonService: CommonService, private auth: AuthLoginService,
+    private messageService: MessageService, private customerService: CustomerService, private stockService: StockService, private categoryService: CategoryService, private salesService: SalesService, private commonService: CommonService, private auth: AuthLoginService,
     private pdfGenerator: PdfGeneratorService,
-    public sessionService : SessionService
+    public sessionService: SessionService
   ) {
     // let invalidDate = new Date();
     // this.invalidDates = [invalidDate];
     this.invoiceForm = this._fb.group({
-      _id:[''],
-      company_details_id: [this.sessionService.getItem('company_id'),Validators.required],
-      invoice_code:['',Validators.required],
-      invoice_date:[new Date(),Validators.required],
-      customer_details_id:[''],
+      _id: [''],
+      company_details_id: [this.sessionService.getItem('company_id'), Validators.required],
+      invoice_code: ['', Validators.required],
+      invoice_date: [new Date(), Validators.required],
+      customer_details_id: [''],
       invoiceList: this._fb.array([
         this.initRowFirst()
       ]),
-      sub_total:[0.00],
-      discount:[0.00],
-      grand_total:[0.00,Validators.required],
-      payment_type:[1,Validators.required],
-      paid_amount:[0.00,Validators.required],
-      balance_amount:[0.00,Validators.required],
-      payment_status:[1,Validators.required]
+      sub_total: [0.00],
+      discount: [0.00],
+      grand_total: [0.00, Validators.required],
+      cgst: [0.00],
+      sgst: [0.00],
+      tax_enable: [true],
+      payment_type: [1, Validators.required],
+      paid_amount: [0.00, Validators.required],
+      balance_amount: [0.00, Validators.required],
+      payment_status: [1, Validators.required]
     })
-  
-    
+
+
   }
 
   ngOnInit() {
     this.bradCrum = [
-      {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/inventory-mngt/dashboard'])}
+      {
+        label: '', icon: 'pi pi-home', command: (event) => {
+          this.router.navigate(['/inventory-mngt/dashboard'])
+        }
       },
       {
         label: "Sales",
@@ -117,166 +122,171 @@ export class SalesComponent implements OnInit {
     ];
 
     this.status = [
-      {label:'Active', value:1},
-      {label:'De-Active', value:0},
+      { label: 'Active', value: 1 },
+      { label: 'De-Active', value: 0 },
     ]
 
     this.paymentType = [
-      {label:'Cash', value:1},
-      {label:'Card', value:2},
+      { label: 'Cash', value: 1 },
+      { label: 'Card', value: 2 },
     ]
     this.paymentStatus = [
-      {label:'Paid', value:1},
-      {label:'Pending', value:2},
+      { label: 'Paid', value: 1 },
+      { label: 'Pending', value: 2 },
     ]
     this.discountPer = [
-      {label:'5%', value:1},
-      {label:'10%', value:2}
+      { label: '5%', value: 1 },
+      { label: '10%', value: 2 }
     ]
- 
+
     this.getLastInvoiceByCompany();
     this.getCustomerByCompany();
     this.getCategoryByCompany();
     this.getStockByCompany();
-       
+
     this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
   }
 
-  @ViewChild("placesRef",{static:false}) placesRef : GooglePlaceDirective;
-    
+  @ViewChild("placesRef", { static: false }) placesRef: GooglePlaceDirective;
+
   public handleAddressChange(address: Address) {
-    console.log('address',address);
-  // Do some stuff
-  this.customerForm.controls['customer_address'].setValue(address.formatted_address);
-}
-
-public checkValidity(): void {
-  Object.keys(this.invoiceForm.controls).forEach((key) => {
-    console.log('key',key)
-      this.invoiceForm.controls[key].markAsDirty();
-  });
-  Object.keys(this.invoiceForm.get('invoiceList')['controls']).forEach((key1) => {
-    console.log('key1',key1)
-    Object.keys(this.invoiceForm.get('invoiceList')['controls'][key1].controls).forEach((key2) => {
-      console.log('key2',key2)
-      console.log('invoiceList',this.invoiceForm.get('invoiceList')['controls'][key1].controls[key2])
-      this.invoiceForm.get('invoiceList')['controls'][key1].controls[key2].markAsDirty();
-  });
-});
-}
-
-public checkValidityCus(): void {
-  Object.keys(this.customerForm.controls).forEach((key) => {
-      this.customerForm.controls[key].markAsDirty();
-  });
-}
-
-priviewPdf(){
-  this.pdfGenerator.testPdg()
-  .subscribe((data:any)=>{
-    console.log('testPdf',data);
-    console.log('url',environment.api_url + data);
-    // printJS('docs/'+ environment.api_url + data)
-    printJS({printable:'docs/'+environment.api_url + data +"'", type:'pdf', showModal:true})
-  })
-}
-
-printOrder(){
-  
-  // let elementCopy = this.printDiv(true);
-  // this.printDiv.nativeElement.appendChild();
-  // document.body.appendChild(this.printDiv.nativeElement);
-
-  // window.print();
-  
-  printJS('print-section', 'html')
-}
-
-printOrderWithoutView(){
-  
-}
-
-initRowFirst() {
-    return this._fb.group({
-      stock_details_id: ['',Validators.required],
-      price: ['',Validators.required],
-      qty: ['',Validators.required],
-      total_qty: ['',Validators.required],
-      total: ['',Validators.required]
-    });
-}
-
-  getLastInvoiceByCompany(){
-    this.salesService.getLastInvoice()
-    .subscribe((data:any)=>{
-      console.log('getLastInvoice',data);      
-    this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data)); 
-    },
-    error =>{      
-    this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',0)); 
-    })
+    console.log('address', address);
+    // Do some stuff
+    this.customerForm.controls['customer_address'].setValue(address.formatted_address);
   }
 
-  getCustomerByCompany(){
+  public checkValidity(): void {
+    Object.keys(this.invoiceForm.controls).forEach((key) => {
+      console.log('key', key)
+      this.invoiceForm.controls[key].markAsDirty();
+    });
+    Object.keys(this.invoiceForm.get('invoiceList')['controls']).forEach((key1) => {
+      console.log('key1', key1)
+      Object.keys(this.invoiceForm.get('invoiceList')['controls'][key1].controls).forEach((key2) => {
+        console.log('key2', key2)
+        console.log('invoiceList', this.invoiceForm.get('invoiceList')['controls'][key1].controls[key2])
+        this.invoiceForm.get('invoiceList')['controls'][key1].controls[key2].markAsDirty();
+      });
+    });
+  }
+
+  public checkValidityCus(): void {
+    Object.keys(this.customerForm.controls).forEach((key) => {
+      this.customerForm.controls[key].markAsDirty();
+    });
+  }
+
+  priviewPdf() {
+    this.pdfGenerator.testPdg()
+      .subscribe((data: any) => {
+        console.log('testPdf', data);
+        console.log('url', environment.api_url + data);
+        // printJS('docs/'+ environment.api_url + data)
+        // printJS({ printable: 'docs/' + environment.api_url + data + "'", type: 'pdf', showModal: true })
+      })
+  }
+
+  printOrder() {
+
+    // let elementCopy = this.printDiv(true);
+    // this.printDiv.nativeElement.appendChild();
+    // document.body.appendChild(this.printDiv.nativeElement);
+
+    // window.print();
+
+    // printJS('print-section', 'html')
+  }
+
+  printOrderWithoutView() {
+
+  }
+
+  initRowFirst() {
+    return this._fb.group({
+      stock_details_id: ['', Validators.required],
+      price: ['', Validators.required],
+      qty: ['', Validators.required],
+      total_qty: ['', Validators.required],
+      tax_name: ['', Validators.required],
+      cgst_amt: ['', Validators.required],
+      sgst_amt: ['', Validators.required],
+      gst_per: ['', Validators.required],
+      total: ['', Validators.required],
+      total_with_gst: ['', Validators.required]
+    });
+  }
+
+  getLastInvoiceByCompany() {
+    this.salesService.getLastInvoice()
+      .subscribe((data: any) => {
+        console.log('getLastInvoice', data);
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data));
+      },
+        error => {
+          this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', 0));
+        })
+  }
+
+  getCustomerByCompany() {
     this.customerList = []
     this.customerService.getCustomerByCompany()
-    .subscribe((data:any)=>{
-      this.customers = data;
-      this.customerList.push({  label:'+ Add New Customer',  value:0 });
-      for(let custData of this.customers){
-        let listCust =  {
-          label:custData.customer_name +' | '+ custData.customer_code,
-          value:custData._id
+      .subscribe((data: any) => {
+        this.customers = data;
+        this.customerList.push({ label: '+ Add New Customer', value: 0 });
+        for (let custData of this.customers) {
+          let listCust = {
+            label: custData.customer_name + ' | ' + custData.customer_code,
+            value: custData._id
+          }
+          this.customerList.push(listCust);
         }
-        this.customerList.push(listCust);
-      }
-      console.log('customerList',this.customerList);
-    })
+        console.log('customerList', this.customerList);
+      })
   }
 
-   getCategoryByCompany(){
+  getCategoryByCompany() {
     this.categoryService.getCategoryByCompany()
-    .subscribe((data:any)=>{
-      console.log('categoryList',data);
-      this.categoryList = data;
-    })
+      .subscribe((data: any) => {
+        console.log('categoryList', data);
+        this.categoryList = data;
+      })
   }
 
-  getStockByCompany(){
-    this.stocks = [];  
+  getStockByCompany() {
+    this.stocks = [];
     this.stocksList = [];
     this.stockService.getStockByCompanyActive()
-    .subscribe((data:any)=>{
-      console.log('stocksList',data);
-      this.stocks = data;      
+      .subscribe((data: any) => {
+        console.log('stocksList', data);
+        this.stocks = data;
         // this.stocksList = data;
-      this.stocksList.push({  label:'+ Add New Stock',  value:0 });
-      for(let stockData of this.stocks){
-        let listStock=  {
-          label:stockData.stock_name + ' | ' + stockData.stock_code,
-          value:stockData._id
+        this.stocksList.push({ label: '+ Add New Stock', value: 0 });
+        for (let stockData of this.stocks) {
+          let listStock = {
+            label: stockData.stock_name + ' | ' + stockData.stock_code,
+            value: stockData._id
+          }
+          this.stocksList.push(listStock);
         }
-        this.stocksList.push(listStock);
-      }
-    })
-   
+      })
+
   }
 
 
 
-  addSales(){ 
-    console.log('invoiceArray',this.invoiceForm.value);
+  addSales() {
+    console.log('invoiceArray', this.invoiceForm.value);
     this.salesService.addSales(this.invoiceForm.value)
-    .subscribe((data:any)=>{
+      .subscribe((data: any) => {
         console.log(data);
-        this.invoiceData = data
+        this.invoiceData = data.data[0];
         this.getStockByCompany() // refresh stock qty
         this.invoiceForm.reset();
         this.selectedCustData = []
         this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',data.next_invoice)); 
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data.next_invoice));
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
-        this.invoiceForm.controls['invoiceList'].reset() 
+        this.invoiceForm.controls['invoiceList'].reset()
         const control = <FormArray>this.invoiceForm.controls['invoiceList'];
         control.clear();
         control.push(this.initRowFirst());
@@ -285,49 +295,63 @@ initRowFirst() {
         this.invoiceForm.controls['paid_amount'].setValue(0.00);
         this.invoiceForm.controls['balance_amount'].setValue(0.00);
         this.invoiceForm.controls['grand_total'].setValue(0.00);
+        this.invoiceForm.controls['cgst'].setValue(0.00);
+        this.invoiceForm.controls['sgst'].setValue(0.00);
         this.invoiceForm.controls['payment_type'].setValue(1);
         this.invoiceForm.controls['payment_status'].setValue(1);
+        this.invoiceForm.controls['tax_enable'].setValue(true);
         setTimeout(() => {
-          printJS('print-section', 'html') // print invoice          
+          // printJS('print-section', 'html',) // print invoice 
+          printJS({
+            printable: 'print-section',
+            type: 'html',
+            targetStyles: [ 'width' ],
+            style: ' #print-section { visibility: visible!important; } ',
+       })         
         }, 1000);
-    })
+      })
   }
 
   saveOrder() {
-    console.log(this.invoiceForm.value);    
-    if(this.invoiceForm.invalid){
+    console.log(this.invoiceForm.value);
+    if (this.invoiceForm.invalid) {
       this.checkValidity()
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Please fill the mantatory field!'});
+      this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: 'Please fill the mantatory field!' });
       return false;
     }
     this.addSales()
   }
 
- 
-  onSelectCust(event){
-    console.log(event.value); 
-    if(event.value == 0){
+
+  onSelectCust(event) {
+    console.log(event.value);
+    if (event.value == 0) {
       this.selectedCustData = []
       this.displayDialog3 = true
       this.invoiceForm.controls['customer_details_id'].reset();
       return false
-    }else{
+    } else {
       this.selectedCustData = _.find(this.customers, { '_id': event.value })
     }
 
   }
 
 
-  addListItem(){
+  addListItem() {
+    if (this.invoiceForm.controls['invoiceList'].invalid) {
+      this.checkValidity()
+      this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: 'Please fill the mantatory field!' });
+      return false;
+    }
     const control = <FormArray>this.invoiceForm.controls['invoiceList'];
     control.push(this.initRowFirst());
     console.log(control)
   }
 
-  deleteListItem(i){
+  deleteListItem(i) {
     const control = <FormArray>this.invoiceForm.controls['invoiceList'];
     control.removeAt(i);
-    console.log(control)    
+    console.log(control)
     this.calculateTotal()
   }
 
@@ -336,7 +360,7 @@ initRowFirst() {
     // this.invoiceForm.reset();
     // this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV',this.customerList.length)); 
     this.selectedCustData = []
-    this.invoiceForm.controls['invoiceList'].reset() 
+    this.invoiceForm.controls['invoiceList'].reset()
     const control = <FormArray>this.invoiceForm.controls['invoiceList'];
     control.clear();
     control.push(this.initRowFirst());
@@ -346,172 +370,220 @@ initRowFirst() {
     this.invoiceForm.controls['paid_amount'].setValue(0.00);
     this.invoiceForm.controls['balance_amount'].setValue(0.00);
     this.invoiceForm.controls['grand_total'].setValue(0.00);
-}
+    this.invoiceForm.controls['sub_total'].setValue(0.00);
+    this.invoiceForm.controls['discount'].setValue(0.00);
+    this.invoiceForm.controls['cgst'].setValue(0.00);
+    this.invoiceForm.controls['sgst'].setValue(0.00);
+    this.invoiceForm.controls['tax_enable'].setValue(true);
+  }
 
-onClear() {
+  onClear() {
     // clear errors and reset ticket fields  
-}
+  }
 
-onSelectProduct(event,i){
-  console.log(event.value,i); 
-  if(event.value == 0){
-    // this.showDialogToAddStock()
-    this.displayDialog = true;
-    this.invoiceForm.get('invoiceList')['controls'][i].reset() 
-    return false}
-  console.log(this.invoiceForm.value.invoiceList);  
-  if(this.invoiceForm.value.invoiceList.length > 1){
-    let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
-    console.log('stockAddedData',stockAddedData); 
-    if(stockAddedData.price){
-      this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Stock already added in invoice'});
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset() 
+  onSelectProduct(event, i) {
+    console.log(event.value, i);
+    if (event.value == 0) {
+      // this.showDialogToAddStock()
+      this.displayDialog = true;
+      this.invoiceForm.get('invoiceList')['controls'][i].reset()
       return false
     }
-  }
- 
-  var sliceIndex = _.findIndex(this.stocks, function (o) { return  o._id == event.value; });
-  console.log(sliceIndex);
-  if (sliceIndex > -1) {
-    // this.loggedInUsersList.splice(sliceIndex, 1);
-    console.log(this.stocks[sliceIndex]);    
-  console.log(this.invoiceForm.get('invoiceList')['controls'][i]);
-  // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[sliceIndex].stock_qty) 
-  this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
-  this.invoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty) 
-  this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price) 
-  this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].selling_price) 
-  this.calculateTotal()
-  }
-}
+    console.log(this.invoiceForm.value.invoiceList);
+    if (this.invoiceForm.value.invoiceList.length > 1) {
+      let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
+      console.log('stockAddedData', stockAddedData);
+      if (stockAddedData.price) {
+        this.messageService.add({ severity: 'warn', summary: 'Warning!', detail: 'Stock already added in invoice' });
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset()
+        return false
+      }
+    }
 
-onChangeQty(i){
-  if(!this.invoiceForm.get('invoiceList')['controls'][i].value.stock_details_id && this.invoiceForm.get('invoiceList')['controls'][i].value.stock_details_id  == ''){
-     return
-  }
-  if(this.invoiceForm.get('invoiceList')['controls'][i].value.qty == 0 || this.invoiceForm.get('invoiceList')['controls'][i].value.qty == '0'){
-    this.messageService.add({severity:'warn', summary:'Warning!', detail: 'Quantity atleast 1'});    
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
-    return
-  }
-  console.log(i); 
-  console.log(this.invoiceForm.value.invoiceList[i].stock_details_id); 
-  console.log(this.stocks); 
-  console.log('qty',this.invoiceForm.get('invoiceList')['controls'][i].value.qty); 
-  let stockData = _.find(this.stocks, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
-  // let stockDataAdded = _.find(this.invoiceForm.value.invoiceList, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
-  console.log(this.stocks[i]); 
-  console.log('stockData',stockData);    
-  console.log(this.invoiceForm.get('invoiceList')['controls'][i].value);
-  // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
-  // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
-  if(stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty){
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price) 
-  }else{    
-    this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1) 
-    let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
-    this.messageService.add({severity:'error', summary:'Oopss!', detail: qty_data});
-  }
-  this.calculateTotal()
-
-}
-
-
-onChangeDiscount(){
-  // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
-  // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price)    
-  this.invoiceForm.controls['grand_total'].setValue(this.invoiceForm.value.sub_total - this.invoiceForm.value.discount)
-  // this.calculateTotal()
-
-}
-
-calculateTotal(){
-
-  // subtotal
-  var sub_total = 0
-  var sub_total  = _.sumBy(this.invoiceForm.value.invoiceList, 'total')
-  console.log('sub_total1',sub_total);
-  
-  this.invoiceForm.controls['sub_total'].setValue(sub_total)
-  this.invoiceForm.controls['grand_total'].setValue(sub_total - this.invoiceForm.value.discount)
-
-}
-
-onChangePaindAmount(){
-  this.invoiceForm.controls['balance_amount'].setValue(this.invoiceForm.value.grand_total - this.invoiceForm.value.paid_amount)
-}
-
-
-
-receiveStock(event){
-  console.log(event)   
-  // this.stocksList = [event,...this.stocksList];
-  this.getStockByCompany()
-}
-
-receiveCategory(event){
-  console.log('receiveCategory',event) 
-  this.catData = event
-}
-
-receiveUnit(event){
-  console.log('receiveUnit',event) 
-  this.unitData = event
-}
-
-receiveCustomer(event){
-  console.log('receiveCustomer',event) 
-  this.getCustomerByCompany()
-}
-
-onDialogClose(event){
-  console.log(event)       
-  this.catData = []     // clear new cat data while open stock form
-  this.unitData = []  // clear new unit data while open stock form
-  this.displayDialog = false;
-}
-
-onDialogClose1(event){
-  console.log(event)  
-  this.displayDialog1 = false;
-}
-
-onDialogClose2(event){
-  console.log(event) 
-  this.displayDialog2 = false;
-}
-
-onDialogClose3(event){
-  console.log(event) 
-  this.displayDialog3 = false;
-}
-
-categoryDialog(event){
-  console.log('categoryDialog',event)   
-  this.displayDialog1 = event;
-}
-
-unitDialog(event){
-  console.log('unitDialog',event) 
-  this.displayDialog2 = event;
-}
-
-scanBarcode(){
-  let bardcode = '5e12c97cfb943b2df8151858';
-  var geStockData = _.find(this.stocks, function (o) { return  o._id == bardcode; });
-  console.log('geStockData',geStockData) 
-  let event = {value:geStockData._id}
-  console.log('event',event) 
-  let addIndex = Number(this.invoiceForm.get('invoiceList')['controls'].length) - 1
-  if(addIndex == 0 && this.invoiceForm.get('invoiceList')['controls'][addIndex].invalid){
-    this.onSelectProduct(event,addIndex)
-    this.invoiceForm.get('invoiceList')['controls'][addIndex].controls['stock_details_id'].setValue(geStockData._id)
-  }else{ 
-    this.addListItem()
-    this.onSelectProduct(event,addIndex)
-    this.invoiceForm.get('invoiceList')['controls'][addIndex].controls['stock_details_id'].setValue(geStockData._id)
+    var sliceIndex = _.findIndex(this.stocks, function (o) { return o._id == event.value; });
+    console.log(sliceIndex);
+    if (sliceIndex > -1) {
+      // this.loggedInUsersList.splice(sliceIndex, 1);
+      console.log(this.stocks[sliceIndex]);
+      console.log(this.invoiceForm.get('invoiceList')['controls'][i]);
+      // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[sliceIndex].stock_qty) 
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id.tax_name)
+      let cgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) / 100);
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
+      let sgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst) / 100);
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
+      let gst_pet = Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) + Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['gst_per'].setValue(gst_pet)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].selling_price)
+      let total_amt_with_gst = ((1 * this.stocks[sliceIndex].selling_price) * gst_pet / 100) + this.stocks[sliceIndex].selling_price;
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
+      this.calculateTotal()
+    }
   }
 
-}
+  onChangeQty(i) {
+    if (!this.invoiceForm.get('invoiceList')['controls'][i].value.stock_details_id && this.invoiceForm.get('invoiceList')['controls'][i].value.stock_details_id == '') {
+      return
+    }
+    if (this.invoiceForm.get('invoiceList')['controls'][i].value.qty == 0 || this.invoiceForm.get('invoiceList')['controls'][i].value.qty == '0') {
+      this.messageService.add({ severity: 'warn', summary: 'Warning!', detail: 'Quantity atleast 1' });
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
+      return
+    }
+    console.log(i);
+    console.log(this.invoiceForm.value.invoiceList[i].stock_details_id);
+    console.log(this.stocks);
+    console.log('qty', this.invoiceForm.get('invoiceList')['controls'][i].value.qty);
+    let stockData = _.find(this.stocks, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
+    // let stockDataAdded = _.find(this.invoiceForm.value.invoiceList, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
+    console.log(this.stocks[i]);
+    console.log('stockData', stockData);
+    console.log(this.invoiceForm.get('invoiceList')['controls'][i].value);
+    // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
+    // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
+    if (stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty) {
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price)
+      
+      let cgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_cgst) / 100);
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
+      let sgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_sgst) / 100);
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
+      let total_amt_with_gst = this.invoiceForm.get('invoiceList')['controls'][i].value.total * (this.invoiceForm.get('invoiceList')['controls'][i].value.gst_per / 100) + this.invoiceForm.get('invoiceList')['controls'][i].value.total;
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
+    } else {
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
+      let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
+      this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: qty_data });
+    }
+    this.calculateTotal()
+
+  }
+
+
+  onChangeDiscount() {
+    // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
+    // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price)    
+    // this.calculateTotal()
+    if (this.invoiceForm.controls['tax_enable'].value) {
+      this.invoiceForm.controls['grand_total'].setValue((this.invoiceForm.value.sub_total - this.invoiceForm.value.discount) + this.invoiceForm.value.cgst + this.invoiceForm.value.sgst)
+    } else {
+      this.invoiceForm.controls['grand_total'].setValue(this.invoiceForm.value.sub_total - this.invoiceForm.value.discount)
+    }
+  }
+
+  toggleTax(event) {
+    if (this.invoiceForm.controls['grand_total'].value == 0) {
+      return false
+    }
+    this.calculateTotal()
+  }
+
+  calculateTotal() {
+
+    // subtotal
+    var sub_total = 0
+    var sub_total = _.sumBy(this.invoiceForm.value.invoiceList, 'total')
+    console.log('sub_total1', sub_total);
+
+    this.invoiceForm.controls['sub_total'].setValue(sub_total)
+
+    // cgst_total
+    var cgst_total = 0
+    var cgst_total = _.sumBy(this.invoiceForm.value.invoiceList, 'cgst_amt')
+    this.invoiceForm.controls['cgst'].setValue(cgst_total)
+
+    // sgst_total
+    var sgst_total = 0
+    var sgst_total = _.sumBy(this.invoiceForm.value.invoiceList, 'sgst_amt')
+    this.invoiceForm.controls['sgst'].setValue(sgst_total)
+
+    if (this.invoiceForm.value.tax_enable) {
+      this.invoiceForm.controls['grand_total'].setValue((sub_total - this.invoiceForm.value.discount) + cgst_total + sgst_total)
+    } else {
+      this.invoiceForm.controls['grand_total'].setValue(sub_total - this.invoiceForm.value.discount)
+    }
+
+  }
+
+
+  onChangePaindAmount() {
+    this.invoiceForm.controls['balance_amount'].setValue(this.invoiceForm.value.grand_total - this.invoiceForm.value.paid_amount)
+  }
+
+
+
+  receiveStock(event) {
+    console.log(event)
+    // this.stocksList = [event,...this.stocksList];
+    this.getStockByCompany()
+  }
+
+  receiveCategory(event) {
+    console.log('receiveCategory', event)
+    this.catData = event
+  }
+
+  receiveUnit(event) {
+    console.log('receiveUnit', event)
+    this.unitData = event
+  }
+
+  receiveCustomer(event) {
+    console.log('receiveCustomer', event)
+    this.getCustomerByCompany()
+  }
+
+  onDialogClose(event) {
+    console.log(event)
+    this.catData = []     // clear new cat data while open stock form
+    this.unitData = []  // clear new unit data while open stock form
+    this.displayDialog = false;
+  }
+
+  onDialogClose1(event) {
+    console.log(event)
+    this.displayDialog1 = false;
+  }
+
+  onDialogClose2(event) {
+    console.log(event)
+    this.displayDialog2 = false;
+  }
+
+  onDialogClose3(event) {
+    console.log(event)
+    this.displayDialog3 = false;
+  }
+
+  categoryDialog(event) {
+    console.log('categoryDialog', event)
+    this.displayDialog1 = event;
+  }
+
+  unitDialog(event) {
+    console.log('unitDialog', event)
+    this.displayDialog2 = event;
+  }
+
+  scanBarcode() {
+    let bardcode = '5e12c97cfb943b2df8151858';
+    var geStockData = _.find(this.stocks, function (o) { return o._id == bardcode; });
+    console.log('geStockData', geStockData)
+    let event = { value: geStockData._id }
+    console.log('event', event)
+    let addIndex = Number(this.invoiceForm.get('invoiceList')['controls'].length) - 1
+    if (addIndex == 0 && this.invoiceForm.get('invoiceList')['controls'][addIndex].invalid) {
+      this.onSelectProduct(event, addIndex)
+      this.invoiceForm.get('invoiceList')['controls'][addIndex].controls['stock_details_id'].setValue(geStockData._id)
+    } else {
+      this.addListItem()
+      this.onSelectProduct(event, addIndex)
+      this.invoiceForm.get('invoiceList')['controls'][addIndex].controls['stock_details_id'].setValue(geStockData._id)
+    }
+
+  }
 
 }

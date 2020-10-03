@@ -308,13 +308,10 @@
                             #Invoice No
                         </th>
                         <th>
-                            Stock Name
+                            Sub Total 
                         </th>
-                        <!-- <th >
-                                      Price
-                                  </th> -->
                         <th>
-                            Qty
+                           Discount
                         </th>
                         <th>
                             Total
@@ -328,18 +325,19 @@
                             {{rowData.invoice_details_id.invoice_code}}
                         </td>
 
-                        <td>
-                            {{rowData.stock_details_id.stock_name}}
-                        </td>
                         <!-- <td>
                                         {{rowData.stock_price | currency : 'INR':true}}
                                 </td> -->
                         <td>
-                            {{rowData.stock_qty}}
+                            {{rowData.sub_total | currency : 'INR':true}}
 
                         </td>
                         <td>
-                            {{rowData.stock_total_price | currency : 'INR':true}}
+                            {{rowData.discount | currency : 'INR':true}}
+
+                        </td>
+                        <td>
+                            {{rowData.grand_total | currency : 'INR':true}}
                         </td>
                     </tr>
                 </ng-template>

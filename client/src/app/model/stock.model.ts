@@ -1,5 +1,6 @@
 import { Category } from './category.model';
 import { Company } from './company.model';
+import { Tax } from './tax.model';
 import { Unit } from './unit.model';
 
 export class Stock {
@@ -12,6 +13,7 @@ export class Stock {
     buying_price:number;
     selling_price:number;
     product_details:string;
+    tax_details_id:Tax;
     unit_details_id:Unit;
     status:number;
 }

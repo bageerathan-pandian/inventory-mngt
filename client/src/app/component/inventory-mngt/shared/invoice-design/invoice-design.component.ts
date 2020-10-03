@@ -11,11 +11,11 @@ import { PrintService } from 'src/app/shared/print.service';
 })
 export class InvoiceDesignComponent implements OnInit {
 
-  company_image:any
+  company_image: any
   @Input() invoiceData: any
   invoiceIds: any
 
-  constructor(public sessionService:SessionService,route: ActivatedRoute,
+  constructor(public sessionService: SessionService, route: ActivatedRoute,
     private printService: PrintService) {
     this.company_image = this.sessionService.getItem('company_image') ? environment.api_url + this.sessionService.getItem('company_image') : null;
     // this.invoiceIds = route.snapshot.params['invoiceIds']
@@ -24,15 +24,16 @@ export class InvoiceDesignComponent implements OnInit {
 
   ngOnInit() {
     console.log('inovce-design')
-    
 
-    this.printService.onDataReady()
-   
+
+
   }
 
   ngOnChanges(): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
+    // this.printService.onDataReady()
+
   }
 
 }

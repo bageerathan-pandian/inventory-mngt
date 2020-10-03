@@ -12,7 +12,7 @@ const createWindow = () => {
         width: 800,
         height: 600,
         //frame: false, // framless
-        icon: path.join(__dirname, 'dist/client/favicon.ico'),
+        icon: path.join(__dirname, 'dist/client/favicon.ico'), //app.getAppPath()
     });
 
     // and load the index.html of the app.
@@ -26,7 +26,7 @@ const createWindow = () => {
     win.removeMenu(); 
     win.maximize()
     // win.setFullScreen(true)
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
 
     // Emitted when the window is closed.

@@ -20,15 +20,17 @@ const createWindow = () => {
 
         // and load the app.
         win.loadURL(url.format({
-            pathname: 'localhost:4300',
+            // pathname: 'localhost:4300',
+            pathname: 'localhost:8082',
             protocol: 'http:',
             slashes: true
         }));
 
-        // win.webContents.openDevTools();
-        win.removeMenu();
-        win.maximize()
-        // win.setFullScreen(true)
+          
+    win.removeMenu(); 
+    win.maximize()
+    // win.setFullScreen(true)
+    win.webContents.openDevTools();
 
         // Emitted when the window is closed.
         win.on('closed', () => {

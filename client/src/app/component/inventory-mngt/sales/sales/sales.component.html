@@ -9,27 +9,32 @@
     <div class="ui-g ui-fluid">
         
           
-<div class="ui-g-3">
+<div class="ui-g-2">
         <div class="ui-g-12">
                 Invoice No.:  <input pInputText type="text" formControlName="invoice_code"  readonly required>
             </div>
+</div>
+      
+<div class="ui-g-2">
             <div class="ui-g-12">
                 Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
             </div>
 </div>
 
-<div class="ui-g-3">
+<div class="ui-g-2">
 
         <div class="ui-g-12">
                 Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Customer"  formControlName="customer_details_id"   filter="true" (onChange)="onSelectCust($event)" ></p-dropdown>
            
            </div>
+</div>
+<div class="ui-g-2">
            <div class="ui-g-12">
                 Customer Address:  <input pInputText type="text" value="{{selectedCustData.customer_address}}" readonly > 
         </div> 
 </div>
 
-<div class="ui-g-3">
+<div class="ui-g-2">
         <!-- <pre>{{ selectedSupplierData | json }}</pre> -->
         
         
@@ -60,16 +65,20 @@
             
   <p-card>
 	<div formArrayName="invoiceList">
-                <p-scrollPanel [style]="{width: '100%', height: '200px'}">
+                <!-- <p-scrollPanel [style]="{width: '100%', height: '200px'}"> -->
                         
-        <table>
+        <table style="margin-bottom: 15px;">
                 <thead>
                 <tr>
-                        <th style="width: 10%">Order #</th>
+                        <th style="width:8em">Order #</th>
                         <th>Product Name/Code</th>
                         <th>Price</th>
                         <th>Qty</th>
-                        <th>Total</th>
+                        <!-- <th>Total</th>
+                        <th>CGST(Amt)</th>
+                        <th>SGST(Amt)</th> -->
+                        <th>GST(%)</th>
+                        <th class="with-gst">Total</th>
                         <th style="width:8em"></th>
                     </tr>
                     </thead>
@@ -85,7 +94,7 @@
                        </p-dropdown> 
                        
                </td>
-               <td class="hidden-spinner" style="width: 20%;">
+               <td class="hidden-spinner" style="width: 15%;">
                        <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
                        <p-spinner size="30"  formControlName="price"  [formatInput]="true" [disabled]="true"></p-spinner>
 
@@ -99,13 +108,38 @@
                         <em *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">*Ther are {{invoiceForm.value.invoiceList[i].total_qty}} only available</em>
                         </p>
                 </td>
-               <td class="hidden-spinner" style="width: 20%;">
-                       <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
+               
+               <!-- <td class="hidden-spinner" style="width: 15%;">
                        <p-spinner styleClasssize="30"  formControlName="total"  [formatInput]="true" [disabled]="true"></p-spinner>
 
-                       <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;"> {{ invoiceForm.value.invoiceList[i].total  | currency :'INR':true}}</span> -->
-                      
                </td>
+                
+               <td class="hidden-spinner">
+                <p-spinner styleClasssize="30"  formControlName="cgst_amt"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+                <p class="error-msg" style="position: absolute;    color: #222;">
+                        <em >*{{invoiceForm.value.invoiceList[i].tax_name}}</em>
+                        </p>           
+                </td>
+                <td class="hidden-spinner" >
+                        <p-spinner styleClasssize="30"  formControlName="sgst_amt"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+                </td> -->
+                <td class="hidden-spinner" >
+                        <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
+                        <p-spinner size="30"  formControlName="gst_per"  [formatInput]="true" [disabled]="true"></p-spinner>
+ 
+                        <p class="error-msg" style="position: absolute;    color: #222;">
+                                <em >*{{invoiceForm.value.invoiceList[i].tax_name}}</em>
+                                </p>                        
+                </td>
+
+
+               <td class="hidden-spinner" style="width: 15%;">
+                <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
+                <p-spinner styleClasssize="30"  formControlName="total_with_gst"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+        </td>
                <td >
                 <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
                 <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
@@ -142,26 +176,32 @@
         </tfoot> -->
         </table>
         
-</p-scrollPanel>
+<!-- </p-scrollPanel> -->
     </div>
             <div class="ui-g ui-fluid">
                     <div class="ui-g-12 ui-md-6" style="text-align: center">
-                            <h6>Grand Total</h6>
+                            <h6>Grand Total <em *ngIf="invoiceForm.value.tax_enable">(with GST)</em></h6>
                             <h1>{{ invoiceForm.value.grand_total | currency :'INR':true}}</h1>
                     </div>
                     <div class="ui-g-12 ui-md-6">
                     <div class="ui-g-12 ui-md-6">
-                            Sub Amount:  
-                           <p>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</p> 
-                            Discount $ :<input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
-                    </div>
+                        
+                       <p style="padding: 5px 0;"> Sub Amount: <b>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</b> </p> 
+                        
+                      <p style="padding: 5px 0;">CGST: <b> {{invoiceForm.value.cgst  | currency : 'INR':true}}</b></p> 
+                            Discount $ : <input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
+                            Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
+                            <p-checkbox name="tax" binary="true" (onChange)="toggleTax($event)"  formControlName="tax_enable" label="Enable Tax" ></p-checkbox>
+
+                        </div>
                     <div class="ui-g-12 ui-md-6">
-                            Grand Total: 
-                           <p>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</p> 
+                            
+                           <p style="padding: 5px 0;">Grand Total: <b> {{invoiceForm.value.grand_total  | currency : 'INR':true}}</b></p> 
+                            
+                          <p style="padding: 5px 0;">SGST: <b>  {{invoiceForm.value.sgst  | currency : 'INR':true}} </b> </p> 
                            Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
                            Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
                            Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
-                           Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
                         </div>
                     </div>
             </div>
@@ -206,7 +246,7 @@
           
 
 <!-- <div id="print-section" style="display: none">  -->
-        <div id="print-section" > 
+        <div id="print-section"> 
        
         <app-invoice-design #printDiv [invoiceData]="invoiceData"></app-invoice-design>
                

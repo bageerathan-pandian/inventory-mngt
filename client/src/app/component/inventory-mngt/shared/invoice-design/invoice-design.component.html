@@ -8,7 +8,7 @@
                   </div>
                   <div class="col-5">
                     <h1 class="document-type display-4">INVOICE</h1>
-                    <p class="text-right"><strong>#{{invoiceData?.data[0].invoice_details_id.invoice_code}}</strong></p>
+                    <p class="text-right"><strong>#{{invoiceData?.invoice_details_id.invoice_code}}</strong></p>
                   </div>
                 </div>
                 <div class="row">
@@ -21,10 +21,10 @@
                   </div> <div class="col-5" style="float: right;text-align: right;">
                     <p>
                       
-                      Ref. Client <em>{{invoiceData?.data[0].customer_details_id.customer_code}}</em><br>
-                      {{invoiceData?.data[0].customer_details_id.customer_name}}<br>
-                      {{invoiceData?.data[0].customer_details_id.customer_address}}<br>
-                      {{invoiceData?.data[0].customer_details_id.phone}}
+                      Ref. Client <em>{{invoiceData?.customer_details_id?.customer_code}}</em><br>
+                      {{invoiceData?.customer_details_id?.customer_name}}<br>
+                      {{invoiceData?.customer_details_id?.customer_address}}<br>
+                      {{invoiceData?.customer_details_id?.phone}}
                     </p>
                   </div>
                 </div>
@@ -37,18 +37,19 @@
                       <th>Item</th>
                       <th>Qty</th>
                       <th>Price</th>
-                      <th></th>
+                      <th *ngIf="invoiceData?.invoice_details_id.tax_enable">GST(%)</th>
                       <th style="text-align: right;">Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     
-                      <tr class="invoice" *ngFor="let item of invoiceData?.data; let i=index">
-                          <td>{{item.stock_details_id.stock_name}}</td>
-                          <td>{{item.stock_qty}}</td>
-                          <td>{{item.stock_price | currency : 'INR':true}}</td>
-                          <td></td>
-                          <td style="text-align: right;">{{item.stock_price * item.stock_qty | currency : 'INR':true}}</td>
+                      <tr class="invoice" *ngFor="let item of invoiceData?.invoice_details_id.invoice_list; let i=index">
+                          <td>{{item.stock_details_id}}</td>
+                          <td>{{item.qty}}</td>
+                          <td>{{item.price | currency : 'INR':true}}</td>
+                          <td *ngIf="invoiceData?.invoice_details_id.tax_enable">{{item.gst_per}}%</td>
+                          <td *ngIf="!invoiceData?.invoice_details_id.tax_enable" style="text-align: right;">{{item.total | currency : 'INR':true}}</td>
+                          <td *ngIf="invoiceData?.invoice_details_id.tax_enable" style="text-align: right;">{{item.total_with_gst | currency : 'INR':true}}</td>
                         </tr>
                    
                     
@@ -61,15 +62,25 @@
                     <table class="table table-sm text-right">
                       <tr>
                         <td><strong>Sub Total</strong></td>
-                        <td class="text-right">{{invoiceData?.data[0].sub_total | currency : 'INR':true}}</td>
+                        <td class="text-right">{{invoiceData?.sub_total | currency : 'INR':true}}</td>
                       </tr>
                       <tr>
                         <td>Discount</td>
-                        <td class="text-right">{{invoiceData?.data[0].discount | currency : 'INR':true}}</td>
+                        <td class="text-right">{{invoiceData?.discount | currency : 'INR':true}}</td>
+                      </tr>
+                      
+                      <tr *ngIf="invoiceData?.invoice_details_id.tax_enable">
+                        <td>CGST Amount</td>
+                        <td class="text-right">{{invoiceData?.invoice_details_id.cgst | currency : 'INR':true}}</td>
+                      </tr>
+                      
+                      <tr *ngIf="invoiceData?.invoice_details_id.tax_enable">
+                        <td>SGST Amount</td>
+                        <td class="text-right">{{invoiceData?.invoice_details_id.sgst | currency : 'INR':true}}</td>
                       </tr>
                       <tr>
                         <td><strong>Total</strong></td>
-                        <td class="text-right">{{invoiceData?.data[0].grand_total | currency : 'INR':true}}</td>
+                        <td class="text-right">{{invoiceData?.invoice_details_id.grand_total | currency : 'INR':true}}</td>
                       </tr>
                     </table>
                   </div>

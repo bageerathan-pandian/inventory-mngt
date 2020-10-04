@@ -204,6 +204,7 @@ export class SalesComponent implements OnInit {
   initRowFirst() {
     return this._fb.group({
       stock_details_id: ['', Validators.required],
+      stock_name: ['', Validators.required],
       price: ['', Validators.required],
       qty: ['', Validators.required],
       total_qty: ['', Validators.required],
@@ -301,15 +302,32 @@ export class SalesComponent implements OnInit {
         this.invoiceForm.controls['payment_status'].setValue(1);
         this.invoiceForm.controls['tax_enable'].setValue(true);
         setTimeout(() => {
-          // printJS('print-section', 'html',) // print invoice 
+          // w = window.open();
+          // w.document.write($('#printableDiv').html());
+          // w.print();
+          // w.close();
           printJS({
             printable: 'print-section',
             type: 'html',
-            targetStyles: [ 'width' ],
+            targetStyles: ['width'],
             style: ' #print-section { visibility: visible!important; } ',
-       })         
+          })
         }, 1000);
       })
+  }
+
+  printPriview() {
+
+    this.invoiceData = this.invoiceForm.value;
+    setTimeout(() => {
+      printJS({
+        printable: 'print-section',
+        type: 'html',
+        targetStyles: ['width'],
+        style: ' #print-section { visibility: visible!important; } ',
+      })
+    }, 1000);
+
   }
 
   saveOrder() {
@@ -408,6 +426,7 @@ export class SalesComponent implements OnInit {
       console.log(this.invoiceForm.get('invoiceList')['controls'][i]);
       // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[sliceIndex].stock_qty) 
       this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_name'].setValue(this.stocks[sliceIndex].stock_name)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id.tax_name)
@@ -446,7 +465,7 @@ export class SalesComponent implements OnInit {
     // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price) 
     if (stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty) {
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price)
-      
+
       let cgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_cgst) / 100);
       this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
       let sgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_sgst) / 100);

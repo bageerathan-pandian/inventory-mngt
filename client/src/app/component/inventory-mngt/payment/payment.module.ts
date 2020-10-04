@@ -20,6 +20,7 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {SidebarModule} from 'primeng/sidebar';
 import {TooltipModule} from 'primeng/tooltip';
 import {TabViewModule} from 'primeng/tabview';
+import { InvoiceDesignModule } from '../shared/invoice-design/invoice-design.module';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {TabViewModule} from 'primeng/tabview';
     InputSwitchModule,
     SidebarModule,
     TooltipModule,
-    TabViewModule
+    TabViewModule,
+    InvoiceDesignModule
   ]
 })
 export class PaymentModule { }

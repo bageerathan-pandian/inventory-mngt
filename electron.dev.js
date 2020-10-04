@@ -30,7 +30,7 @@ const createWindow = () => {
     win.removeMenu(); 
     win.maximize()
     // win.setFullScreen(true)
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
         // Emitted when the window is closed.
         win.on('closed', () => {
@@ -55,6 +55,8 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
+
+app.allowRendererProcessReuse = true;
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

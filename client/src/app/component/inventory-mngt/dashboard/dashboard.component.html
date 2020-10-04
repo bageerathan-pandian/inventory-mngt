@@ -314,6 +314,12 @@
                            Discount
                         </th>
                         <th>
+                           CSGT(Amt)
+                        </th>
+                        <th>
+                           SGST(Amt)
+                        </th>
+                        <th>
                             Total
                         </th>
                     </tr>
@@ -335,6 +341,12 @@
                         <td>
                             {{rowData.discount | currency : 'INR':true}}
 
+                        </td>
+                        <td>
+                            {{rowData.cgst  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            {{rowData.sgst  | currency : 'INR':true}}
                         </td>
                         <td>
                             {{rowData.grand_total | currency : 'INR':true}}

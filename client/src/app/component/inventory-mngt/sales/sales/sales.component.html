@@ -214,15 +214,15 @@
                     <div class="ui-g-2">
                             <button pButton type="button" (click)="saveOrder()" label="Save & Print Bill" icon="pi pi-save" class="ui-button-success"></button>
                         </div>
-                        <div class="ui-g-2">
+                        <!-- <div class="ui-g-2">
                                 <button pButton type="button" (click)="scanBarcode()" label="Scan" icon="pi pi-search" class="ui-button-success"></button>
-                            </div>
+                            </div> -->
                     <!-- <div class="ui-g-2">
                             <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
                     </div> -->
-                    <!-- <div class="ui-g-2">
-                        <button pButton type="button" onclick="printJS('print-section', 'html')" label="Print" icon="pi pi-print"  class="ui-button-warning"  ></button>
-                    </div> -->
+                    <div class="ui-g-2">
+                        <button pButton type="button" label="Print Priview" icon="pi pi-print" (click)="printPriview()"  class="ui-button-warning"  ></button>
+                    </div>
                 </div>
 
 

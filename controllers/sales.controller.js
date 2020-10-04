@@ -115,7 +115,7 @@ exports.addUser =  (req, res)=> {
           return res.status(500).json(e);
       } else {
         console.log('invoice id',result._id);
-          SalesModel.find({invoice_details_id : result._id},(e,result5) => {
+          InvoiceModel.find({_id : result._id},(e,result5) => {
             if(e) {        
               console.log(e.message);
                 return res.status(500).json(e);
@@ -126,7 +126,7 @@ exports.addUser =  (req, res)=> {
                 }
                 return res.json(restfinal);
             }
-        }).populate('company_details_id').populate('customer_details_id').populate('stock_details_id').populate('invoice_details_id')
+        }).populate('company_details_id').populate('customer_details_id')
        
 
       }

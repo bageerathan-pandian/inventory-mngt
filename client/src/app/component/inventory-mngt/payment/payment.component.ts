@@ -6,6 +6,7 @@ import {MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
+import * as printJS from 'print-js'
 import { Invoice } from 'src/app/model/invoice.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SessionService } from 'src/app/shared/session.service';
@@ -37,6 +38,8 @@ export class PaymentComponent implements OnInit {
   paymentStatus:any
   paymentTypes:any
   showData:any 
+  invoiceData: any
+
   constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private invoiceService:InvoiceService,private commonService: CommonService,
     public sessionService: SessionService, private printService: PrintService
     ) {
@@ -62,6 +65,8 @@ export class PaymentComponent implements OnInit {
       { field: 'invoice_date', header: 'Invoice Date' },
       { field: 'sub_total', header: 'Sub Total' },
       { field: 'discount', header: 'Discount' },
+      { field: 'cgst', header: 'CGST(Amt)' },
+      { field: 'sgst', header: 'SGST(Amt)' },
       { field: 'grand_total', header: 'Grand Total' },
       { field: 'payment_type', header: 'Payment Type' },
       { field: 'updatedAt', header: 'Updated Date' },
@@ -184,11 +189,21 @@ export class PaymentComponent implements OnInit {
     this.display = true
   }
 
-  onPrintInvoice() {
-    console.log('onPrintInvoice')
-
-    const invoiceIds = ['101', '102'];
-    this.printService.printDocument('invoice', invoiceIds);
+  onPrintInvoice(data){
+    this.showData = data
+ 
+    // this.display = false
+    // const invoiceIds = ['101', '102'];
+    // this.printService.printDocument('invoice', invoiceIds);
+    setTimeout(() => {
+      // printJS('print-section', 'html',) // print invoice 
+      printJS({
+        printable: 'print-section',
+        type: 'html',
+        targetStyles: ['width'],
+        style: ' #print-section { visibility: visible!important; } ',
+      })
+    }, 1000);
   }
 
 

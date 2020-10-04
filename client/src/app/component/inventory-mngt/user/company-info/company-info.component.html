@@ -90,9 +90,9 @@
     
         
         <p-footer>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <div class="ui-dialog-buttonpane ui-helper-clearfix" style="text-align: center;">
                     <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-                    <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="onUpdate()" label="Update"></button>
+                    <button type="button" style="width: 20%;" pButton  icon="pi pi-save" class="ui-button-success" (click)="onUpdate()" label="Update"></button>
                 </div>
             </p-footer>
 
@@ -103,7 +103,7 @@
 </p-card>
 </div>
 
-<p-dialog  [(visible)]="displayDialog" [maximizable]="true" [responsive]="true" [showHeader]="false" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '500px'}">
+<p-dialog  [(visible)]="displayDialog" [maximizable]="true" [responsive]="true" [showHeader]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '500px'}">
  
     <image-cropper
     [imageChangedEvent]="imageChangedEvent"

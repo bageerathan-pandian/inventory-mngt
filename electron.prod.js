@@ -26,7 +26,7 @@ const createWindow = () => {
     win.removeMenu(); 
     win.maximize()
     // win.setFullScreen(true)
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
 
     // Emitted when the window is closed.

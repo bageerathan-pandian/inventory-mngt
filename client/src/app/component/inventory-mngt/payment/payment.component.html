@@ -53,6 +53,12 @@
                             {{rowData.discount  | currency : 'INR':true}}
                         </td>
                         <td>
+                            {{rowData.cgst  | currency : 'INR':true}}
+                        </td>
+                        <td>
+                            {{rowData.sgst  | currency : 'INR':true}}
+                        </td>
+                        <td>
                             {{rowData.grand_total  | currency : 'INR':true}}
                         </td>
                         <td>
@@ -74,7 +80,7 @@
                                 (click)="viewData(rowData)" pTooltip="View Invoice" tooltipPosition="top"
                                 style="    margin: 0px 5px;"></button>
                             <!-- <button  pButton type="button"  icon="pi pi-download" class="ui-button-success" (click)="display = true" pTooltip="Downwload Invoice" tooltipPosition="top"style="margin-right: .5em"></button> -->
-                            <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="print()"
+                            <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="onPrintInvoice(rowData)"
                                 pTooltip="Print Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>
                         </td>
                     </tr>
@@ -164,7 +170,7 @@
                                 style="    margin: 0px 5px;"></button>
                             <!-- <button  pButton type="button"  icon="pi pi-download" class="ui-button-success" (click)="display = true" pTooltip="Downwload Invoice" tooltipPosition="top"style="margin-right: .5em"></button> -->
                             <button pButton type="button" icon="pi pi-print" class="ui-button-warning"
-                                (click)="display = true" pTooltip="Print Invoice" tooltipPosition="top"
+                                (click)="onPrintInvoice(rowData)" pTooltip="Print Invoice" tooltipPosition="top"
                                 style="    margin: 0px 5px;"></button>
                         </td>
                     </tr>
@@ -177,7 +183,7 @@
                 </ng-template>
 
 
-            </p-table> Content 2
+            </p-table>
         </p-tabPanel>
     </p-tabView>
 
@@ -258,19 +264,27 @@
 
 </div>
 
-<button (click)="onPrintInvoice()">Pirnt</button>
-<p-sidebar [(visible)]="display" position="right" [style]="{width:'40em'}">
-    <pre>{{ showData | json }}</pre>
+<!-- <button (click)="onPrintInvoice()">Pirnt</button> -->
+<p-sidebar [(visible)]="display" position="right" [style]="{width:'50em'}">
+    <!-- <pre>{{ showData | json }}</pre> -->
+    <div class="row">
     <div class="col-xs-6">
         <button pButton type="button" icon="pi pi-download" class="ui-button-info" (click)="display = true"
-            label="Downwload" style="margin-right: .5em"></button>
-
+            label="Downwload" style="margin-right: .5em;width: 45%;"></button>
+            <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="onPrintInvoice(showData)"
+            label="Print" style="    margin: 0px 5px;width: 30%;"></button>
     </div>
     <div class="col-xs-6">
-        <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="display = true"
-            label="Print" style="    margin: 0px 5px;"></button>
+        
 
     </div>
+</div>
+    <div class="col-xs-12" id="print-section"> 
+       
+        <app-invoice-design #printDiv [invoiceData]="showData"></app-invoice-design>
+               
+      </div>
+   
     <!-- <button  pButton type="button"  icon="pi pi-eye" class="ui-button-info" (click)="display = true" label="View"  style="    margin: 0px 5px;"></button> -->
 
 </p-sidebar>

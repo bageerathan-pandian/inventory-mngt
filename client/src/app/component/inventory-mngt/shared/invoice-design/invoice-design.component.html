@@ -1,95 +1,193 @@
-          <div class="container">
-              <div class="invoice">
-                <div class="row">
-                  <div class="col-7">
-                    
-                    <img src="./assets/img/logo.png" class="logo" *ngIf="!company_image">
-                    <img [src]="company_image" *ngIf="company_image" class="logo" >
-                  </div>
-                  <div class="col-5">
-                    <h1 class="document-type display-4">INVOICE</h1>
-                    <p class="text-right"><strong>#{{invoiceData?.invoice_details_id.invoice_code}}</strong></p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-5" style="float: left;text-align: left;">
-                    <p>
-                      <Strong>{{sessionService.getItem('company_name') | titlecase}}</Strong><br>
-                      {{sessionService.getItem('company_address')}}<br>
-                      Ph : {{sessionService.getItem('phone')}}<br>
-                    </p>
-                  </div> <div class="col-5" style="float: right;text-align: right;">
-                    <p>
-                      
-                      Ref. Client <em>{{invoiceData?.customer_details_id?.customer_code}}</em><br>
-                      {{invoiceData?.customer_details_id?.customer_name}}<br>
-                      {{invoiceData?.customer_details_id?.customer_address}}<br>
-                      {{invoiceData?.customer_details_id?.phone}}
-                    </p>
-                  </div>
-                </div>
-                <br>
-                <br>
-              <!-- <pre>{{ invoiceData | json }}</pre> -->
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Qty</th>
-                      <th>Price</th>
-                      <th *ngIf="invoiceData?.invoice_details_id.tax_enable">GST(%)</th>
-                      <th style="text-align: right;">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                      <tr class="invoice" *ngFor="let item of invoiceData?.invoice_details_id.invoice_list; let i=index">
-                          <td>{{item.stock_details_id}}</td>
-                          <td>{{item.qty}}</td>
-                          <td>{{item.price | currency : 'INR':true}}</td>
-                          <td *ngIf="invoiceData?.invoice_details_id.tax_enable">{{item.gst_per}}%</td>
-                          <td *ngIf="!invoiceData?.invoice_details_id.tax_enable" style="text-align: right;">{{item.total | currency : 'INR':true}}</td>
-                          <td *ngIf="invoiceData?.invoice_details_id.tax_enable" style="text-align: right;">{{item.total_with_gst | currency : 'INR':true}}</td>
-                        </tr>
-                   
-                    
-                  </tbody>
-                </table>
-                <div class="row" style="margin: 0;">
-                  <div class="col-8">
-                  </div>
-                  <div class="col-4" style="text-align: right;float: right">
-                    <table class="table table-sm text-right">
-                      <tr>
-                        <td><strong>Sub Total</strong></td>
-                        <td class="text-right">{{invoiceData?.sub_total | currency : 'INR':true}}</td>
-                      </tr>
-                      <tr>
-                        <td>Discount</td>
-                        <td class="text-right">{{invoiceData?.discount | currency : 'INR':true}}</td>
-                      </tr>
-                      
-                      <tr *ngIf="invoiceData?.invoice_details_id.tax_enable">
-                        <td>CGST Amount</td>
-                        <td class="text-right">{{invoiceData?.invoice_details_id.cgst | currency : 'INR':true}}</td>
-                      </tr>
-                      
-                      <tr *ngIf="invoiceData?.invoice_details_id.tax_enable">
-                        <td>SGST Amount</td>
-                        <td class="text-right">{{invoiceData?.invoice_details_id.sgst | currency : 'INR':true}}</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Total</strong></td>
-                        <td class="text-right">{{invoiceData?.invoice_details_id.grand_total | currency : 'INR':true}}</td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                
-                <p class="conditions" style="text-align: center;">
-                  <br>
-                  And with our thanks.
-                </p>
-              </div>
-            </div>
-   
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <table
+    style="    border-top-right-radius: 5px;    border-top-left-radius:5px;font-family: sans-serif; 
+    width: 650px; background-color: #fff;   margin: auto;border: 1px solid #ccc;width: 100%;    box-shadow: 0 3px 6px rgb(0 0 0 / 6%), 0 3px 6px rgb(0 0 0 / 8%);    border: 1px solid #cccccc36;">
+
+
+    <tr style="width: 100%;">
+      <td>
+        <table>
+          <td style="padding-left: 5px;color: #555;  ;padding-top: 20px;
+           padding-left: 20px;padding-bottom: 20px;">
+            <img src="./assets/img/logo.png" *ngIf="!company_image" style="width: 35%;">
+            <img [src]="company_image" *ngIf="company_image" style="width: 35%;">
+          </td>
+          <td style="padding-left: 5px;color: #555;  font-weight: bold;font-size: 40px;color: #1a44c7;
+                   padding-top: 20px;
+           padding-right: 20px;padding-bottom: 20px;">
+            INVOICE</td>
+        </table>
+      </td>
+    </tr>
+    <tr style="width: 100%;">
+      <td>
+        <table style="width: 100%;">
+          <td style="width:50%;padding-left: 5px;color: #555;  color: #555;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+           line-height: 20px;">
+            <span
+              style="font-size: 19px;color: #000;font-weight: bold;letter-spacing: 1px;/* padding-bottom: 20px; */margin-bottom: 14px;line-height: 35px;">
+              {{sessionService.getItem('company_name') | titlecase}}</span> <br />
+            {{sessionService.getItem('company_address') | titlecase}},<br />
+            Ph : {{sessionService.getItem('phone')}}<br />
+            <b>GSTIN : {{sessionService.getItem('gstin')}}</b>
+            <!-- <br /> Soodamani nagar, <br />karaikudi - 630 003 -->
+          <td *ngIf="invoiceData?.customer_details_id" style="width:50%;text-align:right;padding-left: 5px;color: #555;  color: #555;color: #555;  color: #555;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+           line-height: 20px;padding-right: 20px;;">
+            <span
+              style="font-size: 19px;color: #000;font-weight: bold;letter-spacing: 1px;/* padding-bottom: 20px; */margin-bottom: 14px;line-height: 35px;">
+              INVOICE TO</span> <br />
+            <!-- Dwyane Clark <br /> 24, T.nagar,<br /> karaikudi - 630 003 -->
+            {{invoiceData?.customer_details_id?.customer_code}},<br />
+            {{invoiceData?.customer_details_id?.customer_name}},<br />
+            {{invoiceData?.customer_details_id?.customer_address}},<br />
+            {{invoiceData?.customer_details_id?.phone}}
+
+          </td>
+        </table>
+      </td>
+    </tr>
+    <tr style="width: 100%;">
+      <td>
+    <tr style="width: 25%;float: left;">
+      <td style="font-size: 15px;padding-left: 20px;padding-bottom: 20px;">Invoice No : <span style="color: #555;">
+          #{{invoiceData?.invoice_code}}</span>
+      </td>
+
+    </tr>
+    <tr style="width: 50%;float: left;">
+      <td style="font-size: 15px;padding-left: 20px;padding-bottom: 20px;">Invoice Date : <span style="color: #555;">
+          {{invoiceData?.invoice_date | date:'mediumDate'}}</span>
+      </td>
+
+    </tr>
+    </td>
+    </tr>
+
+
+    <tr>
+      <td>
+        <table class="table table-bordered"
+          style=" width: 100%;    background: #eeeeee5c;    padding: 20px;border-left:10px solid #55a9e2;">
+          <thead>
+            <tr>
+              <th style="text-align: left;font-size: 15px;padding-bottom: 20px;">S.No</th>
+              <th style="text-align: left;font-size: 15px;padding-bottom: 20px;">Item Description</th>
+              <th style="text-align: left;font-size: 15px;padding-bottom: 20px;">Price</th>
+              <th style="text-align: left;font-size: 15px;padding-bottom: 20px;">Qty.</th>
+              <th style="text-align: left;font-size: 15px;padding-bottom: 20px;" *ngIf="invoiceData?.tax_enable">GST%</th>
+              <th style="text-align: left;font-size: 15px;padding-bottom: 20px;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of invoiceData?.invoice_list; let i=index">
+              <td style="padding-bottom: 15px;font-size: 14px;color: #333;">{{i}}</td>
+              <td style="padding-bottom: 20px;font-size: 14px;color: #333;">{{item.stock_name}}</td>
+              <td style="padding-bottom: 20px;font-size: 14px;color: #333;">{{item.price | currency : 'INR':true}}</td>
+              <td style="padding-bottom: 20px;font-size: 14px;color: #333;">{{item.qty}}</td>
+              <td style="padding-bottom: 20px;font-size: 14px;color: #333;"
+                *ngIf="invoiceData?.tax_enable">{{item.gst_per}}%</td>
+              <td style="padding-bottom: 20px;font-size: 14px;color: #333;"
+                *ngIf="!invoiceData?.tax_enable" style="text-align: right;">
+                {{item.total | currency : 'INR':true}}</td>
+              <td style="padding-bottom: 20px;font-size: 14px;color: #333;"
+                *ngIf="invoiceData?.tax_enable" style="text-align: right;">
+                {{item.total_with_gst | currency : 'INR':true}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </td>
+    </tr>
+
+    <tr style="width: 100%;">
+      <td>
+        <table style="width: 100%;">
+          <td style="width:30%;padding-left: 5px;color: #555;  color: #000;  padding-left: 20px;padding-bottom: 20px;    font-size: 15px;
+           line-height: 20px;">
+            Thank you for your business</td>
+          <td>
+            <table class="table table-bordered"
+              style="  width:40%;  float: right;  background: #fff;    padding: 10px;">
+              <tbody>
+                <tr>
+
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">Sub Total </td>
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">
+                    {{invoiceData?.sub_total | currency : 'INR':true}}</td>
+                </tr>
+
+                <tr>
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">Discount </td>
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">
+                    {{invoiceData?.discount | currency : 'INR':true}}</td>
+                </tr>
+                <tr *ngIf="invoiceData?.tax_enable">
+
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">CGST </td>
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">
+                    {{invoiceData?.cgst | currency : 'INR':true}}</td>
+                </tr>
+                <tr *ngIf="invoiceData?.tax_enable">
+
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">SGST </td>
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">
+                    {{invoiceData?.sgst | currency : 'INR':true}}</td>
+                </tr>
+
+                <tr>
+
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">Total </td>
+                  <td style="font-size: 14px;color:#000;padding-bottom: 5px;">
+                    {{invoiceData?.grand_total | currency : 'INR':true}}</td>
+                </tr>
+
+
+              </tbody>
+            </table>
+          </td>
+        </table>
+      </td>
+    </tr>
+
+
+
+
+
+
+    <tr style="width: 100%;">
+      <td>
+        <table style="width: 100%;">
+          <td style="width:38%;padding-left: 5px;padding-right: 25%;color: #555;color: #555;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+           line-height: 20px;">
+            <span style="font-size: 16px;color: #000;line-height: 35px;">
+              Terms & Conditions</span> <br />
+            <span style="color: #555;
+                       font-size: 13px;">
+              All products returned for refund/replacement or extended on credit must be returned in “saleable” condition with original packing.
+            </span>
+          <td style="width:20%;text-align:center;  font-size: 14px;
+           line-height: 20px;padding-right: 20px;;">
+            <span>
+              <!-- <img
+                src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Nguy%E1%BB%85n_V%C4%83n_B%C3%ACnh_%2C_Nguyen_Van_Binh_signature.png"
+                style="width:20%;"> -->
+              </span> <br />
+            <span style="font-weight: bold;">{{sessionService.getItem('owner_name') | titlecase}}</span> <br />
+            <span style="color: #555;
+                      font-size: 13px;">Manager</span> <br />
+          </td>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+  <!-- <button onclick="window.print()">Print this page</button> -->
+
+</body>
+
+</html>

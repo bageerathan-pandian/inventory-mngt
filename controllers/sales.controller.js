@@ -82,6 +82,7 @@ exports.addUser =  (req, res)=> {
         stock_details_id:invoiceArry.stock_details_id,
         invoice_details_id: result._id,
         stock_price:invoiceArry.price,
+        mrp:invoiceArry.mrp,
         stock_qty:invoiceArry.qty,
         stock_total_price:invoiceArry.total,
         sub_total:req.body.sub_total,

@@ -21,6 +21,7 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
+import { isValidDate } from '@fullcalendar/core';
 
 
 @Component({
@@ -87,7 +88,7 @@ export class SalesComponent implements OnInit {
       company_details_id: [this.sessionService.getItem('company_id'), Validators.required],
       invoice_code: ['', Validators.required],
       invoice_date: [new Date(), Validators.required],
-      customer_details_id: [''],
+      customer_details_id: ['', Validators.required],
       invoiceList: this._fb.array([
         this.initRowFirst()
       ]),
@@ -100,7 +101,7 @@ export class SalesComponent implements OnInit {
       payment_type: [1, Validators.required],
       paid_amount: [0.00, Validators.required],
       balance_amount: [0.00, Validators.required],
-      payment_status: [1, Validators.required]
+      payment_status: [2, Validators.required]
     })
 
 
@@ -133,6 +134,7 @@ export class SalesComponent implements OnInit {
     this.paymentStatus = [
       { label: 'Paid', value: 1 },
       { label: 'Pending', value: 2 },
+      { label: 'Collection', value: 3 },
     ]
     this.discountPer = [
       { label: '5%', value: 1 },
@@ -206,11 +208,12 @@ export class SalesComponent implements OnInit {
       stock_details_id: ['', Validators.required],
       stock_name: ['', Validators.required],
       price: ['', Validators.required],
+      mrp: ['', Validators.required],
       qty: ['', Validators.required],
       total_qty: ['', Validators.required],
       tax_name: ['', Validators.required],
-      cgst_amt: ['', Validators.required],
-      sgst_amt: ['', Validators.required],
+      cgst_amt: [0.00, Validators.required],
+      sgst_amt: [0.00, Validators.required],
       gst_per: ['', Validators.required],
       total: ['', Validators.required],
       total_with_gst: ['', Validators.required]
@@ -301,31 +304,49 @@ export class SalesComponent implements OnInit {
         this.invoiceForm.controls['payment_type'].setValue(1);
         this.invoiceForm.controls['payment_status'].setValue(1);
         this.invoiceForm.controls['tax_enable'].setValue(true);
+
+
+
         setTimeout(() => {
-          // w = window.open();
-          // w.document.write($('#printableDiv').html());
-          // w.print();
-          // w.close();
-          printJS({
-            printable: 'print-section',
-            type: 'html',
-            targetStyles: ['width'],
-            style: ' #print-section { visibility: visible!important; } ',
-          })
+          var divToPrint = document.getElementById('print-section');
+          var mywindow = window.open('', 'new div', 'height=600,width=900');
+          mywindow.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+          mywindow.document.close();
+          //   printJS({
+          //     printable: 'print-section',
+          //     type: 'html',
+          //     targetStyles: ['width'],
+          //     style: ' #print-section { visibility: visible!important; } ',
+          //   })
         }, 1000);
       })
   }
 
   printPriview() {
 
-    this.invoiceData = this.invoiceForm.value;
+    let invoiceData = this.invoiceForm.value;
+    invoiceData.invoice_list = invoiceData.invoiceList;
+    invoiceData.customer_details_id = {
+      customer_code: this.selectedCustData.customer_code,
+      customer_name: this.selectedCustData.customer_name, 
+      customer_address: this.selectedCustData.customer_address, 
+      phone: this.selectedCustData.phone,
+      customer_gstin: this.selectedCustData.customer_gstin,
+      route_name: this.selectedCustData.route_name,
+    }
+    this.invoiceData = invoiceData;
+
     setTimeout(() => {
-      printJS({
-        printable: 'print-section',
-        type: 'html',
-        targetStyles: ['width'],
-        style: ' #print-section { visibility: visible!important; } ',
-      })
+      var divToPrint = document.getElementById('print-section');
+      var mywindow = window.open('', 'new div', 'height=600,width=900');
+      mywindow.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+      mywindow.document.close();
+      // printJS({
+      //   printable: 'print-section',
+      //   type: 'html',
+      //   targetStyles: ['width'],
+      //   style: ' #print-section { visibility: visible!important; } ',
+      // })
     }, 1000);
 
   }
@@ -350,6 +371,8 @@ export class SalesComponent implements OnInit {
       return false
     } else {
       this.selectedCustData = _.find(this.customers, { '_id': event.value })
+      this.invoiceForm.get('tax_enable').setValue(this.selectedCustData.enable_tax ? this.selectedCustData.enable_tax : false)
+      this.calculateTotal()
     }
 
   }
@@ -429,6 +452,7 @@ export class SalesComponent implements OnInit {
       this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_name'].setValue(this.stocks[sliceIndex].stock_name)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price)
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['mrp'].setValue(this.stocks[sliceIndex].mrp)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id.tax_name)
       let cgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) / 100);
       this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);

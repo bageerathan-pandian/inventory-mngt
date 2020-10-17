@@ -24,6 +24,7 @@ export class CustomerFormComponent implements OnInit {
 
   customerForm:FormGroup
   status:any
+  routeNameList:any;
 
   constructor(private _fb: FormBuilder, private customerService:CustomerService,private commonService: CommonService,
     public sessionService: SessionService, private messageService: MessageService
@@ -34,6 +35,15 @@ export class CustomerFormComponent implements OnInit {
         {label:'De-Active', value:0},
       ]
 
+      this.routeNameList = [
+        {label:'Barma Colony', value:'Barma Colony'},
+        {label:'Sekkalai Road', value:'Sekkalai Road'},
+        {label:'100 Feet Road', value:'100 Feet Road'},
+        {label:'Senjai', value:'Senjai'},
+        {label:'Sriramnagar', value:'Sriramnagar'},
+        {label:'Railway Road', value:'Railway Road'},
+      ]
+
       this.customerForm = this._fb.group({
         _id: [''],
         company_details_id: [this.sessionService.getItem('company_id'),Validators.required],
@@ -41,6 +51,9 @@ export class CustomerFormComponent implements OnInit {
         customer_name: ['',Validators.required],
         customer_address: ['',Validators.required],
         phone: ['',Validators.required],
+        enable_tax:[true,Validators.required],
+        customer_gstin:[''],
+        route_name:[''],
         status: [1,Validators.required]
       })
   }
@@ -67,6 +80,9 @@ export class CustomerFormComponent implements OnInit {
       this.customerForm.controls['customer_name'].setValue(this.custData.customer_name);
       this.customerForm.controls['customer_address'].setValue(this.custData.customer_address);
       this.customerForm.controls['phone'].setValue(this.custData.phone);
+      this.customerForm.controls['enable_tax'].setValue(this.custData.enable_tax);
+      this.customerForm.controls['route_name'].setValue(this.custData.route_name);
+      this.customerForm.controls['customer_gstin'].setValue(this.custData.customer_gstin);
       this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
       this.customerForm.controls['status'].setValue(this.custData.status);    
       }else{           

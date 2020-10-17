@@ -40,6 +40,31 @@
 
             </div>
         </div>
+        <div class="ui-g-12">
+            <div class="ui-g-12">
+                <p-checkbox label="Enable Tax" binary="true" formControlName="enable_tax"></p-checkbox>
+
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">GSTIN</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText  formControlName="customer_gstin"  />
+            </div>
+        </div>
+
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="vin">Route Name</label>
+            </div>
+            <div class="ui-g-8">
+                <p-dropdown [options]="routeNameList"   placeholder="Select Route"   formControlName="route_name"  ></p-dropdown>
+            </div>
+        </div>
+
+
     <div class="ui-g-12">
         <div class="ui-g-4">
             <label for="brand">Status</label>

@@ -8,27 +8,32 @@
 
 <div class="ui-g ui-fluid">
         
-<div class="ui-g-3">
+<div class="ui-g-2">
         <div class="ui-g-12">
                 Invoice No.:  <input pInputText type="text" formControlName="invoice_purchase_code"  readonly required>
             </div>
+</div>
+<div class="ui-g-2">
             <div class="ui-g-12">
                 Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
             </div>
 </div>
 
-<div class="ui-g-3">
+<div class="ui-g-2">
 
         <div class="ui-g-12">
                 Supplier Name: <p-dropdown [options]="supplierList"   placeholder="Select Supplier"  formControlName="supplier_details_id"  filter="true" (onChange)="onSelectSup($event)" ></p-dropdown>
            
            </div>
+</div>
+
+<div class="ui-g-2">
            <div class="ui-g-12">
                 Supplier Address:  <input pInputText type="text" value="{{selectedSupplierData.supplier_address}}" readonly > 
         </div> 
 </div>
 
-<div class="ui-g-3">
+<div class="ui-g-2">
         <!-- <pre>{{ selectedSupplierData | json }}</pre> -->
         
         
@@ -58,122 +63,126 @@
 <p-card>
 <div formArrayName="invoiceList">
    
-<table>
-        <thead>
-        <tr>
-                <th style="width: 10%">Order #</th>
-                <th>Product Name/Code</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-                <th style="width:8em"></th>
-            </tr>
-            </thead>
-            <tbody>
-   
-   <tr *ngFor="let itemrow of purchaseInvoiceForm.get('invoiceList')['controls']; let i=index"
-   [formGroupName]="i">
-       <td >
-         {{i + 1}}
-       </td>
-      <td >
-                  <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"   filter="true">
-                   
-              </p-dropdown> 
-              
-      </td>
-      <td class="hidden-spinner" style="width: 20%;">
-              <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
-              <p-spinner size="30"  formControlName="price"  [formatInput]="true" [disabled]="true"></p-spinner>
+        <table style="margin-bottom: 15px;">
+                <thead>
+                <tr>
+                        <th style="width:8em">Order #</th>
+                        <th>Product Name/Code</th>
+                        <th>Price</th>
+                        <th>MRP</th>
+                        <th>Qty</th>
+                        <th>GST(%)</th>
+                        <th class="with-gst">Total</th>
+                        <th style="width:8em"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            <tr *ngFor="let itemrow of purchaseInvoiceForm.get('invoiceList')['controls']; let i=index"
+            [formGroupName]="i">
+                <td >
+                  {{i + 1}}
+                </td>
+               <td >
+                           <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"   filter="true">
+                            
+                       </p-dropdown> 
+                       
+               </td>
+               <td class="hidden-spinner" style="width: 15%;">
+                       <p-spinner [step]="0.25"  formControlName="price" [min]="1" [max]="itemrow.get('mrp').value" (keyup)="onChangeQty(i)"  [formatInput]="true" [disabled]="purchaseInvoiceForm.value.invoiceList[i].stock_details_id ? false : true"  required></p-spinner>
 
-              <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ purchaseInvoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span> -->
-             
-      </td>
-      <td>
-              <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="purchaseInvoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
-              <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
-           
-       </td>
-      <td class="hidden-spinner" style="width: 20%;">
-              <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
-              <p-spinner styleClasssize="30"  formControlName="total"  [formatInput]="true" [disabled]="true"></p-spinner>
+                      
+               </td>
+               <td class="hidden-spinner" style="width: 15%;">
+                <p-spinner size="30"  formControlName="mrp"  [formatInput]="true" [disabled]="true"></p-spinner>
 
-              <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;"> {{ invoiceForm.value.invoiceList[i].total  | currency :'INR':true}}</span> -->
-             
-      </td>
-      <td >
-       <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(purchaseInvoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
-       <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="purchaseInvoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
-       <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
-                   <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
-                  </td>
-  </tr>
-</tbody>
-<!-- <tfoot>
-   <tr >
-       <th >
-         
-       </th>
-      <th >
-                  <p-dropdown [options]="stocksList" required placeholder="Select a Product"  [showClear]="true" filter="true">
-                   
-              </p-dropdown> 
-      </th>
-      <th >
-              <input pInputText type="text"   required>
-             
-      </th>
-      <th>
-              <input pInputText type="text"   required>
-      </th>
-      <th >
-              <input pInputText type="text"    required>
-             
-      </th>
-      <th style="text-align:center">
-                   <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()"  style="    margin: 0px 5px;"></button>
-                  </th>
-  </tr>
-</tfoot> -->
-</table>
+               
+        </td>
+               <td>
+                       <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="purchaseInvoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
+                     
+                </td>
+                <td class="hidden-spinner" >
+                        <p-spinner size="30"  formControlName="gst_per"  [formatInput]="true" [disabled]="true"></p-spinner>
+ 
+                        <p class="error-msg" style="position: absolute;    color: #222;">
+                                <em >*{{purchaseInvoiceForm.value.invoiceList[i].tax_name}}</em>
+                                </p>                        
+                </td>
+
+
+               <td class="hidden-spinner" style="width: 15%;">
+                <p-spinner [step]="0.25" formControlName="total_with_gst" [formatInput]="true" [disabled]="true"></p-spinner>
+
+        </td>
+               <td >
+                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
+                            <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
+                           </td>
+           </tr>
+        </tbody>
+        </table>
 </div>
-    <div class="ui-g ui-fluid">
-            <div class="ui-g-12 ui-md-6" style="text-align: center">
-                    <h6>Grand Total</h6>
-                    <h1>{{ purchaseInvoiceForm.value.grand_total | currency :'INR':true}}</h1>
-            </div>
-            <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-12 ui-md-6">
-                    Sub Amount:  
-                   <p>{{purchaseInvoiceForm.value.sub_total  | currency : 'INR':true}}</p> 
-                    Discount $ :<input pInputText type="text" pKeyFilter="int"  required max="{{purchaseInvoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
-            </div>
-            <div class="ui-g-12 ui-md-6">
-                    Grand Total: 
-                   <p>{{purchaseInvoiceForm.value.grand_total  | currency : 'INR':true}}</p> 
-                   Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
-                   Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
-                   Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
-                   Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
-                </div>
-            </div>
-    </div>
-
-    <div class="ui-g ui-fluid">
-
-            <div class="ui-g-2">
-                    <button pButton type="button" label="Reset" icon="pi pi-replay" class="ui-button-secondary" (click)="onReset()"></button>
-                </div>
-            <div class="ui-g-2">
-                    <button pButton type="button" (click)="saveOrder()" label="Save" icon="pi pi-save" class="ui-button-success"></button>
-                </div>
-            <!-- <div class="ui-g-2">
-                    <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
-            </div> -->
-            <!-- <div class="ui-g-2">
-                <button pButton type="button" onclick="printJS('print-section', 'html')" label="Print" icon="pi pi-print"  class="ui-button-warning"  ></button>
-            </div> -->
+   
+<div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-6" style="text-align: center">
+                <h6>Grand Total <em *ngIf="purchaseInvoiceForm.value.tax_enable">(with GST)</em></h6>
+                <h1>{{ purchaseInvoiceForm.value.grand_total | currency :'INR':true}}</h1>
         </div>
+        <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-12">  
+        <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> Sub Amount: </p> </div>
+        <div class="ui-g-12  ui-md-5"><b>{{purchaseInvoiceForm.value.sub_total  | currency : 'INR':true}}</b> </div>
+    </div>   
+    <div class="ui-g-12"> 
+        <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> SGST: </p> </div>
+        <div class="ui-g-12  ui-md-5"><b>{{purchaseInvoiceForm.value.sgst  | currency : 'INR':true}}</b> </div>
+    </div>   
+    <div class="ui-g-12"> 
+        <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> CGST:  </p> </div>
+        <div class="ui-g-12  ui-md-5"><b>{{purchaseInvoiceForm.value.cgst  | currency : 'INR':true}}</b> </div>
+    </div>   
+    <div class="ui-g-12"> 
+        <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> Grand Total:  </p> </div>
+        <div class="ui-g-12  ui-md-5"><b>{{purchaseInvoiceForm.value.grand_total  | currency : 'INR':true}}</b> </div>
+    </div>   
+    
+    
+    <div class="ui-g-12">     
+          <p-checkbox name="tax" binary="true" disabled="true" (onChange)="toggleTax($event)"  formControlName="tax_enable" label="Enable Tax" ></p-checkbox>
+    </div>
+            </div>
+        <div class="ui-g-12 ui-md-6">
+                
+                Discount : <input pInputText type="text" pKeyFilter="int"  required max="{{purchaseInvoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
+                Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
+             
+              Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
+               Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
+               Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
+            </div>
+        </div>
+</div>
+
+<div class="ui-g ui-fluid">
+
+        <div class="ui-g-2">
+                <button pButton type="button" label="Reset" icon="pi pi-replay" class="ui-button-secondary" (click)="onReset()"></button>
+            </div>
+        <div class="ui-g-2">
+                <button pButton type="button" (click)="saveOrder()" label="Save" icon="pi pi-save" class="ui-button-success"></button>
+            </div>
+            <!-- <div class="ui-g-2">
+                    <button pButton type="button" (click)="scanBarcode()" label="Scan" icon="pi pi-search" class="ui-button-success"></button>
+                </div> -->
+        <!-- <div class="ui-g-2">
+                <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
+        </div> -->
+        <!-- <div class="ui-g-2">
+            <button pButton type="button" label="Print Priview" icon="pi pi-print" (click)="printPriview()"  class="ui-button-warning"  ></button>
+        </div> -->
+    </div>
 
 
 

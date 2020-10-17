@@ -32,7 +32,7 @@ exports.getAllUsersByCompanyPurchase =  (req, res)=> {
     } else {
         return res.json(result);
     }
-}).populate('company_details_id').populate('customer_details_id').sort( { updatedAt: -1 } )
+}).populate('company_details_id').populate('supplier_details_id').sort( { updatedAt: -1 } )
 }
 
 exports.updateUser =  (req, res)=> {

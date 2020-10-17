@@ -55,6 +55,9 @@ export class CustomerMasterComponent implements OnInit {
       { field: 'customer_name', header: 'Customer Name' },
       { field: 'customer_address', header: 'Customer Address' },
       { field: 'phone', header: 'Phone' },
+      { field: 'enable_tax', header: 'Enable Tax' },
+      { field: 'customer_gstin', header: 'GSTIN' },
+      { field: 'route_name', header: 'Route' },
       { field: 'updatedAt', header: 'Updated Date' },
       { field: 'status', header: 'Status' }
       // { field: '', header: 'Action' }

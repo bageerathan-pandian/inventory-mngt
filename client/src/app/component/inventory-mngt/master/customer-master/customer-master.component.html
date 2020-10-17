@@ -1,82 +1,101 @@
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+<div style="margin-top: 15px;">
+    <p-card>
+        <p-table #dt [loading]="loading" [value]="customerList" [columns]="cols" dataKey="_id" [paginator]="true"
+            [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','customer_name','customer_address','phone']"
+            [rows]="10">
 
-        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
-        <div style="margin-top: 15px;">
-      <p-card >
-<p-table  #dt [loading]="loading" [value]="customerList"  [columns]="cols" dataKey="_id" [paginator]="true"  [rowsPerPageOptions]="[10,50,100]"  [globalFilterFields]="['_id','customer_name','customer_address','phone']"  [rows]="10" >
- 
-    <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix" >
+            <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix">
 
-            <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
-            <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
-        </div>
-        <div style="text-align: right">        
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
-            <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"   style="width:auto">
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-            <tr>
-                  <th style="width: 3em">
-                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                      </th>
-                  <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
-                          {{col.header}}
-                          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                    <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+                </div>
+                <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Global Filter"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 3em">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
 
-                      </th>
-            <th style="width: 10%;">
-                    <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Add" ></button>
+                    </th>
+                    <th style="width: 10%;">
+                        <button type="button" pButton icon="pi pi-plus" class="ui-button-success" iconPos="left"
+                            (click)="showDialogToAdd()" label="Add"></button>
 
-            </th>
-        </tr>
-        <!-- <tr>
+                    </th>
+                </tr>
+                <!-- <tr>
             <th ></th>
             <th *ngFor="let col of columns" pResizableColumn>
                 <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
             </th>            
             <th ></th>
         </tr> -->
-       
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData   let-ri="rowIndex">
-            <tr [pSelectableRow]="rowData">
+
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                <tr [pSelectableRow]="rowData">
                     <td>
-                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-                        </td>
-              <td>
-                    {{rowData.customer_code}}
-              </td>
-            <td>              
-                    {{rowData.customer_name}}
-            </td>
-            <td>              
-                {{rowData.customer_address}}
-        </td> <td>              
-            {{rowData.phone}}
-    </td>
-            <td>
-                {{rowData.updatedAt | date:'medium'}}
-        </td>
-            <td style="text-align: center">
-                <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
-            </td>
-            <td style="text-align:center">
-                <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-info" (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
-                <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
-                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
-            </td>
-        </tr>
-    </ng-template>
-   
-       <ng-template pTemplate="paginatorleft" let-state>
-        Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{customerList?.length}}</strong> entries
-      </ng-template>
+                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    </td>
+                    <td>
+                        {{rowData.customer_code}}
+                    </td>
+                    <td>
+                        {{rowData.customer_name}}
+                    </td>
+                    <td>
+                        {{rowData.customer_address}}
+                    </td>
+                    <td>
+                        {{rowData.phone}}
+                    </td>
+                    <td>
+                        {{rowData.enable_tax ? 'Yes' : 'No'}}
+                    </td>
+                    <td>
+                        {{rowData.customer_gstin}}
+                    </td>
+                    <td>
+                        {{rowData.route_name}}
+                    </td>
+                    <td>
+                        {{rowData.updatedAt | date:'medium'}}
+                    </td>
+                    <td style="text-align: center">
+                        <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status"
+                            (onChange)="onChangeStatus($event)"></p-dropdown>
+                    </td>
+                    <td style="text-align:center">
+                        <button pButton type="button" icon="pi pi-pencil" class="ui-button-info"
+                            (click)="showDialogToAdd(rowData)" style="    margin: 0px 5px;"></button>
+                        <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
+                        <button pButton type="button" icon="pi pi-trash" class="ui-button-danger"
+                            (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="paginatorleft" let-state>
+                Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
+                <strong>{{customerList?.length}}</strong> entries
+            </ng-template>
 
 
-</p-table>
+        </p-table>
 
-<!-- <p-dialog  [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+        <!-- <p-dialog  [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
         <p-header>
                 <span *ngIf="customerForm.value._id">Update</span>
                 <span *ngIf="!customerForm.value._id">Add</span> Customer
@@ -135,17 +154,16 @@
 </form>
 </p-dialog> -->
 
-<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
-        <p-footer>
-                <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+        <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+            <p-footer>
+                <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>
                 <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
             </p-footer>
         </p-confirmDialog>
 
-</p-card>
+    </p-card>
 
 </div>
 
-<app-customer-form [displayDialog3]="displayDialog3" [custData]="custData"  (displayChangeEvent3)="onDialogClose3($event)"  (customerEvent)="receiveCustomer($event)"></app-customer-form>
-
-
+<app-customer-form [displayDialog3]="displayDialog3" [custData]="custData"
+    (displayChangeEvent3)="onDialogClose3($event)" (customerEvent)="receiveCustomer($event)"></app-customer-form>

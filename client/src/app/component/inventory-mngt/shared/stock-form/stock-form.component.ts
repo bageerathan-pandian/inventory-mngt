@@ -67,7 +67,9 @@ export class StockFormComponent implements OnInit {
       tax_details_id: ['',Validators.required],
       stock_qty: ['',Validators.required],
       buying_price: ['',Validators.required],
+      buying_with_tax:[true,Validators.required],
       selling_price: ['',Validators.required],
+      mrp: ['',Validators.required],
       product_details: [''],
       unit_details_id: [''],
       status: [1,Validators.required]
@@ -116,6 +118,8 @@ export class StockFormComponent implements OnInit {
     this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
     this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : '');
     this.stockForm.controls['buying_price'].setValue(this.stockData.buying_price ? this.stockData.buying_price : '');
+    this.stockForm.controls['mrp'].setValue(this.stockData.mrp ? this.stockData.mrp : '');
+    this.stockForm.controls['buying_with_tax'].setValue(this.stockData.buying_with_tax ? this.stockData.buying_with_tax : false);
     this.stockForm.controls['selling_price'].setValue(this.stockData.selling_price ? this.stockData.selling_price : '');
     this.stockForm.controls['tax_details_id'].setValue(this.stockData.tax_details_id ? this.stockData.tax_details_id._id : null);
     this.stockForm.controls['unit_details_id'].setValue(this.stockData.unit_details_id ? this.stockData.unit_details_id._id : null);

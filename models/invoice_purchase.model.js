@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const InvoicePurchaseSchema = new mongoose.Schema({
   company_details_id:  { type: Schema.Types.ObjectId, ref: 'company_details' },
-  customer_details_id:  { type: Schema.Types.ObjectId, ref: 'customer_details' },
+  supplier_details_id:  { type: Schema.Types.ObjectId, ref: 'supplier_details' },
   invoice_list: {type:Array},
   invoice_purchase_code: { type: String },
   invoice_date: { type: String },

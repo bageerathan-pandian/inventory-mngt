@@ -91,6 +91,8 @@ export class StockMasterComponent implements OnInit {
       { field: 'category_details_id', header: 'Category' },
       { field: 'stock_qty', header: 'Stock Qty' },
       { field: 'buying_price', header: 'Buying Price' },
+      { field: 'mrp', header: 'MRP' },
+      { field: 'buying_with_tax', header: 'Buying Price(With Tax)' },
       { field: 'selling_price', header: 'Selling Price' },
       { field: 'tax_details_id', header: 'Tax %' },
       { field: 'unit_details_id', header: 'Unit' },

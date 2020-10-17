@@ -73,6 +73,7 @@
                         <th style="width:8em">Order #</th>
                         <th>Product Name/Code</th>
                         <th>Price</th>
+                        <th>MRP</th>
                         <th>Qty</th>
                         <!-- <th>Total</th>
                         <th>CGST(Amt)</th>
@@ -96,11 +97,16 @@
                </td>
                <td class="hidden-spinner" style="width: 15%;">
                        <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
-                       <p-spinner size="30"  formControlName="price"  [formatInput]="true" [disabled]="true"></p-spinner>
+                       <p-spinner [step]="0.25"  formControlName="price" [min]="1" [max]="itemrow.get('mrp').value" (keyup)="onChangeQty(i)"  [formatInput]="true" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true"  required></p-spinner>
 
                        <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ invoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span> -->
                       
                </td>
+               <td class="hidden-spinner" style="width: 15%;">
+                <p-spinner size="30"  formControlName="mrp"  [formatInput]="true" [disabled]="true"></p-spinner>
+
+               
+        </td>
                <td>
                        <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
                        <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
@@ -137,7 +143,7 @@
 
                <td class="hidden-spinner" style="width: 15%;">
                 <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
-                <p-spinner styleClasssize="30"  formControlName="total_with_gst"  [formatInput]="true" [disabled]="true"></p-spinner>
+                <p-spinner [step]="0.25" formControlName="total_with_gst" [formatInput]="true" [disabled]="true"></p-spinner>
 
         </td>
                <td >
@@ -185,21 +191,34 @@
                     </div>
                     <div class="ui-g-12 ui-md-6">
                     <div class="ui-g-12 ui-md-6">
-                        
-                       <p style="padding: 5px 0;"> Sub Amount: <b>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</b> </p> 
-                        
-                      <p style="padding: 5px 0;">CGST: <b> {{invoiceForm.value.cgst  | currency : 'INR':true}}</b></p> 
-                            Discount $ : <input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
-                            Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
-                            <p-checkbox name="tax" binary="true" (onChange)="toggleTax($event)"  formControlName="tax_enable" label="Enable Tax" ></p-checkbox>
-
+                <div class="ui-g-12">  
+                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> Sub Amount: </p> </div>
+                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</b> </div>
+                </div>   
+                <div class="ui-g-12"> 
+                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> SGST: </p> </div>
+                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.sgst  | currency : 'INR':true}}</b> </div>
+                </div>   
+                <div class="ui-g-12"> 
+                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> CGST:  </p> </div>
+                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.cgst  | currency : 'INR':true}}</b> </div>
+                </div>   
+                <div class="ui-g-12"> 
+                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> Grand Total:  </p> </div>
+                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</b> </div>
+                </div>   
+                
+                
+                <div class="ui-g-12">     
+                      <p-checkbox name="tax" binary="true" disabled="true" (onChange)="toggleTax($event)"  formControlName="tax_enable" label="Enable Tax" ></p-checkbox>
+                </div>
                         </div>
                     <div class="ui-g-12 ui-md-6">
                             
-                           <p style="padding: 5px 0;">Grand Total: <b> {{invoiceForm.value.grand_total  | currency : 'INR':true}}</b></p> 
-                            
-                          <p style="padding: 5px 0;">SGST: <b>  {{invoiceForm.value.sgst  | currency : 'INR':true}} </b> </p> 
-                           Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
+                            Discount : <input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
+                            Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
+                         
+                          Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
                            Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
                            Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
                         </div>

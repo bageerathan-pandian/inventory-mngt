@@ -82,6 +82,7 @@ export class PaymentComponent implements OnInit {
   this.paymentStatus = [
     {label:'Paid', value:1},
     {label:'Pending', value:2},
+    {label:'Collection', value:3},
   ]
    
   }
@@ -195,14 +196,26 @@ export class PaymentComponent implements OnInit {
     // this.display = false
     // const invoiceIds = ['101', '102'];
     // this.printService.printDocument('invoice', invoiceIds);
+    // setTimeout(() => {
+    //   // printJS('print-section', 'html',) // print invoice 
+    //   printJS({
+    //     printable: 'print-section',
+    //     type: 'html',
+    //     targetStyles: ['width'],
+    //     style: ' #print-section { visibility: visible!important; } ',
+    //   })
+    // }, 1000);
     setTimeout(() => {
-      // printJS('print-section', 'html',) // print invoice 
-      printJS({
-        printable: 'print-section',
-        type: 'html',
-        targetStyles: ['width'],
-        style: ' #print-section { visibility: visible!important; } ',
-      })
+      var divToPrint = document.getElementById('print-section');
+      var mywindow = window.open('', 'new div', 'height=600,width=900');
+      mywindow.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+      mywindow.document.close();
+      // printJS({
+      //   printable: 'print-section',
+      //   type: 'html',
+      //   targetStyles: ['width'],
+      //   style: ' #print-section { visibility: visible!important; } ',
+      // })
     }, 1000);
   }
 

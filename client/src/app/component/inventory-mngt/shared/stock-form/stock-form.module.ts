@@ -9,13 +9,14 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
 import { SpinnerModule } from 'primeng/spinner';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
 @NgModule({
   declarations: [StockFormComponent],
   imports: [
-    CommonModule,    
+    CommonModule,
     ReactiveFormsModule,
     DropdownModule,
     InputTextModule,
@@ -23,9 +24,10 @@ import { SpinnerModule } from 'primeng/spinner';
     InputTextareaModule,
     DialogModule,
     InputMaskModule,
-    SpinnerModule
+    SpinnerModule,
+    CheckboxModule
     // GooglePlaceModule
   ],
-  exports:[StockFormComponent]
+  exports: [StockFormComponent]
 })
 export class StockFormModule { }

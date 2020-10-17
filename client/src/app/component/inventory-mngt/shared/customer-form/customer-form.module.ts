@@ -8,21 +8,23 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
 @NgModule({
   declarations: [CustomerFormComponent],
   imports: [
-    CommonModule,    
+    CommonModule,
     ReactiveFormsModule,
     DropdownModule,
     InputTextModule,
     ButtonModule,
     DialogModule,
     InputMaskModule,
+    CheckboxModule,
     GooglePlaceModule
   ],
-  exports:[CustomerFormComponent]
+  exports: [CustomerFormComponent]
 })
 export class CustomerFormModule { }

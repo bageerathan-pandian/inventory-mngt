@@ -1,106 +1,149 @@
-
-<p-dialog   [(visible)]="displayDialog"  [maximizable]="true" (onHide)="onClose()"  [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+<p-dialog [(visible)]="displayDialog" [maximizable]="true" (onHide)="onClose()" [responsive]="true" showEffect="fade"
+    [resizable]="false" [modal]="true" [style]="{width: '600px'}">
     <p-header>
-            <span *ngIf="stockForm.value._id">Update</span>
-            <span *ngIf="!stockForm.value._id">Add</span> Stock
+        <span *ngIf="stockForm.value._id">Update</span>
+        <span *ngIf="!stockForm.value._id">Add</span> Stock
     </p-header>
     <form [formGroup]="stockForm">
-        <div class="ui-g ui-fluid" >
-                <div class="ui-g-12">
-                    <div class="ui-g-4">
-                        <label for="vin">Stock Code</label>
-                    </div>
-                    <div class="ui-g-8">
-                        <input type="text" pInputText formControlName="stock_code"  disabled />
-                    </div>
-                </div>
-                <div class="ui-g-12">
-                    <div class="ui-g-4">
-                        <label for="vin">Stock Name</label>
-                    </div>
-                    <div class="ui-g-8">
-                        <input type="text" pInputText formControlName="stock_name" autofocus />
-                    </div>
-                </div>
+        <div class="ui-g ui-fluid">
             <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Category</label>
+                <div class="ui-g-6">
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Stock Code</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input type="text" pInputText formControlName="stock_code" disabled />
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Stock Name</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <input type="text" pInputText formControlName="stock_name" autofocus />
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Category</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <p-dropdown [options]="categoryList" placeholder="Select Category" filter="true"
+                                formControlName="category_details_id" [showClear]="true"
+                                (onChange)="onSelectCat($event)">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">Qty</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <!-- <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" /> -->
+                            <p-spinner size="30" formControlName="stock_qty" [min]="1" [formatInput]="true"
+                                [disabled]="formType == 'purchase' ? true : false"></p-spinner>
+
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Unit</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <p-dropdown [options]="unitList" placeholder="Select Unit" filter="true"
+                                formControlName="unit_details_id" [showClear]="true" (onChange)="onSelectUnit($event)">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">Buying Price</label>
+                        </div>
+                        <div class="ui-g-8 hidden-spinner">
+                            <!-- <input type="text" pKeyFilter="int" pInputText formControlName="buying_price" /> -->
+                            <p-spinner size="30" formControlName="buying_price" [min]="1" [step]="0.25" [formatInput]="true">
+                            </p-spinner>
+
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <!-- <div class="ui-g-8">
+                            <label for="vin">Buying Prince(With Tax)</label>
+                        </div> -->
+                        <div class="ui-g-12">
+                            <p-checkbox label="Buying Price (With Tax)" binary="true" formControlName="buying_with_tax"></p-checkbox>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="ui-g-8">
-                    <p-dropdown [options]="categoryList" placeholder="Select Category" filter="true" formControlName="category_details_id" [showClear]="true" (onChange)="onSelectCat($event)"></p-dropdown>
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="year">Qty</label>
-                </div>
-                <div class="ui-g-8">
-                    <!-- <input type="text" pKeyFilter="int" pInputText formControlName="stock_qty" /> -->
-                    <p-spinner size="30"  formControlName="stock_qty" [min]="1" [formatInput]="true" [disabled]="formType == 'purchase' ? true : false"></p-spinner>
+                <div class="ui-g-6">
+                    
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">MRP</label>
+                        </div>
+                        <div class="ui-g-8 hidden-spinner">
+                            <!-- <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" /> -->
+                            <p-spinner formControlName="mrp" [min]="1" [step]="0.25" [formatInput]="true"></p-spinner>
+
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">Selling Price</label>
+                        </div>
+                        <div class="ui-g-8 hidden-spinner">
+                            <!-- <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" /> -->
+                            <p-spinner formControlName="selling_price" [min]="1" [max]="stockForm.get('mrp').value" [step]="0.25" [formatInput]="true"></p-spinner>
+
+                        </div>
+                    </div>
+                   
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Tax %</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <p-dropdown [options]="taxList" placeholder="Select Tax" filter="true"
+                                formControlName="tax_details_id" [showClear]="true" (onChange)="onSelectTax($event)">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="year">Details</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <!-- <input type="text" pInputText [(ngModel)]="car.product_details" /> -->
+                            <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="false"
+                                formControlName="product_details"></textarea>
+                        </div>
+                    </div>
+                
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="brand">Status</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <p-dropdown [options]="status" placeholder="Select Status" formControlName="status">
+                            </p-dropdown>
+
+                        </div>
+                    </div>
 
                 </div>
             </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="year">Buying Price</label>
-                </div>
-                <div class="ui-g-8 hidden-spinner">
-                    <!-- <input type="text" pKeyFilter="int" pInputText formControlName="buying_price" /> -->
-                    <p-spinner size="30"  formControlName="buying_price" [min]="1" [formatInput]="true" ></p-spinner>
 
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="year">Selling Price</label>
-                </div>
-                <div class="ui-g-8 hidden-spinner">
-                    <!-- <input type="text" pKeyFilter="int" pInputText formControlName="selling_price" /> -->
-                    <p-spinner  formControlName="selling_price" [min]="1" [formatInput]="true" ></p-spinner>
-
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="vin">Tax %</label>
-                </div>
-                <div class="ui-g-8">
-                    <p-dropdown [options]="taxList" placeholder="Select Tax" filter="true" formControlName="tax_details_id" [showClear]="true" (onChange)="onSelectTax($event)"></p-dropdown>
-                </div>
-            </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="year">Details</label>
-                </div>
-                <div class="ui-g-8">
-                    <!-- <input type="text" pInputText [(ngModel)]="car.product_details" /> -->
-                    <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="false" formControlName="product_details" ></textarea>
-                </div>
-            </div>
-            <div class="ui-g-12">
-                    <div class="ui-g-4">
-                        <label for="vin">Unit</label>
-                    </div>
-                    <div class="ui-g-8">
-                        <p-dropdown [options]="unitList" placeholder="Select Unit" filter="true" formControlName="unit_details_id" [showClear]="true" (onChange)="onSelectUnit($event)"></p-dropdown>
-                    </div>
-                </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
-                    <label for="brand">Status</label>
-                </div>
-                <div class="ui-g-8">
-                    <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
-    
-                </div>
-            </div>
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
                 <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
-                <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="!stockForm.value._id" (click)="save()" label="Add"></button>
-                <button type="button" pButton  icon="pi pi-save" class="ui-button-success" *ngIf="stockForm.value._id" (click)="save()" label="Update"></button>
+                <button type="button" pButton icon="pi pi-save" class="ui-button-success" *ngIf="!stockForm.value._id"
+                    (click)="save()" label="Add"></button>
+                <button type="button" pButton icon="pi pi-save" class="ui-button-success" *ngIf="stockForm.value._id"
+                    (click)="save()" label="Update"></button>
             </div>
         </p-footer>
     </form>
-   </p-dialog>
+</p-dialog>

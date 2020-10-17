@@ -11,6 +11,7 @@ export class Stock {
     category_details_id:Category
     stock_qty:number;
     buying_price:number;
+    mrp:number;
     selling_price:number;
     product_details:string;
     tax_details_id:Tax;

@@ -35,5 +35,16 @@ router.get('/total-sales/:id', invoiceController.getTotalSales);
  */
 router.get('/total-purchase/:id', invoiceController.getTotalPurchase);
 
+/**
+ * get users list by company
+ */
+router.get('/get-by-company-customer-collection/:id', invoiceController.getAllUsersByCompanyCustomerCollection);
+
+
+/**
+ * get users list by company
+ */
+router.get('/get-by-company-supplier-collection/:id', invoiceController.getAllUsersByCompanySupplierCollection);
+
 
 module.exports = router;

@@ -63,7 +63,7 @@ exports.getAllUsersByCompanyActive =  (req, res)=> {
 
 exports.addUser =  (req, res)=> {
     console.log('add user1', req.body); 
-    if(req.body._id === null) {
+    if(req.body._id === null || req.body._id == '') {
       delete req.body._id;
     }
     StockModel.create(req.body, (e,result) => {

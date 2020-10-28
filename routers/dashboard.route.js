@@ -22,5 +22,10 @@ router.get('/latest-sales/:id', dashboardController.getLatestSales);
  */
 router.get('/latest-purchase/:id', dashboardController.getLatestPurchase);
 
+/**
+ * get profit loss
+ */
+router.get('/profit-loss/:id', dashboardController.getProfitLoss);
+
 
 module.exports = router;

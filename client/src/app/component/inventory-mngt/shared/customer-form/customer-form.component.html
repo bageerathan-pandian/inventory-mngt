@@ -41,7 +41,9 @@
             </div>
         </div>
         <div class="ui-g-12">
-            <div class="ui-g-12">
+            <div class="ui-g-4">
+            </div>
+            <div class="ui-g-8">
                 <p-checkbox label="Enable Tax" binary="true" formControlName="enable_tax"></p-checkbox>
 
             </div>
@@ -60,7 +62,10 @@
                 <label for="vin">Route Name</label>
             </div>
             <div class="ui-g-8">
-                <p-dropdown [options]="routeNameList"   placeholder="Select Route"   formControlName="route_name"  ></p-dropdown>
+                <!-- <p-dropdown [options]="routeNameList"   placeholder="Select Route"   formControlName="route_name"  ></p-dropdown> -->
+                <p-dropdown [options]="routeNameList" placeholder="Select Route" filter="true"
+                formControlName="route_details_id" [showClear]="true" (onChange)="onSelectRoute($event)">
+            </p-dropdown>
             </div>
         </div>
 
@@ -84,3 +89,5 @@
 </p-footer>
 </form>
 </p-dialog>
+
+<app-route-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)" ></app-route-form>

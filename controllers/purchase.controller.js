@@ -2,6 +2,7 @@
 const PurchaseModel = require('../models/purchase.model');
 const InvoicePurchaseModel = require('../models/invoice_purchase.model');
 const StockModel = require('../models/stock.model');
+const SupplierModel = require('../models/supplier.model');
 
 
 /**
@@ -61,8 +62,11 @@ exports.addUser =  (req, res)=> {
     invoice_purchase_code:req.body.invoice_purchase_code,
     invoice_date:req.body.invoice_date,
     sub_total:req.body.sub_total,
-    discount:req.body.discount,
     grand_total:req.body.grand_total,
+    discount:req.body.discount,
+    cgst:req.body.cgst,
+    sgst:req.body.sgst,
+    tax_enable:req.body.tax_enable,    
     payment_type:req.body.payment_type,
     paid_amount:req.body.paid_amount,
     balance_amount:req.body.balance_amount,
@@ -78,10 +82,15 @@ exports.addUser =  (req, res)=> {
         stock_details_id:invoiceArry.stock_details_id,
         invoice_purchase_details_id: result._id,
         stock_price:invoiceArry.price,
+        mrp:invoiceArry.mrp,
         stock_qty:invoiceArry.qty,
         stock_total_price:invoiceArry.total,
         sub_total:req.body.sub_total,
         discount:req.body.discount,
+        cgst_amt:invoiceArry.cgst_amt,
+        sgst_amt:invoiceArry.sgst_amt,
+        gst_per:invoiceArry.gst_per,
+        stock_total_with_gst:invoiceArry.total_with_gst,
         grand_total:req.body.grand_total,
         payment_type:req.body.payment_type,
         payment_status:req.body.payment_status
@@ -101,6 +110,16 @@ exports.addUser =  (req, res)=> {
       });
      
     }
+
+    let supData = {    
+      total_purchase_amt:req.body.customer_details_id_total_purchase_amt + req.body.grand_total,
+      total_paid_amt:req.body.customer_details_id_total_paid_amt + Number(req.body.paid_amount),
+      total_pending_amt:(req.body.customer_details_id_total_purchase_amt + req.body.grand_total) - (req.body.customer_details_id_total_paid_amt + Number(req.body.paid_amount))
+    }
+    console.log('supData',supData)
+    SupplierModel.findByIdAndUpdate(req.body.supplier_details_id, supData, (e,result3) => {
+      if (e)  return res.status(500).json(e);
+    });
     
     InvoicePurchaseModel.countDocuments({company_details_id : req.body.company_details_id},(e,result4) => {
       if(e) {        

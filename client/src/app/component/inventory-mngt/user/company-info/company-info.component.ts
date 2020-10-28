@@ -41,6 +41,7 @@ export class CompanyInfoComponent implements OnInit {
       company_image: [this.sessionService.getItem('company_image')],
       owner_name: [this.sessionService.getItem('owner_name'),Validators.required],
       phone: [this.sessionService.getItem('phone'),Validators.required],
+      phone2: [this.sessionService.getItem('phone2'),Validators.required],
       gstin: [this.sessionService.getItem('gstin'),Validators.required],
       status: [1,Validators.required]
     })

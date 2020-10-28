@@ -7,6 +7,9 @@ const SupplierSchema = new mongoose.Schema({
     supplier_name: { type: String },
     supplier_address: { type: String },
     phone: { type: String },
+    total_purchase_amt:{type:Number},
+    total_paid_amt:{type:Number},
+    total_pending_amt:{type:Number},
     status: { type: Number },
   },{timestamps: true});
 

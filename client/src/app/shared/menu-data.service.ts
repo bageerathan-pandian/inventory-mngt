@@ -23,11 +23,12 @@ export class MenuDataService {
             Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/inventory-mngt/dashboard', Childs: null, IsChildVisible: false
         },
         {
-          Label: 'Master', Icon: 'fa-cart-plus', RouterLink: null, Childs: [
+          Label: 'Master', Icon: 'fa-key', RouterLink: null, Childs: [
             { Label: 'Company', RouterLink: '/inventory-mngt/master/company', Childs: null, IsChildVisible: false },
             { Label: 'Unit', RouterLink: '/inventory-mngt/master/unit', Childs: null, IsChildVisible: false },
             { Label: 'Category', RouterLink: '/inventory-mngt/master/category', Childs: null, IsChildVisible: false },
             { Label: 'Tax', RouterLink: '/inventory-mngt/master/tax', Childs: null, IsChildVisible: false },
+            { Label: 'Route', RouterLink: '/inventory-mngt/master/route', Childs: null, IsChildVisible: false },
             { Label: 'Customer', RouterLink: '/inventory-mngt/master/customer', Childs: null, IsChildVisible: false },
             { Label: 'Supplier', RouterLink: '/inventory-mngt/master/supplier', Childs: null, IsChildVisible: false },
             { Label: 'Stock', RouterLink: '/inventory-mngt/master/stock', Childs: null, IsChildVisible: false },
@@ -35,7 +36,7 @@ export class MenuDataService {
           ], IsChildVisible: false
         },
         {
-          Label: 'Purchase', Icon: 'fa-dollar', RouterLink: null, Childs: [
+          Label: 'Purchase', Icon: 'fa-cart-plus', RouterLink: null, Childs: [
             { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase/purchase', Childs: null, IsChildVisible: false },
             { Label: 'Purchase Return', RouterLink: '/inventory-mngt/purchase/purchase-return', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
@@ -50,11 +51,15 @@ export class MenuDataService {
           Label: 'Payment', Icon: 'fa-money', RouterLink: '/inventory-mngt/payment', Childs: null, IsChildVisible: false
         },
         {
+          Label: 'Collections', Icon: 'fa-dollar', RouterLink: '/inventory-mngt/collection', Childs: null, IsChildVisible: false
+        },
+        {
           Label: 'Reports', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
               { Label: 'Sales Report', RouterLink: '/inventory-mngt/reports/sales-report', Childs: null, IsChildVisible: false },
               { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/reports/sales-return-report', Childs: null, IsChildVisible: false },
               { Label: 'Purchase Report', RouterLink: '/inventory-mngt/reports/purchase-report', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/reports/purchase-return-report', Childs: null, IsChildVisible: false }
+              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/reports/purchase-return-report', Childs: null, IsChildVisible: false },
+              { Label: 'Collections Report', RouterLink: '/inventory-mngt/reports/collection-report', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
         {
@@ -89,10 +94,11 @@ export class MenuDataService {
             Label: 'Dashboard', Icon: 'fa-home', RouterLink: '/inventory-mngt/dashboard', Childs: null, IsChildVisible: false
         },
         {
-          Label: 'Master', Icon: 'fa-cart-plus', RouterLink: null, Childs: [
+          Label: 'Master', Icon: 'fa-key', RouterLink: null, Childs: [
             { Label: 'Unit', RouterLink: '/inventory-mngt/master/unit', Childs: null, IsChildVisible: false },
             { Label: 'Category', RouterLink: '/inventory-mngt/master/category', Childs: null, IsChildVisible: false },
             { Label: 'Tax', RouterLink: '/inventory-mngt/master/tax', Childs: null, IsChildVisible: false },
+            { Label: 'Route', RouterLink: '/inventory-mngt/master/route', Childs: null, IsChildVisible: false },
             { Label: 'Customer', RouterLink: '/inventory-mngt/master/customer', Childs: null, IsChildVisible: false },
             { Label: 'Supplier', RouterLink: '/inventory-mngt/master/supplier', Childs: null, IsChildVisible: false },
             { Label: 'Stock', RouterLink: '/inventory-mngt/master/stock', Childs: null, IsChildVisible: false },
@@ -100,7 +106,7 @@ export class MenuDataService {
           ], IsChildVisible: false
         },
         {
-          Label: 'Purchase', Icon: 'fa-dollar', RouterLink: null, Childs: [
+          Label: 'Purchase', Icon: 'fa-cart-plus', RouterLink: null, Childs: [
             { Label: 'Purchase', RouterLink: '/inventory-mngt/purchase/purchase', Childs: null, IsChildVisible: false },
             { Label: 'Purchase Return', RouterLink: '/inventory-mngt/purchase/purchase-return', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
@@ -115,11 +121,15 @@ export class MenuDataService {
           Label: 'Payment', Icon: 'fa-money', RouterLink: '/inventory-mngt/payment', Childs: null, IsChildVisible: false
         },
         {
+          Label: 'Collections', Icon: 'fa-dollar', RouterLink: '/inventory-mngt/collection', Childs: null, IsChildVisible: false
+        },
+        {
           Label: 'Reports', Icon: 'fa-shopping-cart', RouterLink: null, Childs: [
               { Label: 'Sales Report', RouterLink: '/inventory-mngt/reports/sales-report', Childs: null, IsChildVisible: false },
               { Label: 'Sales Return Report', RouterLink: '/inventory-mngt/reports/sales-return-report', Childs: null, IsChildVisible: false },
               { Label: 'Purchase Report', RouterLink: '/inventory-mngt/reports/purchase-report', Childs: null, IsChildVisible: false },
-              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/reports/purchase-return-report', Childs: null, IsChildVisible: false }
+              { Label: 'Purchase Return Report', RouterLink: '/inventory-mngt/reports/purchase-return-report', Childs: null, IsChildVisible: false },
+              { Label: 'Collections Report', RouterLink: '/inventory-mngt/reports/collection-report', Childs: null, IsChildVisible: false }
           ], IsChildVisible: false
         },
         {

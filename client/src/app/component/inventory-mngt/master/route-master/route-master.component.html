@@ -1,0 +1,120 @@
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+<div style="margin-top: 15px;">
+<p-card  >
+<p-table  #dt1  [columns]="cols" [loading]="loading" [value]="routeList" dataKey="_id" [paginator]="true" [rows]="10"   [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','unit_code','unit_name']">
+  <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix" >
+
+          <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+          <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+      </div>
+      <div style="text-align: right">        
+          <i class="fa fa-search" style="margin:4px 4px 0 0"></i> 
+          <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt1.filterGlobal($event.target.value, 'contains')"   style="width:auto">
+      </div>
+  </ng-template>
+  <ng-template  pTemplate="header" let-columns>
+      <tr>
+            <th style="width: 3em">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn >
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                </th>
+         <th style="width: 10%;">
+            <button type="button" pButton icon="pi pi-plus" class="ui-button-success"  iconPos="left" (click)="showDialogToAdd()" label="Add" ></button>
+
+    </th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex" >
+    
+      <tr [pEditableRow]="rowData">
+            <td>
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </td>
+          <td>
+              {{rowData.route_code}}
+          </td>
+          <td>
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="rowData.route_name" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{rowData.route_name}}
+                  </ng-template>
+              </p-cellEditor>
+          </td>
+          <td>
+            {{rowData.updatedAt | date:'medium'}}
+    </td>
+          <td style="text-align: center">
+            <p-dropdown [options]="status" placeholder="Status" [(ngModel)]="rowData.status" (onChange)="onChangeStatus($event)"></p-dropdown>
+        </td>
+        <td style="text-align:center">
+            <button  pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEdit(rowData)" style="    margin: 0px 5px;"></button>
+            <!-- <button  pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button> -->
+            <button  pButton type="button" pCancelEditableRow icon="pi pi-trash" class="ui-button-danger" (click)="delete(rowData, ri)" style="    margin: 0px 5px;"></button>
+        </td>
+      </tr>
+  </ng-template>
+   
+   <ng-template pTemplate="paginatorleft" let-state>
+    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of <strong>{{routeList?.length}}</strong> entries
+  </ng-template>
+</p-table>
+
+<!-- <p-dialog  [maximizable]="true" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [resizable]="false" [modal]="true"  [style]="{width: '450px'}">
+    <p-header>
+            <span *ngIf="unitForm.value._id">Update</span>
+            <span *ngIf="!unitForm.value._id">Add</span> Unit
+    </p-header>
+<form [formGroup]="unitForm">
+<div class="ui-g ui-fluid" >
+    <div class="ui-g-12">
+        <div class="ui-g-4">
+            <label for="vin">Code</label>
+        </div>
+        <div class="ui-g-8">
+            <input pInputText  formControlName="unit_code" disabled />
+        </div>
+    </div>
+    <div class="ui-g-12">
+        <div class="ui-g-4">
+            <label for="vin">Tax Name</label>
+        </div>
+        <div class="ui-g-8">
+            <input pInputText formControlName="unit_name" autofocus />
+        </div>
+    </div>
+    <div class="ui-g-12">
+        <div class="ui-g-4">
+            <label for="brand">Status</label>
+        </div>
+        <div class="ui-g-8">
+            <p-dropdown [options]="status" placeholder="Select Status" formControlName="status"></p-dropdown>
+
+        </div>
+    </div>
+</div>
+<p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton  icon="pi pi-save" class="ui-button-success" (click)="save()" label="Save"></button>
+    </div>
+</p-footer>
+</form>
+</p-dialog> -->
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+    <p-footer>
+            <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+            <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
+        </p-footer>
+    </p-confirmDialog>
+</p-card>
+</div>
+
+<app-route-form [displayDialog2]="displayDialog2" [routeData]="routeData"  (displayChangeEvent2)="onDialogClose2($event)"  (routeEvent)="receiveRoute($event)"></app-route-form>

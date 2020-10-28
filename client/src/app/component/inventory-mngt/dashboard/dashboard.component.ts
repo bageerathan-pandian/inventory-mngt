@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit {
                   label: 'Purchase',
                   backgroundColor: '#42A5F5',
                   borderColor: '#1E88E5',
-                  data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40]
+                  data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56]
               },
               {
                   label: 'Sales',
@@ -70,13 +70,13 @@ export class DashboardComponent implements OnInit {
                   // borderColor: '#7CB342',
                   backgroundColor: '#FFB300',
                   borderColor: '#7CB342',
-                  data: [28, 48, 40, 19, 86, 27, 90,28, 48, 40, 19, 86, 27, 90]
+                  data: [28, 48, 40, 19, 86, 27, 90,28, 48, 40, 19, 86]
               },
               {
                   label: 'Profit/Loss',
                   backgroundColor: '#66BB6A',
                   borderColor: '#7CB342',
-                  data: [8, 18, 50, -19, 46, 7, -90,8, 18, 50, -19, 46, 7, -90]
+                  data: [8, 18, 50, -19, 46, 7, -90,8, 18, 50, -19, 46]
               }
           ]
       }
@@ -172,6 +172,7 @@ export class DashboardComponent implements OnInit {
     this.getLatestStocks();
     this.getLatestSales();
     this.getLatestPurchase();
+    this.getProfitLoss();
   }
 
   getLoggedInUsers(){
@@ -266,6 +267,13 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  getProfitLoss(){
+    this.dashboardService.getProfitLoss()
+    .subscribe((data:any)=>{
+      console.log('getProfitLoss',data);
+      // this.purchaseLatestList = data;
+    })
+  }
  
 
   onChangeCompany(val){

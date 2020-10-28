@@ -1,121 +1,158 @@
-
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 
-        <p-breadcrumb [model]="bradCrum"></p-breadcrumb>
-   <form class="example-form sec" [formGroup]="invoiceForm">
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+<form class="example-form sec" [formGroup]="invoiceForm">
         <div style="margin-top: 15px;">
-  <p-card>
+                <p-card>
 
-    <div class="ui-g ui-fluid">
-        
-          
-<div class="ui-g-2">
-        <div class="ui-g-12">
-                Invoice No.:  <input pInputText type="text" formControlName="invoice_code"  readonly required>
-            </div>
-</div>
-      
-<div class="ui-g-2">
-            <div class="ui-g-12">
-                Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
-            </div>
-</div>
-
-<div class="ui-g-2">
-
-        <div class="ui-g-12">
-                Customer Name: <p-dropdown [options]="customerList"   placeholder="Select Customer"  formControlName="customer_details_id"   filter="true" (onChange)="onSelectCust($event)" ></p-dropdown>
-           
-           </div>
-</div>
-<div class="ui-g-2">
-           <div class="ui-g-12">
-                Customer Address:  <input pInputText type="text" value="{{selectedCustData.customer_address}}" readonly > 
-        </div> 
-</div>
-
-<div class="ui-g-2">
-        <!-- <pre>{{ selectedSupplierData | json }}</pre> -->
-        
-        
-         <div class="ui-g-12">
-                
-                Customer Phone:  <input pInputText type="text" value="{{selectedCustData.phone}}" readonly >
-        </div>
-    
+                        <div class="ui-g ui-fluid">
 
 
-</div>
+                                <div class="ui-g-2">
+                                        <div class="ui-g-12">
+                                                Invoice No.: <input pInputText type="text"
+                                                        formControlName="invoice_code" readonly required>
+                                        </div>
+                                </div>
 
-<div class="ui-g-3">
+                                <div class="ui-g-2">
+                                        <div class="ui-g-12">
+                                                Invoice Date: <p-calendar [showIcon]="true" [readonlyInput]="true"
+                                                        formControlName="invoice_date" [maxDate]="today"></p-calendar>
+                                        </div>
+                                </div>
 
-</div>
-        <div class="ui-g-4">
+                                <div class="ui-g-2">
 
-        </div>
-    </div>
-  
-              
+                                        <div class="ui-g-12">
+                                                Customer Name: <p-dropdown [options]="customerList"
+                                                        placeholder="Select Customer"
+                                                        formControlName="customer_details_id" filter="true"
+                                                        (onChange)="onSelectCust($event)"></p-dropdown>
+                                                <p class="warning-msg" style="position: absolute;">
+                                                        <em *ngIf="invoiceForm.value.customer_details_id && selectedCustData.total_pending_amt">*Amt to be received :
+                                                                {{selectedCustData.total_pending_amt | currency : 'INR':true}}
+                                                        </em>
+                                                </p>
 
-     
-  </p-card>
+                                        </div>
+                                </div>
+                                <div class="ui-g-2">
+                                        <div class="ui-g-12">
+                                                Customer Address: <input pInputText type="text"
+                                                        value="{{selectedCustData.customer_address}}" readonly>
+                                        </div>
+                                </div>
+
+                                <div class="ui-g-2">
+                                        <!-- <pre>{{ selectedSupplierData | json }}</pre> -->
+
+
+                                        <div class="ui-g-12">
+
+                                                Customer Phone: <input pInputText type="text"
+                                                        value="{{selectedCustData.phone}}" readonly>
+                                        </div>
+
+
+
+                                </div>
+
+                                <div class="ui-g-3">
+
+                                </div>
+                                <div class="ui-g-4">
+
+                                </div>
+                        </div>
+
+
+
+
+                </p-card>
 
         </div>
         <div style="margin-top: 15px;">
-            
-  <p-card>
-	<div formArrayName="invoiceList">
-                <!-- <p-scrollPanel [style]="{width: '100%', height: '200px'}"> -->
-                        
-        <table style="margin-bottom: 15px;">
-                <thead>
-                <tr>
-                        <th style="width:8em">Order #</th>
-                        <th>Product Name/Code</th>
-                        <th>Price</th>
-                        <th>MRP</th>
-                        <th>Qty</th>
-                        <!-- <th>Total</th>
+
+                <p-card>
+                        <div formArrayName="invoiceList">
+                                <!-- <p-scrollPanel [style]="{width: '100%', height: '200px'}"> -->
+
+                                <table style="margin-bottom: 15px;">
+                                        <thead>
+                                                <tr>
+                                                        <th style="width:5em">Order #</th>
+                                                        <th style="width:20em">Product Name/Code</th>
+                                                        <th>Price</th>
+                                                        <th>MRP</th>
+                                                        <th>Qty</th>
+                                                        <!-- <th>Total</th>
                         <th>CGST(Amt)</th>
                         <th>SGST(Amt)</th> -->
-                        <th>GST(%)</th>
-                        <th class="with-gst">Total</th>
-                        <th style="width:8em"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-            <tr *ngFor="let itemrow of invoiceForm.get('invoiceList')['controls']; let i=index"
-            [formGroupName]="i">
-                <td >
-                  {{i + 1}}
-                </td>
-               <td >
-                           <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"   filter="true">
-                            
-                       </p-dropdown> 
-                       
-               </td>
-               <td class="hidden-spinner" style="width: 15%;">
-                       <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
-                       <p-spinner [step]="0.25"  formControlName="price" [min]="1" [max]="itemrow.get('mrp').value" (keyup)="onChangeQty(i)"  [formatInput]="true" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true"  required></p-spinner>
+                                                        <th>GST(%)</th>
+                                                        <th class="with-gst">Total</th>
+                                                        <th style="width:8em"></th>
+                                                </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr *ngFor="let itemrow of invoiceForm.get('invoiceList')['controls']; let i=index"
+                                                        [formGroupName]="i">
+                                                        <td>
+                                                                {{i + 1}}
+                                                        </td>
+                                                        <td>
+                                                                <!-- <p-dropdown [options]="stocksList"
+                                                                        formControlName="stock_details_id"
+                                                                        (onChange)="onSelectProduct($event,i)" required
+                                                                        placeholder="Select a Product" filter="true">
+                                                                </p-dropdown> -->
+                                                                <p-autoComplete formControlName="stock_details_id"
+                                                                        [suggestions]="stocksListResult"
+                                                                        (completeMethod)="searchProduct($event)"
+                                                                        (onSelect)="onSelectProduct($event,i)"
+                                                                        [dropdown]="true" field="label" dataKey="value"
+                                                                        [forceSelection]="true"
+                                                                        placeholder="Enter Product's Name/Code">
+                                                                </p-autoComplete>
 
-                       <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ invoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span> -->
-                      
-               </td>
-               <td class="hidden-spinner" style="width: 15%;">
-                <p-spinner size="30"  formControlName="mrp"  [formatInput]="true" [disabled]="true"></p-spinner>
 
-               
-        </td>
-               <td>
-                       <p-spinner  formControlName="qty"  required pKeyFilter="int" [min]="1" (focusout)="onChangeQty(i)" (onChange)="onChangeQty(i)" [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true" ></p-spinner>
-                       <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
-                       <p class="error-msg" style="position: absolute;">
-                        <em *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">*Ther are {{invoiceForm.value.invoiceList[i].total_qty}} only available</em>
-                        </p>
-                </td>
-               
-               <!-- <td class="hidden-spinner" style="width: 15%;">
+                                                        </td>
+                                                        <td class="hidden-spinner" style="width: 15%;">
+                                                                <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
+                                                                <p-spinner [step]="0.25" formControlName="price"
+                                                                        [min]="1" [max]="itemrow.get('mrp').value"
+                                                                        (keyup)="onChangeQty(i)" [formatInput]="true"
+                                                                        [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true"
+                                                                        required></p-spinner>
+
+                                                                <!-- <span class="ui-inputtext ui-fluid .ui-inputtext ui-corner-all" style="float: left; height: 35px;">  {{ invoiceForm.value.invoiceList[i].price  | currency :'INR':true}}</span> -->
+
+                                                        </td>
+                                                        <td class="hidden-spinner" style="width: 15%;">
+                                                                <p-spinner size="30" formControlName="mrp"
+                                                                        [formatInput]="true" [disabled]="true">
+                                                                </p-spinner>
+
+
+                                                        </td>
+                                                        <td>
+                                                                <p-spinner formControlName="qty" required
+                                                                        pKeyFilter="int" [min]="1"
+                                                                        (focusout)="onChangeQty(i)"
+                                                                        (onChange)="onChangeQty(i)"
+                                                                        [disabled]="invoiceForm.value.invoiceList[i].stock_details_id ? false : true">
+                                                                </p-spinner>
+                                                                <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
+                                                                <p class="error-msg" style="position: absolute;">
+                                                                        <em *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">
+                                                                                *Ther
+                                                                                are
+                                                                                {{invoiceForm.value.invoiceList[i].total_qty}}
+                                                                                only available</em>
+                                                                </p>
+                                                        </td>
+
+                                                        <!-- <td class="hidden-spinner" style="width: 15%;">
                        <p-spinner styleClasssize="30"  formControlName="total"  [formatInput]="true" [disabled]="true"></p-spinner>
 
                </td>
@@ -131,30 +168,42 @@
                         <p-spinner styleClasssize="30"  formControlName="sgst_amt"  [formatInput]="true" [disabled]="true"></p-spinner>
 
                 </td> -->
-                <td class="hidden-spinner" >
-                        <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
-                        <p-spinner size="30"  formControlName="gst_per"  [formatInput]="true" [disabled]="true"></p-spinner>
- 
-                        <p class="error-msg" style="position: absolute;    color: #222;">
-                                <em >*{{invoiceForm.value.invoiceList[i].tax_name}}</em>
-                                </p>                        
-                </td>
+                                                        <td class="hidden-spinner">
+                                                                <!-- <input pInputText type="text" formControlName="price"   required readonly> -->
+                                                                <p-spinner size="30" formControlName="gst_per"
+                                                                        [formatInput]="true" [disabled]="true">
+                                                                </p-spinner>
+
+                                                                <p class="error-msg"
+                                                                        style="position: absolute;    color: #222;">
+                                                                        <em>*{{invoiceForm.value.invoiceList[i].tax_name}}</em>
+                                                                </p>
+                                                        </td>
 
 
-               <td class="hidden-spinner" style="width: 15%;">
-                <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
-                <p-spinner [step]="0.25" formControlName="total_with_gst" [formatInput]="true" [disabled]="true"></p-spinner>
+                                                        <td class="hidden-spinner" style="width: 15%;">
+                                                                <!-- <input pInputText type="text" formControlName="total"   required readonly> -->
+                                                                <p-spinner [step]="0.25"
+                                                                        formControlName="total_with_gst"
+                                                                        [formatInput]="true" [disabled]="true">
+                                                                </p-spinner>
 
-        </td>
-               <td >
-                <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
-                <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
-                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="i != 0"  style="    margin: 0px 5px;"></button>
-                            <button  pButton type="button"  icon="pi pi-plus" class="ui-button-success" (click)="addListItem()" *ngIf="i == 0"  style="    margin: 0px 5px;"></button>
-                           </td>
-           </tr>
-        </tbody>
-        <!-- <tfoot>
+                                                        </td>
+                                                        <td>
+                                                                <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" [disabled]="(invoiceForm.value.invoiceList.length == 1) ? true : false" (click)="deleteListItem(i)"  style="    margin: 0px 5px;"></button> -->
+                                                                <!-- <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="deleteListItem(i)" *ngIf="invoiceForm.value.invoiceList.length != i+1"  style="    margin: 0px 5px;"></button> -->
+                                                                <button pButton type="button" icon="pi pi-trash"
+                                                                        class="ui-button-danger"
+                                                                        (click)="deleteListItem(i)" *ngIf="i != 0"
+                                                                        style="    margin: 0px 5px;"></button>
+                                                                <button pButton type="button" icon="pi pi-plus"
+                                                                        class="ui-button-success"
+                                                                        (click)="addListItem()" *ngIf="i == 0"
+                                                                        style="    margin: 0px 5px;"></button>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                        <!-- <tfoot>
            <tr >
                <th >
                  
@@ -180,94 +229,140 @@
                           </th>
           </tr>
         </tfoot> -->
-        </table>
-        
-<!-- </p-scrollPanel> -->
-    </div>
-            <div class="ui-g ui-fluid">
-                    <div class="ui-g-12 ui-md-6" style="text-align: center">
-                            <h6>Grand Total <em *ngIf="invoiceForm.value.tax_enable">(with GST)</em></h6>
-                            <h1>{{ invoiceForm.value.grand_total | currency :'INR':true}}</h1>
-                    </div>
-                    <div class="ui-g-12 ui-md-6">
-                    <div class="ui-g-12 ui-md-6">
-                <div class="ui-g-12">  
-                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> Sub Amount: </p> </div>
-                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</b> </div>
-                </div>   
-                <div class="ui-g-12"> 
-                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> SGST: </p> </div>
-                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.sgst  | currency : 'INR':true}}</b> </div>
-                </div>   
-                <div class="ui-g-12"> 
-                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> CGST:  </p> </div>
-                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.cgst  | currency : 'INR':true}}</b> </div>
-                </div>   
-                <div class="ui-g-12"> 
-                    <div class="ui-g-12  ui-md-5"><p style="padding: 0;"> Grand Total:  </p> </div>
-                    <div class="ui-g-12  ui-md-5"><b>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</b> </div>
-                </div>   
-                
-                
-                <div class="ui-g-12">     
-                      <p-checkbox name="tax" binary="true" disabled="true" (onChange)="toggleTax($event)"  formControlName="tax_enable" label="Enable Tax" ></p-checkbox>
-                </div>
-                        </div>
-                    <div class="ui-g-12 ui-md-6">
-                            
-                            Discount : <input pInputText type="text" pKeyFilter="int"  required max="{{invoiceForm.value.grand_total}}"  formControlName="discount"   (keyup)="onChangeDiscount()"  >
-                            Payment Status : <p-dropdown [options]="paymentStatus"   placeholder="Select Status"   formControlName="payment_status" required ></p-dropdown> 
-                         
-                          Payment Type : <p-dropdown [options]="paymentType"   placeholder="Select Payment"   formControlName="payment_type" required ></p-dropdown>
-                           Paind Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="paid_amount"   (keyup)="onChangePaindAmount()"  >
-                           Balance Amount : <input pInputText type="text" pKeyFilter="int"  required   formControlName="balance_amount"    >
-                        </div>
-                    </div>
-            </div>
+                                </table>
 
-            <div class="ui-g ui-fluid">
-        
-                    <div class="ui-g-2">
-                            <button pButton type="button" label="Reset" icon="pi pi-replay" class="ui-button-secondary" (click)="onReset()"></button>
+                                <!-- </p-scrollPanel> -->
                         </div>
-                    <div class="ui-g-2">
-                            <button pButton type="button" (click)="saveOrder()" label="Save & Print Bill" icon="pi pi-save" class="ui-button-success"></button>
+                        <div class="ui-g ui-fluid">
+                                <div class="ui-g-12 ui-md-6" style="text-align: center">
+                                        <h6>Grand Total <em *ngIf="invoiceForm.value.tax_enable">(with GST)</em></h6>
+                                        <h1 style="font-size: 50px;"
+                                                [ngStyle]="{'color': invoiceForm.value.tax_enable ? '#34a835' : '#ffba01'}">
+                                                {{ invoiceForm.value.grand_total | currency :'INR':true}}</h1>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                        <div class="ui-g-12 ui-md-6">
+                                                <div class="ui-g-12">
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <p style="padding: 0;"> Sub Amount: </p>
+                                                        </div>
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <b>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</b>
+                                                        </div>
+                                                </div>
+                                                <div class="ui-g-12">
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <p style="padding: 0;"> SGST: </p>
+                                                        </div>
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <b>{{invoiceForm.value.sgst  | currency : 'INR':true}}</b>
+                                                        </div>
+                                                </div>
+                                                <div class="ui-g-12">
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <p style="padding: 0;"> CGST: </p>
+                                                        </div>
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <b>{{invoiceForm.value.cgst  | currency : 'INR':true}}</b>
+                                                        </div>
+                                                </div>
+                                                <div class="ui-g-12">
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <p style="padding: 0;"> Round Off: </p>
+                                                        </div>
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <b>{{invoiceForm.value.round_off  | currency : 'INR':true}}</b>
+                                                        </div>
+                                                </div>
+                                                <div class="ui-g-12">
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <p style="padding: 0;"> Grand Total: </p>
+                                                        </div>
+                                                        <div class="ui-g-12  ui-md-5">
+                                                                <b>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</b>
+                                                        </div>
+                                                </div>
+
+
+                                                <div class="ui-g-12">
+                                                        <p-checkbox name="tax" binary="true" disabled="true"
+                                                                (onChange)="toggleTax($event)"
+                                                                formControlName="tax_enable" label="Enable Tax">
+                                                        </p-checkbox>
+                                                </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-6">
+
+                                                Discount : <input pInputText type="text" pKeyFilter="int" required
+                                                        max="{{invoiceForm.value.grand_total}}"
+                                                        formControlName="discount" (keyup)="onChangeDiscount()">
+                                                Payment Status : <p-dropdown [options]="paymentStatus"
+                                                        placeholder="Select Status" formControlName="payment_status"
+                                                        required></p-dropdown>
+
+                                                Payment Type : <p-dropdown [options]="paymentType"
+                                                        placeholder="Select Payment" formControlName="payment_type"
+                                                        required></p-dropdown>
+                                                Paind Amount : <input pInputText type="text" pKeyFilter="int" required
+                                                        formControlName="paid_amount" (keyup)="onChangePaindAmount()">
+                                                Balance Amount : <input pInputText type="text" pKeyFilter="int" required
+                                                        formControlName="balance_amount">
+                                        </div>
+                                </div>
                         </div>
-                        <!-- <div class="ui-g-2">
+
+                        <div class="ui-g ui-fluid">
+
+                                <div class="ui-g-2">
+                                        <button pButton type="button" label="Reset" icon="pi pi-replay"
+                                                class="ui-button-secondary" (click)="onReset()"></button>
+                                </div>
+                                <div class="ui-g-2">
+                                        <button pButton type="button" (click)="saveOrder()" label="Save & Print Bill"
+                                                icon="pi pi-save" class="ui-button-success"></button>
+                                </div>
+                                <!-- <div class="ui-g-2">
                                 <button pButton type="button" (click)="scanBarcode()" label="Scan" icon="pi pi-search" class="ui-button-success"></button>
                             </div> -->
-                    <!-- <div class="ui-g-2">
+                                <!-- <div class="ui-g-2">
                             <p-splitButton label="Print Order" icon="pi pi-print" (click)="printOrderWithoutView()" [model]="printItems" styleClass="ui-button-warning"></p-splitButton>
                     </div> -->
-                    <div class="ui-g-2">
-                        <button pButton type="button" label="Print Priview" icon="pi pi-print" (click)="printPriview()"  class="ui-button-warning"  ></button>
-                    </div>
-                </div>
+                                <div class="ui-g-2">
+                                        <button pButton type="button" label="Print Priview" icon="pi pi-print"
+                                                (click)="printPriview()" class="ui-button-warning"></button>
+                                </div>
+                        </div>
 
 
 
-  </p-card>
+                </p-card>
         </div>
-        </form>
-
- 
-
-
-<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)" (unitDialogEvent)="unitDialog($event)" [stockData]="stockData" [catData]="catData" [unitData]="unitData" (stockEvent)="receiveStock($event)"  (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
-
-<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)" (catEvent)="receiveCategory($event)"></app-category-form>
-
-<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"  (unitEvent)="receiveUnit($event)"></app-unit-form>
+</form>
 
 
 
-<app-customer-form [displayDialog3]="displayDialog3" (displayChangeEvent3)="onDialogClose3($event)"  (customerEvent)="receiveCustomer($event)"></app-customer-form>
-          
+
+<app-stock-form [displayDialog]="displayDialog" (categoryDialogEvent)="categoryDialog($event)"
+        (unitDialogEvent)="unitDialog($event)" (taxDialogEvent)="taxDialog($event)" [stockData]="stockData"
+        [catData]="catData" [unitData]="unitData" [taxData]="taxData" (stockEvent)="receiveStock($event)"
+        (displayChangeEvent)="onDialogClose($event)"></app-stock-form>
+
+<app-category-form [displayDialog1]="displayDialog1" (displayChangeEvent1)="onDialogClose1($event)"
+        (catEvent)="receiveCategory($event)"></app-category-form>
+
+<app-unit-form [displayDialog2]="displayDialog2" (displayChangeEvent2)="onDialogClose2($event)"
+        (unitEvent)="receiveUnit($event)"></app-unit-form>
+
+<app-customer-form [displayDialog3]="displayDialog3" (displayChangeEvent3)="onDialogClose3($event)"
+        (customerEvent)="receiveCustomer($event)"></app-customer-form>
+
+<app-tax-form [displayDialog3]="displayDialog4" (displayChangeEvent3)="onDialogClose4($event)"
+        (taxEvent)="receiveTax($event)"></app-tax-form>
 
 <!-- <div id="print-section" style="display: none">  -->
-        <div id="print-section"> 
-       
+<div id="print-section">
+
         <app-invoice-design #printDiv [invoiceData]="invoiceData"></app-invoice-design>
-               
+
         <!-- <app-invoice-design-pos></app-invoice-design-pos> -->
-      </div>
+</div>

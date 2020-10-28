@@ -9,6 +9,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RouteFormModule } from '../route-form/route-form.module';
 
 
 
@@ -23,7 +24,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     DialogModule,
     InputMaskModule,
     CheckboxModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    RouteFormModule
   ],
   exports: [CustomerFormComponent]
 })

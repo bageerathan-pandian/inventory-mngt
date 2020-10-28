@@ -164,6 +164,7 @@ export class CategoryMasterComponent implements OnInit {
   onDialogClose1(event){
     console.log(event)  
     this.displayDialog1 = false;
+    this.catData = null
   }
 
   receiveCategory(event){

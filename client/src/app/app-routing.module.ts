@@ -29,6 +29,7 @@ const routes: Routes = [
       {path:'sales/sales-return',loadChildren:() => import('./component/inventory-mngt/sales/sales-return/sales-return.module').then(m => m.SalesReturnModule),canActivate:[AuthGuard]},
       {path:'purchase/purchase',loadChildren:() => import('./component/inventory-mngt/purchase/purchase/purchase.module').then(m => m.PurchaseModule),canActivate:[AuthGuard]},
       {path:'purchase/purchase-return',loadChildren:() => import('./component/inventory-mngt/purchase/purchase-return/purchase-return.module').then(m => m.PurchaseReturnModule),canActivate:[AuthGuard]},
+      {path:'collection',loadChildren:() => import('./component/inventory-mngt/collection/collection.module').then(m => m.CollectionModule),canActivate:[AuthGuard]},      
       {path:'payment',loadChildren:() => import('./component/inventory-mngt/payment/payment.module').then(m => m.PaymentModule),canActivate:[AuthGuard]},      
       {path:'reports', loadChildren: () => import('./component/inventory-mngt/reports/reports.module').then(m => m.ReportsModule),canActivate:[AuthGuard]},    
       {path:'profile',loadChildren:() => import('./component/inventory-mngt/user/profile/profile.module').then(m => m.ProfileModule),canActivate:[AuthGuard]},

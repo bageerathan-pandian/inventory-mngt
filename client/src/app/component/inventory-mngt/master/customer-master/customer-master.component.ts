@@ -148,6 +148,7 @@ export class CustomerMasterComponent implements OnInit {
   onDialogClose3(event){
     console.log(event)  
     this.displayDialog3 = false;
+    this.custData = null
   }
 
   receiveCustomer(event){

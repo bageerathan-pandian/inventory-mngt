@@ -147,6 +147,7 @@ export class TaxMasterComponent implements OnInit {
   onDialogClose3(event){
     console.log(event)  
     this.displayDialog3 = false;
+    this.taxData = null
   }
 
   receiveTax(event){

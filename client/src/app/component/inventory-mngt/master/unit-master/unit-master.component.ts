@@ -160,6 +160,7 @@ export class UnitMasterComponent implements OnInit {
   onDialogClose2(event){
     console.log(event)  
     this.displayDialog2 = false;
+    this.unitData = null
   }
 
   receiveUnit(event){

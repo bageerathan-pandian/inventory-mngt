@@ -123,3 +123,34 @@ exports.getTotalPurchase =  (req, res)=> {
   }
   
 
+  
+/**
+ * get users list
+ */
+exports.getAllUsersByCompanySupplierCollection =  (req, res)=> {
+  InvoiceModel.find({company_details_id : req.params.id},(e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
+        return res.json(result);
+    }
+}).populate('company_details_id').populate('customer_details_id').sort( { updatedAt: -1 } )
+}
+
+
+/**
+ * get users list
+ */
+exports.getAllUsersByCompanyCustomerCollection =  (req, res)=> {
+  InvoicePurchaseModel.find({company_details_id : req.params.id},(e,result) => {
+    if(e) {        
+      console.log(e.message);
+        return res.status(500).json(e);
+    } else {
+        return res.json(result);
+    }
+}).populate('company_details_id').populate('supplier_details_id').sort( { updatedAt: -1 } )
+}
+
+

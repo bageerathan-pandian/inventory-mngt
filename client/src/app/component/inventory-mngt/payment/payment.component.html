@@ -74,6 +74,11 @@
                             <p-dropdown [options]="paymentStatus" placeholder="Select Status"
                                 [(ngModel)]="rowData.payment_status" required></p-dropdown>
                         </td>
+                        
+                        <td>
+                            <p-inputSwitch [(ngModel)]="rowData.tax_enable"></p-inputSwitch>
+
+                        </td>
                         <td style="text-align:center">
                             <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" (click)="onRowEdit(rowData)" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>  -->
                             <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
@@ -168,6 +173,11 @@
                             <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
                             <p-dropdown [options]="paymentStatus" placeholder="Select Status"
                                 [(ngModel)]="rowData.payment_status" required></p-dropdown>
+                        </td>
+                        
+                        <td>
+                            <p-inputSwitch [(ngModel)]="rowData.tax_enable"></p-inputSwitch>
+
                         </td>
                         <td style="text-align:center">
                             <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" (click)="onRowEdit(rowData)" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>  -->

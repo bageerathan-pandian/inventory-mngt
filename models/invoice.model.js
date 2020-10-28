@@ -12,6 +12,7 @@ const InvoiceSchema = new mongoose.Schema({
   cgst: { type: Number },
   sgst: { type: Number },
   tax_enable: { type: Boolean },
+  round_off: { type: Number },
   grand_total: { type: Number },
   payment_type: { type: Number },
   payment_status: { type: Number },

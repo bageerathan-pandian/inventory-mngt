@@ -63,10 +63,12 @@ export class SalesComponent implements OnInit {
   displayDialog1: boolean;
   displayDialog2: boolean;
   displayDialog3: boolean;
+  displayDialog4: boolean;
 
   stockData: any = [] // pass data to another component
   catData: any = [] // pass data to another component
   unitData: any = [] // pass data to another component
+  taxData: any = [] // pass data to another component
 
   invoiceArray: any = [];
   @ViewChild("form", { static: false }) form;
@@ -74,6 +76,9 @@ export class SalesComponent implements OnInit {
   selectedCustData: any = []
   invoiceData: any
   customerData: any
+  today: any = new Date()
+  stocksListResult: any = []
+
 
   constructor(private _fb: FormBuilder,
     private router: Router,
@@ -89,11 +94,15 @@ export class SalesComponent implements OnInit {
       invoice_code: ['', Validators.required],
       invoice_date: [new Date(), Validators.required],
       customer_details_id: ['', Validators.required],
+      customer_details_id_total_purchase_amt: [0.00, Validators.required],
+      customer_details_id_total_paid_amt: [0.00, Validators.required],
+      customer_details_id_total_pending_amt: [0.00, Validators.required],
       invoiceList: this._fb.array([
         this.initRowFirst()
       ]),
       sub_total: [0.00],
       discount: [0.00],
+      round_off: [0.00],
       grand_total: [0.00, Validators.required],
       cgst: [0.00],
       sgst: [0.00],
@@ -264,10 +273,10 @@ export class SalesComponent implements OnInit {
         console.log('stocksList', data);
         this.stocks = data;
         // this.stocksList = data;
-        this.stocksList.push({ label: '+ Add New Stock', value: 0 });
+        // this.stocksList.push({ label: '+ Add New Stock', value: 0 });
         for (let stockData of this.stocks) {
           let listStock = {
-            label: stockData.stock_name + ' | ' + stockData.stock_code,
+            label: stockData.stock_name + ' | ' + stockData.stock_code + ' (' + stockData.stock_qty + ')',
             value: stockData._id
           }
           this.stocksList.push(listStock);
@@ -280,6 +289,11 @@ export class SalesComponent implements OnInit {
 
   addSales() {
     console.log('invoiceArray', this.invoiceForm.value);
+    this.invoiceForm.get('customer_details_id').setValue(this.selectedCustData._id)
+    this.invoiceForm.get('invoiceList')['controls'].forEach(element => {
+      console.log(element.controls['stock_details_id'].value)
+      element.controls['stock_details_id'].setValue(element.controls['stock_details_id'].value.value)
+    });
     this.salesService.addSales(this.invoiceForm.value)
       .subscribe((data: any) => {
         console.log(data);
@@ -328,8 +342,8 @@ export class SalesComponent implements OnInit {
     invoiceData.invoice_list = invoiceData.invoiceList;
     invoiceData.customer_details_id = {
       customer_code: this.selectedCustData.customer_code,
-      customer_name: this.selectedCustData.customer_name, 
-      customer_address: this.selectedCustData.customer_address, 
+      customer_name: this.selectedCustData.customer_name,
+      customer_address: this.selectedCustData.customer_address,
       phone: this.selectedCustData.phone,
       customer_gstin: this.selectedCustData.customer_gstin,
       route_name: this.selectedCustData.route_name,
@@ -372,6 +386,9 @@ export class SalesComponent implements OnInit {
     } else {
       this.selectedCustData = _.find(this.customers, { '_id': event.value })
       this.invoiceForm.get('tax_enable').setValue(this.selectedCustData.enable_tax ? this.selectedCustData.enable_tax : false)
+      this.invoiceForm.get('customer_details_id_total_purchase_amt').setValue(this.selectedCustData.total_purchase_amt ? this.selectedCustData.total_purchase_amt : 0)
+      this.invoiceForm.get('customer_details_id_total_paid_amt').setValue(this.selectedCustData.total_paid_amt ? this.selectedCustData.total_paid_amt : 0)
+      this.invoiceForm.get('customer_details_id_total_pending_amt').setValue(this.selectedCustData.total_pending_amt ? this.selectedCustData.total_pending_amt : 0)
       this.calculateTotal()
     }
 
@@ -422,6 +439,14 @@ export class SalesComponent implements OnInit {
     // clear errors and reset ticket fields  
   }
 
+  searchProduct(event) {
+    // this.mylookupservice.getResults(event.query).then(data => {
+    //     this.results = data;
+    // });
+    this.stocksListResult = this.stocksList.filter(item => item.label.toLowerCase().indexOf(event.query) >= 0)
+    this.stocksListResult.unshift({ label: '+ Add New Stock', value: 0 });
+  }
+
   onSelectProduct(event, i) {
     console.log(event.value, i);
     if (event.value == 0) {
@@ -432,9 +457,11 @@ export class SalesComponent implements OnInit {
     }
     console.log(this.invoiceForm.value.invoiceList);
     if (this.invoiceForm.value.invoiceList.length > 1) {
-      let stockAddedData = _.find(this.invoiceForm.value.invoiceList, { 'stock_details_id': event.value })
+      let cloneInvoiceList = this.invoiceForm.value.invoiceList.slice();
+      cloneInvoiceList.splice(i,1); // to remove selected row
+      let stockAddedData = _.find(cloneInvoiceList, { 'stock_details_id': { value: event.value } })
       console.log('stockAddedData', stockAddedData);
-      if (stockAddedData.price) {
+      if (stockAddedData) {
         this.messageService.add({ severity: 'warn', summary: 'Warning!', detail: 'Stock already added in invoice' });
         this.invoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset()
         return false
@@ -477,10 +504,10 @@ export class SalesComponent implements OnInit {
       return
     }
     console.log(i);
-    console.log(this.invoiceForm.value.invoiceList[i].stock_details_id);
+    console.log(this.invoiceForm.value.invoiceList[i].stock_details_id.value);
     console.log(this.stocks);
     console.log('qty', this.invoiceForm.get('invoiceList')['controls'][i].value.qty);
-    let stockData = _.find(this.stocks, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
+    let stockData = _.find(this.stocks, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id.value })
     // let stockDataAdded = _.find(this.invoiceForm.value.invoiceList, { '_id': this.invoiceForm.value.invoiceList[i].stock_details_id })
     console.log(this.stocks[i]);
     console.log('stockData', stockData);
@@ -507,13 +534,18 @@ export class SalesComponent implements OnInit {
 
 
   onChangeDiscount() {
-    // this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(this.stocks[i].stock_qty) 
-    // this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[i].selling_price)    
-    // this.calculateTotal()
-    if (this.invoiceForm.controls['tax_enable'].value) {
-      this.invoiceForm.controls['grand_total'].setValue((this.invoiceForm.value.sub_total - this.invoiceForm.value.discount) + this.invoiceForm.value.cgst + this.invoiceForm.value.sgst)
+    if (this.invoiceForm.value.tax_enable) {
+      let grand_total = (this.invoiceForm.value.sub_total - this.invoiceForm.value.discount) + this.invoiceForm.value.cgst + this.invoiceForm.value.sgst;
+      let round_off_total = Math.round(grand_total)
+      let round_off_amt = round_off_total - grand_total
+      this.invoiceForm.controls['round_off'].setValue(round_off_amt)
+      this.invoiceForm.controls['grand_total'].setValue(round_off_total)
     } else {
-      this.invoiceForm.controls['grand_total'].setValue(this.invoiceForm.value.sub_total - this.invoiceForm.value.discount)
+      let grand_total = this.invoiceForm.value.sub_total - this.invoiceForm.value.discount;
+      let round_off_total = Math.round(grand_total)
+      let round_off_amt = round_off_total - grand_total
+      this.invoiceForm.controls['round_off'].setValue(round_off_amt)
+      this.invoiceForm.controls['grand_total'].setValue(round_off_total)
     }
   }
 
@@ -544,9 +576,17 @@ export class SalesComponent implements OnInit {
     this.invoiceForm.controls['sgst'].setValue(sgst_total)
 
     if (this.invoiceForm.value.tax_enable) {
-      this.invoiceForm.controls['grand_total'].setValue((sub_total - this.invoiceForm.value.discount) + cgst_total + sgst_total)
+      let grand_total = (sub_total - this.invoiceForm.value.discount) + cgst_total + sgst_total;
+      let round_off_total = Math.round(grand_total)
+      let round_off_amt = round_off_total - grand_total
+      this.invoiceForm.controls['round_off'].setValue(round_off_amt)
+      this.invoiceForm.controls['grand_total'].setValue(round_off_total)
     } else {
-      this.invoiceForm.controls['grand_total'].setValue(sub_total - this.invoiceForm.value.discount)
+      let grand_total = sub_total - this.invoiceForm.value.discount;
+      let round_off_total = Math.round(grand_total)
+      let round_off_amt = round_off_total - grand_total
+      this.invoiceForm.controls['round_off'].setValue(round_off_amt)
+      this.invoiceForm.controls['grand_total'].setValue(round_off_total)
     }
 
   }
@@ -572,6 +612,11 @@ export class SalesComponent implements OnInit {
   receiveUnit(event) {
     console.log('receiveUnit', event)
     this.unitData = event
+  }
+
+  receiveTax(event) {
+    console.log('receiveTax', event)
+    this.taxData = event
   }
 
   receiveCustomer(event) {
@@ -601,6 +646,11 @@ export class SalesComponent implements OnInit {
     this.displayDialog3 = false;
   }
 
+  onDialogClose4(event) {
+    console.log(event)
+    this.displayDialog4 = false;
+  }
+
   categoryDialog(event) {
     console.log('categoryDialog', event)
     this.displayDialog1 = event;
@@ -609,6 +659,11 @@ export class SalesComponent implements OnInit {
   unitDialog(event) {
     console.log('unitDialog', event)
     this.displayDialog2 = event;
+  }
+
+  taxDialog(event) {
+    console.log('taxDialog', event)
+    this.displayDialog4 = event;
   }
 
   scanBarcode() {

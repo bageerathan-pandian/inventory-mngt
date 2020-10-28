@@ -118,6 +118,7 @@ export class SupplierMasterComponent implements OnInit {
   onDialogClose(event){
     console.log(event)  
     this.displayDialog = false;
+    this.supplierData = null
   }
   
   showDialogToAdd(supplierData){

@@ -73,6 +73,8 @@ export class PurchaseComponent implements OnInit {
   @ViewChild("form", { static: false }) form;
   @ViewChild('printDiv', { static: false }) printDiv: ElementRef;
   selectedSupplierData: any = []
+  today: any = new Date()
+  stocksListResult: any = []
 
   constructor(private _fb: FormBuilder,
     private router: Router,
@@ -85,6 +87,9 @@ export class PurchaseComponent implements OnInit {
     this.purchaseInvoiceForm = this._fb.group({
       _id: [''],
       company_details_id: [this.sessionService.getItem('company_id'), Validators.required],
+      customer_details_id_total_purchase_amt: [0.00, Validators.required],
+      customer_details_id_total_paid_amt: [0.00, Validators.required],
+      customer_details_id_total_pending_amt: [0.00, Validators.required],
       invoice_purchase_code: ['', Validators.required],
       invoice_date: [new Date(), Validators.required],
       supplier_details_id: ['', Validators.required],
@@ -264,7 +269,7 @@ export class PurchaseComponent implements OnInit {
         console.log('stocksList', data);
         this.stocks = data;
         // this.stocksList = data;
-        this.stocksList.push({ label: '+ Add New Stock', value: 0 });
+        // this.stocksList.push({ label: '+ Add New Stock', value: 0 });
         for (let stockData of this.stocks) {
           let listStock = {
             label: stockData.stock_name + ' | ' + stockData.stock_code,
@@ -280,22 +285,35 @@ export class PurchaseComponent implements OnInit {
 
   addPurchase() {
     console.log('invoiceArray', this.purchaseInvoiceForm.value);
+    this.purchaseInvoiceForm.get('supplier_details_id').setValue(this.selectedSupplierData._id)
+    this.purchaseInvoiceForm.get('invoiceList')['controls'].forEach(element => {
+      console.log(element.controls['stock_details_id'].value)
+      element.controls['stock_details_id'].setValue(element.controls['stock_details_id'].value.value)
+    });
     this.purchaseService.addPurchase(this.purchaseInvoiceForm.value)
       .subscribe((data: any) => {
         console.log(data);
         this.getStockByCompany() // refresh stock qty
-        this.purchaseInvoiceForm.reset();
+        this.selectedSupplierData = []
         this.purchaseInvoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
         this.purchaseInvoiceForm.controls['invoice_purchase_code'].setValue(this.commonService.incrCode('INV', data));
         this.purchaseInvoiceForm.controls['invoice_date'].setValue(new Date());
+        this.purchaseInvoiceForm.controls['invoiceList'].reset()
+        const control = <FormArray>this.purchaseInvoiceForm.controls['invoiceList'];
+        control.clear();
+        control.push(this.initRowFirst());
         this.purchaseInvoiceForm.controls['sub_total'].setValue(0.00);
         this.purchaseInvoiceForm.controls['discount'].setValue(0.00);
         this.purchaseInvoiceForm.controls['paid_amount'].setValue(0.00);
         this.purchaseInvoiceForm.controls['balance_amount'].setValue(0.00);
         this.purchaseInvoiceForm.controls['grand_total'].setValue(0.00);
+        this.purchaseInvoiceForm.controls['cgst'].setValue(0.00);
+        this.purchaseInvoiceForm.controls['sgst'].setValue(0.00);
         this.purchaseInvoiceForm.controls['payment_type'].setValue(1);
         this.purchaseInvoiceForm.controls['payment_status'].setValue(1);
-        // printJS('print-section', 'html') // print invoice
+        this.purchaseInvoiceForm.controls['tax_enable'].setValue(true);
+
+
       })
   }
 
@@ -319,6 +337,10 @@ export class PurchaseComponent implements OnInit {
       return false
     } else {
       this.selectedSupplierData = _.find(this.suppliers, { '_id': event.value })
+      this.purchaseInvoiceForm.get('customer_details_id_total_purchase_amt').setValue(this.selectedSupplierData.total_purchase_amt ? this.selectedSupplierData.total_purchase_amt : 0)
+      this.purchaseInvoiceForm.get('customer_details_id_total_paid_amt').setValue(this.selectedSupplierData.total_paid_amt ? this.selectedSupplierData.total_paid_amt : 0)
+      this.purchaseInvoiceForm.get('customer_details_id_total_pending_amt').setValue(this.selectedSupplierData.total_pending_amt ? this.selectedSupplierData.total_pending_amt : 0)
+    
     }
 
   }
@@ -367,6 +389,15 @@ export class PurchaseComponent implements OnInit {
     // clear errors and reset ticket fields  
   }
 
+
+  searchProduct(event) {
+    // this.mylookupservice.getResults(event.query).then(data => {
+    //     this.results = data;
+    // });
+    this.stocksListResult = this.stocksList.filter(item => item.label.toLowerCase().indexOf(event.query) >= 0)
+    this.stocksListResult.unshift({ label: '+ Add New Stock', value: 0 });
+  }
+
   onSelectProduct(event, i) {
     console.log(event.value, i);
     if (event.value == 0) {
@@ -377,9 +408,11 @@ export class PurchaseComponent implements OnInit {
     }
     console.log(this.purchaseInvoiceForm.value.invoiceList);
     if (this.purchaseInvoiceForm.value.invoiceList.length > 1) {
-      let stockAddedData = _.find(this.purchaseInvoiceForm.value.invoiceList, { 'stock_details_id': event.value })
+      let cloneInvoiceList = this.purchaseInvoiceForm.value.invoiceList.slice();
+      cloneInvoiceList.splice(i, 1); // to remove selected row
+      let stockAddedData = _.find(cloneInvoiceList, { 'stock_details_id': { value: event.value } })
       console.log('stockAddedData', stockAddedData);
-      if (stockAddedData.price) {
+      if (stockAddedData) {
         this.messageService.add({ severity: 'warn', summary: 'Warning!', detail: 'Stock already added in invoice' });
         this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['stock_details_id'].reset()
         return false
@@ -396,17 +429,17 @@ export class PurchaseComponent implements OnInit {
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['stock_name'].setValue(this.stocks[sliceIndex].stock_name)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty)
-      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price)
+      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].buying_price)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['mrp'].setValue(this.stocks[sliceIndex].mrp)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id.tax_name)
-      let cgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) / 100);
+      let cgst_amt = Number(this.stocks[sliceIndex].buying_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) / 100);
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
-      let sgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst) / 100);
+      let sgst_amt = Number(this.stocks[sliceIndex].buying_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst) / 100);
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
       let gst_pet = Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) + Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['gst_per'].setValue(gst_pet)
-      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].selling_price)
-      let total_amt_with_gst = ((1 * this.stocks[sliceIndex].selling_price) * gst_pet / 100) + this.stocks[sliceIndex].selling_price;
+      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].buying_price)
+      let total_amt_with_gst = ((1 * this.stocks[sliceIndex].buying_price) * gst_pet / 100) + this.stocks[sliceIndex].buying_price;
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
       this.calculateTotal()
     }

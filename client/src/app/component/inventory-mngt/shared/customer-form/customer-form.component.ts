@@ -7,6 +7,7 @@ import { SessionService } from 'src/app/shared/session.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import * as _ from 'lodash';
+import { RouteService } from 'src/app/shared/route.service';
 
 @Component({
   selector: 'app-customer-form',
@@ -17,17 +18,21 @@ export class CustomerFormComponent implements OnInit {
 
   
   @Input() custData: any;
+  @Input() routeData: any;
   @Input() displayDialog3: boolean
   
   @Output() displayChangeEvent3 = new EventEmitter();
   @Output() customerEvent = new EventEmitter();
+
+  // @Output() routeDialogEvent = new EventEmitter();
+  displayDialog2: boolean
 
   customerForm:FormGroup
   status:any
   routeNameList:any;
 
   constructor(private _fb: FormBuilder, private customerService:CustomerService,private commonService: CommonService,
-    public sessionService: SessionService, private messageService: MessageService
+    public sessionService: SessionService, private messageService: MessageService, private routeService: RouteService
     ) {
  
       this.status = [
@@ -53,12 +58,16 @@ export class CustomerFormComponent implements OnInit {
         phone: ['',Validators.required],
         enable_tax:[true,Validators.required],
         customer_gstin:[''],
-        route_name:[''],
+        route_details_id:[''],
+        total_purchase_amt:[0.00],
+        total_paid_amt:[0.00],
+        total_pending_amt:[0.00],
         status: [1,Validators.required]
       })
   }
 
   ngOnInit() {
+    this.getRouteByCompany()
   }
 
   
@@ -72,6 +81,14 @@ export class CustomerFormComponent implements OnInit {
   
   ngOnChanges() {
     console.log('displayDialog3',this.displayDialog3);    
+    console.log('isObjectcatData', _.isPlainObject(this.routeData))
+    if (_.isPlainObject(this.routeData)) {
+      console.log('catData', this.routeData);
+      this.getRouteByCompany()
+      setTimeout(() => {
+        this.customerForm.controls['route_details_id'].setValue(this.routeData.value ? this.routeData.value : null);
+      }, 1000);
+    }
     console.log('isObjectcatData',_.isPlainObject(this.custData))
     if(_.isPlainObject(this.custData)){      
       console.log('custData',this.custData);   
@@ -81,14 +98,47 @@ export class CustomerFormComponent implements OnInit {
       this.customerForm.controls['customer_address'].setValue(this.custData.customer_address);
       this.customerForm.controls['phone'].setValue(this.custData.phone);
       this.customerForm.controls['enable_tax'].setValue(this.custData.enable_tax);
-      this.customerForm.controls['route_name'].setValue(this.custData.route_name);
+      this.customerForm.controls['route_details_id'].setValue(this.custData.route_details_id ? this.custData.route_details_id._id : null);
       this.customerForm.controls['customer_gstin'].setValue(this.custData.customer_gstin);
       this.customerForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+      this.customerForm.controls['total_purchase_amt'].setValue(this.custData.total_purchase_amt);
+      this.customerForm.controls['total_paid_amt'].setValue(this.custData.total_paid_amt);
+      this.customerForm.controls['total_pending_amt'].setValue(this.custData.total_pending_amt);
       this.customerForm.controls['status'].setValue(this.custData.status);    
       }else{           
         this.getCustomerByCompany()
       }
 
+  }
+
+  getRouteByCompany() {
+    this.routeNameList = []
+    this.routeService.getRouteByCompany()
+      .subscribe((data: any) => {
+        console.log('routeNameList', data);
+        this.routeNameList.push({ label: '+ Add New Route', value: 0 });
+        for (let catData of data) {
+          this.routeNameList.push({
+            label: catData.route_name + ' | ' + catData.route_code,
+            value: catData._id
+          })
+        }
+        console.log('routeNameList1', this.routeNameList);
+        // if(_.some(this.catData, _.isObject)){ 
+        //   this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id  ? this.stockData.category_details_id._id : null);
+        // }
+      })
+  }
+
+  onSelectRoute(event) {
+    console.log(event.value);
+    if (event.value == 0) {
+      // this.showDialogToAddCat()
+      // this.routeDialogEvent.emit(true)
+      this.displayDialog2 = true
+      this.customerForm.controls['route_details_id'].reset();
+      return false
+    }
   }
 
   getCustomerByCompany(){
@@ -163,6 +213,10 @@ export class CustomerFormComponent implements OnInit {
   onClose(){
     // this.displayDialog = false;
     this.displayChangeEvent3.emit(false)
+  }
+
+  onDialogClose2(event){
+    this.getRouteByCompany()
   }
 
     // Work against memory leak if component is destroyed

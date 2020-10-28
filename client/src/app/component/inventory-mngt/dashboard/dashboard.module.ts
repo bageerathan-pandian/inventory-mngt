@@ -19,10 +19,11 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {InplaceModule} from 'primeng/inplace';
+import { NegotiveToBracketsPipe } from 'src/app/pipe/negotive-to-brackets.pipe';
 
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, NegotiveToBracketsPipe],
   imports: [
     CommonModule,
     DashboardRoutingModule,

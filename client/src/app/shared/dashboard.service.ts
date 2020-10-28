@@ -27,4 +27,7 @@ export class DashboardService {
   getLatestPurchase(){
     return this.httpClient.get(environment.api_url + '/api/dashboard/latest-purchase/'+this.sessionService.getItem('company_id'));
   }
+  getProfitLoss(){
+    return this.httpClient.get(environment.api_url + '/api/dashboard/profit-loss/'+this.sessionService.getItem('company_id'));
+  }
 }

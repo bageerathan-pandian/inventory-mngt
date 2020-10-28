@@ -1,0 +1,6 @@
+2020-10-21 23:53:24 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\KUYA\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file F:\bagee\inventory-mngt\app.js --log "Inventory wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2020-10-21 23:53:24 - Started 22276
+2020-10-21 23:54:16 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\KUYA\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file F:\bagee\inventory-mngt\app.js --log "Inventory wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2020-10-21 23:54:16 - Started 8700
+2020-10-26 17:32:20 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\KUYA\AppData\Roaming\npm\node_modules\qckwinsvc\node_modules\node-windows\lib\wrapper.js --file F:\bagee\inventory-mngt\app.js --log "Inventory wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2020-10-26 17:32:21 - Started 1968

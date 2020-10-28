@@ -41,6 +41,9 @@ export class SupplierFormComponent implements OnInit {
     supplier_name: ['',Validators.required],
     supplier_address: ['',Validators.required],
     phone: ['',Validators.required],
+    total_purchase_amt:[0.00],
+    total_paid_amt:[0.00],
+    total_pending_amt:[0.00],
     status: [1,Validators.required]
   })
      
@@ -60,6 +63,9 @@ export class SupplierFormComponent implements OnInit {
     this.supplierForm.controls['supplier_name'].setValue(this.supplierData.supplier_name);
     this.supplierForm.controls['supplier_address'].setValue(this.supplierData.supplier_address);
     this.supplierForm.controls['phone'].setValue(this.supplierData.phone);
+    this.supplierForm.controls['total_purchase_amt'].setValue(this.supplierData.total_purchase_amt);
+    this.supplierForm.controls['total_paid_amt'].setValue(this.supplierData.total_paid_amt);
+    this.supplierForm.controls['total_pending_amt'].setValue(this.supplierData.total_pending_amt);
     this.supplierForm.controls['status'].setValue(this.supplierData.status);     
     }else{      
     this.getSupplierByCompany();

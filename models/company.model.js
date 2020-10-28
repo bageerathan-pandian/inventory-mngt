@@ -13,6 +13,7 @@ const CompanySchema = new mongoose.Schema({
   owner_name: { type: String },
   country_code: { type: String },
   phone: { type: String },
+  phone2: { type: String },
   country_dialCode: { type: String },
   gstin: { type: String },
   product_payment_details_id:  { type: Schema.Types.ObjectId, ref: 'product_payment_details' },

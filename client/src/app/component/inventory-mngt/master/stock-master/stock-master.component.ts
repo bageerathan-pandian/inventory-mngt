@@ -144,17 +144,20 @@ export class StockMasterComponent implements OnInit {
   onDialogClose1(event){
     console.log(event)  
     this.displayDialog1 = false;
+    this.catData = null
   }
   
   onDialogClose2(event){
     console.log(event) 
     this.displayDialog2 = false;
+    this.unitData = null
   }
 
   
   onDialogClose3(event){
     console.log(event) 
     this.displayDialog3 = false;
+    this.taxData = null
   }
 
   categoryDialog(event){

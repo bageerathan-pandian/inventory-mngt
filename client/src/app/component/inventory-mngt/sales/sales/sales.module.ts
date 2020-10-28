@@ -31,6 +31,7 @@ import { CustomerFormModule } from '../../shared/customer-form/customer-form.mod
 import { InvoiceDesignModule } from '../../shared/invoice-design/invoice-design.module';
 import { InvoiceDesignPosModule } from '../../shared/invoice-design-pos/invoice-design-pos.module';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
     CustomerFormModule,
     InvoiceDesignModule,
     InvoiceDesignPosModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    TaxFormModule
   ]
 })
 export class SalesModule { }

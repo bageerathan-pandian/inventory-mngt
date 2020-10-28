@@ -1,0 +1,404 @@
+<p-breadcrumb [model]="bradCrum"></p-breadcrumb>
+<div style="margin-top: 15px;">
+    <p-tabView (onChange)="handleChange($event)">
+        <p-tabPanel header="Customers Collections" leftIcon="pi-bell-" rightIcon="pi-bookmark" [selected]="true">
+            <p-table #dt [loading]="loading" [value]="customerList" [columns]="cols" dataKey="_id" [paginator]="true"
+                [rowsPerPageOptions]="[10,50,100]"
+                [globalFilterFields]="['_id','customer_name','customer_address','phone']" [rows]="10">
+
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+
+                        <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                        <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+                    </div>
+                    <div style="text-align: right">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Global Filter"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                        </th>
+                        <th style="width: 10%;">
+                            <button type="button" pButton icon="pi pi-plus" class="ui-button-success" iconPos="left"
+                                (click)="showDialogToAdd()" label="Add Collection"></button>
+
+                        </th>
+                    </tr>
+                    <!-- <tr>
+            <th ></th>
+            <th *ngFor="let col of columns" pResizableColumn>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
+            </th>            
+            <th ></th>
+        </tr> -->
+
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                    <tr [pSelectableRow]="rowData">
+                        <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{rowData.customer_code}}
+                        </td>
+                        <td>
+                            {{rowData.customer_name}}
+                        </td>
+                        <td>
+                            {{rowData.customer_address}}
+                        </td>
+                        <td>
+                            {{rowData?.total_purchase_amt ? (rowData?.total_purchase_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+                        <td>
+                            {{rowData?.total_paid_amt ? (rowData?.total_paid_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+                        <td>
+                            {{rowData?.total_pending_amt ? (rowData?.total_pending_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+                        <td>
+                            {{rowData.updatedAt | date:'medium'}}
+                        </td>
+                        <td style="text-align: center">
+                            <span class="label label-warning"
+                                *ngIf="rowData?.total_paid_amt == 0 && rowData?.total_pending_amt > 0">Pending</span>
+                            <span class="label label-success"
+                                *ngIf="rowData?.total_paid_amt == rowData?.total_purchase_amt">Paid</span>
+                            <span class="label label-info"
+                                *ngIf="rowData?.total_paid_amt > 0 && (rowData?.total_pending_amt > 0 && (rowData?.total_pending_amt != rowData?.total_purchase_amt))">Under
+                                Collection</span>
+                        </td>
+                        <td style="text-align:center">
+                            <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
+                                (click)="viewData(rowData)" pTooltip="View Collections" tooltipPosition="top"
+                                style="    margin: 0px 5px;"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="paginatorleft" let-state>
+                    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
+                    <strong>{{customerList?.length}}</strong> entries
+                </ng-template>
+
+
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="Suppliers Payment Pending" leftIcon="pi-bell-" rightIcon="pi-bookmark">
+            <p-table #dt [value]="supplierList" [loading]="loading" [columns]="scols" dataKey="_id" [paginator]="true"
+                [rowsPerPageOptions]="[10,50,100]"
+                [globalFilterFields]="['_id','supplier_name','supplier_address','phone']" [rows]="10">
+
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+
+                        <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                        <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+                    </div>
+                    <div style="text-align: right">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Global Filter"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                        </th>
+                        <th style="width: 10%;">
+                            <button type="button" pButton icon="pi pi-plus" class="ui-button-success" iconPos="left"
+                                (click)="showDialogToAdd()" label="Add"></button>
+
+                        </th>
+                    </tr>
+                    <!-- <tr>
+                        <th ></th>
+                        <th *ngFor="let col of columns" pResizableColumn>
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
+                        </th>            
+                        <th ></th>
+                    </tr> -->
+
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                    <tr [pSelectableRow]="rowData">
+                        <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{rowData.supplier_code}}
+                        </td>
+                        <td>
+                            {{rowData.supplier_name}}
+                        </td>
+                        <td>
+                            {{rowData.supplier_address}}
+                        </td>
+                        <td>
+                            {{rowData?.total_purchase_amt ? (rowData?.total_purchase_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+                        <td>
+                            {{rowData?.total_paid_amt ? (rowData?.total_paid_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+                        <td>
+                            {{rowData?.total_pending_amt ? (rowData?.total_pending_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+                        <td>
+                            {{rowData.updatedAt | date:'medium'}}
+                        </td>
+                        <td style="text-align: center">
+                            <span class="label label-warning"
+                                *ngIf="rowData?.total_paid_amt == 0 && rowData?.total_pending_amt > 0">Not Paind</span>
+                            <span class="label label-success"
+                                *ngIf="rowData?.total_paid_amt == rowData?.total_purchase_amt">Paid</span>
+                            <span class="label label-info"
+                                *ngIf="rowData?.total_paid_amt > 0 && (rowData?.total_pending_amt != rowData?.total_purchase_amt)">Pending</span>
+                        </td>
+                        <td style="text-align:center">
+                            <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
+                                (click)="viewData(rowData._id)" pTooltip="View Collections" tooltipPosition="top"
+                                style="    margin: 0px 5px;"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+
+
+                <ng-template pTemplate="paginatorleft" let-state>
+                    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
+                    <strong>{{supplierList?.length}}</strong> entries
+                </ng-template>
+
+            </p-table>
+        </p-tabPanel>
+    </p-tabView>
+
+
+
+
+    <p-dialog [(visible)]="displayDialogCustomer" [responsive]="true" showEffect="fade" [resizable]="false"
+        [modal]="true" [style]="{width: '450px'}">
+        <p-header>
+            Add Collection
+        </p-header>
+        <form [formGroup]="collectionForm">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Collection Code</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <input type="text" pInputText formControlName="collection_code" readonly />
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="vin">Customer Name</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <p-dropdown [options]="customerListDropdown" filter="true" placeholder="Select Customer Name"
+                            formControlName="customer_details_id" (onChange)="onSelectCust($event)"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Total Purchase amt</label>
+                    </div>
+                    <div class="ui-g-8 hidden-spinner">
+                        <p-spinner [step]="0.25" formControlName="total_purchase_amt" [formatInput]="true"
+                            [disabled]="true" required></p-spinner>
+
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Total Paid amt</label>
+                    </div>
+                    <div class="ui-g-8 hidden-spinner">
+                        <p-spinner [step]="0.25" formControlName="total_paid_amt" [formatInput]="true" [disabled]="true"
+                            required></p-spinner>
+
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Total Pending amt</label>
+                    </div>
+                    <div class="ui-g-8 hidden-spinner">
+                        <p-spinner [step]="0.25" formControlName="total_pending_amt" [formatInput]="true"
+                            [disabled]="true" required></p-spinner>
+
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Collection Date</label>
+                    </div>
+                    <div class="ui-g-8">
+                        <p-calendar [showIcon]="true" [readonlyInput]="true" formControlName="collection_date"
+                            [maxDate]="today"></p-calendar>
+
+                        <!-- <input type="text" pKeyFilter="int" pInputText formControlName="collection_date" /> -->
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        <label for="year">Collection Amt</label>
+                    </div>
+                    <div class="ui-g-8 hidden-spinner">
+                        <p-spinner [step]="0.25" formControlName="collection_amt" [min]="1"
+                            [max]="collectionForm.get('total_pending_amt').value" [formatInput]="true" required>
+                        </p-spinner>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <!-- <button type="button" pButton icon="fa fa-close" (click)="delete(car)" label="Delete"></button> -->
+                <button type="button" pButton icon="pi pi-save" class="ui-button-success" (click)="save()"
+                    label="Add"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+</div>
+
+<!-- <button (click)="onPrintInvoice()">Pirnt</button> -->
+<p-sidebar [(visible)]="display" position="right" [style]="{width:'50em'}">
+    <!-- <pre>{{ showData | json }}</pre> -->
+    <div class="row">
+
+        <div class="col-xs-12">
+            <table>
+                <tr>
+                    <th>Customer Name</th>
+                    <td>{{showData?.customer_name}}</td>
+                </tr>
+                <tr>
+                    <th>Customer Address</th>
+                    <td>{{showData?.customer_address}}</td>
+                </tr>
+                <tr>
+                    <th>Total Purchase Amt</th>
+                    <td>{{showData?.total_purchase_amt | currency : 'INR':true}}</td>
+                </tr>
+
+                <tr>
+                    <th>Total Paid Amt</th>
+                    <td>{{showData?.total_paid_amt | currency : 'INR':true}}</td>
+                </tr>
+                <tr>
+                    <th>Total Pending Amt</th>
+                    <td>{{showData?.total_pending_amt | currency : 'INR':true}}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td style="text-align: center">
+                        <span class="label label-warning"
+                            *ngIf="showData?.total_paid_amt == 0 && showData?.total_pending_amt > 0">Pending</span>
+                        <span class="label label-success"
+                            *ngIf="showData?.total_paid_amt == showData?.total_purchase_amt">Paid</span>
+                        <span class="label label-info"
+                            *ngIf="showData?.total_paid_amt > 0 && (showData?.total_pending_amt > 0 && (showData?.total_pending_amt != showData?.total_purchase_amt))">Under
+                            Collection</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-12">
+            <p-table #dt [loading]="loading1" [value]="collectionList" [columns]="ccols" dataKey="_id"
+                [paginator]="true" [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','collection_date']"
+                [rows]="10">
+
+                <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+
+                        <!-- <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button> -->
+                        <!-- <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button> -->
+                    </div>
+                    <div style="text-align: right">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Global Filter"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 3em">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+
+                        </th>
+                    </tr>
+                    <!-- <tr>
+        <th ></th>
+        <th *ngFor="let col of columns" pResizableColumn>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
+        </th>            
+        <th ></th>
+    </tr> -->
+
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-ri="rowIndex">
+                    <tr [pSelectableRow]="rowData">
+                        <td>
+                            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{rowData.collection_code}}
+                        </td>
+                        <td>
+                            {{rowData.collection_date | date:'medium'}}
+                        </td>
+                        <td>
+                            {{rowData?.collection_amt ? (rowData?.collection_amt | currency : 'INR':true) : 0.00}}
+                        </td>
+
+                        <td>
+                            {{rowData.updatedAt | date:'medium'}}
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="paginatorleft" let-state>
+                    Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
+                    <strong>{{customerList?.length}}</strong> entries
+                </ng-template>
+
+
+            </p-table>
+
+        </div>
+    </div>
+
+</p-sidebar>

@@ -70,7 +70,8 @@ export class PaymentComponent implements OnInit {
       { field: 'grand_total', header: 'Grand Total' },
       { field: 'payment_type', header: 'Payment Type' },
       { field: 'updatedAt', header: 'Updated Date' },
-      { field: 'payment_status', header: 'Status' }
+      { field: 'payment_status', header: 'Status' },
+      { field: 'tax_enable', header: 'Tax Enable' },
   ];
 
   

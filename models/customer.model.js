@@ -9,7 +9,10 @@ const CustomerSchema = new mongoose.Schema({
   phone: { type: String },
   enable_tax: { type: Boolean },
   customer_gstin: { type: String },
-  route_name: { type: String },
+  route_details_id: { type: Schema.Types.ObjectId, ref: 'route_details' },
+  total_purchase_amt:{type:Number},
+  total_paid_amt:{type:Number},
+  total_pending_amt:{type:Number},
   status: { type: Number },
 }, { timestamps: true });
 

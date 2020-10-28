@@ -16,6 +16,7 @@ const routes: Routes = [
   {path:'customer',loadChildren:() => import('./customer-master/customer-master.module').then(m => m.CustomerMasterModule),canActivate:[AuthGuard]},
   {path:'supplier',loadChildren:() => import('./supplier-master/supplier-master.module').then(m => m.SupplierMasterModule),canActivate:[AuthGuard]},
   {path:'tax',loadChildren:() => import('./tax-master/tax-master.module').then(m => m.TaxMasterModule),canActivate:[AuthGuard]},
+  {path:'route',loadChildren:() => import('./route-master/route-master.module').then(m => m.RouteMasterModule),canActivate:[AuthGuard]},
   ];
 
 @NgModule({

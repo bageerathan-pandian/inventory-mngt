@@ -2,6 +2,7 @@
 const SalesModel = require('../models/sales.model');
 const InvoiceModel = require('../models/invoice.model');
 const StockModel = require('../models/stock.model');
+const CustomerModel = require('../models/customer.model');
 
 
 /**
@@ -61,6 +62,7 @@ exports.addUser =  (req, res)=> {
     invoice_code:req.body.invoice_code,
     invoice_date:req.body.invoice_date,
     sub_total:req.body.sub_total,
+    round_off:req.body.round_off,
     grand_total:req.body.grand_total,
     discount:req.body.discount,
     cgst:req.body.cgst,
@@ -109,6 +111,17 @@ exports.addUser =  (req, res)=> {
       });
      
     }
+
+    let custData = {    
+      total_purchase_amt:req.body.customer_details_id_total_purchase_amt + req.body.grand_total,
+      total_paid_amt:req.body.customer_details_id_total_paid_amt + Number(req.body.paid_amount),
+      total_pending_amt:(req.body.customer_details_id_total_purchase_amt + req.body.grand_total) - (req.body.customer_details_id_total_paid_amt + Number(req.body.paid_amount))
+    }
+    console.log('custData',custData)
+    CustomerModel.findByIdAndUpdate(req.body.customer_details_id, custData, (e,result3) => {
+      if (e)  return res.status(500).json(e);
+    });
+
     
     InvoiceModel.countDocuments({company_details_id : req.body.company_details_id},(e,result4) => {
       if(e) {        

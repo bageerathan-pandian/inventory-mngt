@@ -15,7 +15,7 @@
 </div>
 <div class="ui-g-2">
             <div class="ui-g-12">
-                Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  ></p-calendar>
+                Purchase Date:  <p-calendar [showIcon]="true"  [readonlyInput]="true" formControlName="invoice_date"  [maxDate]="today" ></p-calendar>
             </div>
 </div>
 
@@ -23,7 +23,11 @@
 
         <div class="ui-g-12">
                 Supplier Name: <p-dropdown [options]="supplierList"   placeholder="Select Supplier"  formControlName="supplier_details_id"  filter="true" (onChange)="onSelectSup($event)" ></p-dropdown>
-           
+                <p class="warning-msg" style="position: absolute;">
+                        <em *ngIf="purchaseInvoiceForm.value.supplier_details_id && selectedSupplierData.total_pending_amt">*Amt to be paid :
+                                {{selectedSupplierData.total_pending_amt | currency : 'INR':true}}
+                        </em>
+                </p>
            </div>
 </div>
 
@@ -66,8 +70,8 @@
         <table style="margin-bottom: 15px;">
                 <thead>
                 <tr>
-                        <th style="width:8em">Order #</th>
-                        <th>Product Name/Code</th>
+                        <th style="width:5em">Order #</th>
+                        <th style="width:20em">Product Name/Code</th>
                         <th>Price</th>
                         <th>MRP</th>
                         <th>Qty</th>
@@ -83,9 +87,11 @@
                   {{i + 1}}
                 </td>
                <td >
-                           <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"   filter="true">
+                           <!-- <p-dropdown [options]="stocksList" formControlName="stock_details_id" (onChange)="onSelectProduct($event,i)" required placeholder="Select a Product"   filter="true">
                             
-                       </p-dropdown> 
+                       </p-dropdown>  -->
+                       <p-autoComplete autofocus="true" formControlName="stock_details_id" [suggestions]="stocksListResult" (completeMethod)="searchProduct($event)" (onSelect)="onSelectProduct($event,i)" [dropdown]="true" field="label" [forceSelection]="true" placeholder="Enter Product's Name/Code"></p-autoComplete>
+
                        
                </td>
                <td class="hidden-spinner" style="width: 15%;">
@@ -127,7 +133,7 @@
 <div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-6" style="text-align: center">
                 <h6>Grand Total <em *ngIf="purchaseInvoiceForm.value.tax_enable">(with GST)</em></h6>
-                <h1>{{ purchaseInvoiceForm.value.grand_total | currency :'INR':true}}</h1>
+                <h1 style="font-size: 50px;" [ngStyle]="{'color': purchaseInvoiceForm.value.tax_enable ? '#34a835' : '#ffba01'}">{{ purchaseInvoiceForm.value.grand_total | currency :'INR':true}}</h1>
         </div>
         <div class="ui-g-12 ui-md-6">
         <div class="ui-g-12 ui-md-6">

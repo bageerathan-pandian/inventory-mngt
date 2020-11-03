@@ -24,7 +24,7 @@ import { InvoiceDesignModule } from '../shared/invoice-design/invoice-design.mod
 
 
 @NgModule({
-  declarations: [PaymentComponent,],
+  declarations: [PaymentComponent],
   imports: [
     CommonModule,
     PaymentRoutingModule,

@@ -20,6 +20,13 @@ router.get('/customer/get-by-company-and-customer-id/:com_id/:cust_id', collecti
 
 
 /**
+ * get branch by company id
+ */
+router.get('/customer/get-total-collection/:id', collectionController.getTotalCollection);
+
+
+
+/**
  * get users list
  */
 router.get('/customer/groupByCompany', collectionController.groupByCompany);

@@ -2,6 +2,8 @@
 const CollectionModel = require('../models/collection.model');
 const CustomerModel = require('../models/customer.model');
 
+var mongoose = require('mongoose');
+var ObjectID = mongoose.Types.ObjectId;
 /**
  * get users list
  */
@@ -36,7 +38,7 @@ exports.getAllUsersByCompany = (req, res) => {
  * get users list
  */
 exports.getAllUsersByCustomer = (req, res) => {
-  CollectionModel.find({ $and : [{company_details_id: req.params.com_id }, {customer_details_id: req.params.cust_id}] }, (e, result) => {
+  CollectionModel.find({ $and: [{ company_details_id: req.params.com_id }, { customer_details_id: req.params.cust_id }] }, (e, result) => {
     if (e) {
       console.log(e.message);
       return res.status(500).json(e);
@@ -116,6 +118,36 @@ exports.userStatusUpdate = (req, res) => {
       console.log(e.message);
       return res.status(500).json(e);
     } else {
+      return res.json(result);
+    }
+  })
+}
+
+/**
+ * get users list
+ */
+exports.getTotalCollection = (req, res) => {
+  console.log('getTotalCollection', req.params.id)
+  CollectionModel.aggregate([
+    {
+      $match: { company_details_id: ObjectID(req.params.id) }
+    },
+    // first Stage
+    {
+      $group: {
+        _id: "$company_details_id",
+        // _id : null,
+        grand_total: { $sum: "$collection_amt" },
+        avg_sales: { $avg: "$collection_amt" },
+        count: { $sum: 1 } // for no. of documents count
+      }
+    }
+  ], (e, result) => {
+    if (e) {
+      console.log(e.message);
+      return res.status(500).json(e);
+    } else {
+      console.log('getTotalSales', result)
       return res.json(result);
     }
   })

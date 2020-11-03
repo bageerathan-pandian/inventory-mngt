@@ -29,7 +29,7 @@
                                 ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
 
                         </th>
-                        <th>
+                        <th style="width: 15em;">
                             Action
                         </th>
                     </tr>
@@ -49,9 +49,9 @@
                         <td>
                             {{rowData.sub_total  | currency : 'INR':true}}
                         </td>
-                        <td>
+                        <!-- <td>
                             {{rowData.discount  | currency : 'INR':true}}
-                        </td>
+                        </td> -->
                         <td>
                             {{rowData.cgst  | currency : 'INR':true}}
                         </td>
@@ -66,13 +66,20 @@
                                 [(ngModel)]="rowData.payment_type" required></p-dropdown>
 
                         </td>
-                        <td>
+                        <!-- <td>
                             {{rowData.updatedAt | date:'medium'}}
-                        </td>
+                        </td> -->
                         <td>
                             <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
-                            <p-dropdown [options]="paymentStatus" placeholder="Select Status"
-                                [(ngModel)]="rowData.payment_status" required></p-dropdown>
+                            <!-- <p-dropdown [options]="paymentStatus" placeholder="Select Status"
+                                [(ngModel)]="rowData.payment_status" required></p-dropdown> -->
+                                <span class="label label-warning"
+                                *ngIf="rowData?.payment_status == 0">Not Paind</span>
+                            <span class="label label-success"
+                                *ngIf="rowData?.payment_status == 1">Paid</span>
+                            <span class="label label-info"
+                                *ngIf="rowData?.payment_status == 2">Collection</span>
+                   
                         </td>
                         
                         <td>
@@ -80,7 +87,7 @@
 
                         </td>
                         <td style="text-align:center">
-                            <!-- <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" (click)="onRowEdit(rowData)" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>  -->
+                            <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" routerLink="/inventory-mngt/sales/sales/{{rowData._id}}" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button> 
                             <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
                                 (click)="viewData(rowData)" pTooltip="View Invoice" tooltipPosition="top"
                                 style="    margin: 0px 5px;"></button>

@@ -34,14 +34,21 @@
                 padding: 0;
         }
 }
+:host ::ng-deep .card6{
+        background-color: #8a6d3b !important;
+        color: #fff;
+        .ui-card-body{
+                padding: 0;
+        }
+}
 
 .adminClass{
-        width: 20%;
+        width: 16.6%;
         padding: 0 1%;
 }
 
 .userClass{
-        width: 25%;
+        width: 20%;
         padding: 1%;
 }
 

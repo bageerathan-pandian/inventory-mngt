@@ -47,6 +47,10 @@ export class CollectionService {
     return this.httpClient.delete(environment.api_url + '/api/collection/customer/'+ id);
   }
 
+  getCustomerCollectionTotal(){
+    return this.httpClient.get(environment.api_url + '/api/collection/customer/get-total-collection/'+this.sessionService.getItem('company_id'));
+  }
+
 
 }
 

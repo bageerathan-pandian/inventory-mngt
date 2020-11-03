@@ -64,12 +64,12 @@ export class PaymentComponent implements OnInit {
       { field: 'invoice_code', header: 'Code' },
       { field: 'invoice_date', header: 'Invoice Date' },
       { field: 'sub_total', header: 'Sub Total' },
-      { field: 'discount', header: 'Discount' },
+      // { field: 'discount', header: 'Discount' },
       { field: 'cgst', header: 'CGST(Amt)' },
       { field: 'sgst', header: 'SGST(Amt)' },
       { field: 'grand_total', header: 'Grand Total' },
       { field: 'payment_type', header: 'Payment Type' },
-      { field: 'updatedAt', header: 'Updated Date' },
+      // { field: 'updatedAt', header: 'Updated Date' },
       { field: 'payment_status', header: 'Status' },
       { field: 'tax_enable', header: 'Tax Enable' },
   ];
@@ -136,14 +136,14 @@ export class PaymentComponent implements OnInit {
   
   onRowEdit(invoice: Invoice) {
     console.log(invoice);
-    this.displayDialog = true;
-    this.invoiceForm.controls['_id'].setValue(invoice._id);
-    this.invoiceForm.controls['invoice_code'].setValue(invoice.invoice_code);
-     this.invoiceForm.controls['sub_total'].setValue(invoice.sub_total);
-     this.invoiceForm.controls['discount'].setValue(invoice.discount);
-     this.invoiceForm.controls['grand_total'].setValue(invoice.grand_total);
-     this.invoiceForm.controls['payment_type'].setValue(invoice.payment_type);
-     this.invoiceForm.controls['payment_status'].setValue(invoice.payment_status);
+    // this.displayDialog = true;
+    // this.invoiceForm.controls['_id'].setValue(invoice._id);
+    // this.invoiceForm.controls['invoice_code'].setValue(invoice.invoice_code);
+    //  this.invoiceForm.controls['sub_total'].setValue(invoice.sub_total);
+    //  this.invoiceForm.controls['discount'].setValue(invoice.discount);
+    //  this.invoiceForm.controls['grand_total'].setValue(invoice.grand_total);
+    //  this.invoiceForm.controls['payment_type'].setValue(invoice.payment_type);
+    //  this.invoiceForm.controls['payment_status'].setValue(invoice.payment_status);
   }
 
 

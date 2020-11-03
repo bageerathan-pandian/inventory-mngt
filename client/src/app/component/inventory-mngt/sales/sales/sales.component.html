@@ -30,8 +30,8 @@
                                                         formControlName="customer_details_id" filter="true"
                                                         (onChange)="onSelectCust($event)"></p-dropdown>
                                                 <p class="warning-msg" style="position: absolute;">
-                                                        <em *ngIf="invoiceForm.value.customer_details_id && selectedCustData.total_pending_amt">*Amt to be received :
-                                                                {{selectedCustData.total_pending_amt | currency : 'INR':true}}
+                                                        <em *ngIf="invoiceForm.value.customer_details_id && selectedCustData?.total_pending_amt">*Amt to be received :
+                                                                {{selectedCustData?.total_pending_amt | currency : 'INR':true}}
                                                         </em>
                                                 </p>
 
@@ -40,7 +40,7 @@
                                 <div class="ui-g-2">
                                         <div class="ui-g-12">
                                                 Customer Address: <input pInputText type="text"
-                                                        value="{{selectedCustData.customer_address}}" readonly>
+                                                        value="{{selectedCustData?.customer_address}}" readonly>
                                         </div>
                                 </div>
 
@@ -51,7 +51,7 @@
                                         <div class="ui-g-12">
 
                                                 Customer Phone: <input pInputText type="text"
-                                                        value="{{selectedCustData.phone}}" readonly>
+                                                        value="{{selectedCustData?.phone}}" readonly>
                                         </div>
 
 
@@ -246,7 +246,7 @@
                                                         <div class="ui-g-12  ui-md-5">
                                                                 <p style="padding: 0;"> Sub Amount: </p>
                                                         </div>
-                                                        <div class="ui-g-12  ui-md-5">
+                                                        <div class="ui-g-12  ui-md-5" style="text-align: right;">
                                                                 <b>{{invoiceForm.value.sub_total  | currency : 'INR':true}}</b>
                                                         </div>
                                                 </div>
@@ -254,7 +254,7 @@
                                                         <div class="ui-g-12  ui-md-5">
                                                                 <p style="padding: 0;"> SGST: </p>
                                                         </div>
-                                                        <div class="ui-g-12  ui-md-5">
+                                                        <div class="ui-g-12  ui-md-5" style="text-align: right;">
                                                                 <b>{{invoiceForm.value.sgst  | currency : 'INR':true}}</b>
                                                         </div>
                                                 </div>
@@ -262,7 +262,7 @@
                                                         <div class="ui-g-12  ui-md-5">
                                                                 <p style="padding: 0;"> CGST: </p>
                                                         </div>
-                                                        <div class="ui-g-12  ui-md-5">
+                                                        <div class="ui-g-12  ui-md-5" style="text-align: right;">
                                                                 <b>{{invoiceForm.value.cgst  | currency : 'INR':true}}</b>
                                                         </div>
                                                 </div>
@@ -270,7 +270,7 @@
                                                         <div class="ui-g-12  ui-md-5">
                                                                 <p style="padding: 0;"> Round Off: </p>
                                                         </div>
-                                                        <div class="ui-g-12  ui-md-5">
+                                                        <div class="ui-g-12  ui-md-5" style="text-align: right;">
                                                                 <b>{{invoiceForm.value.round_off  | currency : 'INR':true}}</b>
                                                         </div>
                                                 </div>
@@ -278,7 +278,7 @@
                                                         <div class="ui-g-12  ui-md-5">
                                                                 <p style="padding: 0;"> Grand Total: </p>
                                                         </div>
-                                                        <div class="ui-g-12  ui-md-5">
+                                                        <div class="ui-g-12  ui-md-5" style="text-align: right;">
                                                                 <b>{{invoiceForm.value.grand_total  | currency : 'INR':true}}</b>
                                                         </div>
                                                 </div>
@@ -318,7 +318,7 @@
                                                 class="ui-button-secondary" (click)="onReset()"></button>
                                 </div>
                                 <div class="ui-g-2">
-                                        <button pButton type="button" (click)="saveOrder()" label="Save & Print Bill"
+                                        <button pButton type="button" (click)="saveOrder()" label="{{salesId ? 'Update' : 'Save'}} & Print Bill"
                                                 icon="pi pi-save" class="ui-button-success"></button>
                                 </div>
                                 <!-- <div class="ui-g-2">

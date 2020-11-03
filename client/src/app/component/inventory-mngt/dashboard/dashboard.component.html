@@ -160,112 +160,44 @@
             </p-card>
         </a>
     </div>
-</div>
-<div class="ui-g ui-fluid" style="display: none;">
-    <div class="ui-g-12 ui-md-10 ui-lg-10">
-        <p-card styleClass="ui-g-12">
-            <!-- <div class="ui-g-3" style="float: right;position: relative;">
-                      <p-dropdown [options]="yearList" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
-                    </div> -->
-            <p-chart type="bar" [data]="data" [options]="options"></p-chart>
-        </p-card>
-    </div>
-    <!-- <div class="ui-g-12 ui-md-6 ui-lg-4">
-                    <p-card styleClass="ui-g-12" >
-                      <p-chart type="pie" [data]="data1" [options]="options1"></p-chart>
-                      </p-card>
-                  </div> -->
-    <div class="ui-g-12 ui-md-10 ui-lg-2">
+    
+    <div [ngClass]="sessionService.getItem('role') == '0' ? 'adminClass' : 'userClass'">
+        <a
+            [routerLink]="sessionService.getItem('role') != 3 ? '/inventory-mngt/collection' : '/inventory-mngt/dashboard'">
 
-
-        <p-card styleClass="ui-g-12">
-
-            <p-scrollPanel [style]="{width: '100%', height: '280px'}">
-                <div class="active-detail">
-                    <h3 style="margin: 20px 0;" class="full-width">Active Users</h3>
-                    <div class="gallery-cont full-width">
-                        <ul>
-                            <li *ngFor="let item of loggedInUsersList">
-                                <div class="active-left">
-                                    <img src="../assets/img/userface.jpg" *ngIf="!item?.user_image">
-                                    <img src="{{auth.apiURL()}}{{item.user_image}}" *ngIf="item?.user_image">
-                                    <ng-container *ngIf="item.isLoggedIn; else elseTemplate">
-                                        <i class="pi pi-check"
-                                            style="    position: absolute;   left: 18px;    color: #fff;   background: #08bd65;     border-radius: 100%;font-size: 12px"></i>
-                                    </ng-container>
-                                    <ng-template #elseTemplate>
-                                        <i class="pi pi-times"
-                                            style="    position: absolute;   left: 18px;    color: #fff;   background: #f06487;     border-radius: 100%;font-size: 12px"></i>
-                                    </ng-template>
-                                </div>
-                                <div class="active-rgt">
-                                    <h6>{{item.user_name | titlecase}}</h6>
-                                    <span [ngSwitch]="item.role" style="font-size: 7px;">
-                                        <p *ngSwitchCase="'0'">
-                                            Admin - <em *ngIf="sessionService.getItem('role') == '0'">
-                                                {{item.company_details_id.company_name}}</em>
-                                        </p>
-                                        <p *ngSwitchCase="'1'">
-                                            Admin - <em> {{item.company_details_id.company_name}}</em>
-                                        </p>
-                                        <p *ngSwitchCase="'2'">
-                                            Manager - <em> {{item.company_details_id.company_name}}</em>
-                                        </p>
-                                        <p *ngSwitchCase="'3'">
-                                            Sales person - <em> {{item.company_details_id.company_name}}</em>
-                                        </p>
-                                        <p *ngSwitchDefault>
-                                            Others - {{item.company_details_id.company_name}}
-                                        </p>
-
-                                    </span>
-
-                                    <!-- <ng-container *ngIf="item.isLoggedIn; else elseTemplate">
-                                                <a class="cmn-btn"><i class="pi pi-check"></i>Online</a>
-                                            </ng-container>
-                                            <ng-template #elseTemplate>
-                                                <a class="cmn-btn red-btn"><i class="pi pi-times"></i>Offline</a>
-                                            </ng-template> -->
-                                </div>
-                            </li>
-                        </ul>
-
-                    </div>
+            <p-card styleClass="card6 ui-g-12">
+                <p-header>
+                    Collections
+                </p-header>
+                <div class="ui-g-6">
+                    <h2 style=" font-size: 30px; margin-bottom: 0;  padding: 0;  "> {{totalCollectionAmount  | currency : 'INR':true}}</h2>
                 </div>
-
-
-            </p-scrollPanel>
-        </p-card>
-
+                <div class="ui-g-6">
+                    <i class="pi pi-users" style="    font-size: 80px;    opacity: 0.1;"></i>
+                </div>
+                <!-- <p-footer>
+                <a routerLink="/master/customer" pTooltip="View More" tooltipPosition="top">View More  <i class="pi pi-arrow-right" ></i>
+                </a>
+            </p-footer> -->
+            </p-card>
+        </a>
     </div>
 </div>
-<div class="ui-g ui-fluid">
-    <!-- <div class="ui-g-12 ui-md-4 ui-lg-4">
+<div class="ui-g ui-fluid" >
+    <div class="ui-g-12 ui-md-10 ui-lg-8">
         <p-card styleClass="ui-g-12">
-            <h3>Mothly Profit/Lose</h3>
-            <h3>Total Purchase : {{totalPurchaceAmount  | currency : 'INR':true}}</h3>
-            <h3>Total Sales : {{totalSalesAmount  | currency : 'INR':true}}</h3>
-            <h2>Profit/Lose :
-                <span [ngStyle]="{'color': (totalPurchaceAmount - totalSalesAmount) > 0 ? 'green' : 'red'}">
-                    {{(totalPurchaceAmount - totalSalesAmount) | currency : 'INR':true}}</span></h2>
+            <!-- <div class="ui-g-3">
+                      <p-dropdown [options]="yearList"  appendTo="body" [(ngModel)]="selectedYear" placeholder="Select Year"  filter="true" ></p-dropdown>
+                    </div> -->
+            <p-chart type="bar" [data]="data" [options]="options" (refresh)="getProfitLoss()"></p-chart>
         </p-card>
     </div>
     <div class="ui-g-12 ui-md-4 ui-lg-4">
         <p-card styleClass="ui-g-12">
-            <h3>Yearly Profit/Lose</h3>
-            <h3>Total Purchase : <span style="">{{totalPurchaceAmount  | currency : 'INR':true}}</span></h3>
-            <h3>Total Sales : <span style="text-align: right;">{{totalSalesAmount  | currency : 'INR':true}}</span> </h3>
-            <h2>Profit/Lose :
-                <span [ngStyle]="{'color': (totalPurchaceAmount - totalSalesAmount) > 0 ? 'green' : 'red'}">
-                    {{(totalPurchaceAmount - totalSalesAmount) | currency : 'INR':true}}</span></h2>
-        </p-card>
-    </div> -->
-    <div class="ui-g-12 ui-md-4 ui-lg-8">
-        <p-card styleClass="ui-g-12">
             <table>
                 <thead>
                     <tr>
-                        <th>Overall Profit/Lose</th>
+                        <th>Overall Profit/Loss</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -277,23 +209,19 @@
                         <td style="padding: 15px;  font-size: 15px;">Total Sales</td>
                         <td style="padding: 15px;  font-size: 15px;"> {{totalSalesAmount  | currency : 'INR':true}}</td>
                     </tr>
-                    <tr>
-                        <td style="padding: 15px;  font-size: 15px;">Total Purchase</td>
-                        <td style="padding: 15px;  font-size: 15px;"> {{totalPurchaceAmount  | currency : 'INR':true}}</td>
-                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th style="padding: 15px;  font-size: 20px;">Profit/Lose</th>
-                        <th style="padding: 15px;  font-size: 25px;"> <span
-                                [ngStyle]="{'color': (totalPurchaceAmount - totalSalesAmount) > 0 ? 'green' : 'red'}">
-                                {{(totalPurchaceAmount - totalSalesAmount) | currency : 'INR':true}}</span></th>
+                        <th style="padding: 15px;  font-size: 15px;">Profit/Loss</th>
+                        <th style="padding: 15px;  font-size: 17px;"> <span
+                                [ngStyle]="{'color': (totalSalesAmount - totalPurchaceAmount) > 0 ? 'green' : 'red'}">
+                                {{(totalSalesAmount - totalPurchaceAmount) | negotiveToBrackets }}</span></th>
                     </tr>
                 </tfoot>
             </table>
         </p-card>
     </div>
-    <div class="ui-g-12 ui-md-10 ui-lg-4">
+    <div class="ui-g-12 ui-md-10 ui-lg-2" style="display: none;">
 
 
         <p-card styleClass="ui-g-12">
@@ -357,6 +285,7 @@
 
     </div>
 </div>
+
 <div class="ui-g ui-fluid">
 
     <div class="ui-g-12 ui-md-4 ui-lg-4">
@@ -473,7 +402,7 @@
                 </ng-template>
                 <ng-template pTemplate="footer">
                     <tr *ngIf="salesLatestList?.length == 0">
-                        <td colspan="4" style="text-align: center">
+                        <td colspan="6" style="text-align: center">
                             There are {{salesLatestList?.length}} records
                         </td>
                     </tr>
@@ -545,7 +474,7 @@
                 </ng-template>
                 <ng-template pTemplate="footer">
                     <tr *ngIf="purchaseLatestList?.length == 0">
-                        <td colspan="4" style="text-align: center">
+                        <td colspan="6" style="text-align: center">
                             There are {{purchaseLatestList?.length}} records
                         </td>
                     </tr>

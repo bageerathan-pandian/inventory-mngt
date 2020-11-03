@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MenuItem, MessageService, ConfirmationService } from "primeng/api";
-import { Router } from "@angular/router";
+import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from "@angular/router";
 import { Category } from 'src/app/model/category.model';
 import { Stock } from 'src/app/model/stock.model';
 import { Customer } from 'src/app/model/customer.model';
@@ -22,6 +22,7 @@ import { PdfGeneratorService } from 'src/app/shared/pdf-generator.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 import { isValidDate } from '@fullcalendar/core';
+import { InvoiceService } from 'src/app/shared/invoice.service';
 
 
 @Component({
@@ -78,58 +79,64 @@ export class SalesComponent implements OnInit {
   customerData: any
   today: any = new Date()
   stocksListResult: any = []
-
+  salesId: string
 
   constructor(private _fb: FormBuilder,
     private router: Router,
     private messageService: MessageService, private customerService: CustomerService, private stockService: StockService, private categoryService: CategoryService, private salesService: SalesService, private commonService: CommonService, private auth: AuthLoginService,
-    private pdfGenerator: PdfGeneratorService,
-    public sessionService: SessionService
+    private pdfGenerator: PdfGeneratorService, public sessionService: SessionService, private activeRoute: ActivatedRoute, private invoiceService: InvoiceService
   ) {
+
+    this.activeRoute.params.subscribe(
+      (params: Params) => {
+        console.log(params.id)
+        this.salesId = params.id
+      }
+    );
+
     // let invalidDate = new Date();
     // this.invalidDates = [invalidDate];
-    this.invoiceForm = this._fb.group({
-      _id: [''],
-      company_details_id: [this.sessionService.getItem('company_id'), Validators.required],
-      invoice_code: ['', Validators.required],
-      invoice_date: [new Date(), Validators.required],
-      customer_details_id: ['', Validators.required],
-      customer_details_id_total_purchase_amt: [0.00, Validators.required],
-      customer_details_id_total_paid_amt: [0.00, Validators.required],
-      customer_details_id_total_pending_amt: [0.00, Validators.required],
-      invoiceList: this._fb.array([
-        this.initRowFirst()
-      ]),
-      sub_total: [0.00],
-      discount: [0.00],
-      round_off: [0.00],
-      grand_total: [0.00, Validators.required],
-      cgst: [0.00],
-      sgst: [0.00],
-      tax_enable: [true],
-      payment_type: [1, Validators.required],
-      paid_amount: [0.00, Validators.required],
-      balance_amount: [0.00, Validators.required],
-      payment_status: [2, Validators.required]
-    })
 
 
   }
 
   ngOnInit() {
-    this.bradCrum = [
-      {
-        label: '', icon: 'pi pi-home', command: (event) => {
-          this.router.navigate(['/inventory-mngt/dashboard'])
+    if (this.salesId) {
+      this.bradCrum = [
+        {
+          label: '', icon: 'pi pi-home', command: (event) => {
+            this.router.navigate(['/inventory-mngt/dashboard'])
+          }
+        },
+        {
+          label: "Payment",
+          command: event => {
+            this.router.navigate(["/inventory-mngt/payment"]);
+          }
+        },
+        {
+          label: "Edit Invoice",
+        },
+        {
+          label: null,
         }
-      },
-      {
-        label: "Sales",
-        command: event => {
-          this.router.navigate(["/inventory-mngt/sales"]);
+      ];
+    } else {
+      this.bradCrum = [
+        {
+          label: '', icon: 'pi pi-home', command: (event) => {
+            this.router.navigate(['/inventory-mngt/dashboard'])
+          }
+        },
+        {
+          label: "Sales",
+          command: event => {
+            this.router.navigate(["/inventory-mngt/sales"]);
+          }
         }
-      }
-    ];
+      ];
+    }
+
 
     this.status = [
       { label: 'Active', value: 1 },
@@ -149,11 +156,15 @@ export class SalesComponent implements OnInit {
       { label: '5%', value: 1 },
       { label: '10%', value: 2 }
     ]
-
-    this.getLastInvoiceByCompany();
+    this.createSalesForm()
     this.getCustomerByCompany();
     this.getCategoryByCompany();
     this.getStockByCompany();
+    if (this.salesId) {
+      this.getInvoiceById()
+    } else {
+      this.getLastInvoiceByCompany();
+    }
 
     this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
   }
@@ -187,6 +198,36 @@ export class SalesComponent implements OnInit {
     });
   }
 
+  createSalesForm() {
+    this.invoiceForm = this._fb.group({
+      _id: [''],
+      company_details_id: [this.sessionService.getItem('company_id'), Validators.required],
+      invoice_code: ['', Validators.required],
+      invoice_date: [new Date(), Validators.required],
+      customer_details_id: ['', Validators.required],
+      customer_details_id_total_purchase_amt: [0.00, Validators.required],
+      customer_details_id_total_paid_amt: [0.00, Validators.required],
+      customer_details_id_total_pending_amt: [0.00, Validators.required],
+      invoiceList: this._fb.array([
+        this.initRowFirst()
+      ]),
+      sub_total: [0.00],
+      discount: [0.00],
+      round_off: [0.00],
+      grand_total: [0.00, Validators.required],
+      befor_grand_total: [0.00],
+      cgst: [0.00],
+      sgst: [0.00],
+      tax_enable: [true],
+      payment_type: [1, Validators.required],
+      paid_amount: [0.00, Validators.required],
+      befor_paid_amount: [0.00],
+      balance_amount: [0.00, Validators.required],
+      payment_status: [2, Validators.required]
+    })
+
+  }
+
   priviewPdf() {
     this.pdfGenerator.testPdg()
       .subscribe((data: any) => {
@@ -212,27 +253,77 @@ export class SalesComponent implements OnInit {
 
   }
 
-  initRowFirst() {
+  initRowFirst(data?: any) {
+    console.log(data)
     return this._fb.group({
-      stock_details_id: ['', Validators.required],
-      stock_name: ['', Validators.required],
-      price: ['', Validators.required],
-      mrp: ['', Validators.required],
-      qty: ['', Validators.required],
-      total_qty: ['', Validators.required],
-      tax_name: ['', Validators.required],
-      cgst_amt: [0.00, Validators.required],
-      sgst_amt: [0.00, Validators.required],
-      gst_per: ['', Validators.required],
-      total: ['', Validators.required],
-      total_with_gst: ['', Validators.required]
+      stock_details_id: [data ? data.stock_details_id : '', Validators.required],
+      stock_name: [data ? data.stock_name : '', Validators.required],
+      price: [data ? data.price : '', Validators.required],
+      mrp: [data ? data.mrp : '', Validators.required],
+      qty: [data ? data.qty : '', Validators.required],
+      befor_qty: [data ? data.qty : ''],
+      total_qty: [data ? data.total_qty : '', Validators.required],
+      tax_name: [data ? data.tax_name : '', Validators.required],
+      cgst_amt: [data ? data.cgst_amt : 0.00, Validators.required],
+      sgst_amt: [data ? data.sgst_amt : 0.00, Validators.required],
+      gst_per: [data ? data.gst_per : '', Validators.required],
+      total: [data ? data.total : '', Validators.required],
+      total_with_gst: [data ? data.total_with_gst : '', Validators.required]
     });
+  }
+
+  getInvoiceById() {
+    this.invoiceService.getInvoiceById(this.salesId)
+      .subscribe((data: any) => {
+        console.log('getInvoiceById', data);
+        this.bradCrum[3].label = data[0].invoice_code ? data[0].invoice_code : null;
+        this.selectedCustData = _.find(this.customers, { '_id': data[0].customer_details_id })
+        this.invoiceForm.patchValue({
+          _id: this.salesId,
+          invoice_code: data[0].invoice_code,
+          invoice_date: new Date(data[0].invoice_date),
+          customer_details_id: data[0].customer_details_id,
+          customer_details_id_total_paid_amt: this.selectedCustData ? this.selectedCustData.total_paid_amt : 0,
+          customer_details_id_total_pending_amt: this.selectedCustData ? this.selectedCustData.total_pending_amt : 0,
+          customer_details_id_total_purchase_amt: this.selectedCustData ? this.selectedCustData.total_purchase_amt : 0,
+          discount: data[0].discount ? data[0].discount : 0,
+          grand_total: data[0].grand_total,
+          befor_grand_total: data[0].grand_total,
+          paid_amount: data[0].paid_amount ? data[0].paid_amount : 0,
+          payment_status: data[0].payment_status,
+          payment_type: data[0].payment_type,
+          round_off: data[0].round_off ? data[0].round_off : 0,
+          sgst: data[0].sgst,
+          cgst: data[0].cgst,
+          sub_total: data[0].sub_total,
+          tax_enable: data[0].tax_enable,
+        })
+        // this.invoiceForm.controls['invoice_code'].setValue(data[0].invoice_code);
+        const control = <FormArray>this.invoiceForm.controls['invoiceList'];
+        control.removeAt(0);
+        data[0].invoice_list.forEach(element => {
+          // this.initRowFirst(element)
+          
+          var foundIndex = this.stocks.findIndex(x => x._id == element.stock_details_id);
+          this.stocks[foundIndex].stock_qty += element.qty;
+          let selectedProdData = _.find(this.stocks, { '_id': element.stock_details_id })
+          let listStock = {
+            label: selectedProdData.stock_name + ' | ' + selectedProdData.stock_code + ' (' + selectedProdData.stock_qty + ')',
+            value: selectedProdData._id
+          }
+          element.stock_details_id = listStock;
+          control.push(this.initRowFirst(element));
+        });
+      },
+        error => {
+        })
   }
 
   getLastInvoiceByCompany() {
     this.salesService.getLastInvoice()
       .subscribe((data: any) => {
         console.log('getLastInvoice', data);
+        // this.createSalesForm()
         this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data));
       },
         error => {
@@ -268,21 +359,38 @@ export class SalesComponent implements OnInit {
   getStockByCompany() {
     this.stocks = [];
     this.stocksList = [];
-    this.stockService.getStockByCompanyActive()
-      .subscribe((data: any) => {
-        console.log('stocksList', data);
-        this.stocks = data;
-        // this.stocksList = data;
-        // this.stocksList.push({ label: '+ Add New Stock', value: 0 });
-        for (let stockData of this.stocks) {
-          let listStock = {
-            label: stockData.stock_name + ' | ' + stockData.stock_code + ' (' + stockData.stock_qty + ')',
-            value: stockData._id
+    if (this.salesId) {
+      this.stockService.getStockByCompany()
+        .subscribe((data: any) => {
+          console.log('stocksList', data);
+          this.stocks = data;
+          // this.stocksList = data;
+          // this.stocksList.push({ label: '+ Add New Stock', value: 0 });
+          for (let stockData of this.stocks) {
+            let listStock = {
+              label: stockData.stock_name + ' | ' + stockData.stock_code + ' (' + stockData.stock_qty + ')',
+              value: stockData._id
+            }
+            this.stocksList.push(listStock);
           }
-          this.stocksList.push(listStock);
-        }
-      })
+        })
 
+    } else {
+      this.stockService.getStockByCompanyActive()
+        .subscribe((data: any) => {
+          console.log('stocksList', data);
+          this.stocks = data;
+          // this.stocksList = data;
+          // this.stocksList.push({ label: '+ Add New Stock', value: 0 });
+          for (let stockData of this.stocks) {
+            let listStock = {
+              label: stockData.stock_name + ' | ' + stockData.stock_code + ' (' + stockData.stock_qty + ')',
+              value: stockData._id
+            }
+            this.stocksList.push(listStock);
+          }
+        })
+    }
   }
 
 
@@ -336,6 +444,55 @@ export class SalesComponent implements OnInit {
       })
   }
 
+  
+  updateSales() {
+    console.log('invoiceArray', this.invoiceForm.value);
+    this.invoiceForm.get('customer_details_id').setValue(this.selectedCustData._id)
+    this.invoiceForm.get('invoiceList')['controls'].forEach(element => {
+      console.log(element.controls['stock_details_id'].value)
+      element.controls['stock_details_id'].setValue(element.controls['stock_details_id'].value.value)
+    });
+    this.salesService.updateSales(this.invoiceForm.value)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.invoiceData = data.data[0];
+        this.getStockByCompany() // refresh stock qty
+        this.invoiceForm.reset();
+        this.selectedCustData = []
+        this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data.next_invoice));
+        this.invoiceForm.controls['invoice_date'].setValue(new Date());
+        this.invoiceForm.controls['invoiceList'].reset()
+        const control = <FormArray>this.invoiceForm.controls['invoiceList'];
+        control.clear();
+        control.push(this.initRowFirst());
+        this.invoiceForm.controls['sub_total'].setValue(0.00);
+        this.invoiceForm.controls['discount'].setValue(0.00);
+        this.invoiceForm.controls['paid_amount'].setValue(0.00);
+        this.invoiceForm.controls['balance_amount'].setValue(0.00);
+        this.invoiceForm.controls['grand_total'].setValue(0.00);
+        this.invoiceForm.controls['cgst'].setValue(0.00);
+        this.invoiceForm.controls['sgst'].setValue(0.00);
+        this.invoiceForm.controls['payment_type'].setValue(1);
+        this.invoiceForm.controls['payment_status'].setValue(1);
+        this.invoiceForm.controls['tax_enable'].setValue(true);
+
+        setTimeout(() => {
+          var divToPrint = document.getElementById('print-section');
+          var mywindow = window.open('', 'new div', 'height=600,width=900');
+          mywindow.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+          mywindow.document.close();
+          this.router.navigate(['/inventory-mngt/payment'])
+          //   printJS({
+          //     printable: 'print-section',
+          //     type: 'html',
+          //     targetStyles: ['width'],
+          //     style: ' #print-section { visibility: visible!important; } ',
+          //   })
+        }, 1000);
+      })
+  }
+
   printPriview() {
 
     let invoiceData = this.invoiceForm.value;
@@ -372,7 +529,11 @@ export class SalesComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: 'Please fill the mantatory field!' });
       return false;
     }
-    this.addSales()
+    if(this.salesId){
+      this.updateSales()
+    }else{
+      this.addSales()
+    }
   }
 
 
@@ -458,7 +619,7 @@ export class SalesComponent implements OnInit {
     console.log(this.invoiceForm.value.invoiceList);
     if (this.invoiceForm.value.invoiceList.length > 1) {
       let cloneInvoiceList = this.invoiceForm.value.invoiceList.slice();
-      cloneInvoiceList.splice(i,1); // to remove selected row
+      cloneInvoiceList.splice(i, 1); // to remove selected row
       let stockAddedData = _.find(cloneInvoiceList, { 'stock_details_id': { value: event.value } })
       console.log('stockAddedData', stockAddedData);
       if (stockAddedData) {

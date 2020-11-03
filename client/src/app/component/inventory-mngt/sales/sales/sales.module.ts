@@ -69,6 +69,7 @@ import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
     InvoiceDesignPosModule,
     ScrollPanelModule,
     TaxFormModule
-  ]
+  ],
+  exports:[SalesComponent]
 })
 export class SalesModule { }

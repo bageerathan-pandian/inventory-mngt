@@ -4,6 +4,8 @@ const SalesModel = require('../models/sales.model');
 const PurchaseModel = require('../models/purchase.model');
 const UserModel = require('../models/user.model');
 const InvoiceModel = require('../models/invoice.model');
+const InvoicePurchaseModel = require('../models/invoice_purchase.model');
+const CollectionModel = require('../models/collection.model');
 var mongoose = require('mongoose');
 var ObjectID = mongoose.Types.ObjectId;
 
@@ -79,7 +81,7 @@ exports.getProfitLoss = (req, res) => {
     {
       $match: { company_details_id: ObjectID(req.params.id) }
     },
-     {
+    {
       $group: {
         // _id : "$company_details_id",
         _id: { month: { $month: "$createdAt" }, year: { $year: "$createdAt" } },
@@ -91,7 +93,48 @@ exports.getProfitLoss = (req, res) => {
         console.log(e.message);
         return res.status(500).json(e);
       } else {
-        return res.json(result);
+        InvoicePurchaseModel.aggregate([
+          {
+            $match: { company_details_id: ObjectID(req.params.id) }
+          },
+          {
+            $group: {
+              // _id : "$company_details_id",
+              _id: { month: { $month: "$createdAt" }, year: { $year: "$createdAt" } },
+              totalAmount: { $sum: "$grand_total" },
+              count: { $sum: 1 }
+            }
+          }], (e, result1) => {
+            if (e) {
+              console.log(e.message);
+              return res.status(500).json(e);
+            } else {
+              // let data = {sales_pos:result,purchase_pos:result1}
+              // return res.json(data);
+              CollectionModel.aggregate([
+                {
+                  $match: { company_details_id: ObjectID(req.params.id) }
+                },
+                {
+                  $group: {
+                    // _id : "$company_details_id",
+                    _id: { month: { $month: "$createdAt" }, year: { $year: "$createdAt" } },
+                    totalAmount: { $sum: "$collection_amt" },
+                    count: { $sum: 1 }
+                  }
+                }], (e, result2) => {
+                  if (e) {
+                    console.log(e.message);
+                    return res.status(500).json(e);
+                  } else {
+                    let data = { sales_pos: result, purchase_pos: result1, collection_pos: result2 }
+                    return res.json(data);
+                  }
+                })
+
+            }
+          })
+
       }
     })
 }

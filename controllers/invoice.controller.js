@@ -9,54 +9,72 @@ var ObjectID = mongoose.Types.ObjectId;
 /**
  * get users list
  */
-exports.getAllUsersByCompanySales =  (req, res)=> {
-  InvoiceModel.find({company_details_id : req.params.id},(e,result) => {
-    if(e) {        
+exports.getAllUsersByCompanySales = (req, res) => {
+  InvoiceModel.find({ company_details_id: req.params.id }, (e, result) => {
+    if (e) {
       console.log(e.message);
-        return res.status(500).json(e);
+      return res.status(500).json(e);
     } else {
-        return res.json(result);
+      return res.json(result);
     }
-}).populate('company_details_id').populate('customer_details_id').sort( { updatedAt: -1 } )
+  }).populate('company_details_id').populate('customer_details_id').sort({ updatedAt: -1 })
 }
 
 
 /**
  * get users list
  */
-exports.getAllUsersByCompanyPurchase =  (req, res)=> {
-  InvoicePurchaseModel.find({company_details_id : req.params.id},(e,result) => {
-    if(e) {        
+exports.getAllUsersByCompanySalesById = (req, res) => {
+  console.log(req.params.id )
+  InvoiceModel.find({ _id: req.params.id }, (e, result) => {
+    if (e) {
       console.log(e.message);
-        return res.status(500).json(e);
+      return res.status(500).json(e);
     } else {
-        return res.json(result);
+      console.log(result);
+      console.log(result[0].invoice_list);
+      return res.json(result);
     }
-}).populate('company_details_id').populate('supplier_details_id').sort( { updatedAt: -1 } )
+  }).sort({ updatedAt: -1 })
 }
 
-exports.updateUser =  (req, res)=> {
+
+/**
+ * get users list
+ */
+exports.getAllUsersByCompanyPurchase = (req, res) => {
+  InvoicePurchaseModel.find({ company_details_id: req.params.id }, (e, result) => {
+    if (e) {
+      console.log(e.message);
+      return res.status(500).json(e);
+    } else {
+      return res.json(result);
+    }
+  }).populate('company_details_id').populate('supplier_details_id').sort({ updatedAt: -1 })
+}
+
+exports.updateUser = (req, res) => {
   console.log('req.params.id', req.params.id);
-  InvoiceModel.findByIdAndUpdate(req.params.id, req.body,{new: true}, (e,result) => {
-    if(e) {        
+  InvoiceModel.findByIdAndUpdate(req.params.id, req.body, { new: true }, (e, result) => {
+    if (e) {
       console.log(e.message);
-        return res.status(500).json(e);
+      return res.status(500).json(e);
     } else {
-        return res.json(result);
+      return res.json(result);
     }
-      });
+  });
 }
 
 
-exports.userStatusUpdate =  (req, res)=> {
-  InvoiceModel.save({},(e,result) => {
-    if(e) {        
+exports.userStatusUpdate = (req, res) => {
+  InvoiceModel.save({}, (e, result) => {
+    if (e) {
       console.log(e.message);
-        return res.status(500).json(e);
+      return res.status(500).json(e);
     } else {
-        return res.json(result);
+      return res.json(result);
     }
-})
+  })
 }
 
 
@@ -64,93 +82,93 @@ exports.userStatusUpdate =  (req, res)=> {
 /**
  * get users list
  */
-exports.getTotalSales =  (req, res)=> {
-  console.log('getTotalSales',req.params.id)
-    InvoiceModel.aggregate([
-      {
-        $match: { company_details_id: ObjectID(req.params.id) } 
-      },
-      // first Stage
+exports.getTotalSales = (req, res) => {
+  console.log('getTotalSales', req.params.id)
+  InvoiceModel.aggregate([
+    {
+      $match: { company_details_id: ObjectID(req.params.id) }
+    },
+    // first Stage
     {
       $group: {
-        _id : "$company_details_id",
+        _id: "$company_details_id",
         // _id : null,
         grand_total: { $sum: "$grand_total" },
         avg_sales: { $avg: "$grand_total" },
         count: { $sum: 1 } // for no. of documents count
       }
     }
-  ],(e,result) => {
-      if(e) {        
-        console.log(e.message);
-          return res.status(500).json(e);
-      } else {
-        console.log('getTotalSales',result)
-          return res.json(result);
-      }
-  })
-  }
-
-  
-/**
- * get users list
- */
-exports.getTotalPurchase =  (req, res)=> {
-  console.log('getTotalPurchase',req.params.id)
-    InvoicePurchaseModel.aggregate([
-      {
-        $match: { company_details_id: ObjectID(req.params.id) } 
-      },
-      // first Stage
-    {
-      $group: {
-        _id : "$company_details_id",
-        // _id : null,
-        grand_total: { $sum: "$grand_total" },
-        avg_sales: { $avg: "$grand_total" },
-        count: { $sum: 1 } // for no. of documents count
-      }
-    }
-  ],(e,result) => {
-      if(e) {        
-        console.log(e.message);
-          return res.status(500).json(e);
-      } else {
-        console.log('getTotalSales',result)
-          return res.json(result);
-      }
-  })
-  }
-  
-
-  
-/**
- * get users list
- */
-exports.getAllUsersByCompanySupplierCollection =  (req, res)=> {
-  InvoiceModel.find({company_details_id : req.params.id},(e,result) => {
-    if(e) {        
+  ], (e, result) => {
+    if (e) {
       console.log(e.message);
-        return res.status(500).json(e);
+      return res.status(500).json(e);
     } else {
-        return res.json(result);
+      console.log('getTotalSales', result)
+      return res.json(result);
     }
-}).populate('company_details_id').populate('customer_details_id').sort( { updatedAt: -1 } )
+  })
 }
 
 
 /**
  * get users list
  */
-exports.getAllUsersByCompanyCustomerCollection =  (req, res)=> {
-  InvoicePurchaseModel.find({company_details_id : req.params.id},(e,result) => {
-    if(e) {        
-      console.log(e.message);
-        return res.status(500).json(e);
-    } else {
-        return res.json(result);
+exports.getTotalPurchase = (req, res) => {
+  console.log('getTotalPurchase', req.params.id)
+  InvoicePurchaseModel.aggregate([
+    {
+      $match: { company_details_id: ObjectID(req.params.id) }
+    },
+    // first Stage
+    {
+      $group: {
+        _id: "$company_details_id",
+        // _id : null,
+        grand_total: { $sum: "$grand_total" },
+        avg_sales: { $avg: "$grand_total" },
+        count: { $sum: 1 } // for no. of documents count
+      }
     }
-}).populate('company_details_id').populate('supplier_details_id').sort( { updatedAt: -1 } )
+  ], (e, result) => {
+    if (e) {
+      console.log(e.message);
+      return res.status(500).json(e);
+    } else {
+      console.log('getTotalSales', result)
+      return res.json(result);
+    }
+  })
+}
+
+
+
+/**
+ * get users list
+ */
+exports.getAllUsersByCompanySupplierCollection = (req, res) => {
+  InvoiceModel.find({ company_details_id: req.params.id }, (e, result) => {
+    if (e) {
+      console.log(e.message);
+      return res.status(500).json(e);
+    } else {
+      return res.json(result);
+    }
+  }).populate('company_details_id').populate('customer_details_id').sort({ updatedAt: -1 })
+}
+
+
+/**
+ * get users list
+ */
+exports.getAllUsersByCompanyCustomerCollection = (req, res) => {
+  InvoicePurchaseModel.find({ company_details_id: req.params.id }, (e, result) => {
+    if (e) {
+      console.log(e.message);
+      return res.status(500).json(e);
+    } else {
+      return res.json(result);
+    }
+  }).populate('company_details_id').populate('supplier_details_id').sort({ updatedAt: -1 })
 }
 
 

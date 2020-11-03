@@ -75,7 +75,7 @@
                             <span class="label label-warning"
                                 *ngIf="rowData?.total_paid_amt == 0 && rowData?.total_pending_amt > 0">Pending</span>
                             <span class="label label-success"
-                                *ngIf="rowData?.total_paid_amt == rowData?.total_purchase_amt">Paid</span>
+                                *ngIf="rowData?.total_paid_amt >= rowData?.total_purchase_amt">Paid</span>
                             <span class="label label-info"
                                 *ngIf="rowData?.total_paid_amt > 0 && (rowData?.total_pending_amt > 0 && (rowData?.total_pending_amt != rowData?.total_purchase_amt))">Under
                                 Collection</span>
@@ -170,7 +170,7 @@
                             <span class="label label-warning"
                                 *ngIf="rowData?.total_paid_amt == 0 && rowData?.total_pending_amt > 0">Not Paind</span>
                             <span class="label label-success"
-                                *ngIf="rowData?.total_paid_amt == rowData?.total_purchase_amt">Paid</span>
+                                *ngIf="rowData?.total_paid_amt >= rowData?.total_purchase_amt">Paid</span>
                             <span class="label label-info"
                                 *ngIf="rowData?.total_paid_amt > 0 && (rowData?.total_pending_amt != rowData?.total_purchase_amt)">Pending</span>
                         </td>
@@ -293,43 +293,63 @@
     <!-- <pre>{{ showData | json }}</pre> -->
     <div class="row">
 
-        <div class="col-xs-12">
-            <table>
-                <tr>
-                    <th>Customer Name</th>
-                    <td>{{showData?.customer_name}}</td>
-                </tr>
-                <tr>
-                    <th>Customer Address</th>
-                    <td>{{showData?.customer_address}}</td>
-                </tr>
-                <tr>
-                    <th>Total Purchase Amt</th>
-                    <td>{{showData?.total_purchase_amt | currency : 'INR':true}}</td>
-                </tr>
-
-                <tr>
-                    <th>Total Paid Amt</th>
-                    <td>{{showData?.total_paid_amt | currency : 'INR':true}}</td>
-                </tr>
-                <tr>
-                    <th>Total Pending Amt</th>
-                    <td>{{showData?.total_pending_amt | currency : 'INR':true}}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td style="text-align: center">
-                        <span class="label label-warning"
+        <div class="ui-g-12">
+            <div class="ui-g-6">
+                <div class="ui-g-12  ui-md-6">
+                    <p style="padding: 0;"> Customer Name: </p>
+                </div>
+                <div class="ui-g-12  ui-md-6" >
+                    <b>{{showData?.customer_name}}</b>
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <div class="ui-g-12  ui-md-6">
+                    <p style="padding: 0;"> Customer Address: </p>
+                </div>
+                <div class="ui-g-12  ui-md-6" >
+                    <b>{{showData?.customer_address}}</b>
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <div class="ui-g-12  ui-md-6">
+                    <p style="padding: 0;">Total Purchase Amt: </p>
+                </div>
+                <div class="ui-g-12  ui-md-6" >
+                    <b>{{showData?.total_purchase_amt | currency : 'INR':true}}</b>
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <div class="ui-g-12  ui-md-6">
+                    <p style="padding: 0;">Total Paid Amt: </p>
+                </div>
+                <div class="ui-g-12  ui-md-6" >
+                    <b>{{showData?.total_paid_amt | currency : 'INR':true}}</b>
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <div class="ui-g-12  ui-md-6">
+                    <p style="padding: 0;">Total Pending Amt: </p>
+                </div>
+                <div class="ui-g-12  ui-md-6" >
+                    <b>{{showData?.total_pending_amt | currency : 'INR':true}}</b>
+                </div>
+            </div>
+            <div class="ui-g-6">
+                <div class="ui-g-12  ui-md-6">
+                    <p style="padding: 0;">Status: </p>
+                </div>
+                <div class="ui-g-12  ui-md-6" >
+                    <span class="label label-warning"
                             *ngIf="showData?.total_paid_amt == 0 && showData?.total_pending_amt > 0">Pending</span>
                         <span class="label label-success"
-                            *ngIf="showData?.total_paid_amt == showData?.total_purchase_amt">Paid</span>
+                            *ngIf="showData?.total_paid_amt >= showData?.total_purchase_amt">Paid</span>
                         <span class="label label-info"
                             *ngIf="showData?.total_paid_amt > 0 && (showData?.total_pending_amt > 0 && (showData?.total_pending_amt != showData?.total_purchase_amt))">Under
                             Collection</span>
-                    </td>
-                </tr>
-            </table>
+                </div>
+            </div>
         </div>
+     
         <div class="col-xs-12">
             <p-table #dt [loading]="loading1" [value]="collectionList" [columns]="ccols" dataKey="_id"
                 [paginator]="true" [rowsPerPageOptions]="[10,50,100]" [globalFilterFields]="['_id','collection_date']"
@@ -392,7 +412,7 @@
 
                 <ng-template pTemplate="paginatorleft" let-state>
                     Showing {{(state.page  * state.rows) + 1}} to {{state.rows * (state.page + 1)}} of
-                    <strong>{{customerList?.length}}</strong> entries
+                    <strong>{{collectionList?.length}}</strong> entries
                 </ng-template>
 
 

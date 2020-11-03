@@ -8,18 +8,26 @@ import { SessionService } from './session.service';
 })
 export class SalesService {
 
-  constructor(private httpClient:HttpClient, private sessionService : SessionService) { }
+  constructor(private httpClient: HttpClient, private sessionService: SessionService) { }
 
-  getLastInvoice(){
-    return this.httpClient.get(environment.api_url + '/api/sales/last-invoice/'+ this.sessionService.getItem('company_id'));
+  getLastInvoice() {
+    return this.httpClient.get(environment.api_url + '/api/sales/last-invoice/' + this.sessionService.getItem('company_id'));
   }
 
 
-  addSales(data){
+  addSales(data) {
     var body = JSON.stringify(data);
-    console.log('body',body);
-    var headerOption = new HttpHeaders({'Content-Type':'application/json'});
-    return this.httpClient.post(environment.api_url + '/api/sales',body,{headers:headerOption});
+    console.log('body', body);
+    var headerOption = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post(environment.api_url + '/api/sales', body, { headers: headerOption });
+  }
+
+
+  updateSales(data) {
+    var body = JSON.stringify(data);
+    console.log('body', body);
+    var headerOption = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.put(environment.api_url + '/api/sales/' + data._id, body, { headers: headerOption });
   }
 
 }

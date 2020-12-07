@@ -22,6 +22,7 @@ import { StockFormModule } from '../../shared/stock-form/stock-form.module';
 import { CategoryFormModule } from '../../shared/category-form/category-form.module';
 import { UnitFormModule } from '../../shared/unit-form/unit-form.module';
 import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
+import { BrandFormModule } from '../../shared/brand-form/brand-form.module';
 
 @NgModule({
   declarations: [StockMasterComponent],
@@ -47,7 +48,8 @@ import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
     StockFormModule,
     CategoryFormModule,
     UnitFormModule,
-    TaxFormModule
+    TaxFormModule,
+    BrandFormModule
   ]
 })
 export class StockMasterModule { }

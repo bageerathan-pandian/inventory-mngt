@@ -174,6 +174,12 @@ exports.updateUser = (req, res) => {
   InvoiceModel.findByIdAndUpdate(req.params.id, invoiceData, (err, result) => {
     if (err) return res.status(500).json(err);
     console.log('invoice result', result)
+    // Delete/new Add and update sales stock endry
+    // SalesModel.find({invoice_details_id :req.params.id}, (err, resultfindSales) => {
+    //   if (err) return res.status(500).json(err);
+    //   console.log('resultfindSales',resultfindSales);
+
+    // })
     for (let invoiceArry of req.body.invoiceList) {
       let salesData = {
         company_details_id: req.body.company_details_id,

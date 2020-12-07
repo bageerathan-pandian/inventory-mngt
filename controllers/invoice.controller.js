@@ -26,7 +26,7 @@ exports.getAllUsersByCompanySales = (req, res) => {
  */
 exports.getAllUsersByCompanySalesById = (req, res) => {
   console.log(req.params.id )
-  InvoiceModel.find({ _id: req.params.id }, (e, result) => {
+  InvoiceModel.find({ invoice_code: req.params.id }, (e, result) => {
     if (e) {
       console.log(e.message);
       return res.status(500).json(e);

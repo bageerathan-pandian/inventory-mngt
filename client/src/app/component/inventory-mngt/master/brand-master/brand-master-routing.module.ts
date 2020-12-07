@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SalesComponent } from './sales.component';
+import { BrandMasterComponent } from './brand-master.component';
+
 
 const routes: Routes = [
-  {path:'',component:SalesComponent},
-  {path:':invoice_code',component:SalesComponent}
+  {path:'',component:BrandMasterComponent}
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SalesRoutingModule { }
+export class BrandMasterRoutingModule { }

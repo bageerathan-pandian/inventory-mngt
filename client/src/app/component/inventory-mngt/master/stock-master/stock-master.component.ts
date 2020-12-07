@@ -28,6 +28,7 @@ export class StockMasterComponent implements OnInit {
   displayDialog1: boolean;
   displayDialog2: boolean;
   displayDialog3: boolean;
+  displayDialog4: boolean;
   categoryForm: FormGroup
   unitForm:FormGroup
   car: any = {};
@@ -43,6 +44,7 @@ export class StockMasterComponent implements OnInit {
   catData: any = [] // pass data to another component
   taxData: any = [] // pass data to another component
   unitData: any = [] // pass data to another component
+  brandData: any = [] // pass data to another component
 
   constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private stockService:StockService,private categoryService:CategoryService,private unitService: UnitService, private commonService: CommonService,
     public sessionService: SessionService
@@ -89,6 +91,7 @@ export class StockMasterComponent implements OnInit {
       { field: '_id', header: 'Barcode' },
       { field: 'stock_name', header: 'Stock Name' },
       { field: 'category_details_id', header: 'Category' },
+      { field: 'brand_details_id', header: 'Brand' },
       { field: 'stock_qty', header: 'Stock Qty' },
       { field: 'buying_price', header: 'Buying Price' },
       { field: 'mrp', header: 'MRP' },
@@ -133,11 +136,18 @@ export class StockMasterComponent implements OnInit {
     console.log('receiveUnit',event) 
     this.unitData = event
   }
+  receiveBrand(event){
+    console.log('receiveBrand',event) 
+    this.brandData = event
+  }
 
   onDialogClose(event){
     console.log(event)       
     this.catData = []     // clear new cat data while open stock form
     this.unitData = []  // clear new unit data while open stock form
+    this.taxData = []  // clear new unit data while open stock form
+    this.brandData = []  // clear new unit data while open stock form
+    this.stockData = []
     this.displayDialog = false;
   }
 
@@ -160,6 +170,14 @@ export class StockMasterComponent implements OnInit {
     this.taxData = null
   }
 
+  
+  
+  onDialogClose4(event){
+    console.log(event) 
+    this.displayDialog4 = false;
+    this.brandData = null
+  }
+
   categoryDialog(event){
     console.log('categoryDialog',event)   
     this.displayDialog1 = event;
@@ -173,6 +191,11 @@ export class StockMasterComponent implements OnInit {
   unitDialog(event){
     console.log('unitDialog',event) 
     this.displayDialog2 = event;
+  }
+
+  brandDialog(event){
+    console.log('brandDialog',event) 
+    this.displayDialog4 = event;
   }
 
   getCategoryByCompany(){

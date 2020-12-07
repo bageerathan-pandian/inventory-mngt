@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Payment } from "src/app/model/payment.model";
-import {MenuItem} from 'primeng/api';
-import {ConfirmationService} from 'primeng/api';
-import {MessageService} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
@@ -22,43 +22,45 @@ import { PrintService } from 'src/app/shared/print.service';
   providers: [ConfirmationService]
 })
 export class PaymentComponent implements OnInit {
- 
+
 
   loading: boolean;
   public bradCrum: MenuItem[];
   displayDialog: boolean;
-  display:boolean
-  invoiceForm:FormGroup
+  display: boolean
+  invoiceForm: FormGroup
   car: any = {};
   cols: any[];
-  status:any = [];
+  status: any = [];
   invoiceList: Invoice[];
   purchaseInvoiceList: Invoice[];
-  data:any;
-  paymentStatus:any
-  paymentTypes:any
-  showData:any 
+  data: any;
+  paymentStatus: any
+  paymentTypes: any
+  showData: any
   invoiceData: any
 
-  constructor(private router:Router,private _fb: FormBuilder, private confirmationService: ConfirmationService,private messageService: MessageService,private invoiceService:InvoiceService,private commonService: CommonService,
+  constructor(private router: Router, private _fb: FormBuilder, private confirmationService: ConfirmationService, private messageService: MessageService, private invoiceService: InvoiceService, private commonService: CommonService,
     public sessionService: SessionService, private printService: PrintService
-    ) {
+  ) {
     this.bradCrum = [
-      {label:'',icon: 'pi pi-home',command: (event) => {
-        this.router.navigate(['/inventory-mngt/dashboard'])}
+      {
+        label: '', icon: 'pi pi-home', command: (event) => {
+          this.router.navigate(['/inventory-mngt/dashboard'])
+        }
       },
-      {label:'Payment'},
-  ];
+      { label: 'Payment' },
+    ];
     this.invoiceForm = this._fb.group({
       _id: [''],
-      invoice_code: ['',Validators.required],
-      sub_total: ['',Validators.required],
-      discount: ['',Validators.required],
-      grand_total: ['',Validators.required],
-      payment_type: ['',Validators.required],
-      payment_status: [1,Validators.required]
+      invoice_code: ['', Validators.required],
+      sub_total: ['', Validators.required],
+      discount: ['', Validators.required],
+      grand_total: ['', Validators.required],
+      payment_type: ['', Validators.required],
+      payment_status: [1, Validators.required]
     })
-    
+
     this.cols = [
       // { field: '_id', header: '#' },
       { field: 'invoice_code', header: 'Code' },
@@ -72,20 +74,20 @@ export class PaymentComponent implements OnInit {
       // { field: 'updatedAt', header: 'Updated Date' },
       { field: 'payment_status', header: 'Status' },
       { field: 'tax_enable', header: 'Tax Enable' },
-  ];
+    ];
 
-  
-  this.paymentTypes = [
-    {label:'Cash', value:1},
-    {label:'Card', value:2},
-  ]
 
-  this.paymentStatus = [
-    {label:'Paid', value:1},
-    {label:'Pending', value:2},
-    {label:'Collection', value:3},
-  ]
-   
+    this.paymentTypes = [
+      { label: 'Cash', value: 1 },
+      { label: 'Card', value: 2 },
+    ]
+
+    this.paymentStatus = [
+      { label: 'Paid', value: 1 },
+      { label: 'Pending', value: 2 },
+      { label: 'Collection', value: 3 },
+    ]
+
   }
 
   ngOnInit() {
@@ -95,45 +97,45 @@ export class PaymentComponent implements OnInit {
   }
 
 
-    getInvoiceByCompany(){
-      this.loading = true
-      this.invoiceService.getInvoiceByCompany()
-      .subscribe((data:any)=>{
-        console.log('invoiceList',data);
+  getInvoiceByCompany() {
+    this.loading = true
+    this.invoiceService.getInvoiceByCompany()
+      .subscribe((data: any) => {
+        console.log('invoiceList', data);
         this.invoiceList = data;
         this.loading = false;
       })
-    }
+  }
 
-    
-    getPurchaseInvoiceByCompany(){
-      this.loading = true
-      this.invoiceService.getPurchaseInvoiceByCompany()
-      .subscribe((data:any)=>{
-        console.log('p-invoiceList',data);
+
+  getPurchaseInvoiceByCompany() {
+    this.loading = true
+    this.invoiceService.getPurchaseInvoiceByCompany()
+      .subscribe((data: any) => {
+        console.log('p-invoiceList', data);
         this.purchaseInvoiceList = data;
         this.loading = false;
       })
-    }
+  }
 
-  
+
   public checkValidity(): void {
     Object.keys(this.invoiceForm.controls).forEach((key) => {
-        this.invoiceForm.controls[key].markAsDirty();
+      this.invoiceForm.controls[key].markAsDirty();
     });
   }
 
   save() {
-    if(this.invoiceForm.invalid){
+    if (this.invoiceForm.invalid) {
       this.checkValidity()
       return false;
     }
-    console.log('data',this.invoiceForm.value);
-      this.onRowUpdate(this.invoiceForm.value);
+    console.log('data', this.invoiceForm.value);
+    this.onRowUpdate(this.invoiceForm.value);
   }
 
 
-  
+
   onRowEdit(invoice: Invoice) {
     console.log(invoice);
     // this.displayDialog = true;
@@ -152,48 +154,48 @@ export class PaymentComponent implements OnInit {
     console.log(invoice);
     this.displayDialog = false;
     this.invoiceService.updateInvoice(invoice)
-    .subscribe((data:any)=>{
-      console.log('update',data);
-      var sliceIndex = _.findIndex(this.invoiceList, function (o) { return o._id == invoice._id; });
-      console.log(sliceIndex);
-      if (sliceIndex > -1) {
-        // Replace item at index using native splice
-        this.invoiceList.splice(sliceIndex, 1, data);
-      }
-      this.invoiceList = [...this.invoiceList];
-      this.messageService.add({severity:'success', summary:'Invoice Updated Successfully', detail:'Invoice Updated Successfully'});
-  
-    },
-    error =>{
-      console.log(error);
-      this.messageService.add({severity:'error', summary:'Oopss!', detail:'Something went wrong!'});
+      .subscribe((data: any) => {
+        console.log('update', data);
+        var sliceIndex = _.findIndex(this.invoiceList, function (o) { return o._id == invoice._id; });
+        console.log(sliceIndex);
+        if (sliceIndex > -1) {
+          // Replace item at index using native splice
+          this.invoiceList.splice(sliceIndex, 1, data);
+        }
+        this.invoiceList = [...this.invoiceList];
+        this.messageService.add({ severity: 'success', summary: 'Invoice Updated Successfully', detail: 'Invoice Updated Successfully' });
 
-    })
+      },
+        error => {
+          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: 'Something went wrong!' });
+
+        })
 
   }
 
-  onChangeStatus(event){
+  onChangeStatus(event) {
     console.log(event);
     let isChecked = event.checked;
   }
-  
-  handleChange(event){
+
+  handleChange(event) {
     console.log(event);
-    if(event.index == 0){
+    if (event.index == 0) {
       this.getInvoiceByCompany()
-    }else{
+    } else {
       this.getPurchaseInvoiceByCompany()
     }
   }
 
-  viewData(data){
+  viewData(data) {
     this.showData = data
     this.display = true
   }
 
-  onPrintInvoice(data){
+  onPrintInvoice(data) {
     this.showData = data
- 
+
     // this.display = false
     // const invoiceIds = ['101', '102'];
     // this.printService.printDocument('invoice', invoiceIds);
@@ -220,6 +222,18 @@ export class PaymentComponent implements OnInit {
     }, 1000);
   }
 
+  onCancelInvoice(data) {
+
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this Invoice?',
+      accept: () => {
+        //Actual logic to perform a confirmation
+        // this.onRowDelete(data,index);
+      }
+    });
+  }
+
+  
 
 
 }

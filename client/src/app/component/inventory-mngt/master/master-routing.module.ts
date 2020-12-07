@@ -9,6 +9,7 @@ const routes: Routes = [
   {path: '', component: MasterComponent,},
   {path:'company',loadChildren:() => import('./company-master/company-master.module').then(m => m.CompanyMasterModule),canActivate:[AuthGuard]},
   {path:'category',loadChildren:() => import('./category-master/category-master.module').then(m => m.CategoryMasterModule),canActivate:[AuthGuard]},
+  {path:'brand',loadChildren:() => import('./brand-master/brand-master.module').then(m => m.BrandMasterModule),canActivate:[AuthGuard]},
   {path:'sub-category',loadChildren:() => import('./sub-category-master/sub-category-master.module').then(m => m.SubCategoryMasterModule),canActivate:[AuthGuard]},
   {path:'unit',loadChildren:() => import('./unit-master/unit-master.module').then(m => m.UnitMasterModule),canActivate:[AuthGuard]},
   {path:'stock',loadChildren:() => import('./stock-master/stock-master.module').then(m => m.StockMasterModule),canActivate:[AuthGuard]},

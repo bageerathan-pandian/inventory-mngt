@@ -1,1 +1,29 @@
 <p>purchase-return-report works!</p>
+
+<form [formGroup]="myForm" (ngSubmit)="add()">
+    <input type="text" pInputText formControlName="name">
+    <span *ngIf="!myForm.controls['name'].valid&&myForm.controls['name'].dirty">Name required</span>
+    <input type="text" pInputText formControlName="age">
+    <span *ngIf="!myForm.controls['age'].valid&&myForm.controls['age'].dirty">age required</span>
+
+    <div *ngFor="let data of hopiesList">
+        <input type="checkbox" (change)="onChange(data, $event.target.checked)"> {{data.name}}<br>
+    </div>
+    <span *ngIf="!myForm.controls['hoppies'].valid&&myForm.controls['hoppies'].dirty">hoppies required</span>
+
+    <div *ngFor="let item of colorsArrayList.controls; let i=index" formArrayName="colors">
+        <div [formGroupName]="i">
+            <input type="text" pInputText formControlName="colorName" placeholder="enter name">
+            <span *ngIf="!item.controls['colorName'].valid&&item.controls['colorName'].dirty">name required</span>
+
+            <a *ngIf="i==0" (click)="addArray()" title="add">
+                <i class="fa fa-plus"></i>
+            </a>
+            <a *ngIf="i!==0" (click)="removeArray(i)" title="Delete"><i class="fa fa-trash"></i>
+            </a>
+        </div>
+
+
+    </div>
+    <input type="submit" value="add">
+</form>

@@ -87,14 +87,15 @@
 
                         </td>
                         <td style="text-align:center">
-                            <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" routerLink="/inventory-mngt/sales/sales/{{rowData._id}}" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button> 
+                            <button  pButton type="button"  icon="pi pi-pencil" class="ui-button-secondary" routerLink="/inventory-mngt/sales/sales/{{rowData.invoice_code}}" pTooltip="Edit Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button> 
                             <button pButton type="button" icon="pi pi-eye" class="ui-button-info"
                                 (click)="viewData(rowData)" pTooltip="View Invoice" tooltipPosition="top"
                                 style="    margin: 0px 5px;"></button>
-                            <!-- <button  pButton type="button"  icon="pi pi-download" class="ui-button-success" (click)="display = true" pTooltip="Downwload Invoice" tooltipPosition="top"style="margin-right: .5em"></button> -->
                             <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="onPrintInvoice(rowData)"
                                 pTooltip="Print Invoice" tooltipPosition="top" style="    margin: 0px 5px;"></button>
-                        </td>
+                                <button  pButton type="button"  icon="pi pi-trash" class="ui-button-danger" (click)="onCancelInvoice(rowData)" pTooltip="Cancel Invoice" tooltipPosition="top"style="margin-right: .5em"></button>
+
+                            </td>
                     </tr>
                 </ng-template>
 
@@ -283,7 +284,7 @@
         </p-footer>
     </p-dialog>
 
-    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->
 
 </div>
 
@@ -292,8 +293,10 @@
     <!-- <pre>{{ showData | json }}</pre> -->
     <div class="row">
     <div class="col-xs-6">
-        <button pButton type="button" icon="pi pi-download" class="ui-button-info" (click)="display = true"
-            label="Downwload" style="margin-right: .5em;width: 45%;"></button>
+        <button  pButton type="button" style="margin-right: .5em;width: 30%;" icon="pi pi-pencil" class="ui-button-secondary" routerLink="/inventory-mngt/sales/sales/{{showData?.invoice_code}}" label="Edit" pTooltip="Edit" tooltipPosition="top" ></button> 
+
+        <button pButton type="button" icon="pi pi-trash" class="ui-button-danger" (click)="onCancelInvoice(showData)"
+            label="Cancel" style="margin-right: .5em;width: 30%;"></button>
             <button pButton type="button" icon="pi pi-print" class="ui-button-warning" (click)="onPrintInvoice(showData)"
             label="Print" style="    margin: 0px 5px;width: 30%;"></button>
     </div>
@@ -311,3 +314,10 @@
     <!-- <button  pButton type="button"  icon="pi pi-eye" class="ui-button-info" (click)="display = true" label="View"  style="    margin: 0px 5px;"></button> -->
 
 </p-sidebar>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" #cd>
+    <p-footer>
+            <button pButton type="button" label="Yes" class="ui-button-success" (click)="cd.accept()"></button>        
+            <button pButton type="button" label="No" class="ui-button-danger" (click)="cd.reject()"></button>
+        </p-footer>
+    </p-confirmDialog>

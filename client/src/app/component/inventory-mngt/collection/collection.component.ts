@@ -64,7 +64,7 @@ export class CollectionComponent implements OnInit {
       total_purchase_amt: [null, Validators.required],
       total_paid_amt: [null, Validators.required],
       collection_amt: [null, Validators.required],
-      collection_date: [null, Validators.required],
+      collection_date: [new Date(), Validators.required],
       total_pending_amt: [, Validators.required],
       status: [1, Validators.required]
     })
@@ -151,6 +151,7 @@ export class CollectionComponent implements OnInit {
         console.log('collectioList', data);
         this.collectionForm.reset();
         this.collectionForm.controls['collection_code'].setValue(this.commonService.incrCode('c', data.length));
+        this.collectionForm.controls['collection_date'].setValue(new Date());
         this.collectionForm.controls['status'].setValue(1);
         this.collectionForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
         this.loading = false;

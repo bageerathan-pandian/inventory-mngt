@@ -79,7 +79,8 @@ export class SalesComponent implements OnInit {
   customerData: any
   today: any = new Date()
   stocksListResult: any = []
-  salesId: string
+  invoice_code: string
+  loaidnSpinner: boolean = false
 
   constructor(private _fb: FormBuilder,
     private router: Router,
@@ -89,8 +90,8 @@ export class SalesComponent implements OnInit {
 
     this.activeRoute.params.subscribe(
       (params: Params) => {
-        console.log(params.id)
-        this.salesId = params.id
+        console.log(params.invoice_code)
+        this.invoice_code = params.invoice_code
       }
     );
 
@@ -101,7 +102,7 @@ export class SalesComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.salesId) {
+    if (this.invoice_code) {
       this.bradCrum = [
         {
           label: '', icon: 'pi pi-home', command: (event) => {
@@ -160,9 +161,7 @@ export class SalesComponent implements OnInit {
     this.getCustomerByCompany();
     this.getCategoryByCompany();
     this.getStockByCompany();
-    if (this.salesId) {
-      this.getInvoiceById()
-    } else {
+    if (!this.invoice_code) {
       this.getLastInvoiceByCompany();
     }
 
@@ -273,13 +272,15 @@ export class SalesComponent implements OnInit {
   }
 
   getInvoiceById() {
-    this.invoiceService.getInvoiceById(this.salesId)
+    this.loaidnSpinner = true;
+    this.invoiceService.getInvoiceById(this.invoice_code)
       .subscribe((data: any) => {
+        this.loaidnSpinner = false;
         console.log('getInvoiceById', data);
         this.bradCrum[3].label = data[0].invoice_code ? data[0].invoice_code : null;
         this.selectedCustData = _.find(this.customers, { '_id': data[0].customer_details_id })
         this.invoiceForm.patchValue({
-          _id: this.salesId,
+          _id: data[0]._id,
           invoice_code: data[0].invoice_code,
           invoice_date: new Date(data[0].invoice_date),
           customer_details_id: data[0].customer_details_id,
@@ -303,7 +304,7 @@ export class SalesComponent implements OnInit {
         control.removeAt(0);
         data[0].invoice_list.forEach(element => {
           // this.initRowFirst(element)
-          
+
           var foundIndex = this.stocks.findIndex(x => x._id == element.stock_details_id);
           this.stocks[foundIndex].stock_qty += element.qty;
           let selectedProdData = _.find(this.stocks, { '_id': element.stock_details_id })
@@ -359,7 +360,7 @@ export class SalesComponent implements OnInit {
   getStockByCompany() {
     this.stocks = [];
     this.stocksList = [];
-    if (this.salesId) {
+    if (this.invoice_code) {
       this.stockService.getStockByCompany()
         .subscribe((data: any) => {
           console.log('stocksList', data);
@@ -372,6 +373,9 @@ export class SalesComponent implements OnInit {
               value: stockData._id
             }
             this.stocksList.push(listStock);
+          }
+          if (this.invoice_code) {
+            this.getInvoiceById()
           }
         })
 
@@ -444,7 +448,7 @@ export class SalesComponent implements OnInit {
       })
   }
 
-  
+
   updateSales() {
     console.log('invoiceArray', this.invoiceForm.value);
     this.invoiceForm.get('customer_details_id').setValue(this.selectedCustData._id)
@@ -529,9 +533,9 @@ export class SalesComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: 'Please fill the mantatory field!' });
       return false;
     }
-    if(this.salesId){
+    if (this.invoice_code) {
       this.updateSales()
-    }else{
+    } else {
       this.addSales()
     }
   }

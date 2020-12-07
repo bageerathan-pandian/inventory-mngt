@@ -30,7 +30,9 @@
                                                         formControlName="customer_details_id" filter="true"
                                                         (onChange)="onSelectCust($event)"></p-dropdown>
                                                 <p class="warning-msg" style="position: absolute;">
-                                                        <em *ngIf="invoiceForm.value.customer_details_id && selectedCustData?.total_pending_amt">*Amt to be received :
+                                                        <em
+                                                                *ngIf="invoiceForm.value.customer_details_id && selectedCustData?.total_pending_amt">*Amt
+                                                                to be received :
                                                                 {{selectedCustData?.total_pending_amt | currency : 'INR':true}}
                                                         </em>
                                                 </p>
@@ -144,7 +146,8 @@
                                                                 </p-spinner>
                                                                 <!-- <input pInputText type="text" formControlName="qty"  pKeyFilter="int" [min]="1"  (keyup)="onChangeQty(i)"  required> -->
                                                                 <p class="error-msg" style="position: absolute;">
-                                                                        <em *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">
+                                                                        <em
+                                                                                *ngIf="invoiceForm.value.invoiceList[i].qty && (invoiceForm.value.invoiceList[i].total_qty < invoiceForm.value.invoiceList[i].qty)">
                                                                                 *Ther
                                                                                 are
                                                                                 {{invoiceForm.value.invoiceList[i].total_qty}}
@@ -318,8 +321,9 @@
                                                 class="ui-button-secondary" (click)="onReset()"></button>
                                 </div>
                                 <div class="ui-g-2">
-                                        <button pButton type="button" (click)="saveOrder()" label="{{salesId ? 'Update' : 'Save'}} & Print Bill"
-                                                icon="pi pi-save" class="ui-button-success"></button>
+                                        <button pButton type="button" (click)="saveOrder()"
+                                                label="{{salesId ? 'Update' : 'Save'}} & Print Bill" icon="pi pi-save"
+                                                class="ui-button-success"></button>
                                 </div>
                                 <!-- <div class="ui-g-2">
                                 <button pButton type="button" (click)="scanBarcode()" label="Scan" icon="pi pi-search" class="ui-button-success"></button>
@@ -366,3 +370,16 @@
 
         <!-- <app-invoice-design-pos></app-invoice-design-pos> -->
 </div>
+
+<p-dialog [showHeader]="false" [(visible)]="loaidnSpinner" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" 
+[maximizable]="true" [baseZIndex]="10000">
+
+
+        <div style="text-align: center;padding: 16px;">
+                <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="3" animationDuration=".5s">
+                </p-progressSpinner>
+                <h5>Please wait...</h5>
+                <p> Getting data processing...</p>
+
+        </div>
+</p-dialog>

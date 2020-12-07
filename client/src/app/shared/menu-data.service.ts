@@ -27,6 +27,7 @@ export class MenuDataService {
             { Label: 'Company', RouterLink: '/inventory-mngt/master/company', Childs: null, IsChildVisible: false },
             { Label: 'Unit', RouterLink: '/inventory-mngt/master/unit', Childs: null, IsChildVisible: false },
             { Label: 'Category', RouterLink: '/inventory-mngt/master/category', Childs: null, IsChildVisible: false },
+            { Label: 'Brand', RouterLink: '/inventory-mngt/master/brand', Childs: null, IsChildVisible: false },
             { Label: 'Tax', RouterLink: '/inventory-mngt/master/tax', Childs: null, IsChildVisible: false },
             { Label: 'Route', RouterLink: '/inventory-mngt/master/route', Childs: null, IsChildVisible: false },
             { Label: 'Customer', RouterLink: '/inventory-mngt/master/customer', Childs: null, IsChildVisible: false },
@@ -97,6 +98,7 @@ export class MenuDataService {
           Label: 'Master', Icon: 'fa-key', RouterLink: null, Childs: [
             { Label: 'Unit', RouterLink: '/inventory-mngt/master/unit', Childs: null, IsChildVisible: false },
             { Label: 'Category', RouterLink: '/inventory-mngt/master/category', Childs: null, IsChildVisible: false },
+            { Label: 'Brand', RouterLink: '/inventory-mngt/master/brand', Childs: null, IsChildVisible: false },
             { Label: 'Tax', RouterLink: '/inventory-mngt/master/tax', Childs: null, IsChildVisible: false },
             { Label: 'Route', RouterLink: '/inventory-mngt/master/route', Childs: null, IsChildVisible: false },
             { Label: 'Customer', RouterLink: '/inventory-mngt/master/customer', Childs: null, IsChildVisible: false },

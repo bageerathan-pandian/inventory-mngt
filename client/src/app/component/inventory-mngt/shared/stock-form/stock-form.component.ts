@@ -9,6 +9,8 @@ import { MessageService } from 'primeng/api';
 
 import * as _ from 'lodash';
 import { TaxService } from 'src/app/shared/tax.service';
+import { SuppierService } from 'src/app/shared/suppier.service';
+import { BrandService } from 'src/app/shared/brand.service';
 
 @Component({
   selector: 'app-stock-form',
@@ -19,6 +21,7 @@ export class StockFormComponent implements OnInit {
 
   @Input() stockData: any;
   @Input() catData: any;
+  @Input() brandData: any;
   @Input() taxData: any;
   @Input() unitData: any;
   @Input() formType: string
@@ -30,6 +33,7 @@ export class StockFormComponent implements OnInit {
   @Output() categoryDialogEvent = new EventEmitter();
   @Output() taxDialogEvent = new EventEmitter();
   @Output() unitDialogEvent = new EventEmitter();
+  @Output() brandDialogEvent = new EventEmitter();
 
   stockForm: FormGroup;
   categoryForm: FormGroup
@@ -42,8 +46,9 @@ export class StockFormComponent implements OnInit {
   taxList: any = [];
   stockListSheet: any = []
   unitList: any = []
+  brandList: any = []
   constructor(private _fb: FormBuilder, private stockService: StockService, private categoryService: CategoryService, private taxService: TaxService, private unitService: UnitService, private commonService: CommonService,
-    public sessionService: SessionService, private messageService: MessageService
+    public sessionService: SessionService, private messageService: MessageService, private brandService: BrandService
   ) {
 
 
@@ -51,6 +56,7 @@ export class StockFormComponent implements OnInit {
     this.getCategoryByCompany();
     this.getTaxByCompany();
     this.getUnitByCompany();
+    this.getBrandByCompany();
 
     this.status = [
       { label: 'Active', value: 1 },
@@ -64,6 +70,7 @@ export class StockFormComponent implements OnInit {
       stock_code: ['', Validators.required],
       stock_name: ['', Validators.required],
       category_details_id: ['', Validators.required],
+      brand_details_id: ['', Validators.required],
       tax_details_id: ['', Validators.required],
       stock_qty: ['', Validators.required],
       buying_price: ['', Validators.required],
@@ -74,9 +81,6 @@ export class StockFormComponent implements OnInit {
       unit_details_id: ['', Validators.required],
       status: [1, Validators.required]
     })
-
-
-
   }
 
   ngOnInit() { }
@@ -90,6 +94,14 @@ export class StockFormComponent implements OnInit {
       this.getCategoryByCompany()
       setTimeout(() => {
         this.stockForm.controls['category_details_id'].setValue(this.catData.value ? this.catData.value : null);
+      }, 1000);
+    }
+    console.log('isObjectbrandData', _.isPlainObject(this.brandData))
+    if (_.isPlainObject(this.brandData)) {
+      console.log('brandData', this.brandData);
+      this.getBrandByCompany()
+      setTimeout(() => {
+        this.stockForm.controls['brand_details_id'].setValue(this.brandData.value ? this.brandData.value : null);
       }, 1000);
     }
     console.log('isObjectcatData', _.isPlainObject(this.taxData))
@@ -115,6 +127,7 @@ export class StockFormComponent implements OnInit {
       this.stockForm.controls['stock_code'].setValue(this.stockData.stock_code ? this.stockData.stock_code : '');
       this.stockForm.controls['stock_name'].setValue(this.stockData.stock_name ? this.stockData.stock_name : '');
       this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id ? this.stockData.category_details_id._id : null);
+      this.stockForm.controls['brand_details_id'].setValue(this.stockData.brand_details_id ? this.stockData.brand_details_id._id : null);
       this.stockForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
       this.stockForm.controls['stock_qty'].setValue(this.stockData.stock_qty ? this.stockData.stock_qty : '');
       this.stockForm.controls['buying_price'].setValue(this.stockData.buying_price ? this.stockData.buying_price : '');
@@ -168,6 +181,25 @@ export class StockFormComponent implements OnInit {
       })
   }
 
+  getBrandByCompany() {
+    this.brandList = []
+    this.brandService.getBrandByCompany()
+      .subscribe((data: any) => {
+        console.log('brandList', data);
+        this.brandList.push({ label: '+ Add New Brand', value: 0 });
+        for (let brnadData of data) {
+          this.brandList.push({
+            label: brnadData.brand_name + ' | ' + brnadData.brand_code,
+            value: brnadData._id
+          })
+        }
+        console.log('brandList', this.brandList);
+        // if(_.some(this.catData, _.isObject)){ 
+        //   this.stockForm.controls['category_details_id'].setValue(this.stockData.category_details_id  ? this.stockData.category_details_id._id : null);
+        // }
+      })
+  }
+
   getTaxByCompany() {
     this.taxList = []
     this.taxService.getTaxByCompany()
@@ -212,6 +244,16 @@ export class StockFormComponent implements OnInit {
       // this.showDialogToAddCat()
       this.categoryDialogEvent.emit(true)
       this.stockForm.controls['category_details_id'].reset();
+      return false
+    }
+  }
+
+  onSelectBrand(event) {
+    console.log(event.value);
+    if (event.value == 0) {
+      // this.showDialogToAddCat()
+      this.brandDialogEvent.emit(true)
+      this.stockForm.controls['brand_details_id'].reset();
       return false
     }
   }

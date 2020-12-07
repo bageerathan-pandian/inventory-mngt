@@ -1,5 +1,5 @@
 <p-dialog [(visible)]="displayDialog" [maximizable]="true" (onHide)="onClose()" [responsive]="true" showEffect="fade"
-    [resizable]="false" [modal]="true" [style]="{width: '600px'}">
+    [resizable]="false" [modal]="true" [style]="{width: '700px'}">
     <p-header>
         <span *ngIf="stockForm.value._id">Update</span>
         <span *ngIf="!stockForm.value._id">Add</span> Stock
@@ -22,6 +22,17 @@
                         </div>
                         <div class="ui-g-8">
                             <input type="text" pInputText formControlName="stock_name" autofocus />
+                        </div>
+                    </div>
+                    
+                    <div class="ui-g-12">
+                        <div class="ui-g-4">
+                            <label for="vin">Brand Name</label>
+                        </div>
+                        <div class="ui-g-8">
+                            <p-dropdown [options]="brandList" placeholder="Select Company" filter="true"
+                                formControlName="brand_details_id" [showClear]="true" (onChange)="onSelectBrand($event)">
+                            </p-dropdown>
                         </div>
                     </div>
                     <div class="ui-g-12">
@@ -56,6 +67,15 @@
                             </p-dropdown>
                         </div>
                     </div>
+                    <!-- <div class="ui-g-12">
+                        <div class="ui-g-12">
+                            <p-checkbox label="Buying Price (With Tax)" binary="true" formControlName="buying_with_tax"></p-checkbox>
+                        </div>
+                    </div> -->
+
+                </div>
+                <div class="ui-g-6">
+                    
                     <div class="ui-g-12">
                         <div class="ui-g-4">
                             <label for="year">Buying Price</label>
@@ -67,15 +87,6 @@
 
                         </div>
                     </div>
-                    <!-- <div class="ui-g-12">
-                        <div class="ui-g-12">
-                            <p-checkbox label="Buying Price (With Tax)" binary="true" formControlName="buying_with_tax"></p-checkbox>
-                        </div>
-                    </div> -->
-
-                </div>
-                <div class="ui-g-6">
-                    
                     <div class="ui-g-12">
                         <div class="ui-g-4">
                             <label for="year">MRP</label>
@@ -113,7 +124,7 @@
                         </div>
                         <div class="ui-g-8">
                             <!-- <input type="text" pInputText [(ngModel)]="car.product_details" /> -->
-                            <textarea [rows]="5" [cols]="30" pInputTextarea autoResize="false"
+                            <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="false"
                                 formControlName="product_details"></textarea>
                         </div>
                     </div>

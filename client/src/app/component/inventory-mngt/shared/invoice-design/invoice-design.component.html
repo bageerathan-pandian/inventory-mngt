@@ -10,12 +10,12 @@
     <tr style="width: 100%;">
       <td>
         <table>
-          <td style="padding-left: 5px;color: #555;  ;padding-top: 20px;
+          <td style="padding-left: 5px;color: #000;  ;padding-top: 20px;
            padding-left: 20px;padding-bottom: 20px;">
             <!-- <img src="./assets/img/logo.png" *ngIf="!company_image" style="width: 35%;">
             <img [src]="company_image" *ngIf="company_image" style="width: 35%;"> -->
           </td>
-          <td style="padding-left: 5px;color: #555;  font-weight: bold;font-size: 40px;color: #1a44c7;
+          <td style="padding-left: 5px;color: #000;  font-weight: bold;font-size: 40px;color: #1a44c7;
                    padding-top: 20px;
            padding-right: 20px;padding-bottom: 20px;">
             INVOICE</td>
@@ -25,7 +25,7 @@
     <tr style="width: 100%;">
       <td>
         <table style="width: 100%;">
-          <td style="width:50%;padding-left: 5px;color: #555;  color: #555;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+          <td style="width:50%;padding-left: 5px;color: #000;  color: #000;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
            line-height: 20px;">
             <span
               style="font-size: 19px;color: #000;font-weight: bold;letter-spacing: 1px;/* padding-bottom: 20px; */margin-bottom: 14px;line-height: 35px;">
@@ -35,7 +35,7 @@
               {{sessionService.getItem('phone2')}}</span><br />
             <b>GSTIN : {{sessionService.getItem('gstin')}}</b>
             <!-- <br /> Soodamani nagar, <br />karaikudi - 630 003 -->
-          <td *ngIf="invoiceData?.customer_details_id" style="width:50%;text-align:right;padding-left: 5px;color: #555;  color: #555;color: #555;  color: #555;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+          <td *ngIf="invoiceData?.customer_details_id" style="width:50%;text-align:right;padding-left: 5px;color: #000;  color: #000;color: #000;  color: #000;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
            line-height: 20px;padding-right: 20px;;">
             <span
               style="font-size: 19px;color: #000;font-weight: bold;letter-spacing: 1px;/* padding-bottom: 20px; */margin-bottom: 14px;line-height: 35px;">
@@ -57,13 +57,13 @@
     <tr style="width: 100%;">
       <td>
     <tr style="width: 50%;float: left;">
-      <td style="font-size: 15px;padding-left: 20px;padding-bottom: 20px;">Invoice No : <span style="color: #555;">
+      <td style="font-size: 15px;padding-left: 20px;padding-bottom: 20px;">Invoice No : <span style="color: #000;">
           #{{invoiceData?.invoice_code}}</span>
       </td>
 
     </tr>
     <tr style="width: 50%;float: left;">
-      <td style="font-size: 15px;padding-left: 20px;padding-bottom: 20px;">Invoice Date : <span style="color: #555;">
+      <td style="font-size: 15px;padding-left: 20px;padding-bottom: 20px;">Invoice Date : <span style="color: #000;">
           {{invoiceData?.invoice_date | date:'mediumDate'}}</span>
       </td>
 
@@ -78,51 +78,51 @@
           <thead>
             <tr>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-left: 1px solid #222;border-top: 1px solid #222;border-bottom: 1px solid #222;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-left: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
                 S.No</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #222;border-bottom: 1px solid #222;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
                 Item Description</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #222;border-bottom: 1px solid #222;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
                 Price</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #222;border-bottom: 1px solid #222;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
                 MRP</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #222;border-bottom: 1px solid #222;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
                 Qty.</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #222;border-bottom: 1px solid #222;padding: 5px;"
+                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;"
                 *ngIf="invoiceData?.tax_enable">GST%
               </th>
               <th
-                style="text-align: right;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #222;border-bottom: 1px solid #222;border-right: 1px solid #222;padding: 5px;">
+                style="text-align: right;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000;padding: 5px;">
                 Amount</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of invoiceData?.invoice_list; let i=index">
               <td
-                style="padding-bottom: 15px;font-size: 14px;color: #333;border-left:1px solid #222;border-bottom:1px solid #222;padding: 5px;">
+                style="padding-bottom: 15px;font-size: 14px;color: #000;border-left:1px solid #000;border-bottom:1px solid #000;padding: 5px;">
                 {{i + 1}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;">
+              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
                 {{item.stock_name }}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;">
+              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
                 {{item.price | currency : 'INR':true}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;">
+              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
                 {{item.mrp | currency : 'INR':true}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;">
+              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
                 {{item.qty}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;"
+              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;"
                 *ngIf="invoiceData?.tax_enable">
                 {{item.gst_per}}%</td>
               <td
-                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;"
+                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;"
                 *ngIf="!invoiceData?.tax_enable">
                 {{item.total | currency : 'INR':true}}</td>
               <td
-                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #333;border-bottom:1px solid #222;padding: 5px;border-right: 1px solid #222;"
+                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;border-right: 1px solid #000;"
                 *ngIf="invoiceData?.tax_enable">
                 {{item.total_with_gst | currency : 'INR':true}}</td>
             </tr>
@@ -163,11 +163,11 @@
     <!-- <tr style="width: 100%;">
       <td>
         <table style="width: 100%;">
-          <td style="width:38%;padding-left: 5px;padding-right: 25%;color: #555;color: #555;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+          <td style="width:38%;padding-left: 5px;padding-right: 25%;color: #000;color: #000;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
            line-height: 20px;">
             <span style="font-size: 16px;color: #000;line-height: 35px;">
               Terms & Conditions</span> <br />
-            <span style="color: #555;
+            <span style="color: #000;
                        font-size: 13px;">
               All products returned for refund/replacement or extended on credit must be returned in “saleable” condition with original packing.
             </span>
@@ -179,7 +179,7 @@
                 style="width:20%;">
               </span> <br />
             <span style="font-weight: bold;">{{sessionService.getItem('owner_name') | titlecase}}</span> <br />
-            <span style="color: #555;
+            <span style="color: #000;
                       font-size: 13px;">Manager</span> <br />
           </td>
         </table>

@@ -179,7 +179,7 @@
 
                                                                 <p class="error-msg"
                                                                         style="position: absolute;    color: #222;">
-                                                                        <em>*{{invoiceForm.value.invoiceList[i].tax_name}}</em>
+                                                                        <em>*{{invoiceForm.value.invoiceList[i]?.tax_name}}</em>
                                                                 </p>
                                                         </td>
 
@@ -238,9 +238,9 @@
                         </div>
                         <div class="ui-g ui-fluid">
                                 <div class="ui-g-12 ui-md-6" style="text-align: center">
-                                        <h6>Grand Total <em *ngIf="invoiceForm.value.tax_enable">(with GST)</em></h6>
+                                        <h6>Grand Total <em *ngIf="invoiceForm.value?.tax_enable">(with GST)</em></h6>
                                         <h1 style="font-size: 50px;"
-                                                [ngStyle]="{'color': invoiceForm.value.tax_enable ? '#34a835' : '#ffba01'}">
+                                                [ngStyle]="{'color': invoiceForm.value?.tax_enable ? '#34a835' : '#ffba01'}">
                                                 {{ invoiceForm.value.grand_total | currency :'INR':true}}</h1>
                                 </div>
                                 <div class="ui-g-12 ui-md-6">

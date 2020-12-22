@@ -325,10 +325,10 @@ export class SalesComponent implements OnInit {
       .subscribe((data: any) => {
         console.log('getLastInvoice', data);
         // this.createSalesForm()
-        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data));
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('ARG', data));
       },
         error => {
-          this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', 0));
+          this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('ARG', 0));
         })
   }
 
@@ -414,7 +414,7 @@ export class SalesComponent implements OnInit {
         this.invoiceForm.reset();
         this.selectedCustData = []
         this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data.next_invoice));
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('ARG', data.next_invoice));
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
         this.invoiceForm.controls['invoiceList'].reset()
         const control = <FormArray>this.invoiceForm.controls['invoiceList'];
@@ -464,7 +464,7 @@ export class SalesComponent implements OnInit {
         this.invoiceForm.reset();
         this.selectedCustData = []
         this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
-        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('INV', data.next_invoice));
+        this.invoiceForm.controls['invoice_code'].setValue(this.commonService.incrCode('ARG', data.next_invoice));
         this.invoiceForm.controls['invoice_date'].setValue(new Date());
         this.invoiceForm.controls['invoiceList'].reset()
         const control = <FormArray>this.invoiceForm.controls['invoiceList'];
@@ -645,12 +645,12 @@ export class SalesComponent implements OnInit {
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].selling_price)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['mrp'].setValue(this.stocks[sliceIndex].mrp)
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id.tax_name)
-      let cgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) / 100);
+      this.invoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_name : '')
+      let cgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) / 100);
       this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
-      let sgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst) / 100);
+      let sgst_amt = Number(this.stocks[sliceIndex].selling_price) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst : 0) / 100);
       this.invoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
-      let gst_pet = Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) + Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst)
+      let gst_pet = Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) + Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst : 0)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['gst_per'].setValue(gst_pet)
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].selling_price)
       let total_amt_with_gst = ((1 * this.stocks[sliceIndex].selling_price) * gst_pet / 100) + this.stocks[sliceIndex].selling_price;
@@ -682,9 +682,9 @@ export class SalesComponent implements OnInit {
     if (stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty) {
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price)
 
-      let cgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_cgst) / 100);
+      let cgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id ? this.stocks[i].tax_details_id.tax_value_cgst : 0) / 100);
       this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
-      let sgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_sgst) / 100);
+      let sgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id ? this.stocks[i].tax_details_id.tax_value_sgst : 0) / 100);
       this.invoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
       let total_amt_with_gst = this.invoiceForm.get('invoiceList')['controls'][i].value.total * (this.invoiceForm.get('invoiceList')['controls'][i].value.gst_per / 100) + this.invoiceForm.get('invoiceList')['controls'][i].value.total;
       this.invoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)

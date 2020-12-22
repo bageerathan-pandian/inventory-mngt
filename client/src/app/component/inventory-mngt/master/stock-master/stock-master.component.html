@@ -87,7 +87,7 @@
                         {{rowData.selling_price  | currency : 'INR':true}}
                     </td>
                     <td>
-                        {{rowData.tax_details_id.tax_name}}
+                        {{rowData.tax_details_id?.tax_name}}
                     </td>
                     <td>
                         {{rowData.unit_details_id?.unit_name}}

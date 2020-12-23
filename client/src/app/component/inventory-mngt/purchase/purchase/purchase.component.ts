@@ -431,13 +431,13 @@ export class PurchaseComponent implements OnInit {
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_qty'].setValue(this.stocks[sliceIndex].stock_qty)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['price'].setValue(this.stocks[sliceIndex].buying_price)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['mrp'].setValue(this.stocks[sliceIndex].mrp)
-      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id.tax_name)
-      let cgst_amt = Number(this.stocks[sliceIndex].buying_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) / 100);
+      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['tax_name'].setValue(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_name : '')
+      let cgst_amt = Number(this.stocks[sliceIndex].buying_price) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) / 100);
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
-      let sgst_amt = Number(this.stocks[sliceIndex].buying_price) * (Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst) / 100);
+      let sgst_amt = Number(this.stocks[sliceIndex].buying_price) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst: 0) / 100);
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
-      let gst_pet = Number(this.stocks[sliceIndex].tax_details_id.tax_value_cgst) + Number(this.stocks[sliceIndex].tax_details_id.tax_value_sgst)
-      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['gst_per'].setValue(gst_pet)
+      let gst_pet = Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) + Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst : 0)
+      this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['gst_per'].setValue(gst_pet ? gst_pet : null)
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(1 * this.stocks[sliceIndex].buying_price)
       let total_amt_with_gst = ((1 * this.stocks[sliceIndex].buying_price) * gst_pet / 100) + this.stocks[sliceIndex].buying_price;
       this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
@@ -455,24 +455,26 @@ export class PurchaseComponent implements OnInit {
       return
     }
     console.log(i);
-    console.log(this.purchaseInvoiceForm.value.invoiceList[i].stock_details_id);
+    console.log(this.purchaseInvoiceForm.value.invoiceList[i].stock_details_id.value );
     console.log(this.stocks);
     console.log('qty', this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty);
-    let stockData = _.find(this.stocks, { '_id': this.purchaseInvoiceForm.value.invoiceList[i].stock_details_id })
+    let stockData = _.find(this.stocks, { '_id': this.purchaseInvoiceForm.value.invoiceList[i].stock_details_id.value  })
     // let stockDataAdded = _.find(this.purchaseInvoiceForm.value.invoiceList, { '_id': this.purchaseInvoiceForm.value.invoiceList[i].stock_details_id })
     console.log(this.stocks[i]);
     console.log('stockData', stockData);
     console.log(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value);
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.qty * this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.price)
-
-    let cgst_amt = Number(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_cgst) / 100);
+    var sliceIndex = _.findIndex(this.stocks, function (o) { return o._id == stockData._id; });
+    console.log(sliceIndex);
+    if (sliceIndex > -1) {
+    let cgst_amt = Number(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) / 100);
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
-    let sgst_amt = Number(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[i].tax_details_id.tax_value_sgst) / 100);
+    let sgst_amt = Number(this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst: 0) / 100);
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
     let total_amt_with_gst = this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.total * (this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.gst_per / 100) + this.purchaseInvoiceForm.get('invoiceList')['controls'][i].value.total;
     this.purchaseInvoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
     this.calculateTotal()
-
+    }
   }
 
   onChangeDiscount() {

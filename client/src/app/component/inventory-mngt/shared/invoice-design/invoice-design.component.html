@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+  <style>
+    /* @media print {
+      table.item-table {
+        border: 1px solid #000 !important;
+        background-color: #000 !important;
+      }
+    } */
+  </style>
+</head>
+
 <body>
 
   <table style=" font-family: sans-serif; 
@@ -74,92 +85,139 @@
 
     <tr>
       <td>
-        <table class="table table-bordered" style=" width: 100%;    background: #eeeeee5c;    padding: 20px;">
+        <table class="item-table table table-bordered"
+          style=" width: 100%;    background: #eeeeee5c;    padding: 20px;">
           <thead>
             <tr>
+              <td colspan="7"
+                style="border-bottom: 1px solid #000;"></td>
+            </tr>
+            <tr>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-left: 1px solid #000;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding: 5px;">
                 S.No</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding: 5px;">
                 Item Description</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding: 5px;">
                 Price</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding: 5px;">
                 MRP</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;">
+                style="text-align: left;font-size: 15px;padding: 5px;">
                 Qty.</th>
               <th
-                style="text-align: left;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 5px;"
+                style="text-align: left;font-size: 15px;padding: 5px;"
                 *ngIf="invoiceData?.tax_enable">GST%
               </th>
               <th
-                style="text-align: right;font-size: 15px;padding-bottom: 20px;border-top: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000;padding: 5px;">
+                style="text-align: right;font-size: 15px;padding: 5px;">
                 Amount</th>
+            </tr>
+            <tr>
+              <td colspan="7"
+                style="border-bottom: 1px solid #000;"></td>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of invoiceData?.invoice_list; let i=index">
               <td
-                style="padding-bottom: 15px;font-size: 14px;color: #000;border-left:1px solid #000;border-bottom:1px solid #000;padding: 5px;">
+                style="padding-bottom: 15px;font-size: 14px;color: #000;padding: 5px;">
                 {{i + 1}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
+              <td
+                style="padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;">
                 {{item.stock_name }}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
+              <td
+                style="padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;">
                 {{item.price | currency : 'INR':true}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
+              <td
+                style="padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;">
                 {{item.mrp | currency : 'INR':true}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;">
+              <td
+                style="padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;">
                 {{item.qty}}</td>
-              <td style="padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;"
+              <td
+                style="padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;"
                 *ngIf="invoiceData?.tax_enable">
                 {{item.gst_per}}%</td>
               <td
-                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;"
+                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;"
                 *ngIf="!invoiceData?.tax_enable">
                 {{item.total | currency : 'INR':true}}</td>
               <td
-                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;border-bottom:1px solid #000;padding: 5px;border-right: 1px solid #000;"
+                style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;"
                 *ngIf="invoiceData?.tax_enable">
                 {{item.total_with_gst | currency : 'INR':true}}</td>
             </tr>
 
+            <tr>
+              <td colspan="7"
+                style="border-bottom: 1px solid #000;"></td>
+            </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5" style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Sub Total</td>
-              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.sub_total | currency : 'INR':true}}</td>
+              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5"
+                style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Sub Total</td>
+              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.sub_total |
+                currency : 'INR':true}}</td>
             </tr>
             <tr>
-              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5" style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Discount</td>
-              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.discount | currency : 'INR':true}}</td>
+              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5"
+                style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Discount</td>
+              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.discount |
+                currency : 'INR':true}}</td>
             </tr>
             <tr>
-              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5" style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">CGST</td>
-              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.cgst | currency : 'INR':true}}</td>
+              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5"
+                style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">CGST</td>
+              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.cgst |
+                currency : 'INR':true}}</td>
             </tr>
             <tr>
-              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5" style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">SGST</td>
-              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.sgst | currency : 'INR':true}}</td>
+              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5"
+                style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">SGST</td>
+              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.sgst |
+                currency : 'INR':true}}</td>
             </tr>
             <tr>
-              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5" style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Round Off</td>
-              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.round_off | currency : 'INR':true}}</td>
+              <td [attr.colspan]="invoiceData?.tax_enable ? 6 : 5"
+                style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Round Off</td>
+              <td style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">{{invoiceData?.round_off |
+                currency : 'INR':true}}</td>
             </tr>
             <tr>
-              <th [attr.colspan]="invoiceData?.tax_enable ? 6 : 5" style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Total</th>
-              <th style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;" *ngIf="invoiceData?.tax_enable"> {{(((invoiceData?.sub_total + invoiceData?.cgst + invoiceData?.sgst) - (invoiceData?.discount) ) + invoiceData?.round_off)| currency : 'INR':true}}</th>
-              <th style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;" *ngIf="!invoiceData?.tax_enable"> {{((invoiceData?.sub_total - invoiceData?.discount)+invoiceData?.round_off) | currency : 'INR':true}}</th>
+              <th [attr.colspan]="invoiceData?.tax_enable ? 6 : 5"
+                style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;">Total</th>
+              <th style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;"
+                *ngIf="invoiceData?.tax_enable"> {{(((invoiceData?.sub_total + invoiceData?.cgst + invoiceData?.sgst) -
+                (invoiceData?.discount) ) + invoiceData?.round_off)| currency : 'INR':true}}</th>
+              <th style="font-size: 14px;color:#000;padding-bottom: 5px;text-align: right;"
+                *ngIf="!invoiceData?.tax_enable"> {{((invoiceData?.sub_total -
+                invoiceData?.discount)+invoiceData?.round_off) | currency : 'INR':true}}</th>
             </tr>
           </tfoot>
         </table>
       </td>
     </tr>
 
+    <tr style="width: 100%;position: absolute;bottom: 0;right: 0;left: 0;">
+      <td style="width: 100%; float: left;">
+        <table style="width: 100%;">
+          <td style="width:38%;padding-left: 5px;padding-right: 25%;color: #000;color: #000;  padding-left: 20px;padding-bottom: 20px;    font-size: 14px;
+           line-height: 20px;">
+            <span style="font-size: 16px;color: #000;line-height: 35px;">
+              Receiver's Signature</span> <br />
+          <td style="width:20%;text-align:center;  font-size: 14px;
+           line-height: 20px;padding-right: 20px;;">
+            <span>For {{sessionService.getItem('company_name')}}</span> <br />
 
+          </td>
+        </table>
+      </td>
+    </tr>
     <!-- <tr style="width: 100%;">
       <td>
         <table style="width: 100%;">

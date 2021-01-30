@@ -225,7 +225,7 @@
               <td style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;">
                 {{item.sgst_amt | currency : 'INR':true}}</td>
               <td style="text-align: right;padding-bottom: 20px;font-size: 14px;color: #000;padding: 5px;">
-                {{item.price | currency : 'INR':true}}</td>
+                {{item.total | currency : 'INR':true}}</td>
 
             </tr>
 
@@ -238,11 +238,11 @@
               <th></th>
               <th style="font-size: 14px;color:#000;padding-bottom: 5px;">Total
               </th>
-              <th style="font-size: 14px;color:#000;padding-bottom: 5px;">{{invoiceData?.sgst |
+              <th style="text-align: right;font-size: 14px;color:#000;padding-bottom: 5px;">{{invoiceData?.sgst |
                 currency : 'INR':true}}</th>
-              <th style="font-size: 14px;color:#000;padding-bottom: 5px;">{{invoiceData?.cgst |
+              <th style="text-align: right;font-size: 14px;color:#000;padding-bottom: 5px;">{{invoiceData?.cgst |
                 currency : 'INR':true}}</th>
-              <th style="font-size: 14px;color:#000;padding-bottom: 5px;">{{invoiceData?.sub_total |
+              <th style="text-align: right;font-size: 14px;color:#000;padding-bottom: 5px;">{{invoiceData?.sub_total |
                 currency : 'INR':true}}</th>
             </tr>
 

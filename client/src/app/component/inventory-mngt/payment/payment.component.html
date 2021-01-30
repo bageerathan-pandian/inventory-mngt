@@ -157,9 +157,9 @@
                         <td>
                             {{rowData.sub_total  | currency : 'INR':true}}
                         </td>
-                        <td>
+                        <!-- <td>
                             {{rowData.discount  | currency : 'INR':true}}
-                        </td>
+                        </td> -->
                         <td>
                             {{rowData.cgst  | currency : 'INR':true}}
                         </td>
@@ -174,9 +174,9 @@
                                 [(ngModel)]="rowData.payment_type" required></p-dropdown>
 
                         </td>
-                        <td>
+                        <!-- <td>
                             {{rowData.updatedAt | date:'medium'}}
-                        </td>
+                        </td> -->
                         <td>
                             <!-- <p-inputSwitch [(ngModel)]="rowData.payment_status" (onChange)="onChangeStatus($event)"></p-inputSwitch>  -->
                             <p-dropdown [options]="paymentStatus" placeholder="Select Status"

@@ -79,15 +79,16 @@ export class SalesReportComponent implements OnInit {
       this.loading = false;   for(let sheetData of data){
         this.reportListSheet.push({
           'Invoice Code' : sheetData.invoice_details_id.invoice_code,
-          'Invoice Date' : sheetData.invoice_details_id.invoice_date,
-          'Stock Name' : sheetData.stock_details_id.stock_name,
-          'Stock Qty' : sheetData.stock_qty,
-          'Stock Price' : sheetData.stock_price,
-          'Discount' : sheetData.discount,
-          'Total Price' : sheetData.grand_total,
-          'Payment Type' : sheetData.payment_type,
-          'Updated date'  : sheetData.updatedAt,
+          'Invoice Date' : new Date(sheetData.invoice_details_id.invoice_date),
+          'Sub Total' : sheetData.invoice_details_id.sub_total,
+          'Discount' : sheetData.invoice_details_id.discount,
+          'CGST' : sheetData.invoice_details_id.cgst,
+          'SGST' : sheetData.invoice_details_id.sgst,
+          'Total Price' : sheetData.invoice_details_id.grand_total,
+          'Payment Type' : sheetData.invoice_details_id.payment_type  == 1 ? 'Cash' : 'Card',
+          'Updated date'  : new Date(sheetData.updatedAt),
           'Payment Status' : sheetData.payment_status == 1 ? 'Paid' : 'Not Paid'
+   
         })
       }
     })

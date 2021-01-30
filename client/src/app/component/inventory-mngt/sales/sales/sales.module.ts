@@ -33,6 +33,7 @@ import { InvoiceDesignPosModule } from '../../shared/invoice-design-pos/invoice-
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TaxFormModule } from '../../shared/tax-form/tax-form.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { KeyboardShortcutsModule } from 'ng-keyboard-shortcuts';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InvoiceDesignPosModule,
     ScrollPanelModule,
     TaxFormModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    KeyboardShortcutsModule.forRoot()
   ],
   exports: [SalesComponent]
 })

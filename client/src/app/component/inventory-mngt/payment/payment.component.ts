@@ -188,7 +188,37 @@ export class PaymentComponent implements OnInit {
     }
   }
 
+  groupByTax(arr) {
+    // let group = arry.reduce((r, a) => {
+    //   console.log("a", a);
+    //   console.log('r', r);
+    //   r[a.tax_name] = [...r[a.tax_name] || [], a];
+    //   return r;
+    //  }, {});
+    //  console.log("group", group);
+    var helper = {};
+    var result = arr.reduce(function (r, o) {
+      var key = o.tax_name;
+
+      if (!helper[key]) {
+        helper[key] = Object.assign({}, o); // create a copy of o
+        r.push(helper[key]);
+      } else {
+        helper[key].cgst_amt += o.cgst_amt;
+        helper[key].sgst_amt += o.sgst_amt;
+        helper[key].price += o.price;
+      }
+
+      return r;
+    }, []);
+
+    return result
+
+  }
+
   viewData(data) {
+    
+    data.tax_summary = this.groupByTax(data.invoice_list)
     this.showData = data
     this.display = true
   }

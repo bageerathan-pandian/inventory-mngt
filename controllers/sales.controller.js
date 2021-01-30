@@ -194,6 +194,8 @@ exports.updateUser = (req, res) => {
         discount: req.body.discount,
         cgst_amt: invoiceArry.cgst_amt,
         sgst_amt: invoiceArry.sgst_amt,
+        discount_per: invoiceArry.discount_per,
+        discount_amt: invoiceArry.discount_amt,
         gst_per: invoiceArry.gst_per,
         stock_total_with_gst: invoiceArry.total_with_gst,
         grand_total: req.body.grand_total,

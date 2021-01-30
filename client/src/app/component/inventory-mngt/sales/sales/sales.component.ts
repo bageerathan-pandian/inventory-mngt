@@ -23,6 +23,7 @@ import { SessionService } from 'src/app/shared/session.service';
 import { environment } from 'src/environments/environment';
 import { isValidDate } from '@fullcalendar/core';
 import { InvoiceService } from 'src/app/shared/invoice.service';
+import { KeyboardShortcutsComponent, ShortcutEventOutput, ShortcutInput } from "ng-keyboard-shortcuts";
 
 
 @Component({
@@ -81,6 +82,7 @@ export class SalesComponent implements OnInit {
   stocksListResult: any = []
   invoice_code: string
   loaidnSpinner: boolean = false
+  shortcuts: ShortcutInput[] = [];
 
   constructor(private _fb: FormBuilder,
     private router: Router,
@@ -168,6 +170,222 @@ export class SalesComponent implements OnInit {
     this.invoiceForm.controls['company_details_id'].setValue(this.sessionService.getItem('company_id'))
   }
 
+  AfterViewInit(): void {
+    this.shortcuts.push(
+      {
+        key: "f1",
+        label: "Shortcut Keys",
+        description: "Acknowledge",
+        command: (output: ShortcutEventOutput) => console.log("Acknowledge", output),
+        preventDefault: true
+      },
+      {
+        key: "f2",
+        label: "Shortcut Keys",
+        description: "Dispatch",
+        command: (output: ShortcutEventOutput) => console.log("Dispatch", output),
+        preventDefault: true
+      },
+      {
+        key: "f3",
+        label: "Shortcut Keys",
+        description: "Arrive",
+        command: (output: ShortcutEventOutput) => console.log("Arrive", output),
+        preventDefault: true
+      },
+      {
+        key: "f4",
+        label: "Shortcut Keys",
+        description: "Contact",
+        command: (output: ShortcutEventOutput) => console.log("Contact", output),
+        preventDefault: true
+      },
+      {
+        key: "f5",
+        label: "Shortcut Keys",
+        description: "On hold / Transfer",
+        command: (output: ShortcutEventOutput) => console.log("On hold / Transfer", output),
+        preventDefault: true
+      },
+      // {
+      //   key: "f6",
+      //   label: "Shortcut Keys",
+      //   description: "Services",
+      //   command: (output: ShortcutEventOutput) => console.log("Services", output),
+      //   preventDefault: true
+      // },
+      // {
+      //   key: "f7",
+      //   label: "Shortcut Keys",
+      //   description: "Search",
+      //   command: (output: ShortcutEventOutput) => console.log("Search", output),
+      //   preventDefault: true
+      // },
+      // {
+      //   key: "f8",
+      //   label: "Shortcut Keys",
+      //   description: "Print",
+      //   command: (output: ShortcutEventOutput) => console.log("Print", output),
+      //   preventDefault: true
+      // },
+      // {
+      //   key: "f9",
+      //   label: "Shortcut Keys",
+      //   description: "Messages",
+      //   command: (output: ShortcutEventOutput) => console.log("Messages", output),
+      //   preventDefault: true
+      // },
+      // {
+      //   key: "f10",
+      //   label: "Shortcut Keys",
+      //   description: "Memo",
+      //   command: (output: ShortcutEventOutput) => console.log("Memo", output),
+      //   preventDefault: true
+      // },
+      // {
+      //   key: "f11",
+      //   label: "Shortcut Keys",
+      //   description: "Incident",
+      //   command: (output: ShortcutEventOutput) => console.log("Incident", output),
+      //   preventDefault: true
+      // },
+      // {
+      //   key: "f12",
+      //   label: "Shortcut Keys",
+      //   description: "Log away",
+      //   command: (output: ShortcutEventOutput) => console.log("Log away", output),
+      //   preventDefault: true
+      // },
+      {
+        key: "enter",
+        label: "Shortcut Keys",
+        description: "Client History",
+        command: (output: ShortcutEventOutput) => console.log("Client History", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + v"],
+        label: "Shortcut Keys",
+        description: "Verify Password",
+        command: (output: ShortcutEventOutput) => console.log("Verify Password", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + f"],
+        label: "Shortcut Keys",
+        description: "Find Signal",
+        command: (output: ShortcutEventOutput) => console.log("Find Signal", output),
+        preventDefault: true
+      },
+      {
+        key: "home",
+        label: "Shortcut Keys",
+        description: "Top of Stack",
+        command: (output: ShortcutEventOutput) => console.log("Top of Stack", output),
+        preventDefault: true
+      },
+      {
+        key: "end",
+        label: "Shortcut Keys",
+        description: "Bottom of Stack",
+        command: (output: ShortcutEventOutput) => console.log("Bottom of Stack", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + s"],
+        label: "Shortcut Keys",
+        description: "Supervisor message",
+        command: (output: ShortcutEventOutput) => console.log("Supervisor message", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + a"],
+        label: "Shortcut Keys",
+        description: "Active Stack",
+        command: (output: ShortcutEventOutput) => console.log("Active Stack", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + o"],
+        label: "Shortcut Keys",
+        description: "On Hold Stack",
+        command: (output: ShortcutEventOutput) => console.log("On Hold Stack", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + h"],
+        label: "Shortcut Keys",
+        description: "History Stack",
+        command: (output: ShortcutEventOutput) => console.log("History Stack", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + n"],
+        label: "Shortcut Keys",
+        description: "NB Numbers",
+        command: (output: ShortcutEventOutput) => console.log("NB Numbers", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + p"],
+        label: "Shortcut Keys",
+        description: "Print",
+        command: (output: ShortcutEventOutput) => console.log("Print", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + r"],
+        label: "Shortcut Keys",
+        description: "Refresh",
+        command: (output: ShortcutEventOutput) => console.log("Refresh", output),
+        preventDefault: true
+      },
+      {
+        key: ["cmd + m"],
+        label: "Shortcut Keys",
+        description: "Map",
+        command: (output: ShortcutEventOutput) => console.log("Map", output),
+        preventDefault: true
+      },
+      {
+        key: "esc",
+        label: "Shortcut Keys",
+        description: "Exit",
+        command: (output: ShortcutEventOutput) => console.log("Exit", output),
+        preventDefault: true
+      },
+      // {
+      //   key: ["b a enter"],
+      //   label: "Sequences",
+      //   description: "Konami code!",
+      //   command: (output: ShortcutEventOutput) => console.log("b a enter", output),
+      // },
+      // {
+      //   key: "cmd + shift + f",
+      //   label: "Combinations",
+      //   description: "Konami code!",
+      //   command: (output: ShortcutEventOutput) => console.log(output),
+      //   preventDefault: true,
+      //   throttleTime: 250,
+      //   // target: this.input.nativeElement
+      // },
+      // {
+      //   key: ["cmd + =", "cmd + z"],
+      //   label: "Combinations",
+      //   description: "Konami code!",
+      //   command: (output: ShortcutEventOutput) => console.log(output),
+      //   preventDefault: true
+      // },
+
+    );
+
+    this.keyboard.select("cmd + t").subscribe(e => console.log('keyboard t', e));
+    this.keyboard.select("ctrl + a").subscribe(e => console.log('a', e));
+  }
+
+  @ViewChild(KeyboardShortcutsComponent, { static: false }) private keyboard: KeyboardShortcutsComponent;
+
+
   @ViewChild("placesRef", { static: false }) placesRef: GooglePlaceDirective;
 
   public handleAddressChange(address: Address) {
@@ -212,6 +430,7 @@ export class SalesComponent implements OnInit {
       ]),
       sub_total: [0.00],
       discount: [0.00],
+      total_discount: [0.00],
       round_off: [0.00],
       grand_total: [0.00, Validators.required],
       befor_grand_total: [0.00],
@@ -267,6 +486,9 @@ export class SalesComponent implements OnInit {
       sgst_amt: [data ? data.sgst_amt : 0.00, Validators.required],
       gst_per: [data ? data.gst_per : '', Validators.required],
       total: [data ? data.total : '', Validators.required],
+      discount_per: [data ? data.discount_per : '0'],
+      discount_amt: [data ? data.discount_amt : '0'],
+      discount: [data ? data.discount : '0'],
       total_with_gst: [data ? data.total_with_gst : '', Validators.required]
     });
   }
@@ -497,6 +719,34 @@ export class SalesComponent implements OnInit {
       })
   }
 
+  groupByTax(arr) {
+    // let group = arry.reduce((r, a) => {
+    //   console.log("a", a);
+    //   console.log('r', r);
+    //   r[a.tax_name] = [...r[a.tax_name] || [], a];
+    //   return r;
+    //  }, {});
+    //  console.log("group", group);
+    var helper = {};
+    var result = arr.reduce(function (r, o) {
+      var key = o.tax_name;
+
+      if (!helper[key]) {
+        helper[key] = Object.assign({}, o); // create a copy of o
+        r.push(helper[key]);
+      } else {
+        helper[key].cgst_amt += o.cgst_amt;
+        helper[key].sgst_amt += o.sgst_amt;
+        helper[key].price += o.price;
+      }
+
+      return r;
+    }, []);
+
+    return result
+
+  }
+
   printPriview() {
 
     let invoiceData = this.invoiceForm.value;
@@ -509,7 +759,10 @@ export class SalesComponent implements OnInit {
       customer_gstin: this.selectedCustData.customer_gstin,
       route_name: this.selectedCustData.route_name,
     }
+
+    invoiceData.tax_summary = this.groupByTax(invoiceData.invoice_list)
     this.invoiceData = invoiceData;
+
 
     setTimeout(() => {
       var divToPrint = document.getElementById('print-section');
@@ -681,23 +934,27 @@ export class SalesComponent implements OnInit {
     var sliceIndex = _.findIndex(this.stocks, function (o) { return o._id == stockData._id; });
     console.log(sliceIndex);
     if (sliceIndex > -1) {
-    if (stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty) {
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price)
+      if (stockData.stock_qty >= this.invoiceForm.get('invoiceList')['controls'][i].value.qty) {
+        let totoal = this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price
+        let discount_amt = (this.invoiceForm.get('invoiceList')['controls'][i].value.qty * this.invoiceForm.get('invoiceList')['controls'][i].value.price) * this.invoiceForm.get('invoiceList')['controls'][i].value.discount_per / 100
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['total'].setValue(totoal - discount_amt)
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['discount_amt'].setValue(discount_amt)
 
-      let cgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) / 100);
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
-      let sgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst : 0) / 100);
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
-      let total_amt_with_gst = this.invoiceForm.get('invoiceList')['controls'][i].value.total * (this.invoiceForm.get('invoiceList')['controls'][i].value.gst_per / 100) + this.invoiceForm.get('invoiceList')['controls'][i].value.total;
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
-    } else {
-      this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
-      let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
-      this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: qty_data });
-    }
-    this.calculateTotal()
+        let cgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_cgst : 0) / 100);
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['cgst_amt'].setValue(cgst_amt);
+        let sgst_amt = Number(this.invoiceForm.get('invoiceList')['controls'][i].value.total) * (Number(this.stocks[sliceIndex].tax_details_id ? this.stocks[sliceIndex].tax_details_id.tax_value_sgst : 0) / 100);
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['sgst_amt'].setValue(sgst_amt)
+        let total_amt_with_gst = this.invoiceForm.get('invoiceList')['controls'][i].value.total * (this.invoiceForm.get('invoiceList')['controls'][i].value.gst_per / 100) + this.invoiceForm.get('invoiceList')['controls'][i].value.total;
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['total_with_gst'].setValue(total_amt_with_gst)
+      } else {
+        this.invoiceForm.get('invoiceList')['controls'][i].controls['qty'].setValue(1)
+        let qty_data = stockData.stock_name + ' has ' + stockData.stock_qty + ' only available!'
+        this.messageService.add({ severity: 'error', summary: 'Oopss!', detail: qty_data });
+      }
+      this.calculateTotal()
     }
   }
+
 
 
   onChangeDiscount() {
@@ -741,6 +998,11 @@ export class SalesComponent implements OnInit {
     var sgst_total = 0
     var sgst_total = _.sumBy(this.invoiceForm.value.invoiceList, 'sgst_amt')
     this.invoiceForm.controls['sgst'].setValue(sgst_total)
+
+    // total_discount
+    var total_discount = 0
+    var total_discount = _.sumBy(this.invoiceForm.value.invoiceList, 'discount_amt')
+    this.invoiceForm.controls['discount'].setValue(total_discount)
 
     if (this.invoiceForm.value.tax_enable) {
       let grand_total = (sub_total - this.invoiceForm.value.discount) + cgst_total + sgst_total;
